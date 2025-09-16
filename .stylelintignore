@@ -1,0 +1,23 @@
+# игнорируем папки сборки и зависимости
+node_modules
+dist
+build
+coverage
+
+# кэш и артефакты IDE
+*.log
+.vscode
+.idea
+
+# Vite и Next служебные
+.next
+out
+
+# игнорируем картинки и шрифты
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.woff
+*.woff2
+*.ttf
