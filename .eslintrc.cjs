@@ -37,8 +37,12 @@ module.exports = {
   ignorePatterns: ['dist', 'build', 'node_modules'],
   overrides: [
     {
-      files: ['vite.config.*', 'eslint.config.*', 'postcss.config.*', 'scripts/**/*.*', '*.cjs'],
+      files: ['vite.config.*', 'eslint.config.*', 'postcss.config.*', 'scripts/**/*.*', '*.cjs','*.mjs'],
       env: { node: true },
+      parserOptions: { project: null },
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+      },
     },
   ],
 };
