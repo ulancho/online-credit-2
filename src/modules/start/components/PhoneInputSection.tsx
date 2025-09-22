@@ -76,8 +76,8 @@ function PhoneInputSection() {
         <div className={styles.loginInner}>
           <header className={styles.headerSection}>
             <img
-              src="https://api.builder.io/api/v1/image/assets/TEMP/e5064fa22a0f919f22b776b0ae51cb319c0571d0?placeholderIfAbsent=true&apiKey=a499a3280c014db59e8ee97408890ce2"
-              alt="MBANK ID Logo"
+              src="/src/assets/images/ticket_kg.png"
+              alt="Partner logo"
               className={styles.logoImage}
             />
             <div className={styles.titleSection}>
