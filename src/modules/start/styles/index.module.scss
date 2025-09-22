@@ -255,6 +255,32 @@
   margin-top: 2px;
 }
 
+.errorMessage {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #d64541;
+}
+
+.dropdownNotice {
+  padding: 16px 12px;
+  font-size: 14px;
+  color: var(--text-secondary, #626975);
+}
+
+.flagFallback {
+  width: 24px;
+  height: 16px;
+  border-radius: 4px;
+  background-color: #e3e5e8;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #111622;
+  text-transform: uppercase;
+}
+
 .dropdownItem {
   display: flex;
   align-items: center;
@@ -307,6 +333,11 @@
   font-weight: 500;
   color: var(--text-primary, #111622);
   padding: 8px 0;
+}
+
+.phoneInput:disabled {
+  color: #626975;
+  cursor: not-allowed;
 }
 
 .phoneInput::placeholder {
