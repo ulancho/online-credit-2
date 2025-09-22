@@ -1,7 +1,13 @@
+import { RootStoreProvider } from '../shared/stores/rootStore.tsx';
+
 import App from './App.tsx';
 
 const AppWrapper: React.FC = () => {
-  return <App />;
+  return (
+    <RootStoreProvider>
+      <App />
+    </RootStoreProvider>
+  );
 };
 
 export default AppWrapper;
