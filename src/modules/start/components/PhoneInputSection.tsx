@@ -1,42 +1,43 @@
-import { useState, useRef, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useEffect, useRef, useState } from 'react';
 
+import { DEFAULT_PHONE_DIGITS_LENGTH } from '../../../shared/stores/countryCodesStore.ts';
+import { useCountryCodesStore } from '../../../shared/stores/rootStore.tsx';
 import styles from '../styles/index.module.scss';
 
-interface CountryCode {
-  code: string;
-  country: string;
-  flag: string;
-}
-
-const countryCodes: CountryCode[] = [
-  {
-    code: '+996',
-    country: 'Кыргызстан',
-    flag: 'https://api.builder.io/api/v1/image/assets/TEMP/466a5ad7eef554b2ba7e55bf1b2d3f397f0a3f7c?placeholderIfAbsent=true&apiKey=a499a3280c014db59e8ee97408890ce2',
-  },
-  {
-    code: '+7',
-    country: 'Россия',
-    flag: 'https://api.builder.io/api/v1/image/assets/TEMP/466a5ad7eef554b2ba7e55bf1b2d3f397f0a3f7c?placeholderIfAbsent=true&apiKey=a499a3280c014db59e8ee97408890ce2',
-  },
-  {
-    code: '+1',
-    country: 'США',
-    flag: 'https://api.builder.io/api/v1/image/assets/TEMP/466a5ad7eef554b2ba7e55bf1b2d3f397f0a3f7c?placeholderIfAbsent=true&apiKey=a499a3280c014db59e8ee97408890ce2',
-  },
-  {
-    code: '+44',
-    country: 'Великобритания',
-    flag: 'https://api.builder.io/api/v1/image/assets/TEMP/466a5ad7eef554b2ba7e55bf1b2d3f397f0a3f7c?placeholderIfAbsent=true&apiKey=a499a3280c014db59e8ee97408890ce2',
-  },
-];
+import type { CountryCode } from '../../../shared/stores/countryCodesStore.ts';
 
 function PhoneInputSection() {
-  const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryCodes[0]);
+  const countryCodesStore = useCountryCodesStore();
+  const countryCodes = countryCodesStore.countryCodes;
+
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode | null>(
+    countryCodes[0] ?? null,
+  );
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    void countryCodesStore.fetchCountryCodes();
+  }, [countryCodesStore]);
+
+  useEffect(() => {
+    if (!countryCodes.length) {
+      setSelectedCountry(null);
+      return;
+    }
+
+    setSelectedCountry((prev) => {
+      if (!prev) {
+        return countryCodes[0];
+      }
+
+      const updated = countryCodes.find((country) => country.id === prev.id);
+      return updated ?? countryCodes[0];
+    });
+  }, [countryCodes]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -60,6 +61,7 @@ function PhoneInputSection() {
 
   const handleCountrySelect = (country: CountryCode) => {
     setSelectedCountry(country);
+    setPhoneNumber('');
     setIsDropdownOpen(false);
   };
 
@@ -68,7 +70,10 @@ function PhoneInputSection() {
     setPhoneNumber(value);
   };
 
-  const isFormValid = phoneNumber.trim().length > 0;
+  const selectedCode = selectedCountry?.code ?? '';
+  const selectedIsoCode = selectedCountry?.isoCode?.toUpperCase() ?? '--';
+  const phoneDigitsLimit = selectedCountry?.digitsCount ?? DEFAULT_PHONE_DIGITS_LENGTH;
+  const isFormValid = Boolean(selectedCountry) && phoneNumber.trim().length === phoneDigitsLimit;
 
   return (
     <section className={styles.loginSection}>
@@ -97,12 +102,18 @@ function PhoneInputSection() {
                     aria-expanded={isDropdownOpen}
                     aria-haspopup="listbox"
                   >
-                    <img
-                      src={selectedCountry.flag}
-                      alt={`${selectedCountry.country} flag`}
-                      className={styles.flagIcon}
-                    />
-                    <span className={styles.codeText}>{selectedCountry.code}</span>
+                    {selectedCountry?.flagUrl ? (
+                      <img
+                        src={selectedCountry.flagUrl}
+                        alt={`${selectedCountry.country} flag`}
+                        className={styles.flagIcon}
+                      />
+                    ) : (
+                      <span className={styles.flagFallback}>{selectedIsoCode}</span>
+                    )}
+                    <span className={styles.codeText}>
+                      {selectedCode || (countryCodesStore.isLoading ? 'Загрузка…' : 'Код')}
+                    </span>
                     <svg
                       className={`${styles.dropdownArrow} ${isDropdownOpen ? styles.dropdownArrowOpen : ''}`}
                       viewBox="0 0 16 16"
@@ -114,20 +125,33 @@ function PhoneInputSection() {
 
                   {isDropdownOpen && (
                     <div className={styles.dropdownMenu} role="listbox">
+                      {!countryCodes.length && (
+                        <div className={styles.dropdownNotice}>
+                          {countryCodesStore.isLoading
+                            ? 'Загрузка справочника…'
+                            : 'Нет доступных стран'}
+                        </div>
+                      )}
                       {countryCodes.map((country) => (
                         <button
-                          key={country.code}
+                          key={country.id}
                           type="button"
                           className={styles.dropdownItem}
                           onClick={() => handleCountrySelect(country)}
                           role="option"
-                          aria-selected={selectedCountry.code === country.code}
+                          aria-selected={selectedCountry?.id === country.id}
                         >
-                          <img
-                            src={country.flag}
-                            alt={`${country.country} flag`}
-                            className={styles.flagIcon}
-                          />
+                          {country.flagUrl ? (
+                            <img
+                              src={country.flagUrl}
+                              alt={`${country.country} flag`}
+                              className={styles.flagIcon}
+                            />
+                          ) : (
+                            <span className={styles.flagFallback}>
+                              {country.isoCode?.toUpperCase() ?? '--'}
+                            </span>
+                          )}
                           <span className={styles.codeText}>{country.code}</span>
                           <span>{country.country}</span>
                         </button>
@@ -146,15 +170,23 @@ function PhoneInputSection() {
                       onBlur={() => setIsFocused(false)}
                       className={styles.phoneInput}
                       placeholder=""
-                      maxLength={9}
+                      maxLength={phoneDigitsLimit}
                       autoComplete="tel"
+                      disabled={!selectedCountry}
                     />
                     <label
-                      className={`${styles.inputLabel} ${isFocused || phoneNumber ? styles.inputLabelFocused : ''}`}
+                      className={`${styles.inputLabel} ${
+                        isFocused || phoneNumber ? styles.inputLabelFocused : ''
+                      }`}
                     >
                       Номер телефона
                     </label>
                   </div>
+                  {countryCodesStore.hasError && (
+                    <p className={styles.errorMessage} role="alert">
+                      {countryCodesStore.error ?? 'Не удалось загрузить список стран.'}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -184,4 +216,4 @@ function PhoneInputSection() {
   );
 }
 
-export default PhoneInputSection;
+export default observer(PhoneInputSection);
