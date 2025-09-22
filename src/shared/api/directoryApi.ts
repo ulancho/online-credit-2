@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import { httpClient } from './httpClient';
 
 export interface DirectoryResponse {
@@ -32,10 +31,24 @@ export type DirectoryItemParams = Record<string, string | undefined> & {
   phone_code?: string;
 };
 
+interface DirectoryRequestPayload {
+  namespace: string;
+  source: string;
+  code: string;
+  notLocalize: boolean;
+  itemFilter: null;
+}
+
 export async function fetchDirectory(code: string) {
-  const { data } = await httpClient.get<DirectoryResponse>('/directory', {
-    params: { code },
-  });
+  const payload: DirectoryRequestPayload = {
+    namespace: 'cbk',
+    source: 'global',
+    code,
+    notLocalize: false,
+    itemFilter: null,
+  };
+
+  const { data } = await httpClient.post<DirectoryResponse>('/directory', payload);
 
   return data;
 }
