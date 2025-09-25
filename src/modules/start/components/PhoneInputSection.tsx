@@ -176,7 +176,7 @@ function PhoneInputSection() {
                     />
                     <label
                       className={`${styles.inputLabel} ${
-                        isFocused || phoneNumber ? styles.inputLabelFocused : ''
+                        isFocused || phoneNumber ? styles.inputLabelHidden : ''
                       }`}
                     >
                       Номер телефона
