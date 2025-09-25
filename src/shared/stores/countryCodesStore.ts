@@ -2,6 +2,35 @@ import { action, computed, makeObservable, observable, runInAction } from 'mobx'
 
 import { fetchDirectory, type DirectoryItem } from '../api/directoryApi';
 
+const rawCountryFlagIcons = import.meta.glob('../../assets/icons/countries/*', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
+
+const countryFlagIcons = Object.create(null) as Record<string, string>;
+
+for (const [path, iconSource] of Object.entries(rawCountryFlagIcons)) {
+  const fileName = path.split('/').pop();
+
+  if (!fileName) {
+    continue;
+  }
+
+  const isoCode = fileName.replace(/\.[^.]+$/, '').toLowerCase();
+
+  if (isoCode) {
+    countryFlagIcons[isoCode] = iconSource;
+  }
+}
+
+function resolveFlagIcon(isoCode?: string) {
+  if (!isoCode) {
+    return undefined;
+  }
+
+  return countryFlagIcons[isoCode.toLowerCase()];
+}
+
 const COUNTRY_CODES_DIRECTORY = 'country_codes';
 export const DEFAULT_PHONE_DIGITS_LENGTH = 12;
 
@@ -109,6 +138,7 @@ export class CountryCodesStore {
     const phoneCode = item.paramList?.phone_code ?? '';
     const mask = item.paramList?.phone_mask;
     const digitsCount = mask ? mask.replace(/[^X]/g, '').length : 0;
+    const flagIcon = resolveFlagIcon(isoCode ?? item.itemCode);
 
     return {
       id: item.itemCode,
@@ -117,7 +147,7 @@ export class CountryCodesStore {
       code: phoneCode ? `+${phoneCode}` : '',
       phoneMask: mask,
       digitsCount: digitsCount > 0 ? digitsCount : DEFAULT_PHONE_DIGITS_LENGTH,
-      flagUrl: isoCode ? `https://flagcdn.com/h20/${isoCode.toLowerCase()}.png` : undefined,
+      flagUrl: flagIcon,
     };
   }
 }

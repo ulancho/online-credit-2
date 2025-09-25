@@ -91,6 +91,7 @@
 }
 
 .headerSection {
+  border: 1px solid #d64541;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -179,7 +180,7 @@
 
 .countryCodeDropdown {
   border-radius: 12px;
-  background-color: #f4f5f6;
+  background-color: #e3e5e8;
   align-self: stretch;
   margin: auto 0;
 }
@@ -250,9 +251,15 @@
   border-radius: 16px;
   box-shadow: 0 4px 20px rgb(17 21 33 / 10%);
   z-index: 1000;
-  max-height: 200px;
+  max-height: 300px;
   overflow-y: auto;
   margin-top: 2px;
+  scrollbar-width: none;
+  -ms-overflow-style: none; /* IE/Edge legacy */
+}
+
+.dropdownMenu::-webkit-scrollbar {
+  display: none;
 }
 
 .errorMessage {
@@ -317,6 +324,7 @@
   align-self: stretch;
   margin: auto 0;
   position: relative;
+  border: 1px solid darkgoldenrod;
 }
 
 .phoneInputWrapper {
@@ -364,6 +372,7 @@
 }
 
 .buttonSection {
+  border: 1px solid blue;
   letter-spacing: -0.2px;
   width: 100%;
   margin-top: 50px;
