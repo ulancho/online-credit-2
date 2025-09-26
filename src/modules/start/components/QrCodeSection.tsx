@@ -29,7 +29,7 @@ function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps) {
     <section className={styles.qrSection}>
       <div className={styles.qrContent}>
         <header className={styles.qrTitle}>
-          <h2 className={styles.qrInstructions}>Наведите QR-сканер из приложения MBANK</h2>
+          <h2>Наведите QR-сканер из приложения MBANK</h2>
         </header>
 
         <div className={styles.qrCodeContainer}>

@@ -449,48 +449,32 @@
 // -----------------------------------------------
 
 .qrSection {
-  border-radius: var(--radius-radius-button, 16px);
+  border-radius: 16px;
   text-align: center;
   letter-spacing: -0.2px;
   min-width: 240px;
   min-height: 498px;
-  padding: 42px var(--spacings-spacing-xl, 20px);
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacings-spacing-s, 8px);
-  background-color: var(--body-secondary, #f4f5f6);
-  flex-direction: column;
-  flex: 1;
-  display: flex;
+  padding: 42px 35px;
+  background-color: #f4f5f6;
 }
 
 .qrContent {
+  display: flex;
   justify-content: start;
   align-items: center;
-  gap: var(--spacings-spacing-xll, 24px);
   flex-direction: column;
   width: 262px;
   max-width: 100%;
-  display: flex;
 }
 
 .qrTitle {
-  color: #000;
-  justify-content: start;
-  align-items: start;
-  gap: var(--spacings-spacing-xss, 4px);
-  flex-direction: column;
-  width: 197px;
   max-width: 100%;
-  font-size: 17px;
-  font-weight: 800;
-  line-height: 22px;
-  display: flex;
-}
 
-.qrInstructions {
-  font-size: var(--font-size-font-size-400, 17px);
-  line-height: var(--font-line-height-font-17, 22px);
+  h2 {
+    font-size: 17px;
+    line-height: 22px;
+    font-weight: 800;
+  }
 }
 
 .qrCodeContainer {
