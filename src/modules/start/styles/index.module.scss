@@ -139,6 +139,7 @@
   font-size: 17px;
   font-weight: 500;
   line-height: 1;
+  margin-top: 9px;
 }
 
 @media (width <= 991px) {
@@ -451,7 +452,6 @@
 .qrSection {
   border-radius: 16px;
   text-align: center;
-  letter-spacing: -0.2px;
   min-width: 240px;
   min-height: 498px;
   padding: 42px 35px;
@@ -480,58 +480,79 @@
 .qrCodeContainer {
   width: 100%;
   min-height: 296px;
-  color: var(--text-secondary, #626975);
-  padding: var(--spacings-spacing-xl, 20px);
+  padding: 20px;
   background-color: #fff;
   border-radius: 14.382px;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
   margin-top: 24px;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1;
-  display: flex;
   box-shadow:
     0 0 4px #11152105,
     0 4px 20px #1115210a;
 }
 
-.qrCodeImage {
-  aspect-ratio: 1.01;
-  object-fit: contain;
-  object-position: center;
+.qrCodeWrapper {
+  position: relative;
   width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.qrCanvas {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrCodeWrapper svg,
+.qrCodeWrapper canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.qrPlaceholder {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: #f4f5f6;
+  color: #8c949f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  padding: 16px;
 }
 
 .timerSection {
-  padding: 0 var(--spacings-spacing-s, 8px);
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacings-spacing-xss, 4px);
+  display: flex;
+  gap: 4px;
   flex-direction: column;
   margin-top: 14px;
-  display: flex;
 }
 
 .timerButton {
-  padding: var(--spacings-spacing-xss, 3.596px) var(--spacings-spacing-s, 7.191px);
   border-radius: 17.978px;
+  display: flex;
   justify-content: center;
   align-items: center;
   gap: 7px;
-  display: flex;
   overflow: hidden;
   background: none;
   border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.timerButton:disabled {
+  cursor: default;
+  opacity: 0.6;
 }
 
 .timerText {
-  color: var(--text-secondary, #626975);
-  font-size: var(--font-size-font-size-250, 15px);
-  line-height: var(--font-line-height-font-15, 20px);
-  align-self: stretch;
-  margin: auto 0;
+  color: #626975;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 500;
 }
 
 .mbankLogo {
@@ -541,4 +562,11 @@
   width: 100px;
   max-width: 100%;
   margin-top: 24px;
+}
+
+.qrErrorMessage {
+  margin-top: 8px;
+  color: #d0312d;
+  font-size: 13px;
+  line-height: 18px;
 }
