@@ -1,9 +1,11 @@
 import { createContext, useContext, type ReactNode } from 'react';
 
 import { CountryCodesStore } from './countryCodesStore.ts';
+import { StartStore } from './startStore.ts';
 
 class RootStore {
   readonly countryCodesStore = new CountryCodesStore();
+  readonly startStore = new StartStore();
 }
 
 const rootStore = new RootStore();
@@ -19,4 +21,8 @@ export function useRootStore() {
 
 export function useCountryCodesStore() {
   return useRootStore().countryCodesStore;
+}
+
+export function useStartStore() {
+  return useRootStore().startStore;
 }
