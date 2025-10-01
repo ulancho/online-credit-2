@@ -16,7 +16,6 @@ function createDefaultParams(): StartQueryParams {
     redirectUri: null,
     responseType: null,
     scope: null,
-    scopeList: [],
     state: null,
   };
 }
@@ -49,7 +48,6 @@ export class StartStore {
     this.params = {
       ...createDefaultParams(),
       ...params,
-      scopeList: [...(params.scopeList ?? [])],
     };
   }
 
@@ -120,11 +118,6 @@ export class StartStore {
   }
 
   @computed
-  get scopeList() {
-    return [...this.params.scopeList];
-  }
-
-  @computed
   get state() {
     return this.params.state;
   }
@@ -146,7 +139,6 @@ export class StartStore {
   get queryParams(): StartQueryParams {
     return {
       ...this.params,
-      scopeList: [...this.params.scopeList],
     };
   }
 

@@ -8,11 +8,8 @@ export interface StartQueryParams {
   redirectUri: string | null;
   responseType: string | null;
   scope: string | null;
-  scopeList: string[];
   state: string | null;
 }
-
-const SCOPE_DELIMITER = /\s+/;
 
 export function useStartQueryParams(): StartQueryParams {
   const { search } = useLocation();
@@ -29,7 +26,6 @@ export function useStartQueryParams(): StartQueryParams {
       redirectUri: searchParams.get('redirect_uri'),
       responseType: searchParams.get('response_type'),
       scope,
-      scopeList: scope?.split(SCOPE_DELIMITER).filter(Boolean) ?? [],
       state: searchParams.get('state'),
     };
   }, [search]);

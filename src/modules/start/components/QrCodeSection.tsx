@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import qrLogoSvg from '../../../assets/icons/mbank-logo.svg?raw';
-import { fetchAuthenticationQrCode } from '../api/fetchAuthenticationQrCode';
 import styles from '../styles/index.module.scss';
 
 import type {
@@ -63,7 +62,6 @@ export default function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps)
 
   const qrContainerRef = useRef<HTMLDivElement>(null);
   const qrInstanceRef = useRef<QrCodeStylingInstance | null>(null);
-  const abortRef = useRef<AbortController | null>(null);
 
   const qrReady = Boolean(qrLink) && Boolean(qrInstanceRef.current);
   const expired = timeLeft <= 0;
@@ -100,7 +98,9 @@ export default function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps)
   /* 1) Загружаем библиотеку и создаём инстанс один раз */
   useEffect(() => {
     let alive = true;
-
+    setQrLink(null);
+    setIsLoading(false);
+    setFetchError(null);
     loadQrCodeStyling()
       .then((Ctor) => {
         if (!alive) return;
@@ -150,34 +150,6 @@ export default function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps)
     return () => window.clearInterval(id);
   }, [countdownActive]);
 
-  /* 5) Получение ссылки */
-  const fetchQrCode = useCallback(async () => {
-    // отменяем предыдущий запрос
-    abortRef.current?.abort();
-    const controller = new AbortController();
-    abortRef.current = controller;
-
-    setIsLoading(true);
-    setFetchError(null);
-
-    try {
-      const { link, expiresIn } = await fetchAuthenticationQrCode(controller.signal);
-      setQrLink(link);
-      setTimeLeft(typeof expiresIn === 'number' && expiresIn > 0 ? expiresIn : initialTime);
-    } catch (e) {
-      if (controller.signal.aborted) return;
-      setFetchError(e instanceof Error ? e.message : 'Не удалось получить ссылку для QR-кода.');
-    } finally {
-      if (!controller.signal.aborted) setIsLoading(false);
-    }
-  }, [initialTime]);
-
-  /* 6) Первичная загрузка + отмена на размонтировании */
-  useEffect(() => {
-    void fetchQrCode();
-    return () => abortRef.current?.abort();
-  }, [fetchQrCode]);
-
   return (
     <section className={styles.qrSection}>
       <div className={styles.qrContent}>
@@ -201,7 +173,7 @@ export default function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps)
             <button
               className={styles.timerButton}
               type="button"
-              onClick={expired && !isLoading ? fetchQrCode : undefined}
+              // onClick={expired && !isLoading ? fetchQrCode : undefined}
               disabled={isLoading || Boolean(libraryError)}
               aria-live="polite"
             >
