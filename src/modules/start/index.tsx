@@ -14,6 +14,8 @@ function Start() {
   useEffect(() => {
     startStore.setQueryParams(queryParams);
 
+    void startStore.fetchStartInfo(queryParams);
+
     return () => {
       startStore.reset();
     };
