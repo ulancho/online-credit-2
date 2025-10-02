@@ -71,6 +71,8 @@
 .loginContent {
   width: 100%;
   min-height: 420px;
+  display: flex;
+  align-items: center;
 }
 
 @media (width <= 991px) {
@@ -137,8 +139,8 @@
   color: #626975;
   font-size: 17px;
   font-weight: 500;
-  line-height: 1;
-  margin-top: 9px;
+  line-height: 22px;
+  margin-top: 8px;
 }
 
 @media (width <= 991px) {

@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useRef, useState } from 'react';
 
 import { DEFAULT_PHONE_DIGITS_LENGTH } from '../../../shared/stores/countryCodesStore.ts';
-import { useCountryCodesStore } from '../../../shared/stores/rootStore.tsx';
+import { useCountryCodesStore, useStartStore } from '../../../shared/stores/rootStore.tsx';
 import styles from '../styles/index.module.scss';
 
 import type { CountryCode } from '../../../shared/stores/countryCodesStore.ts';
@@ -10,6 +10,8 @@ import type { CountryCode } from '../../../shared/stores/countryCodesStore.ts';
 function PhoneInputSection() {
   const countryCodesStore = useCountryCodesStore();
   const countryCodes = countryCodesStore.countryCodes;
+  const startStore = useStartStore();
+  const startStoreInfo = startStore.startInfo;
 
   const [selectedCountry, setSelectedCountry] = useState<CountryCode | null>(
     countryCodes[0] ?? null,
@@ -80,14 +82,12 @@ function PhoneInputSection() {
       <div className={styles.loginContent}>
         <div className={styles.loginInner}>
           <header className={styles.headerSection}>
-            <img
-              src="/src/assets/images/ticket_kg.png"
-              alt="Partner logo"
-              className={styles.logoImage}
-            />
+            {startStoreInfo?.logoUrl && (
+              <img src={startStoreInfo?.logoUrl} alt="Partner logo" className={styles.logoImage} />
+            )}
             <div className={styles.titleSection}>
               <h1 className={styles.mainTitle}>Войти через MBANK ID</h1>
-              <p className={styles.subtitle}>Ticket KG</p>
+              <p className={styles.subtitle}>{startStoreInfo?.clientName}</p>
             </div>
           </header>
 
@@ -205,8 +205,24 @@ function PhoneInputSection() {
               </button>
               <p className={styles.privacyText}>
                 Прежде чем начать работу с приложением &quot;Ticket&quot;, вы можете ознакомиться с
-                его <span className={styles.privacyLink}>политикой конфиденциальности</span> и{' '}
-                <span className={styles.privacyLink}>условиями пользования.</span>
+                его{' '}
+                <a
+                  target="_blank"
+                  href={startStoreInfo?.offerUrl}
+                  className={styles.privacyLink}
+                  rel="noreferrer"
+                >
+                  политикой конфиденциальности
+                </a>{' '}
+                и{' '}
+                <a
+                  target="_blank"
+                  href={startStoreInfo?.agreementUrl}
+                  rel="noreferrer"
+                  className={styles.privacyLink}
+                >
+                  условиями пользования.
+                </a>
               </p>
             </div>
           </form>
