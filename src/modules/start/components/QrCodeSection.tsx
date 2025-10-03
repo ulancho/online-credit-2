@@ -3,10 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import qrLogoSvg from '../../../assets/icons/mbank-logo.svg?raw';
 import styles from '../styles/index.module.scss';
 
-import type {
-  QrCodeStylingConstructor,
-  QrCodeStylingInstance,
-} from '../../../shared/types/qrCodeStyling';
+import type { QrCodeStylingConstructor, QrCodeStylingInstance } from 'Common/types/qrCodeStyling';
 
 interface QRCodeSectionProps {
   initialTime?: number;
