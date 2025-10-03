@@ -1,37 +1,7 @@
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
-import { fetchDirectory, type DirectoryItem } from 'Common/api/directoryApi.ts';
+import { type DirectoryItem, fetchCountryCodes } from 'Modules/start/api/directoryApi.ts';
 
-const rawCountryFlagIcons = import.meta.glob('../../assets/icons/countries/*', {
-  eager: true,
-  import: 'default',
-}) as Record<string, string>;
-
-const countryFlagIcons = Object.create(null) as Record<string, string>;
-
-for (const [path, iconSource] of Object.entries(rawCountryFlagIcons)) {
-  const fileName = path.split('/').pop();
-
-  if (!fileName) {
-    continue;
-  }
-
-  const isoCode = fileName.replace(/\.[^.]+$/, '').toLowerCase();
-
-  if (isoCode) {
-    countryFlagIcons[isoCode] = iconSource;
-  }
-}
-
-function resolveFlagIcon(isoCode?: string) {
-  if (!isoCode) {
-    return undefined;
-  }
-
-  return countryFlagIcons[isoCode.toLowerCase()];
-}
-
-const COUNTRY_CODES_DIRECTORY = 'country_codes';
 export const DEFAULT_PHONE_DIGITS_LENGTH = 12;
 
 export interface CountryCode {
@@ -39,9 +9,9 @@ export interface CountryCode {
   isoCode: string;
   country: string;
   code: string;
-  phoneMask?: string;
   digitsCount: number;
-  flagUrl?: string;
+  phoneMask?: string;
+  flagPath?: string;
 }
 
 export class CountryCodeService {
@@ -50,7 +20,7 @@ export class CountryCodeService {
   @observable errorMessage: string | undefined = undefined;
   @observable isFetched = false;
 
-  constructor(private readonly directoryFetcher: typeof fetchDirectory = fetchDirectory) {
+  constructor(private readonly countryCodesFetcher: typeof fetchCountryCodes = fetchCountryCodes) {
     makeObservable(this);
   }
 
@@ -81,7 +51,7 @@ export class CountryCodeService {
     this.errorMessage = undefined;
 
     try {
-      const directory = await this.directoryFetcher(COUNTRY_CODES_DIRECTORY);
+      const directory = await this.countryCodesFetcher();
       const items: DirectoryItem[] = Array.isArray(directory.directoryItemList)
         ? directory.directoryItemList
         : [];
@@ -138,7 +108,7 @@ export class CountryCodeService {
     const phoneCode = item.paramList?.phone_code ?? '';
     const mask = item.paramList?.phone_mask;
     const digitsCount = mask ? mask.replace(/[^X]/g, '').length : 0;
-    const flagIcon = resolveFlagIcon(isoCode ?? item.itemCode);
+    const flagPath = '/src/assets/icons/countries/' + item.itemCode + '.png';
 
     return {
       id: item.itemCode,
@@ -147,7 +117,7 @@ export class CountryCodeService {
       code: phoneCode ? `+${phoneCode}` : '',
       phoneMask: mask,
       digitsCount: digitsCount > 0 ? digitsCount : DEFAULT_PHONE_DIGITS_LENGTH,
-      flagUrl: flagIcon,
+      flagPath,
     };
   }
 }

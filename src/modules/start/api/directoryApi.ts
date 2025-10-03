@@ -1,4 +1,4 @@
-import { httpClient } from './httpClient';
+import axios from 'axios';
 
 export interface DirectoryResponse {
   id: string;
@@ -39,16 +39,24 @@ interface DirectoryRequestPayload {
   itemFilter: null;
 }
 
-export async function fetchDirectory(code: string) {
+const countryCodesClient = axios.create({
+  baseURL: 'https://mbank.cbk.kg/svc-common-directory/v2/unauthorized-api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  timeout: 10000,
+});
+
+export async function fetchCountryCodes() {
   const payload: DirectoryRequestPayload = {
     namespace: 'cbk',
     source: 'global',
-    code,
+    code: 'country_codes',
     notLocalize: false,
     itemFilter: null,
   };
 
-  const { data } = await httpClient.post<DirectoryResponse>('/directory', payload);
+  const { data } = await countryCodesClient.post<DirectoryResponse>('/directory', payload);
 
   return data;
 }

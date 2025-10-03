@@ -103,9 +103,9 @@ function PhoneInputSection() {
                     aria-expanded={isDropdownOpen}
                     aria-haspopup="listbox"
                   >
-                    {selectedCountry?.flagUrl ? (
+                    {selectedCountry?.flagPath ? (
                       <img
-                        src={selectedCountry.flagUrl}
+                        src={selectedCountry.flagPath}
                         alt={`${selectedCountry.country} flag`}
                         className={styles.flagIcon}
                       />
@@ -142,9 +142,9 @@ function PhoneInputSection() {
                           role="option"
                           aria-selected={selectedCountry?.id === country.id}
                         >
-                          {country.flagUrl ? (
+                          {country.flagPath ? (
                             <img
-                              src={country.flagUrl}
+                              src={country.flagPath}
                               alt={`${country.country} flag`}
                               className={styles.flagIcon}
                             />
