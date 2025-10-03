@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useStartStore } from '../../shared/stores/rootStore.tsx';
+import { useStartStore } from 'Common/stores/rootStore.tsx';
 
 import PhoneInputSection from './components/PhoneInputSection.tsx';
 import QrCodeSection from './components/QrCodeSection.tsx';

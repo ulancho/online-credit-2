@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
-import { fetchDirectory, type DirectoryItem } from '../api/directoryApi';
+import { fetchDirectory, type DirectoryItem } from 'Common/api/directoryApi.ts';
 
 const rawCountryFlagIcons = import.meta.glob('../../assets/icons/countries/*', {
   eager: true,
@@ -44,7 +44,7 @@ export interface CountryCode {
   flagUrl?: string;
 }
 
-export class CountryCodesStore {
+export class CountryCodeService {
   @observable.shallow countryCodes: CountryCode[] = [];
   @observable awaiting = false;
   @observable errorMessage: string | undefined = undefined;

@@ -1,12 +1,12 @@
 import { toJS } from 'mobx';
 import { createContext, useContext, type ReactNode } from 'react';
 
-import { CountryCodesStore } from './countryCodesStore.ts';
-import { StartStore } from './startStore.ts';
+import { CountryCodeService } from '../../modules/start/services/countryCodeService.ts';
+import { StartInfoService } from '../../modules/start/services/startInfoService.ts';
 
 class RootStore {
-  readonly countryCodesStore = new CountryCodesStore();
-  readonly startStore = new StartStore();
+  readonly countryCodesStore = new CountryCodeService();
+  readonly startStore = new StartInfoService();
 }
 
 const rootStore = new RootStore();

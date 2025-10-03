@@ -1,4 +1,4 @@
-import { RootStoreProvider } from '../shared/stores/rootStore.tsx';
+import { RootStoreProvider } from 'Common/stores/rootStore.tsx';
 
 import App from './App.tsx';
 

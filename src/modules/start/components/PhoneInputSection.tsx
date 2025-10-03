@@ -1,11 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useRef, useState } from 'react';
 
-import { DEFAULT_PHONE_DIGITS_LENGTH } from '../../../shared/stores/countryCodesStore.ts';
-import { useCountryCodesStore, useStartStore } from '../../../shared/stores/rootStore.tsx';
+import { useCountryCodesStore, useStartStore } from 'Common/stores/rootStore.tsx';
+
+import { DEFAULT_PHONE_DIGITS_LENGTH } from '../services/countryCodeService.ts';
 import styles from '../styles/index.module.scss';
 
-import type { CountryCode } from '../../../shared/stores/countryCodesStore.ts';
+import type { CountryCode } from '../services/countryCodeService.ts';
 
 function PhoneInputSection() {
   const countryCodesStore = useCountryCodesStore();

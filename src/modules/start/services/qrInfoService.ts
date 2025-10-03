@@ -1,12 +1,13 @@
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
+import { fetchQrInfo } from '../api/qrInfoApi.ts';
 import {
   fetchStartInfo,
   type StartInfoRequestPayload,
   type StartInfoResponse,
-} from '../../modules/start/api/startInfoApi.ts';
+} from '../api/startInfoApi.ts';
 
-import type { StartQueryParams } from '../../modules/start/hooks/useStartQueryParams.ts';
+import type { StartQueryParams } from '../hooks/useStartQueryParams.ts';
 
 function createDefaultParams(): StartQueryParams {
   return {
@@ -33,13 +34,27 @@ interface StartInfoData {
   state: string;
 }
 
-export class StartStore {
+interface QrInfoData {
+  id: string;
+  deeplink_url: string;
+  redirect_url: string;
+  status: string;
+  expires_in: string;
+}
+
+export class StartInfoService {
   @observable.shallow private params: StartQueryParams = createDefaultParams();
   @observable.ref private startInfoData: StartInfoData | null = null;
   @observable private isFetchingStartInfo = false;
   @observable private startInfoErrorMessage: string | null = null;
 
-  constructor(private readonly startInfoFetcher: typeof fetchStartInfo = fetchStartInfo) {
+  @observable private isFetchingQrInfo = false;
+  @observable private qrInfoErrorMessage: string | null = null;
+
+  constructor(
+    private readonly startInfoFetcher: typeof fetchStartInfo = fetchStartInfo,
+    private readonly qrInfoFetcher: typeof fetchQrInfo = fetchQrInfo,
+  ) {
     makeObservable(this);
   }
 
@@ -71,6 +86,34 @@ export class StartStore {
 
       runInAction(() => {
         this.startInfoData = this.transformStartInfo(data);
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Не удалось получить стартовую информацию.';
+
+      runInAction(() => {
+        this.startInfoData = null;
+        this.startInfoErrorMessage = message;
+      });
+    } finally {
+      runInAction(() => {
+        this.isFetchingStartInfo = false;
+      });
+    }
+  }
+
+  @action
+  async fetchQrInfo(queryParams: StartQueryParams) {
+    this.isFetchingQrInfo = true;
+    this.qrInfoErrorMessage = null;
+
+    const payload = this.buildStartInfoPayload(queryParams);
+
+    try {
+      const data = await this.qrInfoFetcher(payload);
+
+      runInAction(() => {
+        this.qrInfoData = this.transformStartInfo(data);
       });
     } catch (error) {
       const message =
@@ -156,6 +199,21 @@ export class StartStore {
   get startInfoError() {
     return this.startInfoErrorMessage;
   }
+
+  @computed
+  get isLoadingQrInfo() {
+    return this.isFetchingQrInfo;
+  }
+
+  @computed
+  get qrInfoError() {
+    return this.qrInfoErrorMessage;
+  }
+
+  // @computed
+  // get qrInfo(): QrInfoData | null {
+  //   return this.qrInfo ? { ...this.startInfoData } : null;
+  // }
 
   private buildStartInfoPayload(params: StartQueryParams): StartInfoRequestPayload {
     return {

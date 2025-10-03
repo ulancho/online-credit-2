@@ -27,7 +27,14 @@
     "noUncheckedSideEffectImports": true,
 
     /* Node types for vite.config.ts */
-    "types": ["node"]
+    "types": ["node"],
+    /* Module resolution aliases */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "Common/*": ["src/common/*"],
+      "Modules/*": ["src/modules/*"]
+    }
   },
   "include": ["src", "vite.config.ts", "postcss.config.*", "eslint.config.*", "scripts/**/*.*"]
 }
