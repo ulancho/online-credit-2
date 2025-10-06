@@ -60,6 +60,14 @@ export class QrStatusService {
         this.qrStatusData = null;
         this.qrStatusErrorMessage = message;
       });
+
+      const status = (error as { response?: { status?: number } }).response?.status;
+      const redirectUri =
+        this.startInfoService.startInfo?.redirectUri ?? this.startInfoService.redirectUri;
+
+      if (redirectUri && status && status !== 200) {
+        window.location.replace(redirectUri);
+      }
     } finally {
       runInAction(() => {
         this.isFetchingQrStatus = false;

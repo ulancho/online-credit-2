@@ -76,9 +76,9 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
   const isLoading = qrStore.isLoading;
   const fetchError = qrStore.error;
 
-  const qrStatus = qrStatusStore.qrStatus;
-  const qrStatusValue = qrStatus?.status ?? null;
-  const qrStatusLoading = qrStatusStore.isLoading;
+  // const qrStatus = qrStatusStore.qrStatus;
+  // const qrStatusValue = qrStatus?.status ?? null;
+  // const qrStatusLoading = qrStatusStore.isLoading;
   const qrStatusError = qrStatusStore.error;
   const qrId = qrInfo?.id ?? null;
 
@@ -207,18 +207,6 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
     };
   }, [qrId, qrStatusStore]);
 
-  const statusLabel = useMemo(() => {
-    if (libraryError || qrStatusError) {
-      return null;
-    }
-
-    if (!qrStatusValue) {
-      return qrStatusLoading ? 'Проверяем статус…' : null;
-    }
-
-    return `Статус: ${qrStatusValue}`;
-  }, [libraryError, qrStatusError, qrStatusLoading, qrStatusValue]);
-
   return (
     <section className={styles.qrSection}>
       <div className={styles.qrContent}>
@@ -247,8 +235,6 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
             >
               <span className={styles.timerText}>{timerLabel}</span>
             </button>
-
-            {statusLabel && <span className={styles.qrStatusText}>{statusLabel}</span>}
 
             {combinedError && (
               <p className={styles.qrErrorMessage} role="alert">
