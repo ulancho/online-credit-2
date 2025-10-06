@@ -53,10 +53,25 @@ function loadQrCodeStyling(): Promise<QrCodeStylingConstructor> {
   return qrLibraryPromise;
 }
 
+function calculateTimeLeft(expiresIn: string | null, fallback: number) {
+  if (!expiresIn) {
+    return fallback;
+  }
+
+  const expiresAt = Date.parse(expiresIn);
+
+  if (Number.isNaN(expiresAt)) {
+    return fallback;
+  }
+
+  return Math.max(0, Math.floor((expiresAt - Date.now()) / 1000));
+}
+
 const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps) {
   const qrStore = useQrStore();
   const qrInfo = qrStore.qrInfo;
   const qrLink = qrInfo?.deeplinkUrl ?? null;
+  const expiresIn = qrInfo?.expiresIn ?? null;
   const isLoading = qrStore.isLoading;
   const fetchError = qrStore.error;
 
@@ -93,12 +108,12 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
       cornersSquareOptions: { type: 'extra-rounded' as const, color: '#111622' },
       cornersDotOptions: { color: '#111622' },
       backgroundOptions: { color: '#ffffff' },
-      imageOptions: { crossOrigin: 'anonymous' as const, margin: 6, imageSize: 0.26 },
+      imageOptions: { crossOrigin: 'anonymous' as const, margin: 6, imageSize: 0.4 },
     }),
     [],
   );
 
-  /* 1) Загружаем библиотеку и создаём инстанс один раз */
+  /* 1 Загружаем библиотеку и создаём инстанс один раз */
   useEffect(() => {
     let alive = true;
     setLibraryError(null);
@@ -127,7 +142,7 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
     };
   }, [qrConfig]);
 
-  /* 2) Следим за контейнером (на случай ре-рендера/порталов) */
+  /* 2 Следим за контейнером (на случай ре-рендера/порталов) */
   useEffect(() => {
     if (!qrInstanceRef.current || !qrContainerRef.current) return;
     if (qrContainerRef.current.childElementCount === 0) {
@@ -135,14 +150,18 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
     }
   }, [qrLink]);
 
-  /* 3) Обновляем данные QR при смене ссылки */
+  /* 3 Обновляем данные QR при смене ссылки */
   useEffect(() => {
     if (qrInstanceRef.current) {
       qrInstanceRef.current.update({ data: qrLink ?? '' });
     }
   }, [qrLink]);
 
-  /* 4) Таймер */
+  /* 4 Таймер */
+  useEffect(() => {
+    setTimeLeft(calculateTimeLeft(expiresIn, initialTime));
+  }, [expiresIn, initialTime]);
+
   useEffect(() => {
     if (!countdownActive) return;
     const id = window.setInterval(() => {
