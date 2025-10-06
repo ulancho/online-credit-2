@@ -1,4 +1,7 @@
+import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useRef, useState } from 'react';
+
+import { useQrStore } from 'Common/stores/rootStore.tsx';
 
 import qrLogoSvg from '../../../assets/icons/mbank-logo.svg?raw';
 import styles from '../styles/index.module.scss';
@@ -50,12 +53,15 @@ function loadQrCodeStyling(): Promise<QrCodeStylingConstructor> {
   return qrLibraryPromise;
 }
 
-export default function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps) {
+const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps) {
+  const qrStore = useQrStore();
+  const qrInfo = qrStore.qrInfo;
+  const qrLink = qrInfo?.deeplinkUrl ?? null;
+  const isLoading = qrStore.isLoading;
+  const fetchError = qrStore.error;
+
   const [timeLeft, setTimeLeft] = useState(initialTime);
-  const [qrLink, setQrLink] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [libraryError, setLibraryError] = useState<string | null>(null);
-  const [fetchError, setFetchError] = useState<string | null>(null);
 
   const qrContainerRef = useRef<HTMLDivElement>(null);
   const qrInstanceRef = useRef<QrCodeStylingInstance | null>(null);
@@ -95,9 +101,7 @@ export default function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps)
   /* 1) Загружаем библиотеку и создаём инстанс один раз */
   useEffect(() => {
     let alive = true;
-    setQrLink(null);
-    setIsLoading(false);
-    setFetchError(null);
+    setLibraryError(null);
     loadQrCodeStyling()
       .then((Ctor) => {
         if (!alive) return;
@@ -133,8 +137,8 @@ export default function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps)
 
   /* 3) Обновляем данные QR при смене ссылки */
   useEffect(() => {
-    if (qrInstanceRef.current && qrLink) {
-      qrInstanceRef.current.update({ data: qrLink });
+    if (qrInstanceRef.current) {
+      qrInstanceRef.current.update({ data: qrLink ?? '' });
     }
   }, [qrLink]);
 
@@ -170,7 +174,6 @@ export default function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps)
             <button
               className={styles.timerButton}
               type="button"
-              // onClick={expired && !isLoading ? fetchQrCode : undefined}
               disabled={isLoading || Boolean(libraryError)}
               aria-live="polite"
             >
@@ -193,4 +196,6 @@ export default function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps)
       </div>
     </section>
   );
-}
+});
+
+export default QRCodeSection;

@@ -1,221 +1,91 @@
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
-import { fetchQrInfo } from '../api/qrInfoApi.ts';
-import {
-  fetchStartInfo,
-  type StartInfoRequestPayload,
-  type StartInfoResponse,
-} from '../api/startInfoApi.ts';
+import { fetchQrInfo, type QrInfoRequestPayload, type QrInfoResponse } from '../api/qrInfoApi.ts';
 
-import type { StartQueryParams } from '../hooks/useStartQueryParams.ts';
-
-function createDefaultParams(): StartQueryParams {
-  return {
-    clientId: null,
-    codeChallenge: null,
-    codeChallengeMethod: null,
-    redirectUri: null,
-    responseType: null,
-    scope: null,
-    state: null,
-  };
-}
-
-interface StartInfoData {
-  clientId: string;
-  clientName: string;
-  clientDescription: string;
-  logoUrl: string;
-  offerUrl: string;
-  agreementUrl: string;
-  privacyPolicyUrl: string;
-  termOfServiceUrl: string;
-  redirectUri: string;
-  state: string;
-}
+import type { StartInfoService } from 'Modules/start/services/startInfoService.ts';
 
 interface QrInfoData {
   id: string;
-  deeplink_url: string;
-  redirect_url: string;
+  deeplinkUrl: string;
+  redirectUrl: string;
   status: string;
-  expires_in: string;
+  expiresIn: string;
 }
 
-export class StartInfoService {
-  @observable.shallow private params: StartQueryParams = createDefaultParams();
-  @observable.ref private startInfoData: StartInfoData | null = null;
-  @observable private isFetchingStartInfo = false;
-  @observable private startInfoErrorMessage: string | null = null;
+function createDefaultQrInfo(): QrInfoData | null {
+  return null;
+}
 
+export class QrInfoService {
+  @observable.ref private qrInfoData: QrInfoData | null = createDefaultQrInfo();
   @observable private isFetchingQrInfo = false;
   @observable private qrInfoErrorMessage: string | null = null;
 
   constructor(
-    private readonly startInfoFetcher: typeof fetchStartInfo = fetchStartInfo,
+    private readonly startInfoService: StartInfoService,
     private readonly qrInfoFetcher: typeof fetchQrInfo = fetchQrInfo,
   ) {
     makeObservable(this);
   }
 
   @action
-  setQueryParams(params: StartQueryParams) {
-    this.params = {
-      ...createDefaultParams(),
-      ...params,
-    };
-  }
-
-  @action
   reset() {
-    this.params = createDefaultParams();
-    this.startInfoData = null;
-    this.isFetchingStartInfo = false;
-    this.startInfoErrorMessage = null;
+    this.qrInfoData = createDefaultQrInfo();
+    this.isFetchingQrInfo = false;
+    this.qrInfoErrorMessage = null;
   }
 
   @action
-  async fetchStartInfo(queryParams: StartQueryParams) {
-    this.isFetchingStartInfo = true;
-    this.startInfoErrorMessage = null;
-
-    const payload = this.buildStartInfoPayload(queryParams);
-
-    try {
-      const data = await this.startInfoFetcher(payload);
-
-      runInAction(() => {
-        this.startInfoData = this.transformStartInfo(data);
-      });
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Не удалось получить стартовую информацию.';
-
-      runInAction(() => {
-        this.startInfoData = null;
-        this.startInfoErrorMessage = message;
-      });
-    } finally {
-      runInAction(() => {
-        this.isFetchingStartInfo = false;
-      });
-    }
-  }
-
-  @action
-  async fetchQrInfo(queryParams: StartQueryParams) {
+  async fetchQrInfo() {
     this.isFetchingQrInfo = true;
     this.qrInfoErrorMessage = null;
 
-    const payload = this.buildStartInfoPayload(queryParams);
+    const payload = this.buildQrInfoPayload();
 
     try {
       const data = await this.qrInfoFetcher(payload);
 
       runInAction(() => {
-        this.qrInfoData = this.transformStartInfo(data);
+        this.qrInfoData = this.transformQrInfo(data);
       });
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Не удалось получить стартовую информацию.';
+        error instanceof Error ? error.message : 'Не удалось получить данные QR-кода.';
 
       runInAction(() => {
-        this.startInfoData = null;
-        this.startInfoErrorMessage = message;
+        this.qrInfoData = null;
+        this.qrInfoErrorMessage = message;
       });
     } finally {
       runInAction(() => {
-        this.isFetchingStartInfo = false;
+        this.isFetchingQrInfo = false;
       });
     }
   }
 
   @computed
-  get clientId() {
-    return this.params.clientId;
+  get qrInfo(): QrInfoData | null {
+    return this.qrInfoData ? { ...this.qrInfoData } : null;
   }
 
   @computed
-  get codeChallenge() {
-    return this.params.codeChallenge;
+  get deeplinkUrl(): string | null {
+    return this.qrInfoData?.deeplinkUrl ?? null;
   }
 
   @computed
-  get codeChallengeMethod() {
-    return this.params.codeChallengeMethod;
-  }
-
-  @computed
-  get redirectUri() {
-    return this.params.redirectUri;
-  }
-
-  @computed
-  get responseType() {
-    return this.params.responseType;
-  }
-
-  @computed
-  get scope() {
-    return this.params.scope;
-  }
-
-  @computed
-  get state() {
-    return this.params.state;
-  }
-
-  @computed
-  get hasQueryParams() {
-    return Boolean(
-      this.params.clientId ||
-        this.params.codeChallenge ||
-        this.params.codeChallengeMethod ||
-        this.params.redirectUri ||
-        this.params.responseType ||
-        this.params.scope ||
-        this.params.state,
-    );
-  }
-
-  @computed
-  get queryParams(): StartQueryParams {
-    return {
-      ...this.params,
-    };
-  }
-
-  @computed
-  get startInfo(): StartInfoData | null {
-    return this.startInfoData ? { ...this.startInfoData } : null;
-  }
-
-  @computed
-  get isLoadingStartInfo() {
-    return this.isFetchingStartInfo;
-  }
-
-  @computed
-  get startInfoError() {
-    return this.startInfoErrorMessage;
-  }
-
-  @computed
-  get isLoadingQrInfo() {
+  get isLoading() {
     return this.isFetchingQrInfo;
   }
 
   @computed
-  get qrInfoError() {
+  get error(): string | null {
     return this.qrInfoErrorMessage;
   }
 
-  // @computed
-  // get qrInfo(): QrInfoData | null {
-  //   return this.qrInfo ? { ...this.startInfoData } : null;
-  // }
+  private buildQrInfoPayload(): QrInfoRequestPayload {
+    const params = this.startInfoService.queryParams;
 
-  private buildStartInfoPayload(params: StartQueryParams): StartInfoRequestPayload {
     return {
       scope: params.scope,
       state: params.state,
@@ -227,18 +97,13 @@ export class StartInfoService {
     };
   }
 
-  private transformStartInfo(data: StartInfoResponse): StartInfoData {
+  private transformQrInfo(data: QrInfoResponse): QrInfoData {
     return {
-      clientId: data.client_id,
-      clientName: data.client_name,
-      clientDescription: data.client_description,
-      logoUrl: data.logo_url,
-      offerUrl: data.offer_url,
-      agreementUrl: data.agreement_url,
-      privacyPolicyUrl: data.privacy_policy_url,
-      termOfServiceUrl: data.term_of_service_url,
-      redirectUri: data.redirect_uri,
-      state: data.state,
+      id: data.id,
+      deeplinkUrl: data.deeplink_url,
+      redirectUrl: data.redirect_url,
+      status: data.status,
+      expiresIn: data.expires_in,
     };
   }
 }

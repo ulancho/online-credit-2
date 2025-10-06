@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useStartStore } from 'Common/stores/rootStore.tsx';
+import { useQrStore, useStartStore } from 'Common/stores/rootStore.tsx';
 
 import PhoneInputSection from './components/PhoneInputSection.tsx';
 import QrCodeSection from './components/QrCodeSection.tsx';
@@ -9,17 +9,19 @@ import styles from './styles/index.module.scss';
 
 function Start() {
   const startStore = useStartStore();
+  const qrStore = useQrStore();
   const queryParams = useStartQueryParams();
 
   useEffect(() => {
     startStore.setQueryParams(queryParams);
 
     void startStore.fetchStartInfo(queryParams);
+    void qrStore.fetchQrInfo();
 
     return () => {
       startStore.reset();
     };
-  }, [queryParams, startStore]);
+  }, [queryParams, startStore, qrStore]);
 
   return (
     <div className={styles.modalContainer}>

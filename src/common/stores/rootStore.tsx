@@ -2,11 +2,13 @@ import { toJS } from 'mobx';
 import { createContext, useContext, type ReactNode } from 'react';
 
 import { CountryCodeService } from 'Modules/start/services/countryCodeService.ts';
+import { QrInfoService } from 'Modules/start/services/qrInfoService.ts';
 import { StartInfoService } from 'Modules/start/services/startInfoService.ts';
 
 class RootStore {
   readonly countryCodesStore = new CountryCodeService();
   readonly startStore = new StartInfoService();
+  readonly qrStore = new QrInfoService(this.startStore);
 }
 
 const rootStore = new RootStore();
@@ -33,4 +35,8 @@ export function useCountryCodesStore() {
 
 export function useStartStore() {
   return useRootStore().startStore;
+}
+
+export function useQrStore() {
+  return useRootStore().qrStore;
 }
