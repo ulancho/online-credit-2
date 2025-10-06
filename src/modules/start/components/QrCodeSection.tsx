@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { useQrStore } from 'Common/stores/rootStore.tsx';
+import { useQrStatusStore, useQrStore } from 'Common/stores/rootStore.tsx';
 
 import qrLogoSvg from '../../../assets/icons/mbank-logo.svg?raw';
 import styles from '../styles/index.module.scss';
@@ -69,11 +69,18 @@ function calculateTimeLeft(expiresIn: string | null, fallback: number) {
 
 const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps) {
   const qrStore = useQrStore();
+  const qrStatusStore = useQrStatusStore();
   const qrInfo = qrStore.qrInfo;
   const qrLink = qrInfo?.deeplinkUrl ?? null;
   const expiresIn = qrInfo?.expiresIn ?? null;
   const isLoading = qrStore.isLoading;
   const fetchError = qrStore.error;
+
+  const qrStatus = qrStatusStore.qrStatus;
+  const qrStatusValue = qrStatus?.status ?? null;
+  const qrStatusLoading = qrStatusStore.isLoading;
+  const qrStatusError = qrStatusStore.error;
+  const qrId = qrInfo?.id ?? null;
 
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [libraryError, setLibraryError] = useState<string | null>(null);
@@ -93,7 +100,7 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
     return `Истекает через ${formatTime(timeLeft)}`;
   }, [libraryError, isLoading, qrLink, expired, timeLeft]);
 
-  const combinedError = libraryError ? null : fetchError;
+  const combinedError = libraryError ? null : (fetchError ?? qrStatusError);
 
   const qrConfig = useMemo(
     () => ({
@@ -170,6 +177,48 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
     return () => window.clearInterval(id);
   }, [countdownActive]);
 
+  useEffect(() => {
+    if (!qrId) {
+      qrStatusStore.reset();
+      return;
+    }
+
+    let disposed = false;
+
+    const fetchStatus = () => {
+      if (disposed) {
+        return;
+      }
+
+      if (qrStatusStore.isLoading) {
+        return;
+      }
+
+      void qrStatusStore.fetchQrStatus(qrId);
+    };
+
+    fetchStatus();
+
+    const intervalId = window.setInterval(fetchStatus, 1000);
+
+    return () => {
+      disposed = true;
+      window.clearInterval(intervalId);
+    };
+  }, [qrId, qrStatusStore]);
+
+  const statusLabel = useMemo(() => {
+    if (libraryError || qrStatusError) {
+      return null;
+    }
+
+    if (!qrStatusValue) {
+      return qrStatusLoading ? 'Проверяем статус…' : null;
+    }
+
+    return `Статус: ${qrStatusValue}`;
+  }, [libraryError, qrStatusError, qrStatusLoading, qrStatusValue]);
+
   return (
     <section className={styles.qrSection}>
       <div className={styles.qrContent}>
@@ -198,6 +247,8 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
             >
               <span className={styles.timerText}>{timerLabel}</span>
             </button>
+
+            {statusLabel && <span className={styles.qrStatusText}>{statusLabel}</span>}
 
             {combinedError && (
               <p className={styles.qrErrorMessage} role="alert">
