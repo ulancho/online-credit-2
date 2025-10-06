@@ -199,7 +199,7 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
 
     fetchStatus();
 
-    const intervalId = window.setInterval(fetchStatus, 1000);
+    // const intervalId = window.setInterval(fetchStatus, 1000);
 
     return () => {
       disposed = true;
@@ -227,20 +227,7 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
           </div>
 
           <div className={styles.timerSection}>
-            <button
-              className={styles.timerButton}
-              type="button"
-              disabled={isLoading || Boolean(libraryError)}
-              aria-live="polite"
-            >
-              <span className={styles.timerText}>{timerLabel}</span>
-            </button>
-
-            {combinedError && (
-              <p className={styles.qrErrorMessage} role="alert">
-                {combinedError}
-              </p>
-            )}
+            <span className={styles.timerText}>{timerLabel}</span>
           </div>
         </div>
 
