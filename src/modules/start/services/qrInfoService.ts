@@ -84,16 +84,16 @@ export class QrInfoService {
   }
 
   private buildQrInfoPayload(): QrInfoRequestPayload {
-    const params = this.startInfoService.queryParams;
+    const queryParams = this.startInfoService.queryParams;
 
     return {
-      scope: params.scope,
-      state: params.state,
-      client_id: params.clientId,
-      redirect_uri: params.redirectUri,
-      response_type: params.responseType,
-      code_challenge: params.codeChallenge,
-      code_challenge_method: params.codeChallengeMethod,
+      scope: queryParams.scope,
+      state: queryParams.state,
+      client_id: queryParams.clientId,
+      redirect_uri: queryParams.redirectUri,
+      response_type: queryParams.responseType,
+      code_challenge: queryParams.codeChallenge,
+      code_challenge_method: queryParams.codeChallengeMethod,
     };
   }
 

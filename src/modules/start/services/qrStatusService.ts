@@ -63,7 +63,7 @@ export class QrStatusService {
 
       const status = (error as { response?: { status?: number } }).response?.status;
       const redirectUri =
-        this.startInfoService.startInfo?.redirectUri ?? this.startInfoService.redirectUri;
+        this.startInfoService.startInfo?.redirectUri ?? this.startInfoService.queryParamRedirectUri;
 
       if (redirectUri && status && status !== 200) {
         window.location.replace(redirectUri);
@@ -96,12 +96,12 @@ export class QrStatusService {
   }
 
   private buildQrStatusPayload(id: string): QrStatusRequestPayload {
-    const params = this.startInfoService.queryParams;
+    const queryParams = this.startInfoService.queryParams;
 
     return {
       id,
-      state: params.state,
-      redirect_uri: params.redirectUri,
+      state: queryParams.state,
+      redirect_uri: queryParams.redirectUri,
     };
   }
 

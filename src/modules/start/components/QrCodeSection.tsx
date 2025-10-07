@@ -75,7 +75,7 @@ export const QrCodeSection = observer(function QrCodeSection() {
 
   const qrStatusValue = qrStatusStore.status;
   const qrId = qrInfo?.id ?? null;
-  const isBoundStatus = qrStatusValue !== 'BOUND';
+  const isBoundStatus = qrStatusValue === 'BOUND';
 
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
   const [libraryError, setLibraryError] = useState<string | null>(null);

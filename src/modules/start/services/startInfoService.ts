@@ -34,7 +34,7 @@ interface StartInfoData {
 }
 
 export class StartInfoService {
-  @observable.shallow private params: StartQueryParams = createDefaultParams();
+  @observable.shallow private queryParameters: StartQueryParams = createDefaultParams();
   @observable.ref private startInfoData: StartInfoData | null = null;
   @observable private isFetchingStartInfo = false;
   @observable private startInfoErrorMessage: string | null = null;
@@ -44,16 +44,16 @@ export class StartInfoService {
   }
 
   @action
-  setQueryParams(params: StartQueryParams) {
-    this.params = {
+  setQueryParams(queryParams: StartQueryParams) {
+    this.queryParameters = {
       ...createDefaultParams(),
-      ...params,
+      ...queryParams,
     };
   }
 
   @action
   reset() {
-    this.params = createDefaultParams();
+    this.queryParameters = createDefaultParams();
     this.startInfoData = null;
     this.isFetchingStartInfo = false;
     this.startInfoErrorMessage = null;
@@ -80,6 +80,13 @@ export class StartInfoService {
         this.startInfoData = null;
         this.startInfoErrorMessage = message;
       });
+
+      const status = (error as { response?: { status?: number } }).response?.status;
+      const redirectUri = this.startInfo?.redirectUri ?? this.queryParamRedirectUri;
+
+      if (redirectUri && status && status !== 200) {
+        window.location.replace(redirectUri);
+      }
     } finally {
       runInAction(() => {
         this.isFetchingStartInfo = false;
@@ -88,57 +95,57 @@ export class StartInfoService {
   }
 
   @computed
-  get clientId() {
-    return this.params.clientId;
+  get queryParamClientId() {
+    return this.queryParameters.clientId;
   }
 
   @computed
-  get codeChallenge() {
-    return this.params.codeChallenge;
+  get queryParamCodeChallenge() {
+    return this.queryParameters.codeChallenge;
   }
 
   @computed
-  get codeChallengeMethod() {
-    return this.params.codeChallengeMethod;
+  get queryParamCodeChallengeMethod() {
+    return this.queryParameters.codeChallengeMethod;
   }
 
   @computed
-  get redirectUri() {
-    return this.params.redirectUri;
+  get queryParamRedirectUri() {
+    return this.queryParameters.redirectUri;
   }
 
   @computed
-  get responseType() {
-    return this.params.responseType;
+  get queryParamResponseType() {
+    return this.queryParameters.responseType;
   }
 
   @computed
-  get scope() {
-    return this.params.scope;
+  get queryParamScope() {
+    return this.queryParameters.scope;
   }
 
   @computed
-  get state() {
-    return this.params.state;
+  get queryParamState() {
+    return this.queryParameters.state;
   }
 
   @computed
   get hasQueryParams() {
     return Boolean(
-      this.params.clientId ||
-        this.params.codeChallenge ||
-        this.params.codeChallengeMethod ||
-        this.params.redirectUri ||
-        this.params.responseType ||
-        this.params.scope ||
-        this.params.state,
+      this.queryParameters.clientId ||
+        this.queryParameters.codeChallenge ||
+        this.queryParameters.codeChallengeMethod ||
+        this.queryParameters.redirectUri ||
+        this.queryParameters.responseType ||
+        this.queryParameters.scope ||
+        this.queryParameters.state,
     );
   }
 
   @computed
   get queryParams(): StartQueryParams {
     return {
-      ...this.params,
+      ...this.queryParameters,
     };
   }
 
