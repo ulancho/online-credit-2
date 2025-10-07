@@ -2,7 +2,7 @@ import { action, computed, makeObservable, observable, runInAction } from 'mobx'
 
 import { fetchQrInfo, type QrInfoRequestPayload, type QrInfoResponse } from '../api/qrInfoApi.ts';
 
-import type { StartInfoService } from 'Modules/start/services/startInfoService.ts';
+import type { StartQueryParamsService } from 'Modules/start/services/startQueryParamsService.ts';
 
 interface QrInfoData {
   id: string;
@@ -22,7 +22,7 @@ export class QrInfoService {
   @observable private qrInfoErrorMessage: string | null = null;
 
   constructor(
-    private readonly startInfoService: StartInfoService,
+    private readonly queryParamsService: StartQueryParamsService,
     private readonly qrInfoFetcher: typeof fetchQrInfo = fetchQrInfo,
   ) {
     makeObservable(this);
@@ -84,7 +84,7 @@ export class QrInfoService {
   }
 
   private buildQrInfoPayload(): QrInfoRequestPayload {
-    const queryParams = this.startInfoService.queryParams;
+    const queryParams = this.queryParamsService.queryParams;
 
     return {
       scope: queryParams.scope,

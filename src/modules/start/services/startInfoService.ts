@@ -6,19 +6,8 @@ import {
   type StartInfoResponse,
 } from '../api/startInfoApi.ts';
 
-import type { StartQueryParams } from '../hooks/useStartQueryParams.ts';
-
-function createDefaultParams(): StartQueryParams {
-  return {
-    clientId: null,
-    codeChallenge: null,
-    codeChallengeMethod: null,
-    redirectUri: null,
-    responseType: null,
-    scope: null,
-    state: null,
-  };
-}
+import type { StartQueryParams } from 'Modules/start/hooks/useStartQueryParams.ts';
+import type { StartQueryParamsService } from 'Modules/start/services/startQueryParamsService.ts';
 
 interface StartInfoData {
   clientId: string;
@@ -34,37 +23,36 @@ interface StartInfoData {
 }
 
 export class StartInfoService {
-  @observable.shallow private queryParameters: StartQueryParams = createDefaultParams();
   @observable.ref private startInfoData: StartInfoData | null = null;
   @observable private isFetchingStartInfo = false;
   @observable private startInfoErrorMessage: string | null = null;
 
-  constructor(private readonly startInfoFetcher: typeof fetchStartInfo = fetchStartInfo) {
+  constructor(
+    private readonly queryParamsService: StartQueryParamsService,
+    private readonly startInfoFetcher: typeof fetchStartInfo = fetchStartInfo,
+  ) {
     makeObservable(this);
   }
 
   @action
   setQueryParams(queryParams: StartQueryParams) {
-    this.queryParameters = {
-      ...createDefaultParams(),
-      ...queryParams,
-    };
+    this.queryParamsService.setQueryParams(queryParams);
   }
 
   @action
   reset() {
-    this.queryParameters = createDefaultParams();
+    this.queryParamsService.reset();
     this.startInfoData = null;
     this.isFetchingStartInfo = false;
     this.startInfoErrorMessage = null;
   }
 
   @action
-  async fetchStartInfo(queryParams: StartQueryParams) {
+  async fetchStartInfo() {
     this.isFetchingStartInfo = true;
     this.startInfoErrorMessage = null;
 
-    const payload = this.buildStartInfoPayload(queryParams);
+    const payload = this.buildStartInfoPayload(this.queryParamsService.queryParams);
 
     try {
       const data = await this.startInfoFetcher(payload);
@@ -82,8 +70,8 @@ export class StartInfoService {
       });
 
       const status = (error as { response?: { status?: number } }).response?.status;
-      const redirectUri = this.startInfo?.redirectUri ?? this.queryParamRedirectUri;
-
+      const redirectUri =
+        this.startInfo?.redirectUri ?? this.queryParamsService.queryParamRedirectUri;
       if (redirectUri && status && status !== 200) {
         window.location.replace(redirectUri);
       }
@@ -92,61 +80,6 @@ export class StartInfoService {
         this.isFetchingStartInfo = false;
       });
     }
-  }
-
-  @computed
-  get queryParamClientId() {
-    return this.queryParameters.clientId;
-  }
-
-  @computed
-  get queryParamCodeChallenge() {
-    return this.queryParameters.codeChallenge;
-  }
-
-  @computed
-  get queryParamCodeChallengeMethod() {
-    return this.queryParameters.codeChallengeMethod;
-  }
-
-  @computed
-  get queryParamRedirectUri() {
-    return this.queryParameters.redirectUri;
-  }
-
-  @computed
-  get queryParamResponseType() {
-    return this.queryParameters.responseType;
-  }
-
-  @computed
-  get queryParamScope() {
-    return this.queryParameters.scope;
-  }
-
-  @computed
-  get queryParamState() {
-    return this.queryParameters.state;
-  }
-
-  @computed
-  get hasQueryParams() {
-    return Boolean(
-      this.queryParameters.clientId ||
-        this.queryParameters.codeChallenge ||
-        this.queryParameters.codeChallengeMethod ||
-        this.queryParameters.redirectUri ||
-        this.queryParameters.responseType ||
-        this.queryParameters.scope ||
-        this.queryParameters.state,
-    );
-  }
-
-  @computed
-  get queryParams(): StartQueryParams {
-    return {
-      ...this.queryParameters,
-    };
   }
 
   @computed

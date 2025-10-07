@@ -160,7 +160,7 @@ export const QrCodeSection = observer(function QrCodeSection() {
   /* 4 Таймер */
   useEffect(() => {
     setTimeLeft(calculateTimeLeft(expiresIn, INITIAL_TIME));
-  }, [expiresIn, INITIAL_TIME]);
+  }, [expiresIn]);
 
   useEffect(() => {
     if (!countdownActive) return;

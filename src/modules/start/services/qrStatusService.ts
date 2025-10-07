@@ -7,6 +7,7 @@ import {
 } from '../api/qrStatusApi.ts';
 
 import type { StartInfoService } from './startInfoService.ts';
+import type { StartQueryParamsService } from 'Modules/start/services/startQueryParamsService.ts';
 
 interface QrStatusData {
   id: string;
@@ -27,6 +28,7 @@ export class QrStatusService {
 
   constructor(
     private readonly startInfoService: StartInfoService,
+    private readonly queryParamsService: StartQueryParamsService,
     private readonly qrStatusFetcher: typeof fetchQrStatus = fetchQrStatus,
   ) {
     makeObservable(this);
@@ -63,7 +65,8 @@ export class QrStatusService {
 
       const status = (error as { response?: { status?: number } }).response?.status;
       const redirectUri =
-        this.startInfoService.startInfo?.redirectUri ?? this.startInfoService.queryParamRedirectUri;
+        this.startInfoService.startInfo?.redirectUri ??
+        this.queryParamsService.queryParamRedirectUri;
 
       if (redirectUri && status && status !== 200) {
         window.location.replace(redirectUri);
@@ -96,7 +99,7 @@ export class QrStatusService {
   }
 
   private buildQrStatusPayload(id: string): QrStatusRequestPayload {
-    const queryParams = this.startInfoService.queryParams;
+    const queryParams = this.queryParamsService.queryParams;
 
     return {
       id,

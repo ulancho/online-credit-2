@@ -17,7 +17,7 @@ function Start() {
     startStore.setQueryParams(queryParams);
     qrStatusStore.reset();
 
-    void startStore.fetchStartInfo(queryParams);
+    void startStore.fetchStartInfo();
     void qrStore.fetchQrInfo();
 
     return () => {
