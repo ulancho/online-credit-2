@@ -8,9 +8,8 @@ import styles from '../styles/index.module.scss';
 
 import type { QrCodeStylingConstructor, QrCodeStylingInstance } from 'Common/types/qrCodeStyling';
 
-const INITIAL_TIME = 113;
-
 /* Constants & Helpers */
+const INITIAL_TIME = 113;
 
 const QR_LOGO_DATA_URI = `data:image/svg+xml;utf8,${encodeURIComponent(qrLogoSvg)}`;
 
@@ -76,6 +75,7 @@ export const QrCodeSection = observer(function QrCodeSection() {
   const qrStatusValue = qrStatusStore.status;
   const qrId = qrInfo?.id ?? null;
   const isBoundStatus = qrStatusValue === 'BOUND';
+  const isConfirmedStatus = qrStatusValue === 'CONFIRMED';
 
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
   const [libraryError, setLibraryError] = useState<string | null>(null);
@@ -200,9 +200,10 @@ export const QrCodeSection = observer(function QrCodeSection() {
     };
   }, [qrId, qrStatusStore]);
 
-  const qrCodeContainerClassName = isBoundStatus
-    ? `${styles.qrCodeContainer} ${styles.qrCodeContainerLoading}`
-    : styles.qrCodeContainer;
+  const qrCodeContainerClassName =
+    isBoundStatus || isConfirmedStatus
+      ? `${styles.qrCodeContainer} ${styles.qrCodeContainerStatus}`
+      : styles.qrCodeContainer;
 
   return (
     <section className={styles.qrSection}>
@@ -213,7 +214,16 @@ export const QrCodeSection = observer(function QrCodeSection() {
           </h2>
         </header>
         <div className={qrCodeContainerClassName}>
-          {isBoundStatus ? (
+          {isConfirmedStatus ? (
+            <>
+              <img
+                src="/src/assets/icons/confirmed.svg"
+                alt="Confirmed"
+                className={styles.confirmedIcon}
+              />
+              <p className={styles.confirmedText}>Вход одобрен</p>
+            </>
+          ) : isBoundStatus ? (
             <>
               <span className={styles.loader} aria-label="QR-код подтверждается" />
               <p className={styles.loaderText}>Ждем подтверждения входа</p>
