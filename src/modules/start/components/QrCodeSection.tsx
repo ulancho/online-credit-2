@@ -8,9 +8,7 @@ import styles from '../styles/index.module.scss';
 
 import type { QrCodeStylingConstructor, QrCodeStylingInstance } from 'Common/types/qrCodeStyling';
 
-interface QRCodeSectionProps {
-  initialTime?: number;
-}
+const INITIAL_TIME = 113;
 
 /* Constants & Helpers */
 
@@ -67,22 +65,19 @@ function calculateTimeLeft(expiresIn: string | null, fallback: number) {
   return Math.max(0, Math.floor((expiresAt - Date.now()) / 1000));
 }
 
-const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRCodeSectionProps) {
+export const QrCodeSection = observer(function QrCodeSection() {
   const qrStore = useQrStore();
   const qrStatusStore = useQrStatusStore();
   const qrInfo = qrStore.qrInfo;
   const qrLink = qrInfo?.deeplinkUrl ?? null;
   const expiresIn = qrInfo?.expiresIn ?? null;
   const isLoading = qrStore.isLoading;
-  const fetchError = qrStore.error;
 
-  // const qrStatus = qrStatusStore.qrStatus;
-  // const qrStatusValue = qrStatus?.status ?? null;
-  // const qrStatusLoading = qrStatusStore.isLoading;
-  const qrStatusError = qrStatusStore.error;
+  const qrStatusValue = qrStatusStore.status;
   const qrId = qrInfo?.id ?? null;
+  const isBoundStatus = qrStatusValue !== 'BOUND';
 
-  const [timeLeft, setTimeLeft] = useState(initialTime);
+  const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
   const [libraryError, setLibraryError] = useState<string | null>(null);
 
   const qrContainerRef = useRef<HTMLDivElement>(null);
@@ -99,8 +94,6 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
     if (expired) return 'QR-код устарел';
     return `Истекает через ${formatTime(timeLeft)}`;
   }, [libraryError, isLoading, qrLink, expired, timeLeft]);
-
-  const combinedError = libraryError ? null : (fetchError ?? qrStatusError);
 
   const qrConfig = useMemo(
     () => ({
@@ -166,8 +159,8 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
 
   /* 4 Таймер */
   useEffect(() => {
-    setTimeLeft(calculateTimeLeft(expiresIn, initialTime));
-  }, [expiresIn, initialTime]);
+    setTimeLeft(calculateTimeLeft(expiresIn, INITIAL_TIME));
+  }, [expiresIn, INITIAL_TIME]);
 
   useEffect(() => {
     if (!countdownActive) return;
@@ -199,13 +192,17 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
 
     fetchStatus();
 
-    // const intervalId = window.setInterval(fetchStatus, 1000);
+    const intervalId = window.setInterval(fetchStatus, 1000);
 
     return () => {
       disposed = true;
       window.clearInterval(intervalId);
     };
   }, [qrId, qrStatusStore]);
+
+  const qrCodeContainerClassName = isBoundStatus
+    ? `${styles.qrCodeContainer} ${styles.qrCodeContainerLoading}`
+    : styles.qrCodeContainer;
 
   return (
     <section className={styles.qrSection}>
@@ -215,22 +212,28 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
             Наведите QR-сканер <br /> из приложения MBANK
           </h2>
         </header>
-
-        <div className={styles.qrCodeContainer}>
-          <div className={styles.qrCodeWrapper}>
-            <div ref={qrContainerRef} className={styles.qrCanvas} aria-hidden="true" />
-            {!qrReady && (
-              <div className={styles.qrPlaceholder}>
-                {libraryError ?? (isLoading ? 'Загрузка…' : 'QR-код появится здесь')}
+        <div className={qrCodeContainerClassName}>
+          {isBoundStatus ? (
+            <>
+              <span className={styles.loader} aria-label="QR-код подтверждается" />
+              <p className={styles.loaderText}>Ждем подтверждения входа</p>
+            </>
+          ) : (
+            <>
+              <div className={styles.qrCodeWrapper}>
+                <div ref={qrContainerRef} className={styles.qrCanvas} aria-hidden="true" />
+                {!qrReady && (
+                  <div className={styles.qrPlaceholder}>
+                    {libraryError ?? (isLoading ? 'Загрузка…' : 'QR-код появится здесь')}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-
-          <div className={styles.timerSection}>
-            <span className={styles.timerText}>{timerLabel}</span>
-          </div>
+              <div className={styles.timerSection}>
+                <span className={styles.timerText}>{timerLabel}</span>
+              </div>
+            </>
+          )}
         </div>
-
         <img
           src="/src/assets/icons/mbank-logo-2.svg"
           alt="MBANK Logo"
@@ -240,5 +243,3 @@ const QRCodeSection = observer(function QRCodeSection({ initialTime = 113 }: QRC
     </section>
   );
 });
-
-export default QRCodeSection;

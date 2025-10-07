@@ -33,7 +33,8 @@
     "paths": {
       "@/*": ["src/*"],
       "Common/*": ["src/common/*"],
-      "Modules/*": ["src/modules/*"]
+      "Modules/*": ["src/modules/*"],
+      "Assets/*": ["src/assets/*"]
     }
   },
   "include": ["src", "vite.config.ts", "postcss.config.*", "eslint.config.*", "scripts/**/*.*"]

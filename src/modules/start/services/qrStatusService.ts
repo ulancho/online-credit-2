@@ -66,7 +66,7 @@ export class QrStatusService {
         this.startInfoService.startInfo?.redirectUri ?? this.startInfoService.redirectUri;
 
       if (redirectUri && status && status !== 200) {
-        // window.location.replace(redirectUri);
+        window.location.replace(redirectUri);
       }
     } finally {
       runInAction(() => {

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useQrStatusStore, useQrStore, useStartStore } from 'Common/stores/rootStore.tsx';
 
 import PhoneInputSection from './components/PhoneInputSection.tsx';
-import QrCodeSection from './components/QrCodeSection.tsx';
+import { QrCodeSection } from './components/QrCodeSection.tsx';
 import { useStartQueryParams } from './hooks/useStartQueryParams.ts';
 import styles from './styles/index.module.scss';
 

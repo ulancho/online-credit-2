@@ -490,6 +490,14 @@
     0 4px 20px #1115210a;
 }
 
+.qrCodeContainerLoading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
 .qrCodeWrapper {
   position: relative;
   width: 100%;
@@ -536,6 +544,34 @@
   font-size: 14px;
   line-height: 18px;
   font-weight: 500;
+}
+
+.loaderText {
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 22px;
+  color: #111622;
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #129958;
+  border-right-color: #e3e5e8;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .mbankLogo {

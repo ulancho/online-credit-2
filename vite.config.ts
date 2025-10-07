@@ -13,7 +13,7 @@ export default defineConfig({
       '@': srcDir,
       Common: resolve(srcDir, 'common'),
       Modules: resolve(srcDir, 'modules'),
-      Mocks: resolve(srcDir, 'mocks'),
+      Assets: resolve(srcDir, 'assets'),
     },
     extensions: ['.tsx', '.ts', '.js'],
     preserveSymlinks: false,
