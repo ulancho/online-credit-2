@@ -2,6 +2,7 @@ import { toJS } from 'mobx';
 import { createContext, useContext, type ReactNode } from 'react';
 
 import { CountryCodeService } from 'Modules/start/services/countryCodeService.ts';
+import { PhoneAuthService } from 'Modules/start/services/phoneAuthService.ts';
 import { QrInfoService } from 'Modules/start/services/qrInfoService.ts';
 import { QrStatusService } from 'Modules/start/services/qrStatusService.ts';
 import { StartInfoService } from 'Modules/start/services/startInfoService.ts';
@@ -17,6 +18,7 @@ class RootStore {
     this.startQueryParamsStore,
     this.qrStore,
   );
+  readonly phoneAuthStore = new PhoneAuthService(this.startQueryParamsStore);
 }
 
 const rootStore = new RootStore();
@@ -55,4 +57,8 @@ export function useQrStatusStore() {
 
 export function useStartQueryParamsStore() {
   return useRootStore().startQueryParamsStore;
+}
+
+export function usePhoneAuthStore() {
+  return useRootStore().phoneAuthStore;
 }

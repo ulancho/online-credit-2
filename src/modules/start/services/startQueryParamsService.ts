@@ -11,6 +11,7 @@ function createDefaultParams(): StartQueryParams {
     responseType: null,
     scope: null,
     state: null,
+    originalUrl: null,
   };
 }
 
@@ -70,6 +71,11 @@ export class StartQueryParamsService {
   }
 
   @computed
+  get queryParamOriginalUrl() {
+    return this.queryParameters.originalUrl;
+  }
+
+  @computed
   get hasQueryParams() {
     return Boolean(
       this.queryParameters.clientId ||
@@ -78,7 +84,8 @@ export class StartQueryParamsService {
         this.queryParameters.redirectUri ||
         this.queryParameters.responseType ||
         this.queryParameters.scope ||
-        this.queryParameters.state,
+        this.queryParameters.state ||
+        this.queryParameters.originalUrl,
     );
   }
 

@@ -9,6 +9,7 @@ export interface StartQueryParams {
   responseType: string | null;
   scope: string | null;
   state: string | null;
+  originalUrl?: string | null;
 }
 
 export function useStartQueryParams(): StartQueryParams {
@@ -25,6 +26,7 @@ export function useStartQueryParams(): StartQueryParams {
       responseType: searchParams.get('response_type'),
       scope: searchParams.get('scope'),
       state: searchParams.get('state'),
+      originalUrl: searchParams.get('original_url'),
     };
   }, [search]);
 }

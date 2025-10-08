@@ -1,7 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useRef, useState } from 'react';
 
-import { useCountryCodesStore, useStartStore } from 'Common/stores/rootStore.tsx';
+import {
+  useCountryCodesStore,
+  usePhoneAuthStore,
+  useStartStore,
+} from 'Common/stores/rootStore.tsx';
 
 import { DEFAULT_PHONE_DIGITS_LENGTH } from '../services/countryCodeService.ts';
 import styles from '../styles/index.module.scss';
@@ -13,6 +17,7 @@ function PhoneInputSection() {
   const countryCodes = countryCodesStore.countryCodes;
   const startStore = useStartStore();
   const startStoreInfo = startStore.startInfo;
+  const phoneAuthStore = usePhoneAuthStore();
 
   const [selectedCountry, setSelectedCountry] = useState<CountryCode | null>(
     countryCodes[0] ?? null,
@@ -57,26 +62,38 @@ function PhoneInputSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (phoneNumber.trim()) {
-      // onSubmit?.(selectedCountry.code + phoneNumber);
+    if (!isFormValid || !selectedCountry) {
+      return;
     }
+
+    const fullPhoneNumber = `${selectedCountry.code}${phoneNumber}`;
+
+    void phoneAuthStore.sendPhoneAuth(fullPhoneNumber);
   };
 
   const handleCountrySelect = (country: CountryCode) => {
     setSelectedCountry(country);
     setPhoneNumber('');
     setIsDropdownOpen(false);
+    phoneAuthStore.resetStatus();
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '');
     setPhoneNumber(value);
+    if (phoneAuthStore.isSuccess || phoneAuthStore.error) {
+      phoneAuthStore.resetStatus();
+    }
   };
 
   const selectedCode = selectedCountry?.code ?? '';
   const selectedIsoCode = selectedCountry?.isoCode?.toUpperCase() ?? '--';
   const phoneDigitsLimit = selectedCountry?.digitsCount ?? DEFAULT_PHONE_DIGITS_LENGTH;
   const isFormValid = Boolean(selectedCountry) && phoneNumber.trim().length === phoneDigitsLimit;
+
+  const isSubmitting = phoneAuthStore.isLoading;
+  const submitError = phoneAuthStore.error;
+  const isSubmitSuccess = phoneAuthStore.isSuccess;
 
   return (
     <section className={styles.loginSection}>
@@ -190,13 +207,25 @@ function PhoneInputSection() {
                   )}
                 </div>
               </div>
+              {submitError && (
+                <p className={styles.errorMessage} role="alert">
+                  {submitError}
+                </p>
+              )}
+              {isSubmitSuccess && !submitError && (
+                <p className={styles.successMessage} role="status">
+                  Запрос отправлен. Подтвердите вход в приложении MBANK.
+                </p>
+              )}
             </div>
 
             <div className={styles.buttonSection}>
               <button
                 type="submit"
-                className={`${styles.submitButton} ${isFormValid ? styles.submitButtonActive : ''}`}
-                disabled={!isFormValid}
+                className={`${styles.submitButton} ${
+                  isFormValid ? styles.submitButtonActive : ''
+                } ${isSubmitting ? styles.submitButtonLoading : ''}`}
+                disabled={!isFormValid || isSubmitting}
               >
                 <span
                   className={`${styles.buttonText} ${isFormValid ? styles.buttonTextActive : ''}`}
