@@ -1,3 +1,4 @@
+import { isAxiosError } from 'axios';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
 import { sendPhoneAuthRequest, type PhoneAuthRequestPayload } from '../api/phoneAuthApi.ts';
@@ -41,8 +42,17 @@ export class PhoneAuthService {
         this.isPhoneAuthSent = true;
       });
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Не удалось отправить запрос на вход.';
+      let message = 'Не удалось отправить запрос на вход.';
+
+      if (isAxiosError(error)) {
+        if (error.response?.status === 404) {
+          message = 'Такой номер не найден, проверьте номер';
+        } else if (typeof error.message === 'string' && error.message.trim()) {
+          message = error.message;
+        }
+      } else if (error instanceof Error) {
+        message = error.message;
+      }
 
       runInAction(() => {
         this.phoneAuthErrorMessage = message;

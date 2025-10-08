@@ -111,7 +111,13 @@ function PhoneInputSection() {
 
           <form onSubmit={handleSubmit}>
             <div className={styles.inputContainer}>
-              <div className={styles.inputWrapper}>
+              <div
+                className={
+                  submitError
+                    ? `${styles.inputWrapper} ${styles.errorBorder}`
+                    : `${styles.inputWrapper}`
+                }
+              >
                 <div className={styles.countryCodeDropdown} ref={dropdownRef}>
                   <button
                     type="button"

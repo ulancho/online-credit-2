@@ -264,9 +264,16 @@
 }
 
 .errorMessage {
-  margin-top: 8px;
+  margin-top: 4px;
+  margin-left: 16px;
   font-size: 13px;
-  color: #d64541;
+  font-weight: 500;
+  line-height: 18px;
+  color: #e02d3c;
+}
+
+.errorBorder {
+  border: 1px solid #e02d3c;
 }
 
 .dropdownNotice {
@@ -339,7 +346,7 @@
   background: transparent;
   font-size: 17px;
   font-weight: 500;
-  color: var(--text-primary, #111622);
+  color: #111622;
   padding: 8px 0;
 }
 
