@@ -12,7 +12,11 @@ class RootStore {
   readonly startQueryParamsStore = new StartQueryParamsService();
   readonly startStore = new StartInfoService(this.startQueryParamsStore);
   readonly qrStore = new QrInfoService(this.startQueryParamsStore);
-  readonly qrStatusStore = new QrStatusService(this.startStore, this.startQueryParamsStore);
+  readonly qrStatusStore = new QrStatusService(
+    this.startStore,
+    this.startQueryParamsStore,
+    this.qrStore,
+  );
 }
 
 const rootStore = new RootStore();
