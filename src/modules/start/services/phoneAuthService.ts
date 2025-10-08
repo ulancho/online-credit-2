@@ -72,9 +72,10 @@ export class PhoneAuthService {
 
   private buildPhoneAuthPayload(phone: string): PhoneAuthRequestPayload {
     const queryParams = this.queryParamsService.queryParams;
+    const sanitizedPhone = phone.replace(/\+/g, '');
 
     return {
-      phone,
+      phone: sanitizedPhone,
       scope: queryParams.scope,
       state: queryParams.state,
       client_id: queryParams.clientId,
