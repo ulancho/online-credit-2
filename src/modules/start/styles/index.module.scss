@@ -152,6 +152,7 @@
 .inputContainer {
   width: 100%;
   margin-top: 38px;
+  border: 1px solid red;
 }
 
 @media (width <= 991px) {
@@ -591,6 +592,19 @@
   font-size: 17px;
   line-height: 22px;
   color: #17aa5d;
+}
+
+.boundStatusContainer {
+  border: 1px solid black;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.boundTimerSection {
+  margin-top: 4px;
 }
 
 .mbankLogo {

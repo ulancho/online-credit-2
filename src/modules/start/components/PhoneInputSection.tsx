@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   useCountryCodesStore,
@@ -11,6 +11,29 @@ import { DEFAULT_PHONE_DIGITS_LENGTH } from '../services/countryCodeService.ts';
 import styles from '../styles/index.module.scss';
 
 import type { CountryCode } from '../services/countryCodeService.ts';
+
+const INITIAL_BOUND_TIME = 113;
+
+const formatTime = (seconds: number) => {
+  const safeSeconds = Math.max(0, seconds);
+  const minutes = Math.floor(safeSeconds / 60);
+  const restSeconds = safeSeconds % 60;
+  return `${minutes.toString().padStart(2, '0')}:${restSeconds.toString().padStart(2, '0')}`;
+};
+
+const calculateTimeLeft = (expiresIn: string | null, fallback: number) => {
+  if (!expiresIn) {
+    return fallback;
+  }
+
+  const expiresAt = Date.parse(expiresIn);
+
+  if (Number.isNaN(expiresAt)) {
+    return fallback;
+  }
+
+  return Math.max(0, Math.floor((expiresAt - Date.now()) / 1000));
+};
 
 function PhoneInputSection() {
   const countryCodesStore = useCountryCodesStore();
@@ -93,7 +116,47 @@ function PhoneInputSection() {
 
   const isSubmitting = phoneAuthStore.isLoading;
   const submitError = phoneAuthStore.error;
-  const isSubmitSuccess = phoneAuthStore.isSuccess;
+  // const isSubmitSuccess = phoneAuthStore.isSuccess;
+
+  const phoneAuthResponse = phoneAuthStore.response;
+  const phoneAuthStatus = phoneAuthResponse?.status ?? null;
+  const isBoundStatus = phoneAuthStatus === 'BOUND';
+  const expiresIn = phoneAuthResponse?.expires_in ?? null;
+
+  const [boundTimeLeft, setBoundTimeLeft] = useState(INITIAL_BOUND_TIME);
+
+  useEffect(() => {
+    if (!isBoundStatus) {
+      setBoundTimeLeft(INITIAL_BOUND_TIME);
+      return;
+    }
+
+    setBoundTimeLeft(calculateTimeLeft(expiresIn, INITIAL_BOUND_TIME));
+  }, [expiresIn, isBoundStatus]);
+
+  useEffect(() => {
+    if (!isBoundStatus) {
+      return;
+    }
+
+    const timerId = window.setInterval(() => {
+      setBoundTimeLeft((timeLeft) => (timeLeft > 0 ? timeLeft - 1 : 0));
+    }, 1000);
+
+    return () => {
+      window.clearInterval(timerId);
+    };
+  }, [isBoundStatus]);
+
+  const boundTimerLabel = useMemo(() => {
+    if (!isBoundStatus) {
+      return null;
+    }
+
+    return `Истекает через ${formatTime(boundTimeLeft)}`;
+  }, [boundTimeLeft, isBoundStatus]);
+
+  // const showSuccessMessage = isSubmitSuccess && !submitError && !isBoundStatus;
 
   return (
     <section className={styles.loginSection}>
@@ -109,159 +172,165 @@ function PhoneInputSection() {
             </div>
           </header>
 
-          <form onSubmit={handleSubmit}>
-            <div className={styles.inputContainer}>
-              <div
-                className={
-                  submitError
-                    ? `${styles.inputWrapper} ${styles.errorBorder}`
-                    : `${styles.inputWrapper}`
-                }
-              >
-                <div className={styles.countryCodeDropdown} ref={dropdownRef}>
-                  <button
-                    type="button"
-                    className={styles.countryCodeButton}
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    aria-expanded={isDropdownOpen}
-                    aria-haspopup="listbox"
-                  >
-                    {selectedCountry?.flagPath ? (
-                      <img
-                        src={selectedCountry.flagPath}
-                        alt={`${selectedCountry.country} flag`}
-                        className={styles.flagIcon}
-                      />
-                    ) : (
-                      <span className={styles.flagFallback}>{selectedIsoCode}</span>
-                    )}
-                    <span className={styles.codeText}>
-                      {selectedCode || (countryCodesStore.isLoading ? 'Загрузка…' : 'Код')}
-                    </span>
-                    <svg
-                      className={`${styles.dropdownArrow} ${isDropdownOpen ? styles.dropdownArrowOpen : ''}`}
-                      viewBox="0 0 16 16"
-                      fill="currentColor"
+          {isBoundStatus ? (
+            <div className={styles.boundStatusContainer}>
+              <span className={styles.loader} aria-label="Ожидание подтверждения входа" />
+              <p className={styles.loaderText}>Ждем подтверждения входа</p>
+              {boundTimerLabel && (
+                <div className={styles.boundTimerSection}>
+                  <span className={styles.timerText}>{boundTimerLabel}</span>
+                </div>
+              )}
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <div className={styles.inputContainer}>
+                <div
+                  className={
+                    submitError
+                      ? `${styles.inputWrapper} ${styles.errorBorder}`
+                      : `${styles.inputWrapper}`
+                  }
+                >
+                  <div className={styles.countryCodeDropdown} ref={dropdownRef}>
+                    <button
+                      type="button"
+                      className={styles.countryCodeButton}
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      aria-expanded={isDropdownOpen}
+                      aria-haspopup="listbox"
                     >
-                      <path d="M4 6l4 4 4-4H4z" />
-                    </svg>
-                  </button>
-
-                  {isDropdownOpen && (
-                    <div className={styles.dropdownMenu} role="listbox">
-                      {!countryCodes.length && (
-                        <div className={styles.dropdownNotice}>
-                          {countryCodesStore.isLoading
-                            ? 'Загрузка справочника…'
-                            : 'Нет доступных стран'}
-                        </div>
+                      {selectedCountry?.flagPath ? (
+                        <img
+                          src={selectedCountry.flagPath}
+                          alt={`${selectedCountry.country} flag`}
+                          className={styles.flagIcon}
+                        />
+                      ) : (
+                        <span className={styles.flagFallback}>{selectedIsoCode}</span>
                       )}
-                      {countryCodes.map((country) => (
-                        <button
-                          key={country.id}
-                          type="button"
-                          className={styles.dropdownItem}
-                          onClick={() => handleCountrySelect(country)}
-                          role="option"
-                          aria-selected={selectedCountry?.id === country.id}
-                        >
-                          {country.flagPath ? (
-                            <img
-                              src={country.flagPath}
-                              alt={`${country.country} flag`}
-                              className={styles.flagIcon}
-                            />
-                          ) : (
-                            <span className={styles.flagFallback}>
-                              {country.isoCode?.toUpperCase() ?? '--'}
-                            </span>
-                          )}
-                          <span className={styles.codeText}>{country.code}</span>
-                          <span>{country.country}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                      <span className={styles.codeText}>
+                        {selectedCode || (countryCodesStore.isLoading ? 'Загрузка…' : 'Код')}
+                      </span>
+                      <svg
+                        className={`${styles.dropdownArrow} ${isDropdownOpen ? styles.dropdownArrowOpen : ''}`}
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                      >
+                        <path d="M4 6l4 4 4-4H4z" />
+                      </svg>
+                    </button>
 
-                <div className={styles.inputContent}>
-                  <div className={styles.phoneInputWrapper}>
-                    <input
-                      type="tel"
-                      value={phoneNumber}
-                      onChange={handlePhoneChange}
-                      onFocus={() => setIsFocused(true)}
-                      onBlur={() => setIsFocused(false)}
-                      className={styles.phoneInput}
-                      placeholder=""
-                      maxLength={phoneDigitsLimit}
-                      autoComplete="tel"
-                      disabled={!selectedCountry}
-                    />
-                    <label
-                      className={`${styles.inputLabel} ${
-                        isFocused || phoneNumber ? styles.inputLabelHidden : ''
-                      }`}
-                    >
-                      Номер телефона
-                    </label>
+                    {isDropdownOpen && (
+                      <div className={styles.dropdownMenu} role="listbox">
+                        {!countryCodes.length && (
+                          <div className={styles.dropdownNotice}>
+                            {countryCodesStore.isLoading
+                              ? 'Загрузка справочника…'
+                              : 'Нет доступных стран'}
+                          </div>
+                        )}
+                        {countryCodes.map((country) => (
+                          <button
+                            key={country.id}
+                            type="button"
+                            className={styles.dropdownItem}
+                            onClick={() => handleCountrySelect(country)}
+                            role="option"
+                            aria-selected={selectedCountry?.id === country.id}
+                          >
+                            {country.flagPath ? (
+                              <img
+                                src={country.flagPath}
+                                alt={`${country.country} flag`}
+                                className={styles.flagIcon}
+                              />
+                            ) : (
+                              <span className={styles.flagFallback}>
+                                {country.isoCode?.toUpperCase() ?? '--'}
+                              </span>
+                            )}
+                            <span className={styles.codeText}>{country.code}</span>
+                            <span>{country.country}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                  {countryCodesStore.hasError && (
-                    <p className={styles.errorMessage} role="alert">
-                      {countryCodesStore.error ?? 'Не удалось загрузить список стран.'}
-                    </p>
-                  )}
-                </div>
-              </div>
-              {submitError && (
-                <p className={styles.errorMessage} role="alert">
-                  {submitError}
-                </p>
-              )}
-              {isSubmitSuccess && !submitError && (
-                <p className={styles.successMessage} role="status">
-                  Запрос отправлен. Подтвердите вход в приложении MBANK.
-                </p>
-              )}
-            </div>
 
-            <div className={styles.buttonSection}>
-              <button
-                type="submit"
-                className={`${styles.submitButton} ${
-                  isFormValid ? styles.submitButtonActive : ''
-                } ${isSubmitting ? styles.submitButtonLoading : ''}`}
-                disabled={!isFormValid || isSubmitting}
-              >
-                <span
-                  className={`${styles.buttonText} ${isFormValid ? styles.buttonTextActive : ''}`}
+                  <div className={styles.inputContent}>
+                    <div className={styles.phoneInputWrapper}>
+                      <input
+                        type="tel"
+                        value={phoneNumber}
+                        onChange={handlePhoneChange}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                        className={styles.phoneInput}
+                        placeholder=""
+                        maxLength={phoneDigitsLimit}
+                        autoComplete="tel"
+                        disabled={!selectedCountry}
+                      />
+                      <label
+                        className={`${styles.inputLabel} ${
+                          isFocused || phoneNumber ? styles.inputLabelHidden : ''
+                        }`}
+                      >
+                        Номер телефона
+                      </label>
+                    </div>
+                    {countryCodesStore.hasError && (
+                      <p className={styles.errorMessage} role="alert">
+                        {countryCodesStore.error ?? 'Не удалось загрузить список стран.'}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                {submitError && (
+                  <p className={styles.errorMessage} role="alert">
+                    {submitError}
+                  </p>
+                )}
+              </div>
+              <div className={styles.buttonSection}>
+                <button
+                  type="submit"
+                  className={`${styles.submitButton} ${
+                    isFormValid ? styles.submitButtonActive : ''
+                  } ${isSubmitting ? styles.submitButtonLoading : ''}`}
+                  disabled={!isFormValid || isSubmitting}
                 >
-                  Далее
-                </span>
-              </button>
-              <p className={styles.privacyText}>
-                Прежде чем начать работу с приложением &quot;Ticket&quot;, вы можете ознакомиться с
-                его{' '}
-                <a
-                  target="_blank"
-                  href={startStoreInfo?.offerUrl}
-                  className={styles.privacyLink}
-                  rel="noreferrer"
-                >
-                  политикой конфиденциальности
-                </a>{' '}
-                и{' '}
-                <a
-                  target="_blank"
-                  href={startStoreInfo?.agreementUrl}
-                  rel="noreferrer"
-                  className={styles.privacyLink}
-                >
-                  условиями пользования.
-                </a>
-              </p>
-            </div>
-          </form>
+                  <span
+                    className={`${styles.buttonText} ${isFormValid ? styles.buttonTextActive : ''}`}
+                  >
+                    Далее
+                  </span>
+                </button>
+                <p className={styles.privacyText}>
+                  Прежде чем начать работу с приложением &quot;Ticket&quot;, вы можете ознакомиться
+                  с его{' '}
+                  <a
+                    target="_blank"
+                    href={startStoreInfo?.offerUrl}
+                    className={styles.privacyLink}
+                    rel="noreferrer"
+                  >
+                    политикой конфиденциальности
+                  </a>{' '}
+                  и{' '}
+                  <a
+                    target="_blank"
+                    href={startStoreInfo?.agreementUrl}
+                    rel="noreferrer"
+                    className={styles.privacyLink}
+                  >
+                    условиями пользования.
+                  </a>
+                </p>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </section>
