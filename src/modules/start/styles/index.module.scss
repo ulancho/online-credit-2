@@ -96,6 +96,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin-bottom: 16px;
 }
 
 @media (width <= 991px) {
@@ -152,7 +153,6 @@
 .inputContainer {
   width: 100%;
   margin-top: 38px;
-  border: 1px solid red;
 }
 
 @media (width <= 991px) {
@@ -595,16 +595,70 @@
 }
 
 .boundStatusContainer {
-  border: 1px solid black;
   margin-top: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+
+  .loader {
+    margin-bottom: 18px;
+  }
 }
 
 .boundTimerSection {
   margin-top: 4px;
+}
+
+.boundActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.boundBackButton {
+  border-radius: 20px;
+  border: 1px solid #129958;
+  background-color: transparent;
+  color: #129958;
+  padding: 17px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  cursor: pointer;
+
+  span {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 22px;
+  }
+}
+
+.boundBackButton:focus-visible {
+  outline: 2px solid #0b6d3d;
+  outline-offset: 2px;
+}
+
+.boundHelpButton {
+  background: none;
+  border: none;
+  color: #e02d3c;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.boundHelpButton:focus-visible {
+  outline: 2px solid #d0312d;
+  outline-offset: 2px;
 }
 
 .mbankLogo {

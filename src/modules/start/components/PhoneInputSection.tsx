@@ -181,6 +181,15 @@ function PhoneInputSection() {
                   <span className={styles.timerText}>{boundTimerLabel}</span>
                 </div>
               )}
+              <div className={styles.boundActions}>
+                <button type="button" className={styles.boundBackButton}>
+                  <img src="src/assets/icons/back.svg" alt="back icon" />
+                  <span>Вернуться</span>
+                </button>
+                <button type="button" className={styles.boundHelpButton}>
+                  Я не получил(-а) уведомление
+                </button>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
