@@ -53,7 +53,9 @@ export class PhoneAuthService {
       let message = 'Не удалось отправить запрос на вход.';
 
       if (isAxiosError(error)) {
-        if (error.response?.status === 404) {
+        const responseData = error.response?.data;
+
+        if (responseData.code === 'unified.svc.biz.ib.cbk.mbank-id.error.private-user-not-found') {
           message = 'Такой номер не найден, проверьте номер';
         } else if (typeof error.message === 'string' && error.message.trim()) {
           message = error.message;
