@@ -103,12 +103,17 @@ export const QrCodeSection = observer(function QrCodeSection() {
       data: '',
       image: QR_LOGO_DATA_URI,
       margin: 8,
-      qrOptions: { errorCorrectionLevel: 'H' as const },
-      dotsOptions: { color: '#111622', type: 'rounded' as const },
+      qrOptions: { errorCorrectionLevel: 'L' as const },
+      dotsOptions: { color: '#111622', type: 'dots' as const },
       cornersSquareOptions: { type: 'extra-rounded' as const, color: '#111622' },
-      cornersDotOptions: { color: '#111622' },
+      cornersDotOptions: { color: '#111622', type: 'extra-rounded' as const },
       backgroundOptions: { color: '#ffffff' },
-      imageOptions: { crossOrigin: 'anonymous' as const, margin: 6, imageSize: 0.4 },
+      imageOptions: {
+        crossOrigin: 'anonymous' as const,
+        hideBackgroundDots: true,
+        margin: 3,
+        imageSize: 1,
+      },
     }),
     [],
   );
@@ -156,6 +161,8 @@ export const QrCodeSection = observer(function QrCodeSection() {
       qrInstanceRef.current.update({ data: qrLink ?? '' });
     }
   }, [qrLink]);
+
+  console.log('qrLink: ', qrLink);
 
   /* 4 Таймер */
   useEffect(() => {
