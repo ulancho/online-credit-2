@@ -35,7 +35,7 @@ const calculateTimeLeft = (expiresIn: string | null, fallback: number) => {
   return Math.max(0, Math.floor((expiresAt - Date.now()) / 1000));
 };
 
-function PhoneInputSection() {
+export const PhoneInputSection = observer(function () {
   const countryCodesStore = useCountryCodesStore();
   const countryCodes = countryCodesStore.countryCodes;
   const startStore = useStartStore();
@@ -121,6 +121,7 @@ function PhoneInputSection() {
   const phoneAuthResponse = phoneAuthStore.response;
   const phoneAuthStatus = phoneAuthResponse?.status ?? null;
   const isBoundStatus = phoneAuthStatus === 'BOUND';
+  const isConfirmedStatus = phoneAuthStatus === 'CONFIRMED';
   const expiresIn = phoneAuthResponse?.expires_in ?? null;
 
   const [boundTimeLeft, setBoundTimeLeft] = useState(INITIAL_BOUND_TIME);
@@ -172,7 +173,19 @@ function PhoneInputSection() {
             </div>
           </header>
 
-          {isBoundStatus ? (
+          {isConfirmedStatus ? (
+            <div className={styles.confirmedStatusContainer}>
+              <img
+                src="/src/assets/icons/confirmed.svg"
+                alt="Confirmed"
+                className={styles.confirmedIcon}
+              />
+              <p className={styles.confirmedTitle}>Вход одобрен</p>
+              <p className={styles.confirmedSubTitle}>
+                Мы перенаправим вас на сайт Ticket.kg <br /> — это займёт всего пару секунд.
+              </p>
+            </div>
+          ) : isBoundStatus ? (
             <div className={styles.boundStatusContainer}>
               <span className={styles.loader} aria-label="Ожидание подтверждения входа" />
               <p className={styles.loaderText}>Ждем подтверждения входа</p>
@@ -344,6 +357,4 @@ function PhoneInputSection() {
       </div>
     </section>
   );
-}
-
-export default observer(PhoneInputSection);
+});

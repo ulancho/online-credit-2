@@ -162,8 +162,6 @@ export const QrCodeSection = observer(function QrCodeSection() {
     }
   }, [qrLink]);
 
-  console.log('qrLink: ', qrLink);
-
   /* 4 Таймер */
   useEffect(() => {
     setTimeLeft(calculateTimeLeft(expiresIn, INITIAL_TIME));
