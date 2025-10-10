@@ -2,9 +2,11 @@ import { isAxiosError } from 'axios';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
 import {
+  fetchPhoneAuthStatus,
   sendPhoneAuthRequest,
   type PhoneAuthRequestPayload,
   type PhoneAuthResponse,
+  type PhoneAuthStatusRequestPayload,
 } from '../api/phoneAuthApi.ts';
 
 import type { StartQueryParamsService } from './startQueryParamsService.ts';
@@ -14,16 +16,21 @@ export class PhoneAuthService {
   @observable private phoneAuthErrorMessage: string | null = null;
   @observable private isPhoneAuthSent = false;
   @observable private phoneAuthResponse: PhoneAuthResponse | null = null;
+  private statusPollingTimer: ReturnType<typeof setInterval> | null = null;
+  private isStatusPollingActive = false;
+  private isFetchingStatus = false;
 
   constructor(
     private readonly queryParamsService: StartQueryParamsService,
     private readonly phoneAuthRequester: typeof sendPhoneAuthRequest = sendPhoneAuthRequest,
+    private readonly phoneAuthStatusFetcher: typeof fetchPhoneAuthStatus = fetchPhoneAuthStatus,
   ) {
     makeObservable(this);
   }
 
   @action
   resetStatus() {
+    this.stopStatusPolling();
     this.isPhoneAuthSent = false;
     this.phoneAuthErrorMessage = null;
     this.phoneAuthResponse = null;
@@ -35,6 +42,7 @@ export class PhoneAuthService {
       return;
     }
 
+    this.stopStatusPolling();
     this.isSendingPhoneAuth = true;
     this.phoneAuthErrorMessage = null;
     this.isPhoneAuthSent = false;
@@ -49,6 +57,12 @@ export class PhoneAuthService {
         this.phoneAuthResponse = response;
         this.isPhoneAuthSent = true;
       });
+
+      if (response.status === 'BOUND') {
+        this.startStatusPolling(response.id);
+      } else {
+        this.stopStatusPolling();
+      }
     } catch (error) {
       let message = 'Не удалось отправить запрос на вход.';
 
@@ -69,6 +83,7 @@ export class PhoneAuthService {
         this.isPhoneAuthSent = false;
         this.phoneAuthResponse = null;
       });
+      this.stopStatusPolling();
     } finally {
       runInAction(() => {
         this.isSendingPhoneAuth = false;
@@ -116,5 +131,84 @@ export class PhoneAuthService {
       code_challenge_method: queryParams.codeChallengeMethod,
       original_url: queryParams.originalUrl || null,
     };
+  }
+
+  private buildPhoneAuthStatusPayload(id: string): PhoneAuthStatusRequestPayload {
+    const queryParams = this.queryParamsService.queryParams;
+
+    return {
+      id,
+      state: queryParams.state,
+      redirect_uri: queryParams.redirectUri,
+      original_url: queryParams.originalUrl || null,
+    };
+  }
+
+  private startStatusPolling(id: string) {
+    if (!id) {
+      return;
+    }
+
+    this.stopStatusPolling();
+    this.isStatusPollingActive = true;
+
+    const poll = async () => {
+      if (!this.isStatusPollingActive || this.isFetchingStatus) {
+        return;
+      }
+
+      this.isFetchingStatus = true;
+
+      try {
+        const payload = this.buildPhoneAuthStatusPayload(id);
+        const response = await this.phoneAuthStatusFetcher(payload);
+
+        if (!this.isStatusPollingActive) {
+          return;
+        }
+
+        runInAction(() => {
+          this.phoneAuthResponse = response;
+          this.isPhoneAuthSent = true;
+        });
+
+        if (response.status !== 'BOUND') {
+          this.stopStatusPolling();
+        }
+      } catch (error) {
+        if (!this.isStatusPollingActive) {
+          return;
+        }
+
+        const message =
+          error instanceof Error ? error.message : 'Не удалось обновить статус входа.';
+
+        runInAction(() => {
+          this.phoneAuthErrorMessage = message;
+          this.isPhoneAuthSent = false;
+          this.phoneAuthResponse = null;
+        });
+
+        this.stopStatusPolling();
+      } finally {
+        this.isFetchingStatus = false;
+      }
+    };
+
+    void poll();
+    this.statusPollingTimer = setInterval(() => {
+      void poll();
+    }, 1500);
+  }
+
+  private stopStatusPolling() {
+    this.isStatusPollingActive = false;
+
+    if (this.statusPollingTimer !== null) {
+      clearInterval(this.statusPollingTimer);
+      this.statusPollingTimer = null;
+    }
+
+    this.isFetchingStatus = false;
   }
 }

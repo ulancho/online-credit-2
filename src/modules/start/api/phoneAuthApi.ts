@@ -19,6 +19,13 @@ export interface PhoneAuthResponse {
   expires_in: string;
 }
 
+export interface PhoneAuthStatusRequestPayload {
+  id: string;
+  state: string | null;
+  redirect_uri: string | null;
+  original_url: string | null;
+}
+
 const phoneAuthClient = axios.create({
   baseURL:
     import.meta.env.VITE_API_BASE_URL ??
@@ -34,5 +41,13 @@ export async function sendPhoneAuthRequest(
   payload: PhoneAuthRequestPayload,
 ): Promise<PhoneAuthResponse> {
   const { data } = await phoneAuthClient.post<PhoneAuthResponse>('/oauth/web/push', payload);
+  return data;
+}
+
+export async function fetchPhoneAuthStatus(
+  payload: PhoneAuthStatusRequestPayload,
+): Promise<PhoneAuthResponse> {
+  const { data } = await phoneAuthClient.post<PhoneAuthResponse>('/oauth/web/push/status', payload);
+
   return data;
 }
