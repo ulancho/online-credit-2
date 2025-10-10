@@ -52,10 +52,23 @@ export class QrInfoService {
       const message =
         error instanceof Error ? error.message : 'Не удалось получить данные QR-кода.';
 
+      const response = (
+        error as {
+          response?: { status?: number; data?: { redirect_uri?: string | null } };
+        }
+      ).response;
+
       runInAction(() => {
         this.qrInfoData = null;
         this.qrInfoErrorMessage = message;
       });
+
+      const redirectUri =
+        response?.data?.redirect_uri ?? this.queryParamsService.queryParamRedirectUri;
+
+      if (redirectUri && response?.status && response.status !== 200) {
+        window.location.replace(redirectUri);
+      }
     } finally {
       runInAction(() => {
         this.isFetchingQrInfo = false;
