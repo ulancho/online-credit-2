@@ -13,7 +13,7 @@ export const QR_CONFIG = {
   type: 'svg' as const,
   data: '',
   image: '',
-  margin: 8,
+  margin: 0,
   qrOptions: { errorCorrectionLevel: 'L' as const },
   dotsOptions: { color: '#111622', type: 'dots' as const },
   cornersSquareOptions: { type: 'extra-rounded' as const, color: '#111622' },
@@ -22,8 +22,8 @@ export const QR_CONFIG = {
   imageOptions: {
     crossOrigin: 'anonymous' as const,
     hideBackgroundDots: true,
-    margin: 3,
-    imageSize: 1,
+    margin: 4,
+    imageSize: 1.2,
   },
 };
 

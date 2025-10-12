@@ -8,7 +8,7 @@ import {
   useQrStatusPolling,
   useQrInstance,
   QR_CONFIG,
-} from 'src/modules/start/components/qrCodeSection/hooks';
+} from 'Modules/start/components/qrCodeSection/hooks';
 
 import styles from '../../styles/index.module.scss';
 
@@ -53,6 +53,8 @@ export const QrCodeSection = observer(function () {
     if (!qrInstanceRef.current) return;
     qrInstanceRef.current.update({ data: qrLink ?? '' });
   }, [qrLink, qrInstanceRef]);
+
+  console.log('qrLink: ', qrLink);
 
   const qrReady = Boolean(qrLink) && Boolean(qrInstanceRef.current);
 
