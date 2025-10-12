@@ -162,13 +162,10 @@ export const QrCodeSection = observer(function () {
 
   /* 4 Таймер */
   useEffect(() => {
-    console.log('expiresIn: ', expiresIn);
     setTimeLeft(calculateTimeLeft(expiresIn, INITIAL_TIME));
-    console.log('timeLeft: ', timeLeft);
   }, [expiresIn]);
 
   useEffect(() => {
-    console.log('countdownActive: ', countdownActive);
     if (!countdownActive) return;
     const id = window.setInterval(() => {
       setTimeLeft((t) => (t > 0 ? t - 1 : 0));
