@@ -8,12 +8,12 @@ import type {
 let qrLibraryPromise: Promise<QrCodeStylingConstructor> | null = null;
 
 export const QR_CONFIG = {
-  width: 232,
-  height: 232,
+  width: 300,
+  height: 300,
   type: 'svg' as const,
   data: '',
   image: '',
-  margin: 0,
+  margin: 2,
   qrOptions: { errorCorrectionLevel: 'L' as const },
   dotsOptions: { color: '#111622', type: 'dots' as const },
   cornersSquareOptions: { type: 'extra-rounded' as const, color: '#111622' },
@@ -22,8 +22,8 @@ export const QR_CONFIG = {
   imageOptions: {
     crossOrigin: 'anonymous' as const,
     hideBackgroundDots: true,
-    margin: 4,
-    imageSize: 1.2,
+    margin: 6,
+    imageSize: 0.8,
   },
 };
 
