@@ -8,7 +8,7 @@ import {
   useQrStatusPolling,
   useQrInstance,
   QR_CONFIG,
-} from 'Modules/start/components/phoneInputSection/hooks';
+} from 'src/modules/start/components/qrCodeSection/hooks';
 
 import styles from '../../styles/index.module.scss';
 
@@ -34,10 +34,18 @@ export const QrCodeSection = observer(function () {
   const qrStatus = qrStatusStore.status;
 
   const qrContainerRef = useRef<HTMLDivElement>(null);
-  const { instanceRef: qrInstanceRef, error: libraryError } = useQrInstance(qrContainerRef, {
-    ...QR_CONFIG,
-    image: QR_LOGO_DATA_URI,
-  });
+  const qrConfig = useMemo(
+    () => ({
+      ...QR_CONFIG,
+      image: QR_LOGO_DATA_URI,
+    }),
+    [],
+  );
+
+  const { instanceRef: qrInstanceRef, error: libraryError } = useQrInstance(
+    qrContainerRef,
+    qrConfig,
+  );
   const { timeLeft, expired } = useCountdown(expiresIn);
   useQrStatusPolling(qrId);
 

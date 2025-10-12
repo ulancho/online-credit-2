@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
-import type { QrCodeStylingConstructor, QrCodeStylingInstance } from 'Common/types/qrCodeStyling';
+import type {
+  QrCodeStylingConstructor,
+  QrCodeStylingInstance,
+} from 'Common/types/qrCodeStyling.ts';
 
 let qrLibraryPromise: Promise<QrCodeStylingConstructor> | null = null;
 
