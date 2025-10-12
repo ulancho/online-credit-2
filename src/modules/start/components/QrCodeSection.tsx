@@ -64,7 +64,7 @@ function calculateTimeLeft(expiresIn: string | null, fallback: number) {
   return Math.max(0, Math.floor((expiresAt - Date.now()) / 1000));
 }
 
-export const QrCodeSection = observer(function QrCodeSection() {
+export const QrCodeSection = observer(function () {
   const qrStore = useQrStore();
   const qrStatusStore = useQrStatusStore();
   const qrInfo = qrStore.qrInfo;
@@ -74,8 +74,6 @@ export const QrCodeSection = observer(function QrCodeSection() {
 
   const qrStatusValue = qrStatusStore.status;
   const qrId = qrInfo?.id ?? null;
-  const isBoundStatus = qrStatusValue === 'BOUND';
-  const isConfirmedStatus = qrStatusValue === 'CONFIRMED';
 
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
   const [libraryError, setLibraryError] = useState<string | null>(null);
@@ -164,10 +162,13 @@ export const QrCodeSection = observer(function QrCodeSection() {
 
   /* 4 Таймер */
   useEffect(() => {
+    console.log('expiresIn: ', expiresIn);
     setTimeLeft(calculateTimeLeft(expiresIn, INITIAL_TIME));
+    console.log('timeLeft: ', timeLeft);
   }, [expiresIn]);
 
   useEffect(() => {
+    console.log('countdownActive: ', countdownActive);
     if (!countdownActive) return;
     const id = window.setInterval(() => {
       setTimeLeft((t) => (t > 0 ? t - 1 : 0));
@@ -205,10 +206,87 @@ export const QrCodeSection = observer(function QrCodeSection() {
     };
   }, [qrId, qrStatusStore]);
 
-  const qrCodeContainerClassName =
-    isBoundStatus || isConfirmedStatus
-      ? `${styles.qrCodeContainer} ${styles.qrCodeContainerStatus}`
-      : styles.qrCodeContainer;
+  const renderDefaultQrContent = () => (
+    <>
+      <div className={styles.qrCodeWrapper}>
+        <div ref={qrContainerRef} className={styles.qrCanvas} aria-hidden="true" />
+        {!qrReady && (
+          <div className={styles.qrPlaceholder}>
+            {libraryError ?? (isLoading ? 'Загрузка…' : 'QR-код появится здесь')}
+          </div>
+        )}
+      </div>
+      <div className={styles.timerSection}>
+        <span className={styles.timerText}>{timerLabel}</span>
+      </div>
+    </>
+  );
+
+  const getQrContainerContent = () => {
+    const baseClassName = styles.qrCodeContainer;
+
+    switch (qrStatusValue) {
+      case 'CONFIRMED':
+        return {
+          className: `${baseClassName} ${styles.qrCodeContainerStatus}`,
+          content: (
+            <div className={styles.qrConfirmedContainer}>
+              <img
+                src="/src/assets/icons/confirmed.svg"
+                alt="Confirmed"
+                className={styles.confirmedIcon}
+              />
+              <p className={styles.confirmedText}>Вход одобрен</p>
+            </div>
+          ),
+        };
+      case 'BOUND':
+        return {
+          className: `${baseClassName} ${styles.qrCodeContainerStatus}`,
+          content: (
+            <div className={styles.qrBoundContainer}>
+              <span className={styles.loader} aria-label="QR-код подтверждается" />
+              <p className={styles.loaderText}>Ждем подтверждения входа</p>
+            </div>
+          ),
+        };
+      case 'DENIED':
+        return {
+          className: `${baseClassName} ${styles.qrCodeContainerStatus}`,
+          content: (
+            <>
+              <img src="/src/assets/icons/denied.svg" alt="Denied" className={styles.deniedIcon} />
+              <p className={styles.deniedTitle}>Вход отклонен</p>
+              <button className={styles.refreshButton}>
+                <img
+                  src="/src/assets/icons/refresh.svg"
+                  alt="Refresh"
+                  className={styles.refreshIcon}
+                />
+                <span>Попробовать еще раз</span>
+              </button>
+            </>
+          ),
+        };
+      case 'EXPIRED':
+        return {
+          className: `${baseClassName} ${styles.qrCodeContainerStatus}`,
+          content: (
+            <div className={styles.statusMessage}>
+              <p className={styles.statusTitle}>QR-код устарел</p>
+              <p className={styles.statusDescription}>Обновите страницу и попробуйте снова.</p>
+            </div>
+          ),
+        };
+      default:
+        return {
+          className: baseClassName,
+          content: renderDefaultQrContent(),
+        };
+    }
+  };
+
+  const { className: qrCodeContainerClassName, content: qrCodeContent } = getQrContainerContent();
 
   return (
     <section className={styles.qrSection}>
@@ -218,37 +296,7 @@ export const QrCodeSection = observer(function QrCodeSection() {
             Наведите QR-сканер <br /> из приложения MBANK
           </h2>
         </header>
-        <div className={qrCodeContainerClassName}>
-          {isConfirmedStatus ? (
-            <>
-              <img
-                src="/src/assets/icons/confirmed.svg"
-                alt="Confirmed"
-                className={styles.confirmedIcon}
-              />
-              <p className={styles.confirmedText}>Вход одобрен</p>
-            </>
-          ) : isBoundStatus ? (
-            <>
-              <span className={styles.loader} aria-label="QR-код подтверждается" />
-              <p className={styles.loaderText}>Ждем подтверждения входа</p>
-            </>
-          ) : (
-            <>
-              <div className={styles.qrCodeWrapper}>
-                <div ref={qrContainerRef} className={styles.qrCanvas} aria-hidden="true" />
-                {!qrReady && (
-                  <div className={styles.qrPlaceholder}>
-                    {libraryError ?? (isLoading ? 'Загрузка…' : 'QR-код появится здесь')}
-                  </div>
-                )}
-              </div>
-              <div className={styles.timerSection}>
-                <span className={styles.timerText}>{timerLabel}</span>
-              </div>
-            </>
-          )}
-        </div>
+        <div className={qrCodeContainerClassName}>{qrCodeContent}</div>
         <img
           src="/src/assets/icons/mbank-logo-2.svg"
           alt="MBANK Logo"
