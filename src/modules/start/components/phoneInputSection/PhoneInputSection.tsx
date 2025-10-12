@@ -7,10 +7,10 @@ import {
   useStartStore,
 } from 'Common/stores/rootStore.tsx';
 
-import { DEFAULT_PHONE_DIGITS_LENGTH } from '../services/countryCodeService.ts';
-import styles from '../styles/index.module.scss';
+import { DEFAULT_PHONE_DIGITS_LENGTH } from '../../services/countryCodeService.ts';
+import styles from '../../styles/index.module.scss';
 
-import type { CountryCode } from '../services/countryCodeService.ts';
+import type { CountryCode } from '../../services/countryCodeService.ts';
 
 const INITIAL_BOUND_TIME = 113;
 
@@ -196,7 +196,7 @@ export const PhoneInputSection = observer(function () {
               )}
               <div className={styles.boundActions}>
                 <button type="button" className={styles.boundBackButton}>
-                  <img src="src/assets/icons/back.svg" alt="back icon" />
+                  <img src="../../../../assets/icons/back.svg" alt="back icon" />
                   <span>Вернуться</span>
                 </button>
                 <button type="button" className={styles.boundHelpButton}>
