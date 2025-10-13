@@ -228,6 +228,24 @@ export const PhoneInputSection = observer(function () {
             </div>
           </div>
         );
+      case 'DENIED':
+        return (
+          <div className={styles.phoneDeniedStatusContainer}>
+            <img
+              src="/src/assets/icons/denied.svg"
+              alt="Denied"
+              className={styles.phoneDeniedIcon}
+            />
+            <p className={styles.deniedTitle}>Вход отклонен</p>
+            <p className={styles.deniedSubTitle}>
+              Разрешение не было <br /> предоставлено, попробуйте еще раз
+            </p>
+            <button type="button" className={styles.boundBackButton} onClick={handleBack}>
+              <img src="/src/assets/icons/back.svg" alt="back icon" />
+              <span>Вернуться</span>
+            </button>
+          </div>
+        );
       default:
         return renderDefaultContent();
     }
