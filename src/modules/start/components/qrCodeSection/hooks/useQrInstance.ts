@@ -22,7 +22,7 @@ export const QR_CONFIG = {
   imageOptions: {
     crossOrigin: 'anonymous' as const,
     hideBackgroundDots: true,
-    margin: 6,
+    margin: 8,
     imageSize: 0.8,
   },
 };
