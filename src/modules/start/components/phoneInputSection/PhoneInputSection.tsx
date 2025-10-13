@@ -7,13 +7,13 @@ import {
   useStartStore,
 } from 'Common/stores/rootStore.tsx';
 import { useBoundCountdown } from 'Modules/start/components/phoneInputSection/hooks/useBoundCountdown.ts';
-
-import { DEFAULT_PHONE_DIGITS_LENGTH } from '../../services/countryCodeService.ts';
-import styles from '../../styles/index.module.scss';
+import {
+  DEFAULT_PHONE_DIGITS_LENGTH,
+  type CountryCode,
+} from 'Modules/start/services/countryCodeService.ts';
+import styles from 'Modules/start/styles/index.module.scss';
 
 import { CountryDropdown } from './CountryDropdown';
-
-import type { CountryCode } from '../../services/countryCodeService.ts';
 
 const INITIAL_BOUND_TIME = 113;
 const pad2 = (n: number) => n.toString().padStart(2, '0');
@@ -27,19 +27,17 @@ export const PhoneInputSection = observer(function () {
   const phoneAuthStore = usePhoneAuthStore();
 
   const [selectedId, setSelectedId] = useState<number | string | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
 
   const selectedCountry = useMemo<CountryCode | null>(
     () => countryCodes.find((c) => c.id === selectedId) ?? null,
     [countryCodes, selectedId],
   );
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
-
   const phoneDigitsLimit = selectedCountry?.digitsCount ?? DEFAULT_PHONE_DIGITS_LENGTH;
   const isFormValid = !!selectedCountry && phoneNumber.trim().length === phoneDigitsLimit;
-
   // Phone auth state
   const isSubmitting = phoneAuthStore.isLoading;
   const submitError = phoneAuthStore.error;
