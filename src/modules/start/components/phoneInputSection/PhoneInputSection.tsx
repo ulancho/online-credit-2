@@ -28,21 +28,6 @@ export const PhoneInputSection = observer(function () {
 
   const [selectedId, setSelectedId] = useState<number | string | null>(null);
 
-  useEffect(() => {
-    void countryCodesStore.fetchCountryCodes();
-  }, [countryCodesStore]);
-
-  useEffect(() => {
-    if (!countryCodes.length) {
-      setSelectedId(null);
-      return;
-    }
-    setSelectedId((prev) => {
-      if (prev == null) return countryCodes[0].id;
-      return countryCodes.some((c) => c.id === prev) ? prev : countryCodes[0].id;
-    });
-  }, [countryCodes]);
-
   const selectedCountry = useMemo<CountryCode | null>(
     () => countryCodes.find((c) => c.id === selectedId) ?? null,
     [countryCodes, selectedId],
@@ -68,6 +53,21 @@ export const PhoneInputSection = observer(function () {
     () => (isBoundStatus ? `Истекает через ${formatTime(boundTimeLeft)}` : null),
     [boundTimeLeft, isBoundStatus],
   );
+
+  useEffect(() => {
+    void countryCodesStore.fetchCountryCodes();
+  }, [countryCodesStore]);
+
+  useEffect(() => {
+    if (!countryCodes.length) {
+      setSelectedId(null);
+      return;
+    }
+    setSelectedId((prev) => {
+      if (prev == null) return countryCodes[0].id;
+      return countryCodes.some((c) => c.id === prev) ? prev : countryCodes[0].id;
+    });
+  }, [countryCodes]);
 
   /* Handlers */
   const handleCountrySelect = useCallback(
@@ -99,6 +99,10 @@ export const PhoneInputSection = observer(function () {
     },
     [isFormValid, selectedCountry, phoneNumber, phoneAuthStore],
   );
+
+  const handleBack = () => {
+    phoneAuthStore.resetStatus();
+  };
 
   /* Views */
   const renderDefaultContent = () => (
@@ -214,11 +218,11 @@ export const PhoneInputSection = observer(function () {
               </div>
             )}
             <div className={styles.boundActions}>
-              <button type="button" className={styles.boundBackButton}>
+              <button type="button" className={styles.boundBackButton} onClick={handleBack}>
                 <img src="/src/assets/icons/back.svg" alt="back icon" />
                 <span>Вернуться</span>
               </button>
-              <button type="button" className={styles.boundHelpButton}>
+              <button type="button" className={styles.boundHelpButton} onClick={handleBack}>
                 Я не получил(-а) уведомление
               </button>
             </div>
