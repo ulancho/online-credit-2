@@ -7,6 +7,7 @@ import { PhoneAuthService } from 'Modules/start/services/phoneAuthService.ts';
 import { QrInfoService } from 'Modules/start/services/qrInfoService.ts';
 import { QrStatusService } from 'Modules/start/services/qrStatusService.ts';
 import { StartInfoService } from 'Modules/start/services/startInfoService.ts';
+import { StartMobileInfoService } from 'Modules/startMobile/services/startMobileInfoService.ts';
 
 class RootStore {
   readonly countryCodesStore = new CountryCodeService();
@@ -19,6 +20,7 @@ class RootStore {
     this.qrStore,
   );
   readonly phoneAuthStore = new PhoneAuthService(this.queryParamsStore);
+  readonly startMobileStore = new StartMobileInfoService(this.queryParamsStore);
 }
 
 const rootStore = new RootStore();
@@ -61,4 +63,8 @@ export function useQueryParamsStore() {
 
 export function usePhoneAuthStore() {
   return useRootStore().phoneAuthStore;
+}
+
+export function useStartMobileStore() {
+  return useRootStore().startMobileStore;
 }
