@@ -54,11 +54,15 @@ export class StartMobileInfoService {
     const payload = this.buildAuthorizationPayload(this.queryParamsService.queryParams);
 
     try {
-      const data = await this.startMobileFetcher(payload);
+      const response = await this.startMobileFetcher(payload);
 
       runInAction(() => {
-        this.data = this.transformAuthorizationData(data);
+        this.data = this.transformAuthorizationData(response);
       });
+
+      if (this.data?.deepLinkUrl) {
+        window.location.replace(this.data?.deepLinkUrl);
+      }
     } catch (error) {
       const message =
         error instanceof Error

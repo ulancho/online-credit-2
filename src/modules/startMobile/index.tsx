@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 
 import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
-import { useStartStore } from 'Common/stores/rootStore.tsx';
+import { useStartMobileStore, useStartStore } from 'Common/stores/rootStore.tsx';
 import AuthButton from 'Modules/startMobile/components/authButton';
 import PrivacyText from 'Modules/startMobile/components/privacyText';
 
@@ -11,9 +11,10 @@ import styles from './styles/style.module.css';
 const StartMobile = () => {
   const queryParams = useQueryParams();
   const startStore = useStartStore();
+  const startMobileInfoStore = useStartMobileStore();
 
   const handleMBankLogin = () => {
-    console.log('Redirecting...');
+    void startMobileInfoStore.fetchStartMobileInfo();
   };
 
   useEffect(() => {
