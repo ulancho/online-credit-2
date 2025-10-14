@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 
-import type { StartQueryParams } from 'Modules/start/hooks/useStartQueryParams.ts';
+import type { StartQueryParams } from 'Common/hooks/useQueryParams.ts';
 
 function createDefaultParams(): StartQueryParams {
   return {

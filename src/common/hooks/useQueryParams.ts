@@ -12,7 +12,7 @@ export interface StartQueryParams {
   originalUrl?: string | null;
 }
 
-export function useStartQueryParams(): StartQueryParams {
+export function useQueryParams(): StartQueryParams {
   const { search } = useLocation();
 
   return useMemo(() => {

@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 
+import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
 import { useQrStatusStore, useQrStore, useStartStore } from 'Common/stores/rootStore.tsx';
 
 import { PhoneInputSection } from './components/phoneInputSection/PhoneInputSection.tsx';
 import { QrCodeSection } from './components/qrCodeSection/QrCodeSection.tsx';
-import { useStartQueryParams } from './hooks/useStartQueryParams.ts';
 import styles from './styles/index.module.scss';
 
 function Start() {
   const startStore = useStartStore();
   const qrStore = useQrStore();
   const qrStatusStore = useQrStatusStore();
-  const queryParams = useStartQueryParams();
+  const queryParams = useQueryParams();
 
   useEffect(() => {
     startStore.setQueryParams(queryParams);

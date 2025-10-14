@@ -6,8 +6,8 @@ import {
   type StartInfoResponse,
 } from '../api/startInfoApi.ts';
 
+import type { StartQueryParams } from 'Common/hooks/useQueryParams.ts';
 import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
-import type { StartQueryParams } from 'Modules/start/hooks/useStartQueryParams.ts';
 
 interface StartInfoData {
   clientId: string;
