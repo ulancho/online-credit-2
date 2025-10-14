@@ -1,0 +1,84 @@
+.mobilePageWrapper {
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #009c4d 0%, #007e8b 61.2%);
+  height: 100%;
+}
+
+.authContainer {
+  display: flex;
+  justify-content: center;
+  font-family:
+    "Nunito mbank",
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
+}
+
+@media (width <= 640px) {
+  .authContainer {
+    max-width: 404px;
+  }
+}
+
+.cardWrapper {
+  border-radius: 16px;
+  width: calc(100% - 32px);
+  margin-top: 32px;
+  padding: 24px 16px;
+  background-color: #f4f5f6;
+}
+
+.headerSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.logo {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  align-self: center;
+  width: 80px;
+}
+
+.titleSection {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mainTitle {
+  color: #111622;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 24px;
+}
+
+.subtitle {
+  color: #626975;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.actionSection {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footerSection {
+  display: flex;
+  justify-content: center;
+}
+
+.footerLogo {
+  width: 83px;
+  margin-top: 24px;
+}

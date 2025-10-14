@@ -1,0 +1,16 @@
+.privacyContainer {
+  width: 100%;
+}
+
+.privacyText {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  color: #626975;
+  text-decoration-skip-ink: none;
+}
+
+.privacyLink {
+  text-decoration: underline;
+  color: #129958;
+}
