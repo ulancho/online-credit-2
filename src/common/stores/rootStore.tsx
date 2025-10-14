@@ -10,15 +10,15 @@ import { StartInfoService } from 'Modules/start/services/startInfoService.ts';
 
 class RootStore {
   readonly countryCodesStore = new CountryCodeService();
-  readonly startQueryParamsStore = new QueryParamsService();
-  readonly startStore = new StartInfoService(this.startQueryParamsStore);
-  readonly qrStore = new QrInfoService(this.startQueryParamsStore);
+  readonly queryParamsStore = new QueryParamsService();
+  readonly startStore = new StartInfoService(this.queryParamsStore);
+  readonly qrStore = new QrInfoService(this.queryParamsStore);
   readonly qrStatusStore = new QrStatusService(
     this.startStore,
-    this.startQueryParamsStore,
+    this.queryParamsStore,
     this.qrStore,
   );
-  readonly phoneAuthStore = new PhoneAuthService(this.startQueryParamsStore);
+  readonly phoneAuthStore = new PhoneAuthService(this.queryParamsStore);
 }
 
 const rootStore = new RootStore();
@@ -55,8 +55,8 @@ export function useQrStatusStore() {
   return useRootStore().qrStatusStore;
 }
 
-export function useStartQueryParamsStore() {
-  return useRootStore().startQueryParamsStore;
+export function useQueryParamsStore() {
+  return useRootStore().queryParamsStore;
 }
 
 export function usePhoneAuthStore() {
