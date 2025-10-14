@@ -6,8 +6,8 @@ import {
   type StartInfoResponse,
 } from '../api/startInfoApi.ts';
 
+import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import type { StartQueryParams } from 'Modules/start/hooks/useStartQueryParams.ts';
-import type { StartQueryParamsService } from 'Modules/start/services/startQueryParamsService.ts';
 
 interface StartInfoData {
   clientId: string;
@@ -28,7 +28,7 @@ export class StartInfoService {
   @observable private startInfoErrorMessage: string | null = null;
 
   constructor(
-    private readonly queryParamsService: StartQueryParamsService,
+    private readonly queryParamsService: QueryParamsService,
     private readonly startInfoFetcher: typeof fetchStartInfo = fetchStartInfo,
   ) {
     makeObservable(this);

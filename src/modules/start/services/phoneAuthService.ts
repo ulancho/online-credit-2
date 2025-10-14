@@ -9,7 +9,7 @@ import {
   type PhoneAuthStatusRequestPayload,
 } from '../api/phoneAuthApi.ts';
 
-import type { StartQueryParamsService } from './startQueryParamsService.ts';
+import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
 
 export class PhoneAuthService {
   @observable private isSendingPhoneAuth = false;
@@ -21,7 +21,7 @@ export class PhoneAuthService {
   private isFetchingStatus = false;
 
   constructor(
-    private readonly queryParamsService: StartQueryParamsService,
+    private readonly queryParamsService: QueryParamsService,
     private readonly phoneAuthRequester: typeof sendPhoneAuthRequest = sendPhoneAuthRequest,
     private readonly phoneAuthStatusFetcher: typeof fetchPhoneAuthStatus = fetchPhoneAuthStatus,
   ) {

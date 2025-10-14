@@ -1,16 +1,16 @@
 import { toJS } from 'mobx';
 import { createContext, useContext, type ReactNode } from 'react';
 
+import { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import { CountryCodeService } from 'Modules/start/services/countryCodeService.ts';
 import { PhoneAuthService } from 'Modules/start/services/phoneAuthService.ts';
 import { QrInfoService } from 'Modules/start/services/qrInfoService.ts';
 import { QrStatusService } from 'Modules/start/services/qrStatusService.ts';
 import { StartInfoService } from 'Modules/start/services/startInfoService.ts';
-import { StartQueryParamsService } from 'Modules/start/services/startQueryParamsService.ts';
 
 class RootStore {
   readonly countryCodesStore = new CountryCodeService();
-  readonly startQueryParamsStore = new StartQueryParamsService();
+  readonly startQueryParamsStore = new QueryParamsService();
   readonly startStore = new StartInfoService(this.startQueryParamsStore);
   readonly qrStore = new QrInfoService(this.startQueryParamsStore);
   readonly qrStatusStore = new QrStatusService(

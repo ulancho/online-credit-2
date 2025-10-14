@@ -7,8 +7,8 @@ import {
 } from '../api/qrStatusApi.ts';
 
 import type { StartInfoService } from './startInfoService.ts';
+import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import type { QrInfoService } from 'Modules/start/services/qrInfoService.ts';
-import type { StartQueryParamsService } from 'Modules/start/services/startQueryParamsService.ts';
 
 interface QrStatusData {
   id: string;
@@ -30,7 +30,7 @@ export class QrStatusService {
 
   constructor(
     private readonly startInfoService: StartInfoService,
-    private readonly queryParamsService: StartQueryParamsService,
+    private readonly queryParamsService: QueryParamsService,
     private readonly qrInfoService: QrInfoService,
     private readonly qrStatusFetcher: typeof fetchQrStatus = fetchQrStatus,
   ) {
