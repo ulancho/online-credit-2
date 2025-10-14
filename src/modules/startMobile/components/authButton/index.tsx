@@ -8,7 +8,7 @@ interface AuthButtonProps {
 function AuthButton({ onClick, children }: AuthButtonProps) {
   return (
     <button className={styles.authButton} onClick={onClick}>
-      <img src="src/assets/icons/mbank-logo-3.svg" alt="mbank-logo" />
+      <img src="/src/assets/icons/mbank-logo-3.svg" alt="mbank-logo" />
       <span className={styles.buttonLabel}>{children}</span>
     </button>
   );
