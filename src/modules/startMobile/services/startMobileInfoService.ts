@@ -64,9 +64,10 @@ export class StartMobileInfoService {
         this.data = transformedData;
       });
 
+      this.startMobileStatusService.startStatusPolling(transformedData.id);
+
       if (transformedData.deepLinkUrl) {
-        await this.startMobileStatusService.fetchStartMobileStatus(transformedData.id);
-        window.location.replace(transformedData.deepLinkUrl);
+        window.location.href = transformedData.deepLinkUrl;
       }
     } catch (error) {
       const message =

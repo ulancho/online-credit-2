@@ -2,7 +2,11 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 
 import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
-import { useStartMobileStore, useStartStore } from 'Common/stores/rootStore.tsx';
+import {
+  useStartMobileStatusStore,
+  useStartMobileStore,
+  useStartStore,
+} from 'Common/stores/rootStore.tsx';
 import AuthButton from 'Modules/startMobile/components/authButton';
 import PrivacyText from 'Modules/startMobile/components/privacyText';
 
@@ -12,6 +16,7 @@ const StartMobile = () => {
   const queryParams = useQueryParams();
   const startStore = useStartStore();
   const startMobileInfoStore = useStartMobileStore();
+  const startMobileStatusStore = useStartMobileStatusStore();
 
   const handleMBankLogin = () => {
     void startMobileInfoStore.fetchStartMobileInfo();
@@ -26,6 +31,31 @@ const StartMobile = () => {
       startStore.reset();
     };
   }, [queryParams, startStore]);
+
+  useEffect(() => {
+    return () => {
+      startMobileStatusStore.stopStatusPolling();
+    };
+  }, [startMobileStatusStore]);
+
+  const status = startMobileStatusStore.mobileStatus?.status;
+  const redirectUrl = startMobileStatusStore.mobileStatus?.redirectUrl;
+
+  useEffect(() => {
+    if (status !== 'CONFIRMED' || !redirectUrl) {
+      return;
+    }
+
+    startMobileStatusStore.stopStatusPolling();
+
+    const timeoutId = window.setTimeout(() => {
+      window.location.replace(redirectUrl);
+    }, 4000);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [redirectUrl, startMobileStatusStore, status]);
 
   return (
     <main className={styles.mobilePageWrapper}>

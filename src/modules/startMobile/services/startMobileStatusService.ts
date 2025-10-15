@@ -20,6 +20,7 @@ export class StartMobileStatusService {
   @observable.ref private statusData: StartMobileStatusData | null = null;
   @observable private isFetchingStatus = false;
   @observable private statusErrorMessage: string | null = null;
+  private pollingIntervalId: ReturnType<typeof setInterval> | null = null;
 
   constructor(
     private readonly queryParamsService: QueryParamsService,
@@ -30,6 +31,7 @@ export class StartMobileStatusService {
 
   @action
   reset() {
+    this.stopStatusPolling();
     this.statusData = null;
     this.isFetchingStatus = false;
     this.statusErrorMessage = null;
@@ -66,6 +68,25 @@ export class StartMobileStatusService {
       runInAction(() => {
         this.isFetchingStatus = false;
       });
+    }
+  }
+
+  @action
+  startStatusPolling(id: string) {
+    this.stopStatusPolling();
+
+    void this.fetchStartMobileStatus(id);
+
+    this.pollingIntervalId = setInterval(() => {
+      void this.fetchStartMobileStatus(id);
+    }, 1000);
+  }
+
+  @action
+  stopStatusPolling() {
+    if (this.pollingIntervalId !== null) {
+      clearInterval(this.pollingIntervalId);
+      this.pollingIntervalId = null;
     }
   }
 
