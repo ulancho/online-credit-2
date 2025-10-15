@@ -83,3 +83,22 @@
   width: 83px;
   margin-top: 24px;
 }
+
+.logoSkeleton {
+  display: flex;
+  justify-content: center;
+}
+
+.subtitleSkeleton {
+  margin: 0 auto;
+}
+
+.buttonSkeleton {
+  width: 100%;
+}
+
+.privacySkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

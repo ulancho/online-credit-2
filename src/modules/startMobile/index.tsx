@@ -1,5 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
+import 'react-loading-skeleton/dist/skeleton.css';
+
+import Skeleton from 'react-loading-skeleton';
 
 import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
 import {
@@ -17,6 +20,9 @@ const StartMobile = () => {
   const startStore = useStartStore();
   const startMobileInfoStore = useStartMobileStore();
   const startMobileStatusStore = useStartMobileStatusStore();
+  const shouldShowSkeleton = startStore.isLoadingStartInfo && !startStore.startInfo;
+  const clientName = startStore.startInfo?.clientName ?? '';
+  const logoUrl = startStore.startInfo?.logoUrl;
 
   const handleMBankLogin = () => {
     void startMobileInfoStore.fetchStartMobileInfo();
@@ -62,18 +68,36 @@ const StartMobile = () => {
       <div className={styles.authContainer}>
         <div className={styles.cardWrapper}>
           <header className={styles.headerSection}>
-            {startStore.startInfo?.logoUrl && (
-              <img src={startStore.startInfo.logoUrl} alt="partner-logo" className={styles.logo} />
+            {shouldShowSkeleton ? (
+              <Skeleton circle height={80} width={80} containerClassName={styles.logoSkeleton} />
+            ) : (
+              logoUrl && <img src={logoUrl} alt="partner-logo" className={styles.logo} />
             )}
             <div className={styles.titleSection}>
               <h1 className={styles.mainTitle}>Войти через MBANK ID</h1>
-              <p className={styles.subtitle}>{startStore.startInfo?.clientName}</p>
+              {shouldShowSkeleton ? (
+                <Skeleton height={22} width="60%" className={styles.subtitleSkeleton} />
+              ) : (
+                <p className={styles.subtitle}>{clientName}</p>
+              )}
             </div>
           </header>
 
           <section className={styles.actionSection}>
-            <AuthButton onClick={handleMBankLogin}>Перейти в MBANK</AuthButton>
-            <PrivacyText />
+            {shouldShowSkeleton ? (
+              <Skeleton height={56} borderRadius={12} className={styles.buttonSkeleton} />
+            ) : (
+              <AuthButton onClick={handleMBankLogin}>Перейти в MBANK</AuthButton>
+            )}
+            {shouldShowSkeleton ? (
+              <div className={styles.privacySkeleton}>
+                <Skeleton height={12} />
+                <Skeleton height={12} />
+                <Skeleton height={12} width="80%" />
+              </div>
+            ) : (
+              <PrivacyText />
+            )}
           </section>
 
           <footer className={styles.footerSection}>
