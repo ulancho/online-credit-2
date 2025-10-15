@@ -19,8 +19,8 @@ interface StartMobileData {
 
 export class StartMobileInfoService {
   @observable.ref private data: StartMobileData | null = null;
-  @observable private isFetchingStartMobile = false;
-  @observable private startMobileErrorMessage: string | null = null;
+  @observable private isFetching = false;
+  @observable private errorMessage: string | null = null;
 
   constructor(
     private readonly queryParamsService: QueryParamsService,
@@ -38,18 +38,18 @@ export class StartMobileInfoService {
   reset() {
     this.queryParamsService.reset();
     this.data = null;
-    this.isFetchingStartMobile = false;
-    this.startMobileErrorMessage = null;
+    this.isFetching = false;
+    this.errorMessage = null;
   }
 
   @action
   async fetchStartMobileInfo() {
-    if (this.isFetchingStartMobile) {
+    if (this.isFetching) {
       return;
     }
 
-    this.isFetchingStartMobile = true;
-    this.startMobileErrorMessage = null;
+    this.isFetching = true;
+    this.errorMessage = null;
 
     const payload = this.buildAuthorizationPayload(this.queryParamsService.queryParams);
 
@@ -71,11 +71,11 @@ export class StartMobileInfoService {
 
       runInAction(() => {
         this.data = null;
-        this.startMobileErrorMessage = message;
+        this.errorMessage = message;
       });
     } finally {
       runInAction(() => {
-        this.isFetchingStartMobile = false;
+        this.isFetching = false;
       });
     }
   }
@@ -87,12 +87,12 @@ export class StartMobileInfoService {
 
   @computed
   get isLoadingStartMobile() {
-    return this.isFetchingStartMobile;
+    return this.isFetching;
   }
 
   @computed
   get startMobileError() {
-    return this.startMobileErrorMessage;
+    return this.errorMessage;
   }
 
   private buildAuthorizationPayload(params: StartQueryParams): StartMobileRequestPayload {
