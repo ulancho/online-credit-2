@@ -19,6 +19,21 @@ export interface StartMobileResponse {
   expires_in: string;
 }
 
+export interface StartMobileStatusRequestPayload {
+  id: string;
+  state: string | null;
+  redirect_uri: string | null;
+  original_url: string | null;
+}
+
+export interface StartMobileStatusResponse {
+  id: string;
+  redirect_url: string | null;
+  deep_link_url: string | null;
+  status: string;
+  expires_in: string;
+}
+
 const startMobileClient = axios.create({
   baseURL:
     import.meta.env.VITE_API_BASE_URL ??
@@ -34,6 +49,17 @@ export async function fetchStartMobileAuthorization(
   payload: StartMobileRequestPayload,
 ): Promise<StartMobileResponse> {
   const { data } = await startMobileClient.post<StartMobileResponse>('/oauth/web/mobile', payload);
+
+  return data;
+}
+
+export async function fetchStartMobileStatus(
+  payload: StartMobileStatusRequestPayload,
+): Promise<StartMobileStatusResponse> {
+  const { data } = await startMobileClient.post<StartMobileStatusResponse>(
+    '/oauth/web/mobile/status',
+    payload,
+  );
 
   return data;
 }

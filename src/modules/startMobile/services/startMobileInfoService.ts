@@ -8,6 +8,7 @@ import {
 
 import type { StartQueryParams } from 'Common/hooks/useQueryParams.ts';
 import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
+import type { StartMobileStatusService } from 'Modules/startMobile/services/startMobileStatusService.ts';
 
 interface StartMobileData {
   id: string;
@@ -24,6 +25,7 @@ export class StartMobileInfoService {
 
   constructor(
     private readonly queryParamsService: QueryParamsService,
+    private readonly startMobileStatusService: StartMobileStatusService,
     private readonly startMobileFetcher: typeof fetchStartMobileAuthorization = fetchStartMobileAuthorization,
   ) {
     makeObservable(this);
@@ -40,6 +42,7 @@ export class StartMobileInfoService {
     this.data = null;
     this.isFetching = false;
     this.errorMessage = null;
+    this.startMobileStatusService.reset();
   }
 
   @action
@@ -55,13 +58,15 @@ export class StartMobileInfoService {
 
     try {
       const response = await this.startMobileFetcher(payload);
+      const transformedData = this.transformAuthorizationData(response);
 
       runInAction(() => {
-        this.data = this.transformAuthorizationData(response);
+        this.data = transformedData;
       });
 
-      if (this.data?.deepLinkUrl) {
-        window.location.replace(this.data?.deepLinkUrl);
+      if (transformedData.deepLinkUrl) {
+        await this.startMobileStatusService.fetchStartMobileStatus(transformedData.id);
+        window.location.replace(transformedData.deepLinkUrl);
       }
     } catch (error) {
       const message =
