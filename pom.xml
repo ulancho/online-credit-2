@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.st.unified.svc.biz.ib.cbk</groupId>
+        <artifactId>svc-biz-ib-cbk-bom</artifactId>
+        <version>2.1.2</version>
+    </parent>
+
+    <groupId>org.st.unified.svc.biz.ib.cbk.front</groupId>
+    <artifactId>svc-biz-ib-cbk-front-mbankid</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>unified :: svc :: biz :: ib :: cbk :: front :: mbankid</name>
+
+    <properties>
+        <projectName>${project.parent.artifactId}</projectName>
+        <projectVersion>1.0.7</projectVersion>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>gitlab-maven</id>
+            <url>https://gitlab.cbk.kg/api/v4/projects/86/packages/maven</url>
+        </repository>
+    </repositories>
+
+    <modules>
+        <module>web-chart</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
