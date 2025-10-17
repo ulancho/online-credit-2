@@ -24,4 +24,4 @@ revisionHistoryLimit: 5
 
 service:
   type: ClusterIP
-  nodePort: 30032
+  nodePort: 30112
