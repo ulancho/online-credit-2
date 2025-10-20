@@ -54,8 +54,6 @@ export const QrCodeSection = observer(function () {
     qrInstanceRef.current.update({ data: qrLink ?? '' });
   }, [qrLink, qrInstanceRef]);
 
-  console.log('qrLink: ', qrLink);
-
   const qrReady = Boolean(qrLink) && Boolean(qrInstanceRef.current);
 
   const timerLabel = useMemo(() => {

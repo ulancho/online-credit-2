@@ -17,9 +17,9 @@ function createDefaultQrInfo(): QrInfoData | null {
 }
 
 export class QrInfoService {
-  @observable.ref private qrInfoData: QrInfoData | null = createDefaultQrInfo();
-  @observable private isFetchingQrInfo = false;
-  @observable private qrInfoErrorMessage: string | null = null;
+  @observable.ref private data: QrInfoData | null = createDefaultQrInfo();
+  @observable private isFetching = false;
+  @observable private errorMessage: string | null = null;
 
   constructor(
     private readonly queryParamsService: QueryParamsService,
@@ -30,15 +30,15 @@ export class QrInfoService {
 
   @action
   reset() {
-    this.qrInfoData = createDefaultQrInfo();
-    this.isFetchingQrInfo = false;
-    this.qrInfoErrorMessage = null;
+    this.data = createDefaultQrInfo();
+    this.isFetching = false;
+    this.errorMessage = null;
   }
 
   @action
   async fetchQrInfo() {
-    this.isFetchingQrInfo = true;
-    this.qrInfoErrorMessage = null;
+    this.isFetching = true;
+    this.errorMessage = null;
 
     const payload = this.buildQrInfoPayload();
 
@@ -46,7 +46,7 @@ export class QrInfoService {
       const data = await this.qrInfoFetcher(payload);
 
       runInAction(() => {
-        this.qrInfoData = this.transformQrInfo(data);
+        this.data = this.transformQrInfo(data);
       });
     } catch (error) {
       const message =
@@ -59,8 +59,8 @@ export class QrInfoService {
       ).response;
 
       runInAction(() => {
-        this.qrInfoData = null;
-        this.qrInfoErrorMessage = message;
+        this.data = null;
+        this.errorMessage = message;
       });
 
       const redirectUri =
@@ -71,29 +71,29 @@ export class QrInfoService {
       }
     } finally {
       runInAction(() => {
-        this.isFetchingQrInfo = false;
+        this.isFetching = false;
       });
     }
   }
 
   @computed
   get qrInfo(): QrInfoData | null {
-    return this.qrInfoData ? { ...this.qrInfoData } : null;
+    return this.data ? { ...this.data } : null;
   }
 
   @computed
   get deeplinkUrl(): string | null {
-    return this.qrInfoData?.deeplinkUrl ?? null;
+    return this.data?.deeplinkUrl ?? null;
   }
 
   @computed
   get isLoading() {
-    return this.isFetchingQrInfo;
+    return this.isFetching;
   }
 
   @computed
   get error(): string | null {
-    return this.qrInfoErrorMessage;
+    return this.errorMessage;
   }
 
   private buildQrInfoPayload(): QrInfoRequestPayload {
