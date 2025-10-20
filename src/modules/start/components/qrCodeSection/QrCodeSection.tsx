@@ -31,6 +31,7 @@ export const QrCodeSection = observer(function () {
   const expiresIn = qrInfo?.expiresIn ?? null;
   const qrId = qrInfo?.id ?? null;
   const isLoading = qrStore.isLoading;
+  const qrError = qrStore.error;
   const qrStatus = qrStatusStore.status;
 
   const qrContainerRef = useRef<HTMLDivElement>(null);
@@ -58,11 +59,12 @@ export const QrCodeSection = observer(function () {
 
   const timerLabel = useMemo(() => {
     if (libraryError) return 'QR-код недоступен';
+    if (qrError) return qrError;
     if (isLoading && !qrLink) return 'Загрузка…';
     if (isLoading) return 'Обновление…';
     if (expired) return 'QR-код устарел';
     return `Истекает через ${formatTime(timeLeft)}`;
-  }, [libraryError, isLoading, qrLink, expired, timeLeft]);
+  }, [libraryError, qrError, isLoading, qrLink, expired, timeLeft]);
 
   const renderDefaultQrContent = () => (
     <>
@@ -70,11 +72,11 @@ export const QrCodeSection = observer(function () {
         <div ref={qrContainerRef} className={styles.qrCanvas} aria-hidden="true" />
         {!qrReady && (
           <div className={styles.qrPlaceholder}>
-            {libraryError ?? (isLoading ? 'Загрузка…' : 'QR-код появится здесь')}
+            {qrError ?? libraryError ?? (isLoading ? 'Загрузка…' : 'QR-код появится здесь')}
           </div>
         )}
       </div>
-      <div className={styles.timerSection}>
+      <div className={qrError ? styles.qrError : styles.timerSection}>
         <span className={styles.timerText}>{timerLabel}</span>
       </div>
     </>

@@ -49,14 +49,17 @@ export class QrInfoService {
         this.data = this.transformQrInfo(data);
       });
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Не удалось получить данные QR-кода.';
-
       const response = (
         error as {
           response?: { status?: number; data?: { redirect_uri?: string | null } };
         }
       ).response;
+
+      let message = error instanceof Error ? error.message : 'Не удалось получить данные QR-кода.';
+
+      if (response?.status === 500) {
+        message = 'Ошибка на сервере';
+      }
 
       runInAction(() => {
         this.data = null;

@@ -538,6 +538,8 @@
   }
 
   .qrCodeContainer {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     min-height: 296px;
     padding: 20px;
@@ -597,6 +599,13 @@
     .loaderText {
       margin-top: 45px;
     }
+  }
+
+  .qrError {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
