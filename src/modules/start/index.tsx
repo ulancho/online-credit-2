@@ -17,10 +17,18 @@ function Start() {
     startStore.setQueryParams(queryParams);
     qrStatusStore.reset();
 
-    void startStore.fetchStartInfo();
-    void qrStore.fetchQrInfo();
+    let isActive = true;
+
+    void (async () => {
+      const isStartInfoFetched = await startStore.fetchStartInfo();
+
+      if (isActive && isStartInfoFetched) {
+        await qrStore.fetchQrInfo();
+      }
+    })();
 
     return () => {
+      isActive = false;
       startStore.reset();
       qrStatusStore.reset();
     };

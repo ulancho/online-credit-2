@@ -48,7 +48,7 @@ export class StartInfoService {
   }
 
   @action
-  async fetchStartInfo() {
+  async fetchStartInfo(): Promise<boolean> {
     this.isFetchingStartInfo = true;
     this.startInfoErrorMessage = null;
 
@@ -60,6 +60,7 @@ export class StartInfoService {
       runInAction(() => {
         this.startInfoData = this.transformStartInfo(data);
       });
+      return true;
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Не удалось получить стартовую информацию.';
@@ -75,6 +76,7 @@ export class StartInfoService {
       if (redirectUri && status && status !== 200) {
         window.location.replace(redirectUri);
       }
+      return false;
     } finally {
       runInAction(() => {
         this.isFetchingStartInfo = false;
