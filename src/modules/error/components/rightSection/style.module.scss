@@ -1,0 +1,23 @@
+.rightSection {
+  border-radius: 16px;
+  min-width: 240px;
+  min-height: 498px;
+  padding: 42px 35px;
+  background-color: #f4f5f6;
+  display: flex;
+
+  .content {
+    width: 262px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .logo {
+    position: absolute;
+    bottom: 0;
+  }
+}
