@@ -1,0 +1,45 @@
+.leftSection {
+  width: 466px;
+  min-width: 240px;
+  min-height: 498px;
+  padding: 42px 20px;
+  background-color: #eff0f1;
+  border-radius: 16px;
+}
+
+@media (width <= 991px) {
+  .leftSection {
+    max-width: 100%;
+  }
+}
+
+.content {
+  width: 100%;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+
+  .title {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 100%;
+    color: #111622;
+  }
+
+  .subtitle {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 22px;
+    color: #111622;
+  }
+}
+
+@media (width <= 991px) {
+  .content {
+    max-width: 100%;
+  }
+}
