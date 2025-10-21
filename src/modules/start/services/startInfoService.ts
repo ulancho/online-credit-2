@@ -73,8 +73,12 @@ export class StartInfoService {
       const status = (error as { response?: { status?: number } }).response?.status;
       const redirectUri =
         this.startInfo?.redirectUri ?? this.queryParamsService.queryParamRedirectUri;
-      if (redirectUri && status && status !== 200) {
-        window.location.replace(redirectUri);
+      if (status && status !== 200) {
+        if (redirectUri) {
+          window.location.replace(redirectUri);
+        } else {
+          window.location.assign('/error');
+        }
       }
       return false;
     } finally {
