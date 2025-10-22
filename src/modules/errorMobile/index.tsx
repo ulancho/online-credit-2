@@ -1,6 +1,10 @@
 import styles from './styles/style.module.scss';
 
 const ErrorMobile = () => {
+  const handleReload = () => {
+    window.location.reload();
+  };
+
   return (
     <main className={styles.mobilePageWrapper}>
       <div className={styles.container}>
@@ -13,7 +17,7 @@ const ErrorMobile = () => {
             <img src="/src/assets/icons/error-mobile.svg" alt="error icon" />
           </div>
           <div className={styles.action}>
-            <button>
+            <button onClick={handleReload}>
               <img src="src/assets/icons/reload.svg" alt="reload icon" />
               <span>Попробовать еще раз</span>
             </button>
