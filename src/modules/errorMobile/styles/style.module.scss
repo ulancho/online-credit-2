@@ -1,0 +1,91 @@
+.mobilePageWrapper {
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #009c4d 0%, #007e8b 61.2%);
+  height: 100%;
+  margin: 0 auto;
+
+  header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  font-family:
+    'Nunito mbank',
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
+}
+
+@media (width <= 640px) {
+  .container {
+    max-width: 404px;
+  }
+}
+
+.cardWrapper {
+  border-radius: 16px;
+  width: calc(100% - 32px);
+  margin-top: 32px;
+  padding: 24px 16px;
+  background-color: #f4f5f6;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 24px;
+  color: #111622;
+}
+
+.subtitle {
+  font-size: 17px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #626975;
+}
+
+.errorIconContainer {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.action {
+  margin-top: 24px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 14px 0;
+
+    span {
+      font-weight: 700;
+      font-size: 17px;
+      line-height: 22px;
+      color: #129958;
+    }
+  }
+}
+
+.footerSection {
+  display: flex;
+  justify-content: center;
+}
+
+.footerLogo {
+  width: 83px;
+  margin-top: 24px;
+}

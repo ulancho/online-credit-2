@@ -23,6 +23,8 @@ const StartMobile = () => {
   const shouldShowSkeleton = startStore.isLoadingStartInfo && !startStore.startInfo;
   const clientName = startStore.startInfo?.clientName ?? '';
   const logoUrl = startStore.startInfo?.logoUrl;
+  const status = startMobileStatusStore.mobileStatus?.status;
+  const redirectUrl = startMobileStatusStore.mobileStatus?.redirectUrl;
 
   const handleMBankLogin = () => {
     void startMobileInfoStore.fetchStartMobileInfo();
@@ -31,7 +33,7 @@ const StartMobile = () => {
   useEffect(() => {
     startStore.setQueryParams(queryParams);
 
-    void startStore.fetchStartInfo();
+    void startStore.fetchStartInfo('mobile');
 
     return () => {
       startStore.reset();
@@ -43,9 +45,6 @@ const StartMobile = () => {
       startMobileStatusStore.stopStatusPolling();
     };
   }, [startMobileStatusStore]);
-
-  const status = startMobileStatusStore.mobileStatus?.status;
-  const redirectUrl = startMobileStatusStore.mobileStatus?.redirectUrl;
 
   useEffect(() => {
     if (status !== 'CONFIRMED' || !redirectUrl) {

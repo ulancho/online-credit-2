@@ -48,7 +48,7 @@ export class StartInfoService {
   }
 
   @action
-  async fetchStartInfo(): Promise<boolean> {
+  async fetchStartInfo(type = 'web'): Promise<boolean> {
     this.isFetchingStartInfo = true;
     this.startInfoErrorMessage = null;
 
@@ -77,7 +77,7 @@ export class StartInfoService {
         if (redirectUri) {
           window.location.replace(redirectUri);
         } else {
-          window.location.assign('/error');
+          window.location.assign(`/error-${type}`);
         }
       }
       return false;

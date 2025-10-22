@@ -1,6 +1,7 @@
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import Error from 'Modules/error';
+import ErrorMobile from 'Modules/errorMobile';
 import Start from 'Modules/start';
 import StartMobile from 'Modules/startMobile';
 
@@ -10,7 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Start />} />
         <Route path="/start-mobile" element={<StartMobile />} />
-        <Route path="/error" element={<Error />} />
+        <Route path="/error-web" element={<Error />} />
+        <Route path="/error-mobile" element={<ErrorMobile />} />
       </Routes>
     </BrowserRouter>
   );
