@@ -17,9 +17,9 @@ interface StartMobileStatusData {
 }
 
 export class StartMobileStatusService {
-  @observable.ref private statusData: StartMobileStatusData | null = null;
-  @observable private isFetchingStatus = false;
-  @observable private statusErrorMessage: string | null = null;
+  @observable.ref private data: StartMobileStatusData | null = null;
+  @observable private isFetching = false;
+  @observable private errorMessage: string | null = null;
   private pollingIntervalId: ReturnType<typeof setInterval> | null = null;
 
   constructor(
@@ -32,19 +32,19 @@ export class StartMobileStatusService {
   @action
   reset() {
     this.stopStatusPolling();
-    this.statusData = null;
-    this.isFetchingStatus = false;
-    this.statusErrorMessage = null;
+    this.data = null;
+    this.isFetching = false;
+    this.errorMessage = null;
   }
 
   @action
   async fetchStartMobileStatus(id: string) {
-    if (this.isFetchingStatus) {
+    if (this.isFetching) {
       return;
     }
 
-    this.isFetchingStatus = true;
-    this.statusErrorMessage = null;
+    this.isFetching = true;
+    this.errorMessage = null;
 
     const payload = this.buildStatusPayload(id);
 
@@ -52,7 +52,7 @@ export class StartMobileStatusService {
       const response = await this.startMobileStatusFetcher(payload);
 
       runInAction(() => {
-        this.statusData = this.transformStatusData(response);
+        this.data = this.transformStatusData(response);
       });
     } catch (error) {
       const message =
@@ -61,12 +61,12 @@ export class StartMobileStatusService {
           : 'Не удалось получить статус авторизации мобильного приложения.';
 
       runInAction(() => {
-        this.statusData = null;
-        this.statusErrorMessage = message;
+        this.data = null;
+        this.errorMessage = message;
       });
     } finally {
       runInAction(() => {
-        this.isFetchingStatus = false;
+        this.isFetching = false;
       });
     }
   }
@@ -92,17 +92,17 @@ export class StartMobileStatusService {
 
   @computed
   get mobileStatus(): StartMobileStatusData | null {
-    return this.statusData ? { ...this.statusData } : null;
+    return this.data ? { ...this.data } : null;
   }
 
   @computed
   get isLoadingStatus() {
-    return this.isFetchingStatus;
+    return this.isFetching;
   }
 
   @computed
   get mobileStatusError() {
-    return this.statusErrorMessage;
+    return this.errorMessage;
   }
 
   private buildStatusPayload(id: string): StartMobileStatusRequestPayload {
