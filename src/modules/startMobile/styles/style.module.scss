@@ -102,3 +102,17 @@
   flex-direction: column;
   gap: 4px;
 }
+
+.generatedContainer {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 65px;
+
+  h2 {
+    margin-bottom: 8px;
+  }
+
+  .loader {
+    margin-top: 30px;
+  }
+}
