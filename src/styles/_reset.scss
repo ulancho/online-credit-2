@@ -33,9 +33,3 @@ textarea {
   font: inherit;
   color: inherit;
 }
-
-@media (prefers-reduced-motion) {
-  .react-loading-skeleton {
-    --pseudo-element-display: block !important;
-  }
-}

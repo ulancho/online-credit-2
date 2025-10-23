@@ -85,7 +85,12 @@ const StartMobile = () => {
             {shouldShowSkeleton ? (
               <Skeleton height={56} borderRadius={12} className={styles.buttonSkeleton} />
             ) : (
-              <AuthButton onClick={handleMBankLogin}>Перейти в MBANK</AuthButton>
+              <AuthButton
+                onClick={handleMBankLogin}
+                isLoading={startMobileInfoStore.isLoadingStartMobile}
+              >
+                Перейти в MBANK
+              </AuthButton>
             )}
             {shouldShowSkeleton ? (
               <div className={styles.privacySkeleton}>

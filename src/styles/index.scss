@@ -1,3 +1,31 @@
 @use 'fonts';
 @use 'variables';
 @use 'reset';
+
+@media (prefers-reduced-motion) {
+  .react-loading-skeleton {
+    --pseudo-element-display: block !important;
+  }
+}
+
+.btn-loader {
+  width: 20px;
+  padding: 3px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff;
+
+  --m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+
+  mask: var(--m);
+  mask: var(--m);
+  mask-composite: source-out;
+  mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+  to {
+    transform: rotate(1turn);
+  }
+}

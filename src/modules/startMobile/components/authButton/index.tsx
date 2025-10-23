@@ -2,14 +2,21 @@ import styles from './style.module.css';
 
 interface AuthButtonProps {
   onClick?: () => void;
+  isLoading: boolean;
   children: React.ReactNode;
 }
 
-function AuthButton({ onClick, children }: AuthButtonProps) {
+function AuthButton({ onClick, isLoading, children }: AuthButtonProps) {
   return (
     <button className={styles.authButton} onClick={onClick}>
-      <img src="/src/assets/icons/mbank-logo-3.svg" alt="mbank-logo" />
-      <span className={styles.buttonLabel}>{children}</span>
+      {isLoading ? (
+        <div className="btn-loader"></div>
+      ) : (
+        <>
+          <img src="/src/assets/icons/mbank-logo-3.svg" alt="mbank-logo" />
+          <span className={styles.buttonLabel}>{children}</span>
+        </>
+      )}
     </button>
   );
 }
