@@ -1,0 +1,17 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  padding: 17px 0;
+
+  span {
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 22px;
+    color: #129958;
+  }
+}
