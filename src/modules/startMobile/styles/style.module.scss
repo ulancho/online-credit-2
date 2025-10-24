@@ -116,3 +116,34 @@
     margin-top: 30px;
   }
 }
+
+.confirmedContainer {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 65px;
+
+  h2 {
+    margin-bottom: 8px;
+  }
+
+  img {
+    margin-top: 30px;
+  }
+}
+
+.deniedContainer {
+  text-align: center;
+  margin-top: 20px;
+
+  h2 {
+    margin-bottom: 8px;
+  }
+
+  .deniedLogo {
+    margin-top: 8px;
+  }
+
+  .deniedBtn {
+    margin-top: 24px;
+  }
+}

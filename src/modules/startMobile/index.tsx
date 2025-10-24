@@ -4,6 +4,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import { Loader } from 'Common/components/loader';
+import ReloadButton from 'Common/components/reloadButton';
 import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
 import {
   useStartMobileStatusStore,
@@ -24,11 +25,14 @@ const StartMobile = () => {
   const clientName = startStore.startInfo?.clientName ?? '';
   const logoUrl = startStore.startInfo?.logoUrl;
   const status = startMobileStatusStore.mobileStatus?.status;
+  // const status = 'DENIED';
   const redirectUrl = startMobileStatusStore.mobileStatus?.redirectUrl;
 
   const handleMBankLogin = () => {
     void startMobileInfoStore.fetchStartMobileInfo();
   };
+
+  const handleReload = () => {};
 
   useEffect(() => {
     startStore.setQueryParams(queryParams);
@@ -99,6 +103,29 @@ const StartMobile = () => {
             </h2>
             <p className={styles.subtitle}>Это займёт всего несколько секунд</p>
             <Loader classes={styles.loader} />
+          </div>
+        );
+      case 'CONFIRMED':
+        return (
+          <div className={styles.confirmedContainer}>
+            <h2 className={styles.mainTitle}>
+              Вы успешно вошли через <br /> MBank ID
+            </h2>
+            <p className={styles.subtitle}>Сейчас перенаправим вас в сервис..</p>
+            <img src="src/assets/icons/confirmed.svg" alt="confirmed" />
+          </div>
+        );
+      case 'DENIED':
+        return (
+          <div className={styles.deniedContainer}>
+            <h2 className={styles.mainTitle}>Доступ отклонён</h2>
+            <p className={styles.subtitle}>Если это было случайно — попробуйте войти снова.</p>
+            <img
+              src="src/assets/icons/denied-mobile.svg"
+              alt="denied"
+              className={styles.deniedLogo}
+            />
+            <ReloadButton onClick={handleReload} className={styles.deniedBtn} />
           </div>
         );
       default:
