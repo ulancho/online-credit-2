@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/oauth2/v1/api/auth" element={<Start />} />
+        <Route path="/oauth2/auth" element={<Start />} />
         <Route path="/start-mobile" element={<StartMobile />} />
         <Route path="/error-web" element={<Error />} />
         <Route path="/error-mobile" element={<ErrorMobile />} />
