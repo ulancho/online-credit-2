@@ -8,4 +8,6 @@ configure({
   enforceActions: 'observed',
 });
 
+console.log('MBankID version:', __PROJECT_VERSION__);
+
 createRoot(document.getElementById('root')!).render(<AppWrapper />);
