@@ -25,7 +25,7 @@ export interface StartInfoResponse {
 }
 
 const startInfoClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'https://mbank-idtest.cbk.kg/oauth2/v1',
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'https://mbank-idtest.cbk.kg/oauth2/v1/api',
   headers: {
     accept: 'application/json',
     'Content-Type': 'application/json',
