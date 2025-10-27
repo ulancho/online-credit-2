@@ -23,7 +23,7 @@ function readProjectVersion(): string {
 const projectVersion = readProjectVersion();
 
 export default defineConfig({
-  base: './',
+  base: '/',
   plugins: [react()],
   define: {
     __PROJECT_VERSION__: JSON.stringify(projectVersion),
