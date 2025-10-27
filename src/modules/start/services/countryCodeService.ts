@@ -4,6 +4,22 @@ import { type DirectoryItem, fetchCountryCodes } from 'Modules/start/api/directo
 
 export const DEFAULT_PHONE_DIGITS_LENGTH = 12;
 
+const COUNTRY_FLAG_IMAGES = Object.entries(
+  import.meta.glob<string>('Assets/icons/countries/*.png', {
+    eager: true,
+    import: 'default',
+  }),
+).reduce<Record<string, string>>((acc, [path, url]) => {
+  const fileName = path.split('/').pop();
+  if (!fileName) {
+    return acc;
+  }
+
+  const countryCode = fileName.replace(/\.png$/i, '').toUpperCase();
+  acc[countryCode] = url;
+  return acc;
+}, {});
+
 export interface CountryCode {
   id: string;
   isoCode: string;
@@ -104,14 +120,15 @@ export class CountryCodeService {
   }
 
   private mapToCountryCode(item: DirectoryItem): CountryCode {
-    const isoCode = item.paramList?.code ?? item.itemCode;
+    const itemCode = item.itemCode ?? '';
+    const isoCode = item.paramList?.code ?? itemCode;
     const phoneCode = item.paramList?.phone_code ?? '';
     const mask = item.paramList?.phone_mask;
     const digitsCount = mask ? mask.replace(/[^X]/g, '').length : 0;
-    const flagPath = '/src/assets/icons/countries/' + item.itemCode + '.png';
+    const flagPath = COUNTRY_FLAG_IMAGES[itemCode.toUpperCase()];
 
     return {
-      id: item.itemCode,
+      id: itemCode,
       isoCode,
       country: item.localizedName ?? item.name,
       code: phoneCode ? `+${phoneCode}` : '',

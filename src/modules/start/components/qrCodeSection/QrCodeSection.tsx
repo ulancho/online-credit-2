@@ -1,8 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useRef } from 'react';
 
+import confirmedIconUrl from 'Assets/icons/confirmed.svg';
+import deniedIconUrl from 'Assets/icons/denied.svg';
 import mbankLogoUrl from 'Assets/icons/mbank-logo-2.svg';
 import qrLogoSvg from 'Assets/icons/mbank-logo.svg?raw';
+import refreshIconUrl from 'Assets/icons/refresh.svg';
 import { useQrStatusStore, useQrStore } from 'Common/stores/rootStore.tsx';
 import {
   useCountdown,
@@ -92,11 +95,7 @@ export const QrCodeSection = observer(function () {
           className: `${baseClassName} ${styles.qrCodeContainerStatus}`,
           content: (
             <div className={styles.qrConfirmedContainer}>
-              <img
-                src="/src/assets/icons/confirmed.svg"
-                alt="Confirmed"
-                className={styles.confirmedIcon}
-              />
+              <img src={confirmedIconUrl} alt="confirmed" className={styles.confirmedIcon} />
               <p className={styles.confirmedText}>Вход одобрен</p>
             </div>
           ),
@@ -116,14 +115,10 @@ export const QrCodeSection = observer(function () {
           className: `${baseClassName} ${styles.qrCodeContainerStatus}`,
           content: (
             <>
-              <img src="/src/assets/icons/denied.svg" alt="Denied" className={styles.deniedIcon} />
+              <img src={deniedIconUrl} alt="denied" className={styles.deniedIcon} />
               <p className={styles.deniedTitle}>Вход отклонен</p>
               <button className={styles.refreshButton}>
-                <img
-                  src="/src/assets/icons/refresh.svg"
-                  alt="Refresh"
-                  className={styles.refreshIcon}
-                />
+                <img src={refreshIconUrl} alt="refresh" className={styles.refreshIcon} />
                 <span>Попробовать еще раз</span>
               </button>
             </>
@@ -158,7 +153,7 @@ export const QrCodeSection = observer(function () {
           </h2>
         </header>
         <div className={qrCodeContainerClassName}>{qrCodeContent}</div>
-        <img src={mbankLogoUrl} alt="MBANK Logo" className={styles.mbankLogo} />
+        <img src={mbankLogoUrl} alt="mbank" className={styles.mbankLogo} />
       </div>
     </section>
   );

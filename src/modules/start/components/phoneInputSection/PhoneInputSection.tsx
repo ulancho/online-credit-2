@@ -1,6 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import backIconUrl from 'Assets/icons/back.svg';
+import confirmedIconUrl from 'Assets/icons/confirmed.svg';
+import deniedIconUrl from 'Assets/icons/denied.svg';
 import {
   useCountryCodesStore,
   usePhoneAuthStore,
@@ -194,11 +197,7 @@ export const PhoneInputSection = observer(function () {
       case 'CONFIRMED':
         return (
           <div className={styles.confirmedStatusContainer}>
-            <img
-              src="/src/assets/icons/confirmed.svg"
-              alt="Confirmed"
-              className={styles.confirmedIcon}
-            />
+            <img src={confirmedIconUrl} alt="confirmed" className={styles.confirmedIcon} />
             <p className={styles.confirmedTitle}>Вход одобрен</p>
             <p className={styles.confirmedSubTitle}>
               Мы перенаправим вас на сайт Ticket.kg <br /> — это займёт всего пару секунд.
@@ -217,7 +216,7 @@ export const PhoneInputSection = observer(function () {
             )}
             <div className={styles.boundActions}>
               <button type="button" className={styles.boundBackButton} onClick={handleBack}>
-                <img src="/src/assets/icons/back.svg" alt="back icon" />
+                <img src={backIconUrl} alt="back" />
                 <span>Вернуться</span>
               </button>
               <button type="button" className={styles.boundHelpButton} onClick={handleBack}>
@@ -229,17 +228,13 @@ export const PhoneInputSection = observer(function () {
       case 'DENIED':
         return (
           <div className={styles.phoneDeniedStatusContainer}>
-            <img
-              src="/src/assets/icons/denied.svg"
-              alt="Denied"
-              className={styles.phoneDeniedIcon}
-            />
+            <img src={deniedIconUrl} alt="denied" className={styles.phoneDeniedIcon} />
             <p className={styles.deniedTitle}>Вход отклонен</p>
             <p className={styles.deniedSubTitle}>
               Разрешение не было <br /> предоставлено, попробуйте еще раз
             </p>
             <button type="button" className={styles.boundBackButton} onClick={handleBack}>
-              <img src="/src/assets/icons/back.svg" alt="back icon" />
+              <img src={backIconUrl} alt="back" />
               <span>Вернуться</span>
             </button>
           </div>
@@ -257,7 +252,7 @@ export const PhoneInputSection = observer(function () {
             {startStore.startInfo?.logoUrl && (
               <img
                 src={startStore.startInfo.logoUrl}
-                alt="Partner logo"
+                alt="partner-logo"
                 className={styles.logoImage}
               />
             )}

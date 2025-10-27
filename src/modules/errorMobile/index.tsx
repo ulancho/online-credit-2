@@ -1,3 +1,7 @@
+import errorIconUrl from 'Assets/icons/error-mobile.svg';
+import mbankLogoUrl from 'Assets/icons/mbank-logo-2.svg';
+import reloadIconUrl from 'Assets/icons/reload.svg';
+
 import styles from './styles/style.module.scss';
 
 const ErrorMobile = () => {
@@ -14,20 +18,16 @@ const ErrorMobile = () => {
             <p className={styles.subtitle}>Попробуйте ещё раз позже</p>
           </header>
           <div className={styles.errorIconContainer}>
-            <img src="/src/assets/icons/error-mobile.svg" alt="error icon" />
+            <img src={errorIconUrl} alt="error-icon" />
           </div>
           <div className={styles.action}>
             <button onClick={handleReload}>
-              <img src="src/assets/icons/reload.svg" alt="reload icon" />
+              <img src={reloadIconUrl} alt="reload-icon" />
               <span>Попробовать еще раз</span>
             </button>
           </div>
           <footer className={styles.footerSection}>
-            <img
-              src="/src/assets/icons/mbank-logo-2.svg"
-              alt="mbank-logo"
-              className={styles.footerLogo}
-            />
+            <img src={mbankLogoUrl} alt="mbank-logo" className={styles.footerLogo} />
           </footer>
         </div>
       </div>

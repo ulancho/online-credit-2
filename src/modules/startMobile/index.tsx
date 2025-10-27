@@ -3,6 +3,9 @@ import { useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
+import confirmedIconUrl from 'Assets/icons/confirmed.svg';
+import deniedMobileIconUrl from 'Assets/icons/denied-mobile.svg';
+import mbankLogoUrl from 'Assets/icons/mbank-logo-2.svg';
 import { Loader } from 'Common/components/loader';
 import ReloadButton from 'Common/components/reloadButton';
 import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
@@ -112,7 +115,7 @@ const StartMobile = () => {
               Вы успешно вошли через <br /> MBank ID
             </h2>
             <p className={styles.subtitle}>Сейчас перенаправим вас в сервис..</p>
-            <img src="src/assets/icons/confirmed.svg" alt="confirmed" />
+            <img src={confirmedIconUrl} alt="confirmed" />
           </div>
         );
       case 'DENIED':
@@ -120,11 +123,7 @@ const StartMobile = () => {
           <div className={styles.deniedContainer}>
             <h2 className={styles.mainTitle}>Доступ отклонён</h2>
             <p className={styles.subtitle}>Если это было случайно — попробуйте войти снова.</p>
-            <img
-              src="src/assets/icons/denied-mobile.svg"
-              alt="denied"
-              className={styles.deniedLogo}
-            />
+            <img src={deniedMobileIconUrl} alt="denied" className={styles.deniedLogo} />
             <ReloadButton onClick={handleReload} className={styles.deniedBtn} />
           </div>
         );
@@ -132,8 +131,6 @@ const StartMobile = () => {
         return renderDefaultContent();
     }
   };
-
-  console.log('status: ', status);
 
   return (
     <main className={styles.mobilePageWrapper}>
@@ -158,11 +155,7 @@ const StartMobile = () => {
           </header>
           {renderContainerContent()}
           <footer className={styles.footerSection}>
-            <img
-              src="/src/assets/icons/mbank-logo-2.svg"
-              alt="mbank-logo"
-              className={styles.footerLogo}
-            />
+            <img src={mbankLogoUrl} alt="mbank-logo" className={styles.footerLogo} />
           </footer>
         </div>
       </div>

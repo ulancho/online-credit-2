@@ -1,3 +1,5 @@
+import mbankLogoUrl from 'Assets/icons/mbank-logo-3.svg';
+
 import styles from './style.module.css';
 
 interface AuthButtonProps {
@@ -13,7 +15,7 @@ function AuthButton({ onClick, isLoading, children }: AuthButtonProps) {
         <div className="btn-loader"></div>
       ) : (
         <>
-          <img src="/src/assets/icons/mbank-logo-3.svg" alt="mbank-logo" />
+          <img src={mbankLogoUrl} alt="mbank-logo" />
           <span className={styles.buttonLabel}>{children}</span>
         </>
       )}

@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 
+import reloadIconUrl from 'Assets/icons/reload.svg';
+
 import styles from './style.module.scss';
 
 type ButtonProps = {
@@ -22,7 +24,7 @@ const ReloadButton: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
     >
-      <img src="src/assets/icons/reload.svg" alt="reload" />
+      <img src={reloadIconUrl} alt="reload" />
       <span>Попробовать еще раз</span>
     </button>
   );
