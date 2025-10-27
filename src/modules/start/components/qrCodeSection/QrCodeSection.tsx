@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useRef } from 'react';
 
+import mbankLogoUrl from 'Assets/icons/mbank-logo-2.svg';
 import qrLogoSvg from 'Assets/icons/mbank-logo.svg?raw';
 import { useQrStatusStore, useQrStore } from 'Common/stores/rootStore.tsx';
 import {
@@ -157,11 +158,7 @@ export const QrCodeSection = observer(function () {
           </h2>
         </header>
         <div className={qrCodeContainerClassName}>{qrCodeContent}</div>
-        <img
-          src="/src/assets/icons/mbank-logo-2.svg"
-          alt="MBANK Logo"
-          className={styles.mbankLogo}
-        />
+        <img src={mbankLogoUrl} alt="MBANK Logo" className={styles.mbankLogo} />
       </div>
     </section>
   );
