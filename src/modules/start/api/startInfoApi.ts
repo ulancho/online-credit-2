@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { httpClient } from 'Common/api/httpClient.ts';
 
 export interface StartInfoRequestPayload {
   scope: string | null;
@@ -24,17 +24,7 @@ export interface StartInfoResponse {
   state: string;
 }
 
-const startInfoClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'https://mbank-idtest.cbk.kg/oauth2/v1/api',
-  headers: {
-    accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  timeout: 20000,
-});
-
 export async function fetchStartInfo(payload: StartInfoRequestPayload) {
-  const { data } = await startInfoClient.post<StartInfoResponse>('/oauth/web/info', payload);
-
+  const { data } = await httpClient.post<StartInfoResponse>('/oauth/web/info', payload);
   return data;
 }

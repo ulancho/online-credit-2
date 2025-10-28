@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { httpClient } from 'Common/api/httpClient.ts';
 
 export interface QrStatusRequestPayload {
   id: string;
@@ -15,19 +15,8 @@ export interface QrStatusResponse {
   expires_in: string;
 }
 
-const qrStatusClient = axios.create({
-  baseURL:
-    import.meta.env.VITE_API_BASE_URL ??
-    'https://preprodib.mbank.kg/svc-biz-ib-cbk-mbank-id-auth/v1/api',
-  headers: {
-    accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  timeout: 10000,
-});
-
 export async function fetchQrStatus(payload: QrStatusRequestPayload) {
-  const { data } = await qrStatusClient.post<QrStatusResponse>('/oauth/web/qr/status', payload);
+  const { data } = await httpClient.post<QrStatusResponse>('/oauth/web/qr/status', payload);
 
   return data;
 }

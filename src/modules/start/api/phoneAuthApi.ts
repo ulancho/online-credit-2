@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { httpClient } from 'Common/api/httpClient.ts';
 
 export interface PhoneAuthRequestPayload {
   scope: string | null;
@@ -26,28 +26,17 @@ export interface PhoneAuthStatusRequestPayload {
   original_url: string | null;
 }
 
-const phoneAuthClient = axios.create({
-  baseURL:
-    import.meta.env.VITE_API_BASE_URL ??
-    'https://preprodib.mbank.kg/svc-biz-ib-cbk-mbank-id-auth/v1/api',
-  headers: {
-    accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  timeout: 10000,
-});
-
 export async function sendPhoneAuthRequest(
   payload: PhoneAuthRequestPayload,
 ): Promise<PhoneAuthResponse> {
-  const { data } = await phoneAuthClient.post<PhoneAuthResponse>('/oauth/web/push', payload);
+  const { data } = await httpClient.post<PhoneAuthResponse>('/oauth/web/push', payload);
   return data;
 }
 
 export async function fetchPhoneAuthStatus(
   payload: PhoneAuthStatusRequestPayload,
 ): Promise<PhoneAuthResponse> {
-  const { data } = await phoneAuthClient.post<PhoneAuthResponse>('/oauth/web/push/status', payload);
+  const { data } = await httpClient.post<PhoneAuthResponse>('/oauth/web/push/status', payload);
 
   return data;
 }

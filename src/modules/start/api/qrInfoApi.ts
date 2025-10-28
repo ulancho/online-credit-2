@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { httpClient } from 'Common/api/httpClient.ts';
 
 export interface QrInfoRequestPayload {
   scope: string | null;
@@ -19,19 +19,8 @@ export interface QrInfoResponse {
   expires_in: string;
 }
 
-const qrInfoClient = axios.create({
-  baseURL:
-    import.meta.env.VITE_API_BASE_URL ??
-    'https://preprodib.mbank.kg/svc-biz-ib-cbk-mbank-id-auth/v1/api',
-  headers: {
-    accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  timeout: 10000,
-});
-
 export async function fetchQrInfo(payload: QrInfoRequestPayload) {
-  const { data } = await qrInfoClient.post<QrInfoResponse>('/oauth/web/qr', payload);
+  const { data } = await httpClient.post<QrInfoResponse>('/oauth/web/qr', payload);
 
   return data;
 }
