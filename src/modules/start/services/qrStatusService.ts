@@ -16,6 +16,7 @@ interface QrStatusData {
   redirectUrl: string;
   status: string;
   expiresIn: string;
+  expirationSeconds: number;
 }
 
 function createDefaultQrStatus(): QrStatusData | null {
@@ -23,9 +24,9 @@ function createDefaultQrStatus(): QrStatusData | null {
 }
 
 export class QrStatusService {
-  @observable.ref private qrStatusData: QrStatusData | null = createDefaultQrStatus();
-  @observable private isFetchingQrStatus = false;
-  @observable private qrStatusErrorMessage: string | null = null;
+  @observable.ref private data: QrStatusData | null = createDefaultQrStatus();
+  @observable private isFetching = false;
+  @observable private errorMessage: string | null = null;
   private isRefreshingQrInfo = false;
 
   constructor(
@@ -39,9 +40,9 @@ export class QrStatusService {
 
   @action
   reset() {
-    this.qrStatusData = createDefaultQrStatus();
-    this.isFetchingQrStatus = false;
-    this.qrStatusErrorMessage = null;
+    this.data = createDefaultQrStatus();
+    this.isFetching = false;
+    this.errorMessage = null;
   }
 
   @action
@@ -50,8 +51,8 @@ export class QrStatusService {
       return;
     }
 
-    this.isFetchingQrStatus = true;
-    this.qrStatusErrorMessage = null;
+    this.isFetching = true;
+    this.errorMessage = null;
 
     const payload = this.buildQrStatusPayload(id);
 
@@ -59,7 +60,7 @@ export class QrStatusService {
       const data = await this.qrStatusFetcher(payload);
 
       runInAction(() => {
-        this.qrStatusData = this.transformQrStatus(data);
+        this.data = this.transformQrStatus(data);
       });
       if (data.status === 'EXPIRED') {
         await this.handleExpiredStatus();
@@ -69,8 +70,8 @@ export class QrStatusService {
         error instanceof Error ? error.message : 'Не удалось получить статус QR-кода.';
 
       runInAction(() => {
-        this.qrStatusData = null;
-        this.qrStatusErrorMessage = message;
+        this.data = null;
+        this.errorMessage = message;
       });
 
       const status = (error as { response?: { status?: number } }).response?.status;
@@ -83,29 +84,29 @@ export class QrStatusService {
       }
     } finally {
       runInAction(() => {
-        this.isFetchingQrStatus = false;
+        this.isFetching = false;
       });
     }
   }
 
   @computed
   get qrStatus(): QrStatusData | null {
-    return this.qrStatusData ? { ...this.qrStatusData } : null;
+    return this.data ? { ...this.data } : null;
   }
 
   @computed
   get status(): string | null {
-    return this.qrStatusData?.status ?? null;
+    return this.data?.status ?? null;
   }
 
   @computed
   get isLoading() {
-    return this.isFetchingQrStatus;
+    return this.isFetching;
   }
 
   @computed
   get error(): string | null {
-    return this.qrStatusErrorMessage;
+    return this.errorMessage;
   }
 
   private buildQrStatusPayload(id: string): QrStatusRequestPayload {
@@ -125,6 +126,7 @@ export class QrStatusService {
       redirectUrl: data.redirect_url,
       status: data.status,
       expiresIn: data.expires_in,
+      expirationSeconds: data.expiration_seconds,
     };
   }
 

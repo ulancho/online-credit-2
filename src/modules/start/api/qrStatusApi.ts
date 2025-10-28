@@ -13,6 +13,7 @@ export interface QrStatusResponse {
   redirect_url: string;
   status: string;
   expires_in: string;
+  expiration_seconds: number;
 }
 
 export async function fetchQrStatus(payload: QrStatusRequestPayload) {
