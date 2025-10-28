@@ -17,6 +17,7 @@ export interface PhoneAuthResponse {
   redirect_url?: string | null;
   status: string;
   expires_in: string;
+  expiration_seconds: number;
 }
 
 export interface PhoneAuthStatusRequestPayload {

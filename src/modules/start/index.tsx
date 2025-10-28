@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 
 import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
 import { useQrStatusStore, useQrStore, useStartStore } from 'Common/stores/rootStore.tsx';
+import { PhoneInputSection } from 'Modules/start/components/phoneInputSection/PhoneInputSection.tsx';
+import { QrCodeSection } from 'Modules/start/components/qrCodeSection/QrCodeSection.tsx';
 
-import { PhoneInputSection } from './components/phoneInputSection/PhoneInputSection.tsx';
-import { QrCodeSection } from './components/qrCodeSection/QrCodeSection.tsx';
 import styles from './styles/index.module.scss';
 
 function Start() {

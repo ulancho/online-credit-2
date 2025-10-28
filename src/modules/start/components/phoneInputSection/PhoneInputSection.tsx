@@ -1,27 +1,24 @@
 import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import backIconUrl from 'Assets/icons/back.svg';
 import confirmedIconUrl from 'Assets/icons/confirmed.svg';
 import deniedIconUrl from 'Assets/icons/denied.svg';
+import sadIconUrl from 'Assets/icons/sad.svg';
+import BackButton from 'Common/components/backButton';
+import { Loader } from 'Common/components/loader';
 import {
   useCountryCodesStore,
   usePhoneAuthStore,
   useStartStore,
 } from 'Common/stores/rootStore.tsx';
-import { useBoundCountdown } from 'Modules/start/components/phoneInputSection/hooks/useBoundCountdown.ts';
+import { formatMMSS, getTargetMs } from 'Common/utils/time.ts';
 import {
-  DEFAULT_PHONE_DIGITS_LENGTH,
   type CountryCode,
+  DEFAULT_PHONE_DIGITS_LENGTH,
 } from 'Modules/start/services/countryCodeService.ts';
 import styles from 'Modules/start/styles/index.module.scss';
 
 import { CountryDropdown } from './CountryDropdown';
-
-const INITIAL_BOUND_TIME = 113;
-const pad2 = (n: number) => n.toString().padStart(2, '0');
-const formatTime = (s: number) =>
-  `${pad2(Math.floor(Math.max(0, s) / 60))}:${pad2(Math.max(0, s) % 60)}`;
 
 export const PhoneInputSection = observer(function () {
   const countryCodesStore = useCountryCodesStore();
@@ -33,6 +30,7 @@ export const PhoneInputSection = observer(function () {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
 
   const selectedCountry = useMemo<CountryCode | null>(
     () => countryCodes.find((c) => c.id === selectedId) ?? null,
@@ -47,13 +45,39 @@ export const PhoneInputSection = observer(function () {
   const phoneAuthResponse = phoneAuthStore.response;
   const phoneAuthStatus = phoneAuthResponse?.status ?? null;
   const isBoundStatus = phoneAuthStatus === 'BOUND';
-  const expiresIn = phoneAuthResponse?.expires_in ?? null;
+  const expiresIn = phoneAuthResponse?.expires_in;
 
-  const boundTimeLeft = useBoundCountdown(isBoundStatus, expiresIn, INITIAL_BOUND_TIME);
-  const boundTimerLabel = useMemo(
-    () => (isBoundStatus ? `Истекает через ${formatTime(boundTimeLeft)}` : null),
-    [boundTimeLeft, isBoundStatus],
-  );
+  useEffect(() => {
+    console.log('start');
+    if (!isBoundStatus || !expiresIn) {
+      setSecondsLeft(null);
+      return;
+    }
+
+    const targetMs = getTargetMs(expiresIn);
+    if (targetMs == null) {
+      setSecondsLeft(0);
+      return;
+    }
+
+    const calc = () => Math.max(0, Math.floor((targetMs - Date.now()) / 1000));
+
+    // первичный расчёт сразу
+    setSecondsLeft(calc());
+
+    const id = window.setInterval(() => {
+      setSecondsLeft((prev) => {
+        const next = calc();
+        if (next === 0) {
+          window.clearInterval(id);
+        }
+        // возвращаем next (а не prev), чтобы не зависеть от устаревшего состояния
+        return next;
+      });
+    }, 1000);
+
+    return () => window.clearInterval(id);
+  }, [isBoundStatus, expiresIn]);
 
   useEffect(() => {
     void countryCodesStore.fetchCountryCodes();
@@ -70,7 +94,8 @@ export const PhoneInputSection = observer(function () {
     });
   }, [countryCodes]);
 
-  /* Handlers */
+  const boundTimerLabel = secondsLeft != null ? `Истекает через ${formatMMSS(secondsLeft)}` : null;
+
   const handleCountrySelect = useCallback(
     (country: CountryCode) => {
       setSelectedId(country.id);
@@ -105,7 +130,6 @@ export const PhoneInputSection = observer(function () {
     phoneAuthStore.resetStatus();
   };
 
-  /* Views */
   const renderDefaultContent = () => (
     <form onSubmit={handleSubmit}>
       <div className={styles.inputContainer}>
@@ -193,7 +217,8 @@ export const PhoneInputSection = observer(function () {
   );
 
   const renderContainerContent = () => {
-    switch (phoneAuthStatus) {
+    // switch (phoneAuthStatus) {
+    switch ('EXPIRED') {
       case 'CONFIRMED':
         return (
           <div className={styles.confirmedStatusContainer}>
@@ -207,7 +232,7 @@ export const PhoneInputSection = observer(function () {
       case 'BOUND':
         return (
           <div className={styles.boundStatusContainer}>
-            <span className={styles.loader} aria-label="Ожидание подтверждения входа" />
+            <Loader classes={styles.loader} />
             <p className={styles.loaderText}>Ждем подтверждения входа</p>
             {boundTimerLabel && (
               <div className={styles.boundTimerSection}>
@@ -215,10 +240,7 @@ export const PhoneInputSection = observer(function () {
               </div>
             )}
             <div className={styles.boundActions}>
-              <button type="button" className={styles.boundBackButton} onClick={handleBack}>
-                <img src={backIconUrl} alt="back" />
-                <span>Вернуться</span>
-              </button>
+              <BackButton type="button" onClick={handleBack} />
               <button type="button" className={styles.boundHelpButton} onClick={handleBack}>
                 Я не получил(-а) уведомление
               </button>
@@ -233,10 +255,18 @@ export const PhoneInputSection = observer(function () {
             <p className={styles.deniedSubTitle}>
               Разрешение не было <br /> предоставлено, попробуйте еще раз
             </p>
-            <button type="button" className={styles.boundBackButton} onClick={handleBack}>
-              <img src={backIconUrl} alt="back" />
-              <span>Вернуться</span>
-            </button>
+            <BackButton type="button" onClick={handleBack} />
+          </div>
+        );
+      case 'EXPIRED':
+        return (
+          <div className={styles.phoneExpiredStatusContainer}>
+            <img src={sadIconUrl} alt="expired" className={styles.phoneExpiredIcon} />
+            <p className={styles.expiredTitle}>Время истекло</p>
+            <p className={styles.expiredSubTitle}>
+              Разрешение не предоставлено вовремя, <br /> попробуйте еще раз
+            </p>
+            <BackButton type="button" onClick={handleBack} />
           </div>
         );
       default:

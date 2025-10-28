@@ -12,8 +12,8 @@ import {
 import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
 
 export class PhoneAuthService {
-  @observable private isSendingPhoneAuth = false;
-  @observable private phoneAuthErrorMessage: string | null = null;
+  @observable private isSending = false;
+  @observable private errorMessage: string | null = null;
   @observable private isPhoneAuthSent = false;
   @observable private phoneAuthResponse: PhoneAuthResponse | null = null;
   private statusPollingTimer: ReturnType<typeof setInterval> | null = null;
@@ -32,7 +32,7 @@ export class PhoneAuthService {
   resetStatus() {
     this.stopStatusPolling();
     this.isPhoneAuthSent = false;
-    this.phoneAuthErrorMessage = null;
+    this.errorMessage = null;
     this.phoneAuthResponse = null;
   }
 
@@ -43,8 +43,8 @@ export class PhoneAuthService {
     }
 
     this.stopStatusPolling();
-    this.isSendingPhoneAuth = true;
-    this.phoneAuthErrorMessage = null;
+    this.isSending = true;
+    this.errorMessage = null;
     this.isPhoneAuthSent = false;
     this.phoneAuthResponse = null;
 
@@ -79,26 +79,26 @@ export class PhoneAuthService {
       }
 
       runInAction(() => {
-        this.phoneAuthErrorMessage = message;
+        this.errorMessage = message;
         this.isPhoneAuthSent = false;
         this.phoneAuthResponse = null;
       });
       this.stopStatusPolling();
     } finally {
       runInAction(() => {
-        this.isSendingPhoneAuth = false;
+        this.isSending = false;
       });
     }
   }
 
   @computed
   get isLoading() {
-    return this.isSendingPhoneAuth;
+    return this.isSending;
   }
 
   @computed
   get error(): string | null {
-    return this.phoneAuthErrorMessage;
+    return this.errorMessage;
   }
 
   @computed
@@ -184,7 +184,7 @@ export class PhoneAuthService {
           error instanceof Error ? error.message : 'Не удалось обновить статус входа.';
 
         runInAction(() => {
-          this.phoneAuthErrorMessage = message;
+          this.errorMessage = message;
           this.isPhoneAuthSent = false;
           this.phoneAuthResponse = null;
         });
