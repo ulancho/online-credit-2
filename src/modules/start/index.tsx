@@ -8,31 +8,31 @@ import { QrCodeSection } from 'Modules/start/components/qrCodeSection/QrCodeSect
 import styles from './styles/index.module.scss';
 
 function Start() {
-  const startStore = useStartStore();
-  const qrStore = useQrStore();
-  const qrStatusStore = useQrStatusStore();
+  const startService = useStartStore();
+  const qrService = useQrStore();
+  const qrStatusService = useQrStatusStore();
   const queryParams = useQueryParams();
 
   useEffect(() => {
-    startStore.setQueryParams(queryParams);
-    qrStatusStore.reset();
+    startService.setQueryParams(queryParams);
+    qrStatusService.reset();
 
     let isActive = true;
 
     void (async () => {
-      const isStartInfoFetched = await startStore.fetchStartInfo();
+      const isStartInfoFetched = await startService.fetchStartInfo();
 
       if (isActive && isStartInfoFetched) {
-        await qrStore.fetchQrInfo();
+        await qrService.fetchQrInfo();
       }
     })();
 
     return () => {
       isActive = false;
-      startStore.reset();
-      qrStatusStore.reset();
+      startService.reset();
+      qrStatusService.reset();
     };
-  }, [queryParams, startStore, qrStore, qrStatusStore]);
+  }, [queryParams, startService, qrService, qrStatusService]);
 
   return (
     <div className={styles.modalContainer}>
