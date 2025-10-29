@@ -1,10 +1,10 @@
 import { useMemo, useRef } from 'react';
 
-import styles from '../../styles/index.module.scss';
+import { useOutsideClick } from '../../hooks/useOutsideClick.ts';
 
-import { useOutsideClick } from './hooks/useOutsideClick';
+import styles from './CountryDropdown.module.scss';
 
-import type { CountryCode } from '../../services/countryCodeService';
+import type { CountryCode } from '../../../../services/countryCodeService.ts';
 
 type Props = {
   countries: CountryCode[];
@@ -37,10 +37,10 @@ export function CountryDropdown({
   const selectedCode = selected?.code ?? '';
 
   return (
-    <div className={styles.countryCodeDropdown} ref={ref}>
+    <div className={styles.dropdown} ref={ref}>
       <button
         type="button"
-        className={styles.countryCodeButton}
+        className={styles.dropdownButton}
         onClick={() => setOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-haspopup="listbox"

@@ -1,0 +1,40 @@
+.loginSection {
+  width: 466px;
+  min-width: 240px;
+  min-height: 498px;
+  padding: 42px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-direction: column;
+  gap: 8px;
+  background-color: #eff0f1;
+  border-radius: 16px;
+}
+
+@media (width <= 991px) {
+  .loginSection {
+    max-width: 100%;
+  }
+}
+
+.loginContent {
+  width: 100%;
+  min-height: 420px;
+}
+
+@media (width <= 991px) {
+  .loginContent {
+    max-width: 100%;
+  }
+}
+
+.loginInner {
+  width: 100%;
+}
+
+@media (width <= 991px) {
+  .loginInner {
+    max-width: 100%;
+  }
+}

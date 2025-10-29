@@ -1,0 +1,131 @@
+.dropdown {
+  border-radius: 12px;
+  background-color: #e3e5e8;
+  align-self: stretch;
+  margin: auto 0;
+  position: relative;
+}
+
+.dropdownButton {
+  border-radius: 12px;
+  color: #111622;
+  white-space: nowrap;
+  background-color: #f4f5f6;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+@media (width <= 991px) {
+  .dropdownButton {
+    white-space: initial;
+  }
+}
+
+.dropdownButton:hover {
+  background-color: #e8e9ea;
+}
+
+.flagIcon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  flex-shrink: 0;
+  width: 24px;
+}
+
+.codeText {
+  flex: 1;
+  text-align: left;
+}
+
+@media (width <= 991px) {
+  .codeText {
+    white-space: initial;
+  }
+}
+
+.dropdownArrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.dropdownArrowOpen {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgb(17 21 33 / 10%);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 2px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.dropdownMenu::-webkit-scrollbar {
+  display: none;
+}
+
+.dropdownNotice {
+  padding: 16px 12px;
+  font-size: 14px;
+  color: var(--text-secondary, #626975);
+}
+
+.flagFallback {
+  width: 24px;
+  height: 16px;
+  border-radius: 4px;
+  background-color: #e3e5e8;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #111622;
+  text-transform: uppercase;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-primary, #111622);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdownItem:hover {
+  background-color: var(--body-secondary, #f4f5f6);
+}
+
+.dropdownItem:first-child {
+  border-radius: var(--spacings-spacing-m, 12px) var(--spacings-spacing-m, 12px) 0 0;
+}
+
+.dropdownItem:last-child {
+  border-radius: 0 0 var(--spacings-spacing-m, 12px) var(--spacings-spacing-m, 12px);
+}
