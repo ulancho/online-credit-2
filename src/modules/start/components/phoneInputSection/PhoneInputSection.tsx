@@ -21,10 +21,10 @@ import {
 import styles from './PhoneInputSection.module.scss';
 
 export const PhoneInputSection = observer(function () {
-  const countryCodesStore = useCountryCodesStore();
-  const { countryCodes, isLoading: ccLoading, hasError, error: ccError } = countryCodesStore;
-  const startStore = useStartStore();
-  const phoneAuthStore = usePhoneAuthStore();
+  const countryCodesService = useCountryCodesStore();
+  const { countryCodes, isLoading: ccLoading, hasError, error: ccError } = countryCodesService;
+  const startService = useStartStore();
+  const phoneAuthService = usePhoneAuthStore();
 
   const [selectedId, setSelectedId] = useState<number | string | null>(null);
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -38,9 +38,9 @@ export const PhoneInputSection = observer(function () {
   const phoneDigitsLimit = selectedCountry?.digitsCount ?? DEFAULT_PHONE_DIGITS_LENGTH;
   const isFormValid = !!selectedCountry && phoneNumber.trim().length === phoneDigitsLimit;
   // Phone auth state
-  const isSubmitting = phoneAuthStore.isLoading;
-  const submitError = phoneAuthStore.error;
-  const phoneAuthResponse = phoneAuthStore.response;
+  const isSubmitting = phoneAuthService.isLoading;
+  const submitError = phoneAuthService.error;
+  const phoneAuthResponse = phoneAuthService.response;
   const phoneAuthStatus = phoneAuthResponse?.status ?? null;
   const isBoundStatus = phoneAuthStatus === 'BOUND';
   const expiresIn = phoneAuthResponse?.expires_in;
@@ -76,8 +76,8 @@ export const PhoneInputSection = observer(function () {
   }, [isBoundStatus, expiresIn]);
 
   useEffect(() => {
-    void countryCodesStore.fetchCountryCodes();
-  }, [countryCodesStore]);
+    void countryCodesService.fetchCountryCodes();
+  }, [countryCodesService]);
 
   useEffect(() => {
     if (!countryCodes.length) {
@@ -96,20 +96,20 @@ export const PhoneInputSection = observer(function () {
     (country: CountryCode) => {
       setSelectedId(country.id);
       setPhoneNumber('');
-      phoneAuthStore.resetStatus();
+      phoneAuthService.resetStatus();
     },
-    [phoneAuthStore],
+    [phoneAuthService],
   );
 
   const handlePhoneChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value.replace(/\D/g, '');
       setPhoneNumber(value);
-      if (phoneAuthStore.isSuccess || phoneAuthStore.error) {
-        phoneAuthStore.resetStatus();
+      if (phoneAuthService.isSuccess || phoneAuthService.error) {
+        phoneAuthService.resetStatus();
       }
     },
-    [phoneAuthStore],
+    [phoneAuthService],
   );
 
   const handleSubmit = useCallback(
@@ -117,13 +117,13 @@ export const PhoneInputSection = observer(function () {
       e.preventDefault();
       if (!isFormValid || !selectedCountry) return;
       const fullPhoneNumber = `${selectedCountry.code}${phoneNumber}`;
-      void phoneAuthStore.sendPhoneAuth(fullPhoneNumber);
+      void phoneAuthService.sendPhoneAuth(fullPhoneNumber);
     },
-    [isFormValid, selectedCountry, phoneNumber, phoneAuthStore],
+    [isFormValid, selectedCountry, phoneNumber, phoneAuthService],
   );
 
   const handleBack = () => {
-    phoneAuthStore.resetStatus();
+    phoneAuthService.resetStatus();
   };
 
   const renderContent = () => {
@@ -152,8 +152,8 @@ export const PhoneInputSection = observer(function () {
             isSubmitting={isSubmitting}
             onSubmit={handleSubmit}
             submitError={submitError}
-            offerUrl={startStore.startInfo?.offerUrl}
-            agreementUrl={startStore.startInfo?.agreementUrl}
+            offerUrl={startService.startInfo?.offerUrl}
+            agreementUrl={startService.startInfo?.agreementUrl}
             isCountrySelected={!!selectedCountry}
           />
         );
@@ -165,8 +165,8 @@ export const PhoneInputSection = observer(function () {
       <div className={styles.loginContent}>
         <div className={styles.loginInner}>
           <HeaderSection
-            logoUrl={startStore.startInfo?.logoUrl}
-            clientName={startStore.startInfo?.clientName}
+            logoUrl={startService.startInfo?.logoUrl}
+            clientName={startService.startInfo?.clientName}
           />
           {renderContent()}
         </div>
