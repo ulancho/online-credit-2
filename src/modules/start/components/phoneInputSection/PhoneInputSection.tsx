@@ -217,8 +217,7 @@ export const PhoneInputSection = observer(function () {
   );
 
   const renderContainerContent = () => {
-    // switch (phoneAuthStatus) {
-    switch ('EXPIRED') {
+    switch (phoneAuthStatus) {
       case 'CONFIRMED':
         return (
           <div className={styles.confirmedStatusContainer}>
