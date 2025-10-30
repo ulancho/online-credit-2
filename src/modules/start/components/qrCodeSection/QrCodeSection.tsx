@@ -25,16 +25,18 @@ const formatTime = (seconds: number) => {
 };
 
 export const QrCodeSection = observer(function () {
-  const qrStore = useQrStore();
-  const qrStatusStore = useQrStatusStore();
+  const qrService = useQrStore();
+  const qrStatusService = useQrStatusStore();
 
-  const qrInfo = qrStore.qrInfo;
+  const qrInfo = qrService.qrInfo;
   const qrLink = qrInfo?.deeplinkUrl ?? null;
   const expiresIn = qrInfo?.expiresIn ?? null;
   const qrId = qrInfo?.id ?? null;
-  const isLoading = qrStore.isLoading;
-  const qrError = qrStore.error;
-  const qrStatus = qrStatusStore.status;
+  const isLoading = qrService.isLoading;
+  const qrError = qrService.error;
+  const qrStatus = qrStatusService.status;
+
+  console.log('expiresIn: ', expiresIn);
 
   const qrContainerRef = useRef<HTMLDivElement>(null);
   const qrConfig = useMemo(
