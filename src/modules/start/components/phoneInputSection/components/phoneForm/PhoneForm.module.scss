@@ -79,12 +79,20 @@
 }
 
 .errorMessage {
-  margin-top: 4px;
-  margin-left: 16px;
   font-size: 13px;
   font-weight: 500;
   line-height: 18px;
   color: #e02d3c;
+}
+
+.errorMessageContainer {
+  min-height: 18px;
+  margin-top: 4px;
+  margin-left: 16px;
+}
+
+.errorMessageHidden {
+  visibility: hidden;
 }
 
 .errorBorder {

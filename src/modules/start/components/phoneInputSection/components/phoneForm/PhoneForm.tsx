@@ -89,12 +89,15 @@ export function PhoneForm({
             )}
           </div>
         </div>
-
-        {submitError && (
-          <p className={styles.errorMessage} role="alert">
-            {submitError}
+        <div className={styles.errorMessageContainer} aria-live="assertive">
+          <p
+            className={`${styles.errorMessage} ${submitError ? '' : styles.errorMessageHidden}`}
+            role={submitError ? 'alert' : undefined}
+            aria-hidden={!submitError}
+          >
+            {submitError ? submitError : ' '}
           </p>
-        )}
+        </div>
       </div>
 
       <div className={styles.buttonSection}>
