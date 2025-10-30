@@ -11,7 +11,7 @@ import { BoundStatus } from 'Modules/start/components/phoneInputSection/componen
 import { ConfirmedStatus } from 'Modules/start/components/phoneInputSection/components/confirmedStatus/ConfirmedStatus.tsx';
 import { DeniedStatus } from 'Modules/start/components/phoneInputSection/components/deniedStatus/DeniedStatus.tsx';
 import { ExpiredStatus } from 'Modules/start/components/phoneInputSection/components/expiredStatus/ExpiredStatus.tsx';
-import { HeaderSection } from 'Modules/start/components/phoneInputSection/components/headerSection/HeaderSection.tsx';
+import { Header } from 'Modules/start/components/phoneInputSection/components/header/Header.tsx';
 import { PhoneForm } from 'Modules/start/components/phoneInputSection/components/phoneForm/PhoneForm.tsx';
 import {
   type CountryCode,
@@ -164,7 +164,7 @@ export const PhoneInputSection = observer(function () {
     <section className={styles.loginSection}>
       <div className={styles.loginContent}>
         <div className={styles.loginInner}>
-          <HeaderSection
+          <Header
             logoUrl={startService.startInfo?.logoUrl}
             clientName={startService.startInfo?.clientName}
           />

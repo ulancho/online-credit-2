@@ -1,11 +1,11 @@
-import styles from './HeaderSection.module.scss';
+import styles from './Header.module.scss';
 
 type Props = {
   logoUrl?: string | null;
   clientName?: string | null;
 };
 
-export function HeaderSection({ logoUrl, clientName }: Props) {
+export function Header({ logoUrl, clientName }: Props) {
   return (
     <header className={styles.headerSection}>
       {logoUrl && <img src={logoUrl} alt="partner-logo" className={styles.logoImage} />}
