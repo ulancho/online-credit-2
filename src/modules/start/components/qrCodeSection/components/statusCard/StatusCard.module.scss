@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 296px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 14.382px;
+  margin-top: 24px;
+  box-shadow:
+    0 0 4px #11152105,
+    0 4px 20px #1115210a;
+}
+
+.statusContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}

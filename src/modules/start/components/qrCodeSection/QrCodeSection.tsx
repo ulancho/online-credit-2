@@ -1,12 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useRef } from 'react';
 
-import confirmedIconUrl from 'Assets/icons/confirmed.svg';
-import deniedIconUrl from 'Assets/icons/denied.svg';
-import mbankLogoUrl from 'Assets/icons/mbank-logo-2.svg';
 import qrLogoSvg from 'Assets/icons/mbank-logo.svg?raw';
-import refreshIconUrl from 'Assets/icons/refresh.svg';
 import { useQrStatusStore, useQrStore } from 'Common/stores/rootStore.tsx';
+import { Footer } from 'Modules/start/components/qrCodeSection/components/footer/Footer.tsx';
+import { Header } from 'Modules/start/components/qrCodeSection/components/header/Header.tsx';
+import { StatusCard } from 'Modules/start/components/qrCodeSection/components/statusCard/StatusCard.tsx';
 import {
   useCountdown,
   useQrStatusPolling,
@@ -14,9 +13,8 @@ import {
   QR_CONFIG,
 } from 'Modules/start/components/qrCodeSection/hooks';
 
-import styles from '../../styles/index.module.scss';
+import styles from './QrCodeSection.module.scss';
 
-/* Constants & Helpers */
 const QR_LOGO_DATA_URI = `data:image/svg+xml;utf8,${encodeURIComponent(qrLogoSvg)}`;
 
 const formatTime = (seconds: number) => {
@@ -70,90 +68,20 @@ export const QrCodeSection = observer(function () {
     return `Истекает через ${formatTime(timeLeft)}`;
   }, [libraryError, qrError, isLoading, qrLink, expired, timeLeft]);
 
-  const renderDefaultQrContent = () => (
-    <>
-      <div className={styles.qrCodeWrapper}>
-        <div ref={qrContainerRef} className={styles.qrCanvas} aria-hidden="true" />
-        {!qrReady && (
-          <div className={styles.qrPlaceholder}>
-            {qrError ?? libraryError ?? (isLoading ? 'Загрузка…' : 'QR-код появится здесь')}
-          </div>
-        )}
-      </div>
-      <div className={qrError ? styles.qrError : styles.timerSection}>
-        <span className={styles.timerText}>{timerLabel}</span>
-      </div>
-    </>
-  );
-
-  const getQrContainerContent = () => {
-    const baseClassName = styles.qrCodeContainer;
-
-    switch (qrStatus) {
-      case 'CONFIRMED':
-        return {
-          className: `${baseClassName} ${styles.qrCodeContainerStatus}`,
-          content: (
-            <div className={styles.qrConfirmedContainer}>
-              <img src={confirmedIconUrl} alt="confirmed" className={styles.confirmedIcon} />
-              <p className={styles.confirmedText}>Вход одобрен</p>
-            </div>
-          ),
-        };
-      case 'BOUND':
-        return {
-          className: `${baseClassName} ${styles.qrCodeContainerStatus}`,
-          content: (
-            <div className={styles.qrBoundContainer}>
-              <span className={styles.loader} aria-label="QR-код подтверждается" />
-              <p className={styles.loaderText}>Ждем подтверждения входа</p>
-            </div>
-          ),
-        };
-      case 'DENIED':
-        return {
-          className: `${baseClassName} ${styles.qrCodeContainerStatus}`,
-          content: (
-            <>
-              <img src={deniedIconUrl} alt="denied" className={styles.deniedIcon} />
-              <p className={styles.deniedTitle}>Вход отклонен</p>
-              <button className={styles.refreshButton}>
-                <img src={refreshIconUrl} alt="refresh" className={styles.refreshIcon} />
-                <span>Попробовать еще раз</span>
-              </button>
-            </>
-          ),
-        };
-      case 'EXPIRED':
-        return {
-          className: `${baseClassName} ${styles.qrCodeContainerStatus}`,
-          content: (
-            <div className={styles.statusMessage}>
-              <p className={styles.statusTitle}>QR-код устарел</p>
-              <p className={styles.statusDescription}>Обновите страницу и попробуйте снова.</p>
-            </div>
-          ),
-        };
-      default:
-        return {
-          className: baseClassName,
-          content: renderDefaultQrContent(),
-        };
-    }
-  };
-
-  const { className: qrCodeContainerClassName, content: qrCodeContent } = getQrContainerContent();
-
   return (
-    <section className={styles.qrSection}>
-      <div className={styles.qrContent}>
-        <header className={styles.qrTitle}>
-          <h2>
-            Наведите QR-сканер <br /> из приложения MBANK
-          </h2>
-        </header>
-        <div className={qrCodeContainerClassName}>{qrCodeContent}</div>
-        <img src={mbankLogoUrl} alt="mbank" className={styles.mbankLogo} />
+    <section className={styles.section}>
+      <div className={styles.content}>
+        <Header />
+        <StatusCard
+          status={qrStatus}
+          qrContainerRef={qrContainerRef}
+          qrReady={qrReady}
+          qrError={qrError}
+          libraryError={libraryError}
+          isLoading={isLoading}
+          timerLabel={timerLabel}
+        />
+        <Footer />
       </div>
     </section>
   );

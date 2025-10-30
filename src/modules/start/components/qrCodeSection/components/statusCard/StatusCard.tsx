@@ -1,0 +1,70 @@
+import { type MutableRefObject } from 'react';
+
+import { BoundStatus } from './../boundStatus/BoundStatus.tsx';
+import { ConfirmedStatus } from './../confirmedStatus/ConfirmedStatus.tsx';
+import { DefaultStatus } from './../defaultStatus/DefaultStatus.tsx';
+import { DeniedStatus } from './../deniedStatus/DeniedStatus.tsx';
+import { ExpiredStatus } from './../expiredStatus/ExpiredStatus.tsx';
+import styles from './StatusCard.module.scss';
+
+interface StatusCardProps {
+  status: string | null;
+  qrContainerRef: MutableRefObject<HTMLDivElement | null>;
+  qrReady: boolean;
+  qrError: string | null;
+  libraryError: string | null;
+  isLoading: boolean;
+  timerLabel: string;
+}
+
+export const StatusCard = ({
+  status,
+  qrContainerRef,
+  qrReady,
+  qrError,
+  libraryError,
+  isLoading,
+  timerLabel,
+}: StatusCardProps) => {
+  const baseClassName = styles.container;
+
+  switch (status) {
+    case 'CONFIRMED':
+      return (
+        <div className={`${baseClassName} ${styles.statusContainer}`}>
+          <ConfirmedStatus />
+        </div>
+      );
+    case 'BOUND':
+      return (
+        <div className={`${baseClassName} ${styles.statusContainer}`}>
+          <BoundStatus />
+        </div>
+      );
+    case 'DENIED':
+      return (
+        <div className={`${baseClassName} ${styles.statusContainer}`}>
+          <DeniedStatus />
+        </div>
+      );
+    case 'EXPIRED':
+      return (
+        <div className={`${baseClassName} ${styles.statusContainer}`}>
+          <ExpiredStatus />
+        </div>
+      );
+    default:
+      return (
+        <div className={baseClassName}>
+          <DefaultStatus
+            qrContainerRef={qrContainerRef}
+            qrReady={qrReady}
+            qrError={qrError}
+            libraryError={libraryError}
+            isLoading={isLoading}
+            timerLabel={timerLabel}
+          />
+        </div>
+      );
+  }
+};
