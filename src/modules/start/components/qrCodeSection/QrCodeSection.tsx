@@ -32,6 +32,7 @@ export const QrCodeSection = observer(function () {
   const qrStatus = qrStatusService.status;
 
   const qrContainerRef = useRef<HTMLDivElement>(null);
+  const isRefreshingQrInfoRef = useRef(false);
 
   const qrConfig = useMemo(
     () => ({
@@ -46,11 +47,11 @@ export const QrCodeSection = observer(function () {
     qrConfig,
   );
 
-  console.log('qrStatus: ', qrStatus);
-
   useQrStatusPolling(qrId);
 
   useEffect(() => {
+    isRefreshingQrInfoRef.current = false;
+
     if (!expiresIn) {
       setSecondsLeft(null);
       return;
@@ -83,6 +84,22 @@ export const QrCodeSection = observer(function () {
     if (!qrInstanceRef.current) return;
     qrInstanceRef.current.update({ data: qrLink ?? '' });
   }, [qrLink, qrInstanceRef]);
+
+  useEffect(() => {
+    if (secondsLeft !== 0) {
+      if (secondsLeft == null || secondsLeft > 0) {
+        isRefreshingQrInfoRef.current = false;
+      }
+      return;
+    }
+
+    if (isRefreshingQrInfoRef.current) {
+      return;
+    }
+
+    isRefreshingQrInfoRef.current = true;
+    void qrService.fetchQrInfo();
+  }, [qrService, secondsLeft]);
 
   const qrReady = Boolean(qrLink) && Boolean(qrInstanceRef.current);
 
