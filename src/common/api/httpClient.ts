@@ -1,7 +1,13 @@
 import axios from 'axios';
 
+const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+
+const baseURL = isLocalhost
+  ? import.meta.env.VITE_API_BASE_URL
+  : `${window.location.origin}/oauth2/v1/api`;
+
 export const httpClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'https://mbank-idtest.cbk.kg/oauth2/v1/api',
+  baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
