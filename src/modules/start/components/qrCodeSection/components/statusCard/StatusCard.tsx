@@ -4,7 +4,6 @@ import { BoundStatus } from './../boundStatus/BoundStatus.tsx';
 import { ConfirmedStatus } from './../confirmedStatus/ConfirmedStatus.tsx';
 import { DefaultStatus } from './../defaultStatus/DefaultStatus.tsx';
 import { DeniedStatus } from './../deniedStatus/DeniedStatus.tsx';
-import { ExpiredStatus } from './../expiredStatus/ExpiredStatus.tsx';
 import styles from './StatusCard.module.scss';
 
 interface StatusCardProps {
@@ -47,12 +46,13 @@ export const StatusCard = ({
           <DeniedStatus />
         </div>
       );
-    case 'EXPIRED':
-      return (
-        <div className={`${baseClassName} ${styles.statusContainer}`}>
-          <ExpiredStatus />
-        </div>
-      );
+    // данный стейт скрыт, так как если EXPIRED то на фоне запрашиваю данные для QR заново и рендерим новый QR
+    // case 'EXPIRED':
+    //   return (
+    //     <div className={`${baseClassName} ${styles.statusContainer}`}>
+    //       <ExpiredStatus />
+    //     </div>
+    //   );
     default:
       return (
         <div className={baseClassName}>
