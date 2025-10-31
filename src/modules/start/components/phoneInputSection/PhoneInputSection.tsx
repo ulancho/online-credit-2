@@ -46,7 +46,6 @@ export const PhoneInputSection = observer(function () {
   const expiresIn = phoneAuthResponse?.expires_in;
 
   useEffect(() => {
-    console.log('start');
     if (!isBoundStatus || !expiresIn) {
       setSecondsLeft(null);
       return;

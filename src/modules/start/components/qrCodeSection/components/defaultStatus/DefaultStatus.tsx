@@ -8,7 +8,7 @@ interface DefaultStateProps {
   qrError: string | null;
   libraryError: string | null;
   isLoading: boolean;
-  timerLabel: string;
+  timerLabel: string | null;
 }
 
 export const DefaultStatus = ({

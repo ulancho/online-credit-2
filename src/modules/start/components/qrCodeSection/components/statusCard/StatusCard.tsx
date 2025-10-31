@@ -14,7 +14,7 @@ interface StatusCardProps {
   qrError: string | null;
   libraryError: string | null;
   isLoading: boolean;
-  timerLabel: string;
+  timerLabel: string | null;
 }
 
 export const StatusCard = ({
