@@ -23,9 +23,9 @@ interface StartInfoData {
 }
 
 export class StartInfoService {
-  @observable.ref private startInfoData: StartInfoData | null = null;
-  @observable private isFetchingStartInfo = false;
-  @observable private startInfoErrorMessage: string | null = null;
+  @observable.ref private data: StartInfoData | null = null;
+  @observable private isFetching = false;
+  @observable private errorMessage: string | null = null;
 
   constructor(
     private readonly queryParamsService: QueryParamsService,
@@ -42,15 +42,15 @@ export class StartInfoService {
   @action
   reset() {
     this.queryParamsService.reset();
-    this.startInfoData = null;
-    this.isFetchingStartInfo = false;
-    this.startInfoErrorMessage = null;
+    this.data = null;
+    this.isFetching = false;
+    this.errorMessage = null;
   }
 
   @action
   async fetchStartInfo(type = 'web'): Promise<boolean> {
-    this.isFetchingStartInfo = true;
-    this.startInfoErrorMessage = null;
+    this.isFetching = true;
+    this.errorMessage = null;
 
     const payload = this.buildStartInfoPayload(this.queryParamsService.queryParams);
 
@@ -58,7 +58,7 @@ export class StartInfoService {
       const data = await this.startInfoFetcher(payload);
 
       runInAction(() => {
-        this.startInfoData = this.transformStartInfo(data);
+        this.data = this.transformStartInfo(data);
       });
       return true;
     } catch (error) {
@@ -66,8 +66,8 @@ export class StartInfoService {
         error instanceof Error ? error.message : 'Не удалось получить стартовую информацию.';
 
       runInAction(() => {
-        this.startInfoData = null;
-        this.startInfoErrorMessage = message;
+        this.data = null;
+        this.errorMessage = message;
       });
 
       const status = (error as { response?: { status?: number } }).response?.status;
@@ -83,24 +83,24 @@ export class StartInfoService {
       return false;
     } finally {
       runInAction(() => {
-        this.isFetchingStartInfo = false;
+        this.isFetching = false;
       });
     }
   }
 
   @computed
   get startInfo(): StartInfoData | null {
-    return this.startInfoData ? { ...this.startInfoData } : null;
+    return this.data ? { ...this.data } : null;
   }
 
   @computed
   get isLoadingStartInfo() {
-    return this.isFetchingStartInfo;
+    return this.isFetching;
   }
 
   @computed
   get startInfoError() {
-    return this.startInfoErrorMessage;
+    return this.errorMessage;
   }
 
   private buildStartInfoPayload(params: StartQueryParams): StartInfoRequestPayload {

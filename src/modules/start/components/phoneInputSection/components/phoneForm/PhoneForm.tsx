@@ -20,8 +20,8 @@ type Props = {
   isSubmitting: boolean;
   onSubmit: (event: FormEvent) => void;
   submitError?: string | null;
-  offerUrl?: string | null;
-  agreementUrl?: string | null;
+  privacyPolicyUrl?: string | null;
+  termOfServiceUrl?: string | null;
   isCountrySelected: boolean;
 };
 
@@ -39,8 +39,8 @@ export function PhoneForm({
   isSubmitting,
   onSubmit,
   submitError,
-  offerUrl,
-  agreementUrl,
+  privacyPolicyUrl,
+  termOfServiceUrl,
   isCountrySelected,
 }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -117,7 +117,7 @@ export function PhoneForm({
           Прежде чем начать работу с приложением &quot;Ticket&quot;, вы можете ознакомиться с его{' '}
           <a
             target="_blank"
-            href={offerUrl ?? undefined}
+            href={privacyPolicyUrl ?? undefined}
             className={styles.privacyLink}
             rel="noreferrer"
           >
@@ -126,7 +126,7 @@ export function PhoneForm({
           и{' '}
           <a
             target="_blank"
-            href={agreementUrl ?? undefined}
+            href={termOfServiceUrl ?? undefined}
             rel="noreferrer"
             className={styles.privacyLink}
           >

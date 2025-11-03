@@ -151,8 +151,8 @@ export const PhoneInputSection = observer(function () {
             isSubmitting={isSubmitting}
             onSubmit={handleSubmit}
             submitError={submitError}
-            offerUrl={startService.startInfo?.offerUrl}
-            agreementUrl={startService.startInfo?.agreementUrl}
+            privacyPolicyUrl={startService.startInfo?.privacyPolicyUrl}
+            termOfServiceUrl={startService.startInfo?.termOfServiceUrl}
             isCountrySelected={!!selectedCountry}
           />
         );
