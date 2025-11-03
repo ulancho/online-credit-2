@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import qrLogoSvg from 'Assets/icons/mbank-logo.svg?raw';
 import { useQrStatusStore, useQrStore } from 'Common/stores/rootStore.tsx';
@@ -33,6 +33,16 @@ export const QrCodeSection = observer(function () {
 
   const qrContainerRef = useRef<HTMLDivElement>(null);
   const isRefreshingQrInfoRef = useRef(false);
+
+  const handleRetry = useCallback(() => {
+    if (isRefreshingQrInfoRef.current) {
+      return;
+    }
+
+    isRefreshingQrInfoRef.current = true;
+    qrStatusService.reset();
+    void qrService.fetchQrInfo();
+  }, [qrService, qrStatusService]);
 
   const qrConfig = useMemo(
     () => ({
@@ -117,6 +127,7 @@ export const QrCodeSection = observer(function () {
           libraryError={libraryError}
           isLoading={isLoading}
           timerLabel={timerLabel}
+          onRetry={handleRetry}
         />
         <Footer />
       </div>

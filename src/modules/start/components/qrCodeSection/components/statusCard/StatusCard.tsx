@@ -14,6 +14,7 @@ interface StatusCardProps {
   libraryError: string | null;
   isLoading: boolean;
   timerLabel: string | null;
+  onRetry: () => void;
 }
 
 export const StatusCard = ({
@@ -24,6 +25,7 @@ export const StatusCard = ({
   libraryError,
   isLoading,
   timerLabel,
+  onRetry,
 }: StatusCardProps) => {
   const baseClassName = styles.container;
 
@@ -43,7 +45,7 @@ export const StatusCard = ({
     case 'DENIED':
       return (
         <div className={`${baseClassName} ${styles.statusContainer}`}>
-          <DeniedStatus />
+          <DeniedStatus onRetry={onRetry} isLoading={isLoading} />
         </div>
       );
     // данный стейт скрыт, так как если EXPIRED то на фоне запрашиваю данные для QR заново и рендерим новый QR
