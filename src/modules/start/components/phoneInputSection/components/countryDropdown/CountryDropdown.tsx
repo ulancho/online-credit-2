@@ -37,7 +37,7 @@ export function CountryDropdown({
   const selectedCode = selected?.code ?? '';
 
   return (
-    <div className={styles.dropdown} ref={ref}>
+    <div ref={ref}>
       <button
         type="button"
         className={styles.dropdownButton}
