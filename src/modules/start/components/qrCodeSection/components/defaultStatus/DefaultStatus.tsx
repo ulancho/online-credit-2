@@ -20,7 +20,7 @@ export const DefaultStatus = ({
   timerLabel,
 }: DefaultStateProps) => {
   const placeholderText =
-    qrError ?? libraryError ?? (isLoading ? 'Загрузка…' : 'QR-код появится здесь');
+    qrError ?? libraryError ?? (isLoading ? 'Загрузка…' : 'QR-код появится здесь...');
 
   return (
     <div className={styles.wrapper}>
