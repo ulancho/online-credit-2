@@ -35,7 +35,9 @@ const StartMobile = () => {
     void startMobileInfoStore.fetchStartMobileInfo();
   };
 
-  const handleReload = () => {};
+  const handleReload = () => {
+    window.location.reload();
+  };
 
   useEffect(() => {
     startStore.setQueryParams(queryParams);
