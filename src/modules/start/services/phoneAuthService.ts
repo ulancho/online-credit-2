@@ -71,6 +71,11 @@ export class PhoneAuthService {
 
         if (responseData.code === 'unified.svc.biz.ib.cbk.mbank-id.error.private-user-not-found') {
           message = 'Такой номер не найден, проверьте номер';
+        } else if (
+          responseData.code ===
+          'unified.svc.biz.ib.cbk.mbank-id.error.authorization-too-many-request'
+        ) {
+          message = responseData.message;
         } else if (typeof error.message === 'string' && error.message.trim()) {
           message = error.message;
         }
