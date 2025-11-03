@@ -49,12 +49,14 @@ export function CountryDropdown({
           <img
             src={selected.flagPath}
             alt={`${selected.country} flag`}
-            className={styles.flagIcon}
+            className={styles.flagMainIcon}
           />
         ) : (
           <span className={styles.flagFallback}>{selectedIso}</span>
         )}
-        <span className={styles.codeText}>{selectedCode || (isLoading ? 'Загрузка…' : 'Код')}</span>
+        <span className={styles.mainCodeText}>
+          {selectedCode || (isLoading ? 'Загрузка…' : 'Код')}
+        </span>
         <svg
           className={`${styles.dropdownArrow} ${isOpen ? styles.dropdownArrowOpen : ''}`}
           viewBox="0 0 16 16"
@@ -95,8 +97,10 @@ export function CountryDropdown({
                 ) : (
                   <span className={styles.flagFallback}>{iso}</span>
                 )}
-                <span className={styles.codeText}>{country.code}</span>
-                <span>{country.country}</span>
+                <div className={styles.countryNameContainer}>
+                  <span className={styles.countryName}>{country.country}</span>
+                  <span className={styles.codeText}>{country.code}</span>
+                </div>
               </button>
             );
           })}

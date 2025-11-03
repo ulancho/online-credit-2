@@ -1,26 +1,20 @@
 .dropdown {
-  border-radius: 12px;
-  background-color: #e3e5e8;
-  align-self: stretch;
-  margin: auto 0;
+  // border-radius: 12px;
 }
+
+// --- Кнопка для выбора кода страны ---
 
 .dropdownButton {
   border-radius: 12px;
-  color: #111622;
-  white-space: nowrap;
-  background-color: #f4f5f6;
+  background-color: #e3e5e8;
   display: flex;
   justify-content: start;
   align-items: center;
   gap: 8px;
   padding: 8px;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1;
   border: none;
+  white-space: nowrap;
   cursor: pointer;
-  width: 100%;
 }
 
 @media (width <= 991px) {
@@ -33,7 +27,7 @@
   background-color: #e8e9ea;
 }
 
-.flagIcon {
+.flagMainIcon {
   aspect-ratio: 1;
   object-fit: contain;
   object-position: center;
@@ -41,26 +35,28 @@
   width: 24px;
 }
 
-.codeText {
-  flex: 1;
-  text-align: left;
-}
-
-@media (width <= 991px) {
-  .codeText {
-    white-space: initial;
-  }
-}
-
-.dropdownArrow {
-  width: 16px;
+.flagFallback {
+  width: 24px;
   height: 16px;
-  transition: transform 0.2s ease;
+  border-radius: 4px;
+  background-color: #e3e5e8;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #111622;
+  text-transform: uppercase;
 }
 
-.dropdownArrowOpen {
-  transform: rotate(180deg);
+.mainCodeText {
+  color: #111622;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
 }
+
+// --- Список стран ---
 
 .dropdownMenu {
   position: absolute;
@@ -85,32 +81,15 @@
 .dropdownNotice {
   padding: 16px 12px;
   font-size: 14px;
-  color: var(--text-secondary, #626975);
-}
-
-.flagFallback {
-  width: 24px;
-  height: 16px;
-  border-radius: 4px;
-  background-color: #e3e5e8;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 700;
-  color: #111622;
-  text-transform: uppercase;
+  color: #626975;
 }
 
 .dropdownItem {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px;
+  gap: 16px;
+  padding: 8px 0 0 16px;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--text-primary, #111622);
   border: none;
   background: none;
   width: 100%;
@@ -118,13 +97,50 @@
 }
 
 .dropdownItem:hover {
-  background-color: var(--body-secondary, #f4f5f6);
+  background-color: #f4f5f6;
 }
 
-.dropdownItem:first-child {
-  border-radius: var(--spacings-spacing-m, 12px) var(--spacings-spacing-m, 12px) 0 0;
+.flagIcon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  flex-shrink: 0;
+  width: 38px;
 }
 
-.dropdownItem:last-child {
-  border-radius: 0 0 var(--spacings-spacing-m, 12px) var(--spacings-spacing-m, 12px);
+.countryName {
+  font-size: 16px;
+  line-height: 21px;
+  font-weight: 500;
+}
+
+.codeText {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  color: #626975;
+}
+
+@media (width <= 991px) {
+  .codeText {
+    white-space: initial;
+  }
+}
+
+.dropdownArrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.dropdownArrowOpen {
+  transform: rotate(180deg);
+}
+
+.countryNameContainer {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 0.5px solid #dcdfe4;
+  width: 100%;
+  padding: 8px 0;
 }

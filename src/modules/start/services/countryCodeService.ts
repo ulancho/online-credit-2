@@ -5,7 +5,7 @@ import { type DirectoryItem, fetchCountryCodes } from 'Modules/start/api/directo
 export const DEFAULT_PHONE_DIGITS_LENGTH = 12;
 
 const COUNTRY_FLAG_IMAGES = Object.entries(
-  import.meta.glob<string>('Assets/icons/countries/*.png', {
+  import.meta.glob<string>('Assets/icons/countries/*.svg', {
     eager: true,
     import: 'default',
   }),
@@ -15,7 +15,7 @@ const COUNTRY_FLAG_IMAGES = Object.entries(
     return acc;
   }
 
-  const countryCode = fileName.replace(/\.png$/i, '').toUpperCase();
+  const countryCode = fileName.replace(/\.svg$/i, '').toUpperCase();
   acc[countryCode] = url;
   return acc;
 }, {});
