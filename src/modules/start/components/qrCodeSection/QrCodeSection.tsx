@@ -30,6 +30,7 @@ export const QrCodeSection = observer(function () {
   const qrError = qrService.error;
 
   const qrStatus = qrStatusService.status;
+  const redirectUrl = qrStatusService.redirectUrl;
 
   const qrContainerRef = useRef<HTMLDivElement>(null);
   const isRefreshingQrInfoRef = useRef(false);
@@ -110,6 +111,12 @@ export const QrCodeSection = observer(function () {
     isRefreshingQrInfoRef.current = true;
     void qrService.fetchQrInfo();
   }, [qrService, secondsLeft]);
+
+  useEffect(() => {
+    if (qrStatus === 'CONFIRMED' && redirectUrl) {
+      window.location.href = redirectUrl;
+    }
+  }, [qrStatus, redirectUrl]);
 
   const qrReady = Boolean(qrLink) && Boolean(qrInstanceRef.current);
 

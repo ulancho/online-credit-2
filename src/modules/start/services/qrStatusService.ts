@@ -90,13 +90,18 @@ export class QrStatusService {
   }
 
   @computed
-  get qrStatus(): QrStatusData | null {
+  get qrStatusData(): QrStatusData | null {
     return this.data ? { ...this.data } : null;
   }
 
   @computed
   get status(): string | null {
     return this.data?.status ?? null;
+  }
+
+  @computed
+  get redirectUrl(): string | null {
+    return this.data?.redirectUrl ?? null;
   }
 
   @computed

@@ -54,10 +54,16 @@ export function useStartStore() {
   return useRootStore().startStore;
 }
 
+/**
+ ***** /oauth/web/qr  *****
+ */
 export function useQrStore() {
   return useRootStore().qrStore;
 }
 
+/**
+ ***** /oauth/web/qr/status  *****
+ */
 export function useQrStatusStore() {
   return useRootStore().qrStatusStore;
 }
