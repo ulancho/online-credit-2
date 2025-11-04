@@ -62,13 +62,13 @@ const StartMobile = () => {
 
     startMobileStatusStore.stopStatusPolling();
 
-    const timeoutId = window.setTimeout(() => {
-      window.location.replace(redirectUrl);
-    }, 4000);
+    // const timeoutId = window.setTimeout(() => {
+    // window.location.replace(redirectUrl);
+    // }, 4000);
 
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
+    // return () => {
+    //   window.clearTimeout(timeoutId);
+    // };
   }, [redirectUrl, startMobileStatusStore, status]);
 
   const renderDefaultContent = () => {
