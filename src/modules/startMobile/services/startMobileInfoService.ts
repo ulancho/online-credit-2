@@ -102,6 +102,8 @@ export class StartMobileInfoService {
   }
 
   private buildAuthorizationPayload(params: StartQueryParams): StartMobileRequestPayload {
+    const currentUrl = typeof window !== 'undefined' ? window.location.href : null;
+
     return {
       scope: params.scope,
       state: params.state,
@@ -111,6 +113,7 @@ export class StartMobileInfoService {
       response_type: params.responseType,
       code_challenge: params.codeChallenge,
       code_challenge_method: params.codeChallengeMethod,
+      url: currentUrl,
     };
   }
 

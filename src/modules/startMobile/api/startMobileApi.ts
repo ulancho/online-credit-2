@@ -9,6 +9,7 @@ export interface StartMobileRequestPayload {
   response_type: string | null;
   code_challenge: string | null;
   code_challenge_method: string | null;
+  url: string | null;
 }
 
 export interface StartMobileResponse {
