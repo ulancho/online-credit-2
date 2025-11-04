@@ -46,15 +46,16 @@ export class StartMobileInfoService {
   }
 
   @action
-  async fetchStartMobileInfo() {
+  async fetchStartMobileInfo(): Promise<StartMobileData | null> {
     if (this.isFetching) {
-      return;
+      return this.data;
     }
 
     this.isFetching = true;
     this.errorMessage = null;
 
     const payload = this.buildAuthorizationPayload(this.queryParamsService.queryParams);
+    let result: StartMobileData | null = null;
 
     try {
       const response = await this.startMobileFetcher(payload);
@@ -66,9 +67,7 @@ export class StartMobileInfoService {
 
       this.startMobileStatusService.startStatusPolling(transformedData.id);
 
-      if (transformedData.deepLinkUrl) {
-        window.location.href = transformedData.deepLinkUrl;
-      }
+      result = transformedData;
     } catch (error) {
       const message =
         error instanceof Error
@@ -79,11 +78,13 @@ export class StartMobileInfoService {
         this.data = null;
         this.errorMessage = message;
       });
+      result = null;
     } finally {
       runInAction(() => {
         this.isFetching = false;
       });
     }
+    return result;
   }
 
   @computed

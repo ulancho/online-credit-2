@@ -31,8 +31,12 @@ const StartMobile = () => {
   // const status = 'DENIED';
   const redirectUrl = startMobileStatusStore.mobileStatus?.redirectUrl;
 
-  const handleMBankLogin = () => {
-    void startMobileInfoStore.fetchStartMobileInfo();
+  const handleMBankLogin = async () => {
+    const data = await startMobileInfoStore.fetchStartMobileInfo();
+
+    if (data?.deepLinkUrl) {
+      window.location.href = data.deepLinkUrl;
+    }
   };
 
   const handleReload = () => {
@@ -62,13 +66,13 @@ const StartMobile = () => {
 
     startMobileStatusStore.stopStatusPolling();
 
-    // const timeoutId = window.setTimeout(() => {
-    // window.location.replace(redirectUrl);
-    // }, 4000);
+    const timeoutId = window.setTimeout(() => {
+      window.location.replace(redirectUrl);
+    }, 4000);
 
-    // return () => {
-    //   window.clearTimeout(timeoutId);
-    // };
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
   }, [redirectUrl, startMobileStatusStore, status]);
 
   const renderDefaultContent = () => {
