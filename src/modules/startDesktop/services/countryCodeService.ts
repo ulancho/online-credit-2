@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
-import { type DirectoryItem, fetchCountryCodes } from 'Modules/start/api/directoryApi.ts';
+import { type DirectoryItem, fetchCountryCodes } from 'Modules/startDesktop/api/directoryApi.ts';
 
 export const DEFAULT_PHONE_DIGITS_LENGTH = 12;
 

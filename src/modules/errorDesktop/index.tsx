@@ -1,5 +1,5 @@
-import { LeftSection } from 'Modules/error/components/leftSection';
-import { RightSection } from 'Modules/error/components/rightSection';
+import { LeftSection } from 'Modules/errorDesktop/components/leftSection';
+import { RightSection } from 'Modules/errorDesktop/components/rightSection';
 
 import styles from './styles/style.module.scss';
 

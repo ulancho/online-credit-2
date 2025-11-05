@@ -8,7 +8,7 @@ import {
 
 import type { StartInfoService } from './startInfoService.ts';
 import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
-import type { QrInfoService } from 'Modules/start/services/qrInfoService.ts';
+import type { QrInfoService } from 'Modules/startDesktop/services/qrInfoService.ts';
 
 interface QrStatusData {
   id: string;

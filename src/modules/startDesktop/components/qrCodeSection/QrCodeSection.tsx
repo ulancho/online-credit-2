@@ -4,14 +4,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import qrLogoSvg from 'Assets/icons/mbank-logo.svg?raw';
 import { useQrStatusStore, useQrStore } from 'Common/stores/rootStore.tsx';
 import { formatMMSS, getTargetMs } from 'Common/utils/time.ts';
-import { Footer } from 'Modules/start/components/qrCodeSection/components/footer/Footer.tsx';
-import { Header } from 'Modules/start/components/qrCodeSection/components/header/Header.tsx';
-import { StatusCard } from 'Modules/start/components/qrCodeSection/components/statusCard/StatusCard.tsx';
+import { Footer } from 'Modules/startDesktop/components/qrCodeSection/components/footer/Footer.tsx';
+import { Header } from 'Modules/startDesktop/components/qrCodeSection/components/header/Header.tsx';
+import { StatusCard } from 'Modules/startDesktop/components/qrCodeSection/components/statusCard/StatusCard.tsx';
 import {
   useQrStatusPolling,
   useQrInstance,
   QR_CONFIG,
-} from 'Modules/start/components/qrCodeSection/hooks';
+} from 'Modules/startDesktop/components/qrCodeSection/hooks';
 
 import styles from './QrCodeSection.module.scss';
 

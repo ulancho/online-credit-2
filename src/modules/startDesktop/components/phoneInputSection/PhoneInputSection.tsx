@@ -7,16 +7,16 @@ import {
   useStartStore,
 } from 'Common/stores/rootStore.tsx';
 import { formatMMSS, getTargetMs } from 'Common/utils/time.ts';
-import { BoundStatus } from 'Modules/start/components/phoneInputSection/components/boundStatus/BoundStatus.tsx';
-import { ConfirmedStatus } from 'Modules/start/components/phoneInputSection/components/confirmedStatus/ConfirmedStatus.tsx';
-import { DeniedStatus } from 'Modules/start/components/phoneInputSection/components/deniedStatus/DeniedStatus.tsx';
-import { ExpiredStatus } from 'Modules/start/components/phoneInputSection/components/expiredStatus/ExpiredStatus.tsx';
-import { Header } from 'Modules/start/components/phoneInputSection/components/header/Header.tsx';
-import { PhoneForm } from 'Modules/start/components/phoneInputSection/components/phoneForm/PhoneForm.tsx';
+import { BoundStatus } from 'Modules/startDesktop/components/phoneInputSection/components/boundStatus/BoundStatus.tsx';
+import { ConfirmedStatus } from 'Modules/startDesktop/components/phoneInputSection/components/confirmedStatus/ConfirmedStatus.tsx';
+import { DeniedStatus } from 'Modules/startDesktop/components/phoneInputSection/components/deniedStatus/DeniedStatus.tsx';
+import { ExpiredStatus } from 'Modules/startDesktop/components/phoneInputSection/components/expiredStatus/ExpiredStatus.tsx';
+import { Header } from 'Modules/startDesktop/components/phoneInputSection/components/header/Header.tsx';
+import { PhoneForm } from 'Modules/startDesktop/components/phoneInputSection/components/phoneForm/PhoneForm.tsx';
 import {
   type CountryCode,
   DEFAULT_PHONE_DIGITS_LENGTH,
-} from 'Modules/start/services/countryCodeService.ts';
+} from 'Modules/startDesktop/services/countryCodeService.ts';
 
 import styles from './PhoneInputSection.module.scss';
 

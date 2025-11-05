@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import Start from 'Modules/start';
 import StartMobile from 'Modules/startMobile';
+import Start from 'src/modules/startDesktop';
 
 const MOBILE_USER_AGENT_REGEX = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 

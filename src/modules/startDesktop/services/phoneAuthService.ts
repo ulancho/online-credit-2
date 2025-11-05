@@ -69,11 +69,14 @@ export class PhoneAuthService {
       if (isAxiosError(error)) {
         const responseData = error.response?.data;
 
-        if (responseData.code === 'unified.svc.biz.ib.cbk.mbank-id.error.private-user-not-found') {
+        if (
+          responseData.code ===
+          'unified.svc.biz.ib.cbk.mbank-id.errorDesktop.private-user-not-found'
+        ) {
           message = 'Такой номер не найден, проверьте номер';
         } else if (
           responseData.code ===
-          'unified.svc.biz.ib.cbk.mbank-id.error.authorization-too-many-request'
+          'unified.svc.biz.ib.cbk.mbank-id.errorDesktop.authorization-too-many-request'
         ) {
           message = responseData.message;
         } else if (typeof error.message === 'string' && error.message.trim()) {
