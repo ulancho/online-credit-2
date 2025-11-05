@@ -20,7 +20,7 @@
 
     <properties>
         <projectName>${project.parent.artifactId}</projectName>
-        <projectVersion>1.0.31</projectVersion>
+        <projectVersion>1.0.32</projectVersion>
     </properties>
 
     <repositories>
