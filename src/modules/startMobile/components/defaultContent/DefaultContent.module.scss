@@ -1,0 +1,16 @@
+.actionSection {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.buttonSkeleton {
+  width: 100%;
+}
+
+.privacySkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
