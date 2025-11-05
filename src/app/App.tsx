@@ -1,9 +1,9 @@
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import StartAuthRoute from '@/app/StartAuthRoute.tsx';
+import Error from 'Modules/errorDesktop';
 import ErrorMobile from 'Modules/errorMobile';
 import StartMobile from 'Modules/startMobile';
-import Error from 'src/modules/errorDesktop';
 
 function App() {
   return (
