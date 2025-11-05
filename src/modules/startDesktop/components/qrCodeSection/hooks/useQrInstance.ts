@@ -87,11 +87,13 @@ export function useQrInstance(
 
   // на случай ре-рендера контейнера
   useEffect(() => {
-    if (!instanceRef.current || !containerRef.current) return;
-    if (containerRef.current.childElementCount === 0) {
-      instanceRef.current.append(containerRef.current);
+    const container = containerRef.current;
+    if (!instanceRef.current || !container) return;
+
+    if (container.childElementCount === 0) {
+      instanceRef.current.append(container);
     }
-  }, [containerRef]);
+  });
 
   return { instanceRef, error };
 }
