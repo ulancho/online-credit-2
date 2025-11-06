@@ -20,6 +20,7 @@
   padding: 8px;
   background-color: #fff;
   position: relative;
+  border: 1px solid transparent;
 }
 
 @media (width <= 991px) {
@@ -96,7 +97,7 @@
 }
 
 .errorBorder {
-  border: 1px solid #e02d3c;
+  border-color: #e02d3c;
 }
 
 .buttonSection {

@@ -76,7 +76,7 @@ export class PhoneAuthService {
           message = 'Такой номер не найден, проверьте номер';
         } else if (
           responseData.code ===
-          'unified.svc.biz.ib.cbk.mbank-id.errorDesktop.authorization-too-many-request'
+          'unified.svc.biz.ib.cbk.mbank-id.error.authorization-too-many-request'
         ) {
           message = responseData.message;
         } else if (typeof error.message === 'string' && error.message.trim()) {
