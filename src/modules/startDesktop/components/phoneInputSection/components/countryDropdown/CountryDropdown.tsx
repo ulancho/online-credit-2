@@ -68,42 +68,44 @@ export function CountryDropdown({
 
       {isOpen && (
         <div className={styles.dropdownMenu} role="listbox">
-          {(!countries.length || error) && (
-            <div className={styles.dropdownNotice}>
-              {isLoading ? 'Загрузка справочника…' : error || 'Нет доступных стран'}
-            </div>
-          )}
-          {countries.map((country) => {
-            const iso = country.isoCode?.toUpperCase() ?? '--';
-            const isSelected = selectedId === country.id;
-            return (
-              <button
-                key={country.id}
-                type="button"
-                className={styles.dropdownItem}
-                onClick={() => {
-                  onSelect(country);
-                  setOpen(false);
-                }}
-                role="option"
-                aria-selected={isSelected}
-              >
-                {country.flagPath ? (
-                  <img
-                    src={country.flagPath}
-                    alt={`${country.country} flag`}
-                    className={styles.flagIcon}
-                  />
-                ) : (
-                  <span className={styles.flagFallback}>{iso}</span>
-                )}
-                <div className={styles.countryNameContainer}>
-                  <span className={styles.countryName}>{country.country}</span>
-                  <span className={styles.codeText}>{country.code}</span>
-                </div>
-              </button>
-            );
-          })}
+          <div className={styles.inner}>
+            {(!countries.length || error) && (
+              <div className={styles.dropdownNotice}>
+                {isLoading ? 'Загрузка справочника…' : error || 'Нет доступных стран'}
+              </div>
+            )}
+            {countries.map((country) => {
+              const iso = country.isoCode?.toUpperCase() ?? '--';
+              const isSelected = selectedId === country.id;
+              return (
+                <button
+                  key={country.id}
+                  type="button"
+                  className={styles.dropdownItem}
+                  onClick={() => {
+                    onSelect(country);
+                    setOpen(false);
+                  }}
+                  role="option"
+                  aria-selected={isSelected}
+                >
+                  {country.flagPath ? (
+                    <img
+                      src={country.flagPath}
+                      alt={`${country.country} flag`}
+                      className={styles.flagIcon}
+                    />
+                  ) : (
+                    <span className={styles.flagFallback}>{iso}</span>
+                  )}
+                  <div className={styles.countryNameContainer}>
+                    <span className={styles.countryName}>{country.country}</span>
+                    <span className={styles.codeText}>{country.code}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>

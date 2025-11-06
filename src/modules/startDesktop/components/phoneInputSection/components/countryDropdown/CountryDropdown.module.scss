@@ -64,14 +64,34 @@
   box-shadow: 0 4px 20px rgb(17 21 33 / 10%);
   z-index: 1000;
   max-height: 300px;
-  overflow-y: auto;
   margin-top: 2px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  overflow: hidden;
 }
 
-.dropdownMenu::-webkit-scrollbar {
-  display: none;
+.inner {
+  overflow-y: auto;
+  max-height: 300px;
+  box-sizing: border-box;
+}
+
+.inner::-webkit-scrollbar {
+  width: 6px;
+}
+
+.inner::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 13px;
+}
+
+.inner::-webkit-scrollbar-thumb {
+  background: #c3c7ce;
+  border-radius: 13px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .inner {
+    scrollbar-color: #8a948f #c1c5c7;
+  }
 }
 
 .dropdownNotice {
