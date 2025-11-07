@@ -9,7 +9,7 @@ import {
 } from 'react';
 
 import { DEFAULT_LANGUAGE, LANGUAGE_STORAGE_KEY, SUPPORTED_LANGUAGES } from './config';
-import { translations } from './translations';
+import { type TranslationDictionary, translations } from './translations';
 
 import type { LanguageCode } from './config';
 
@@ -68,6 +68,29 @@ const interpolate = (template: string, params?: TranslateParams): string => {
   });
 };
 
+const resolveTemplate = (dictionary: TranslationDictionary | undefined, key: string) => {
+  if (!dictionary) {
+    return undefined;
+  }
+
+  const segments = key.split('.');
+  let current: TranslationDictionary | string | undefined = dictionary;
+
+  for (let index = 0; index < segments.length; index++) {
+    if (current == null) {
+      return undefined;
+    }
+
+    if (typeof current === 'string') {
+      return index === segments.length - 1 ? current : undefined;
+    }
+
+    current = current[segments[index]];
+  }
+
+  return typeof current === 'string' ? current : undefined;
+};
+
 /**
  * Определяет нужный словарь по языку.
  *
@@ -78,9 +101,10 @@ const interpolate = (template: string, params?: TranslateParams): string => {
  * Возвращает готовую локализованную строку.
  * */
 const translate = (language: LanguageCode, key: string, params?: TranslateParams) => {
-  const dictionary = translations[language] ?? {};
-  const fallbackDictionary = translations[DEFAULT_LANGUAGE] ?? {};
-  const template = dictionary[key] ?? fallbackDictionary[key] ?? key;
+  const dictionary = translations[language];
+  const fallbackDictionary = translations[DEFAULT_LANGUAGE];
+  const template =
+    resolveTemplate(dictionary, key) ?? resolveTemplate(fallbackDictionary, key) ?? key;
 
   return interpolate(template, params);
 };

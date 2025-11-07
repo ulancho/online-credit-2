@@ -4,8 +4,9 @@ import ru from './localization/ru.json';
 
 import type { LanguageCode } from './config';
 
-type TranslationDictionary = Record<string, string>;
-
+export interface TranslationDictionary {
+  [key: string]: string | TranslationDictionary;
+}
 type TranslationsMap = Record<LanguageCode, TranslationDictionary>;
 
 export const translations: TranslationsMap = {
