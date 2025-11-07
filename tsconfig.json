@@ -12,6 +12,7 @@
     "moduleDetection": "force",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
 
     /* Decorators (MobX + InversifyJS) */
     "experimentalDecorators": true,
