@@ -1,45 +1,103 @@
 {
-  "common.actions.back": "Go back",
-  "common.actions.retry": "Try again",
-  "common.loader.aria": "Waiting for confirmation",
-  "common.languageSwitcher.label": "Select language",
-  "common.flagAlt": "{{country}} flag",
-  "start.common.timerLabel": "Expires in {{value}}",
-  "start.common.loadingDictionary": "Loading directory…",
-  "start.common.noCountries": "No countries available",
-  "start.common.loading": "Loading…",
-  "start.common.codePlaceholder": "Code",
-  "start.common.qrPlaceholder": "The QR code will appear here...",
-  "start.common.awaitingLogin": "Waiting for sign-in confirmation",
-  "start.common.noNotification": "I didn't receive a notification",
-  "start.common.signInDenied": "Sign-in denied",
-  "startDesktop.phone.header.title": "Sign in with MBANK ID",
-  "startDesktop.phone.form.phoneLabel": "Phone number",
-  "startDesktop.phone.form.errorFallback": "Couldn't load the country list.",
-  "startDesktop.phone.form.submit": "Continue",
-  "startDesktop.phone.form.privacy.prefix": "Before you start using the “Ticket” app, you can read its",
-  "startDesktop.phone.form.privacy.connector": "and",
-  "startDesktop.phone.form.privacy.privacyLink": "privacy policy",
-  "startDesktop.phone.form.privacy.termsLink": "terms of use.",
-  "startDesktop.phone.status.denied.subtitle": "Permission was not granted,\nplease try again",
-  "startDesktop.phone.status.expired.title": "Time is up",
-  "startDesktop.phone.status.expired.subtitle": "Permission was not provided in time,\nplease try again",
-  "startDesktop.phone.status.confirmed.title": "Sign-in approved",
-  "startDesktop.phone.status.confirmed.subtitle": "We'll redirect you to Ticket.kg — this will only take a few seconds.",
-  "startDesktop.qr.header.title": "Point the QR scanner\nfrom the MBANK app",
-  "startDesktop.qr.status.expired.title": "The QR code has expired",
-  "startDesktop.qr.status.expired.subtitle": "Refresh the page and try again.",
-  "startMobile.default.button": "Open MBANK",
-  "startMobile.generated.title.line1": "Waiting for",
-  "startMobile.generated.title.line2": "sign-in confirmation",
-  "startMobile.generated.subtitle": "This will only take a few seconds",
-  "startMobile.confirmed.title.line1": "You've successfully signed in with",
-  "startMobile.confirmed.title.line2": "MBank ID",
-  "startMobile.confirmed.subtitle": "We’ll redirect you to the service shortly…",
-  "startMobile.denied.title": "Access denied",
-  "startMobile.denied.subtitle": "If this happened by mistake, try signing in again.",
-  "errorDesktop.left.title": "Signing in with MBank ID is temporarily unavailable for this request",
-  "errorDesktop.left.subtitle": "Return to the site and choose another way to sign in — everything else is working as usual",
-  "errorMobile.title": "Something went wrong",
-  "errorMobile.subtitle": "Please try again later"
+  "common": {
+    "actions": {
+      "back": "Go back",
+      "retry": "Try again"
+    },
+    "loader": {
+      "aria": "Waiting for confirmation"
+    },
+    "languageSwitcher": {
+      "label": "Select language"
+    },
+    "flagAlt": "{{country}} flag"
+  },
+  "start": {
+    "common": {
+      "timerLabel": "Expires in {{value}}",
+      "loadingDictionary": "Loading directory…",
+      "noCountries": "No countries available",
+      "loading": "Loading…",
+      "codePlaceholder": "Code",
+      "qrPlaceholder": "The QR code will appear here...",
+      "awaitingLogin": "Waiting for sign-in confirmation",
+      "noNotification": "I didn't receive a notification",
+      "signInDenied": "Sign-in denied"
+    }
+  },
+  "startDesktop": {
+    "phone": {
+      "header": {
+        "title": "Sign in with MBANK ID"
+      },
+      "form": {
+        "phoneLabel": "Phone number",
+        "errorFallback": "Couldn't load the country list.",
+        "submit": "Continue",
+        "privacy": {
+          "prefix": "Before you start using the “Ticket” app, you can read its",
+          "connector": "and",
+          "privacyLink": "privacy policy",
+          "termsLink": "terms of use."
+        }
+      },
+      "status": {
+        "denied": {
+          "subtitle": "Permission was not granted,\nplease try again"
+        },
+        "expired": {
+          "title": "Time is up",
+          "subtitle": "Permission was not provided in time,\nplease try again"
+        },
+        "confirmed": {
+          "title": "Sign-in approved",
+          "subtitle": "We'll redirect you to Ticket.kg — this will only take a few seconds."
+        }
+      }
+    },
+    "qr": {
+      "header": {
+        "title": "Point the QR scanner\nfrom the MBANK app"
+      },
+      "status": {
+        "expired": {
+          "title": "The QR code has expired",
+          "subtitle": "Refresh the page and try again."
+        }
+      }
+    }
+  },
+  "startMobile": {
+    "default": {
+      "button": "Open MBANK"
+    },
+    "generated": {
+      "title": {
+        "line1": "Waiting for",
+        "line2": "sign-in confirmation"
+      },
+      "subtitle": "This will only take a few seconds"
+    },
+    "confirmed": {
+      "title": {
+        "line1": "You've successfully signed in with",
+        "line2": "MBank ID"
+      },
+      "subtitle": "We’ll redirect you to the service shortly…"
+    },
+    "denied": {
+      "title": "Access denied",
+      "subtitle": "If this happened by mistake, try signing in again."
+    }
+  },
+  "errorDesktop": {
+    "left": {
+      "title": "Signing in with MBank ID is temporarily unavailable for this request",
+      "subtitle": "Return to the site and choose another way to sign in — everything else is working as usual"
+    }
+  },
+  "errorMobile": {
+    "title": "Something went wrong",
+    "subtitle": "Please try again later"
+  }
 }
