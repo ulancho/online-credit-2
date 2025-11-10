@@ -1,5 +1,7 @@
 import { type ChangeEvent, type FormEvent, useState } from 'react';
 
+import { useTranslation } from 'Common/i18n';
+
 import { CountryDropdown } from '../countryDropdown/CountryDropdown';
 
 import styles from './PhoneForm.module.scss';
@@ -45,6 +47,7 @@ export function PhoneForm({
 }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <form onSubmit={onSubmit}>
@@ -79,7 +82,7 @@ export function PhoneForm({
               <label
                 className={`${styles.inputLabel} ${isFocused || phoneNumber ? styles.inputLabelHidden : ''}`}
               >
-                Номер телефона
+                {t('startDesktop.phone.form.phoneLabel')}
               </label>
             </div>
             {hasError && (
