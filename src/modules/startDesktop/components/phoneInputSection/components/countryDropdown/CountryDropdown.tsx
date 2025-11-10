@@ -1,10 +1,11 @@
-import { useMemo, useRef } from 'react';
+import { type MouseEventHandler, useMemo, useRef } from 'react';
+
+import { DropdownButton } from 'Modules/startDesktop/components/phoneInputSection/components/dropdownButton/DropdownButton.tsx';
+import { DropdownMenu } from 'Modules/startDesktop/components/phoneInputSection/components/dropdownMenu/DropdownMenu.tsx';
 
 import { useOutsideClick } from '../../hooks/useOutsideClick.ts';
 
-import styles from './CountryDropdown.module.scss';
-
-import type { CountryCode } from '../../../../services/countryCodeService.ts';
+import type { CountryCode } from 'Modules/startDesktop/services/countryCodeService.ts';
 
 type Props = {
   countries: CountryCode[];
@@ -28,85 +29,33 @@ export function CountryDropdown({
   const ref = useRef<HTMLDivElement | null>(null);
   useOutsideClick(ref, () => setOpen(false));
 
-  const selected = useMemo(
-    () => countries.find((c) => c.id === selectedId) ?? null,
+  const selectedCountry = useMemo(
+    () => countries.find((country) => country.id === selectedId) ?? null,
     [countries, selectedId],
   );
 
-  const selectedIso = selected?.isoCode?.toUpperCase() ?? '--';
-  const selectedCode = selected?.code ?? '';
+  const handleToggle: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.preventDefault();
+    setOpen(!isOpen);
+  };
 
   return (
     <div ref={ref}>
-      <button
-        type="button"
-        className={styles.dropdownButton}
-        onClick={() => setOpen(!isOpen)}
-        aria-expanded={isOpen}
-        aria-haspopup="listbox"
-      >
-        {selected?.flagPath ? (
-          <img
-            src={selected.flagPath}
-            alt={`${selected.country} flag`}
-            className={styles.flagMainIcon}
-          />
-        ) : (
-          <span className={styles.flagFallback}>{selectedIso}</span>
-        )}
-        <span className={styles.mainCodeText}>
-          {selectedCode || (isLoading ? 'Загрузка…' : 'Код')}
-        </span>
-        <svg
-          className={`${styles.dropdownArrow} ${isOpen ? styles.dropdownArrowOpen : ''}`}
-          viewBox="0 0 16 16"
-          fill="currentColor"
-        >
-          <path d="M4 6l4 4 4-4H4z" />
-        </svg>
-      </button>
-
+      <DropdownButton
+        country={selectedCountry}
+        isOpen={isOpen}
+        isLoading={isLoading}
+        onToggle={handleToggle}
+      />
       {isOpen && (
-        <div className={styles.dropdownMenu} role="listbox">
-          <div className={styles.inner}>
-            {(!countries.length || error) && (
-              <div className={styles.dropdownNotice}>
-                {isLoading ? 'Загрузка справочника…' : error || 'Нет доступных стран'}
-              </div>
-            )}
-            {countries.map((country) => {
-              const iso = country.isoCode?.toUpperCase() ?? '--';
-              const isSelected = selectedId === country.id;
-              return (
-                <button
-                  key={country.id}
-                  type="button"
-                  className={styles.dropdownItem}
-                  onClick={() => {
-                    onSelect(country);
-                    setOpen(false);
-                  }}
-                  role="option"
-                  aria-selected={isSelected}
-                >
-                  {country.flagPath ? (
-                    <img
-                      src={country.flagPath}
-                      alt={`${country.country} flag`}
-                      className={styles.flagIcon}
-                    />
-                  ) : (
-                    <span className={styles.flagFallback}>{iso}</span>
-                  )}
-                  <div className={styles.countryNameContainer}>
-                    <span className={styles.countryName}>{country.country}</span>
-                    <span className={styles.codeText}>{country.code}</span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        <DropdownMenu
+          countries={countries}
+          selectedId={selectedId}
+          isLoading={isLoading}
+          error={error}
+          onSelect={onSelect}
+          onClose={() => setOpen(false)}
+        />
       )}
     </div>
   );
