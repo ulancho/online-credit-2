@@ -1,0 +1,45 @@
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  margin-top: 2px;
+  max-height: 300px;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgb(17 21 33 / 10%);
+}
+
+.inner {
+  max-height: 300px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.inner::-webkit-scrollbar {
+  width: 6px;
+}
+
+.inner::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 13px;
+}
+
+.inner::-webkit-scrollbar-thumb {
+  background: #c3c7ce;
+  border-radius: 13px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .inner {
+    scrollbar-color: #8a948f #c1c5c7;
+  }
+}
+
+.dropdownNotice {
+  padding: 16px 12px;
+  font-size: 14px;
+  color: #626975;
+}
