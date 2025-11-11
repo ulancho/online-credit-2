@@ -1,32 +1,15 @@
 .appLayout {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #f4f5f6;
-}
-
-.content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-.contentInner {
-  flex: 1;
-  display: flex;
-  min-height: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, #009c4d 0%, #007e8b 61.2%);
 }
 
 .routesWrapper {
-  flex: 1;
-  display: flex;
-  min-height: 0;
+  border: 2px solid red;
   width: 100%;
-}
-
-.routesWrapper > * {
-  flex: 1;
+  min-height: 100vh;
   display: flex;
-  min-height: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
