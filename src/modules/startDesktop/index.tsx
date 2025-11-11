@@ -7,7 +7,7 @@ import { QrCodeSection } from 'Modules/startDesktop/components/qrCodeSection/QrC
 
 import styles from './styles/index.module.scss';
 
-function Start() {
+function StartDesktop() {
   const startService = useStartStore();
   const qrService = useQrStore();
   const qrStatusService = useQrStatusStore();
@@ -48,4 +48,4 @@ function Start() {
   );
 }
 
-export default Start;
+export default StartDesktop;

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import Start from 'Modules/startDesktop';
+import StartDesktop from 'Modules/startDesktop';
 import StartMobile from 'Modules/startMobile';
 
 const MOBILE_USER_AGENT_REGEX = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -26,7 +26,7 @@ function StartAuthRoute() {
     return MOBILE_USER_AGENT_REGEX.test(userAgent);
   }, []);
 
-  return isMobile ? <StartMobile /> : <Start />;
+  return isMobile ? <StartMobile /> : <StartDesktop />;
 }
 
 export default StartAuthRoute;
