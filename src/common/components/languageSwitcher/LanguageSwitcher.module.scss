@@ -1,123 +1,28 @@
-.wrapper {
-  position: relative;
-  display: inline-flex;
-}
+.container {
+  margin-top: 24px;
 
-.trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 1px solid rgb(17 22 34 / 12%);
-  background: rgb(255 255 255 / 85%);
-  color: #111622;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
-}
-
-.trigger:hover,
-.trigger:focus-visible {
-  border-color: rgb(0 126 139 / 45%);
-  box-shadow: 0 0 0 3px rgb(0 126 139 / 15%);
-  outline: none;
-}
-
-.triggerOpen {
-  border-color: rgb(0 126 139 / 60%);
-  box-shadow: 0 0 0 3px rgb(0 126 139 / 12%);
-  background: rgb(255 255 255 / 95%);
-}
-
-.triggerLabel {
-  line-height: 1;
-}
-
-.triggerArrow {
-  font-size: 10px;
-  line-height: 1;
-  transition: transform 0.2s ease;
-}
-
-.triggerOpen .triggerArrow {
-  transform: rotate(180deg);
-}
-
-.dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  padding: 4px;
-  margin: 0;
-  list-style: none;
-  min-width: 120px;
-  background: #fff;
-  border-radius: 12px;
-  border: 1px solid rgb(17 22 34 / 12%);
-  box-shadow: 0 12px 32px rgb(17 22 34 / 12%);
-  z-index: 20;
-}
-
-.dropdownItem + .dropdownItem {
-  margin-top: 4px;
-}
-
-.option {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 12px;
-  border: none;
-  border-radius: 10px;
-  background: transparent;
-  color: #111622;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.option:hover,
-.option:focus-visible {
-  outline: none;
-  background-color: rgb(0 156 77 / 8%);
-}
-
-.optionActive {
-  background-color: rgb(0 126 139 / 12%);
-  color: #007e8b;
-  font-weight: 700;
-}
-
-.optionLabel {
-  line-height: 1;
-}
-
-.optionMarker {
-  font-size: 12px;
-  line-height: 1;
-}
-
-@media (width <= 640px) {
-  .trigger {
-    padding: 8px 10px;
-    font-size: 13px;
+  ul {
+    list-style: none;
+    display: flex;
+    gap: 24px;
   }
 
-  .option {
-    font-size: 13px;
+  li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+
+  span {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    color: #fff;
+    opacity: 0.5;
   }
 }

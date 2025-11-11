@@ -1,6 +1,7 @@
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import StartAuthRoute from '@/app/StartAuthRoute.tsx';
+import LanguageSwitcher from 'Common/components/languageSwitcher/LanguageSwitcher.tsx';
 import License from 'Common/components/license/License.tsx';
 import Error from 'Modules/errorDesktop';
 import ErrorMobile from 'Modules/errorMobile';
@@ -19,6 +20,7 @@ function App() {
             <Route path="/error-web" element={<Error />} />
             <Route path="/error-mobile" element={<ErrorMobile />} />
           </Routes>
+          <LanguageSwitcher />
           <License />
         </div>
       </div>
