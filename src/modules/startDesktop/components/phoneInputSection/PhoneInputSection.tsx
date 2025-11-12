@@ -154,6 +154,7 @@ export const PhoneInputSection = observer(function () {
             privacyPolicyUrl={startService.startInfo?.privacyPolicyUrl}
             termOfServiceUrl={startService.startInfo?.termOfServiceUrl}
             isCountrySelected={!!selectedCountry}
+            clientName={startService.startInfo?.clientName}
           />
         );
     }

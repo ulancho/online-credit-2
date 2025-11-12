@@ -25,6 +25,7 @@ type Props = {
   privacyPolicyUrl?: string | null;
   termOfServiceUrl?: string | null;
   isCountrySelected: boolean;
+  clientName?: string;
 };
 
 export function PhoneForm({
@@ -44,13 +45,14 @@ export function PhoneForm({
   privacyPolicyUrl,
   termOfServiceUrl,
   isCountrySelected,
+  clientName,
 }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const { t } = useTranslation();
 
   return (
-    <form onSubmit={onSubmit}>
+    <form className={styles.formSection} onSubmit={onSubmit}>
       <div className={styles.inputContainer}>
         <div className={`${styles.inputWrapper} ${submitError ? styles.errorBorder : ''}`}>
           <CountryDropdown
@@ -102,8 +104,7 @@ export function PhoneForm({
           </p>
         </div>
       </div>
-
-      <div className={styles.buttonSection}>
+      <div className={styles.buttonContainer}>
         <button
           type="submit"
           className={`${styles.submitButton} ${isFormValid ? styles.submitButtonActive : ''} ${
@@ -112,12 +113,13 @@ export function PhoneForm({
           disabled={!isFormValid || isSubmitting}
         >
           <span className={`${styles.buttonText} ${isFormValid ? styles.buttonTextActive : ''}`}>
-            Далее
+            {t('startDesktop.phone.form.submit')}
           </span>
         </button>
-
+      </div>
+      <div className={styles.privacyContainer}>
         <p className={styles.privacyText}>
-          Прежде чем начать работу с приложением &quot;Ticket&quot;, вы можете ознакомиться с его{' '}
+          {t('startDesktop.phone.form.privacy.prefix', { value: clientName || '' })}{' '}
           <a
             target="_blank"
             href={privacyPolicyUrl ?? undefined}
