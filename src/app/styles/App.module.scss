@@ -12,3 +12,9 @@
   justify-content: center;
   align-items: center;
 }
+
+@media (width <= 1536px) {
+  .routesWrapper {
+    zoom: 0.96;
+  }
+}
