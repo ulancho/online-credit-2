@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { applyLanguageInterceptor } from 'Common/api/languageInterceptor.ts';
+
 export interface DirectoryResponse {
   id: string;
   code: string;
@@ -46,6 +48,8 @@ const countryCodesClient = axios.create({
   },
   timeout: 10000,
 });
+
+applyLanguageInterceptor(countryCodesClient);
 
 export async function fetchCountryCodes() {
   const payload: DirectoryRequestPayload = {

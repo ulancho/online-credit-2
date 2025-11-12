@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { applyLanguageInterceptor } from 'Common/api/languageInterceptor.ts';
+
 const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
 const baseURL = isLocalhost
@@ -13,3 +15,5 @@ export const httpClient = axios.create({
   },
   timeout: 10000,
 });
+
+applyLanguageInterceptor(httpClient);
