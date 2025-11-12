@@ -35,10 +35,11 @@
         "errorFallback": "Couldn't load the country list.",
         "submit": "Continue",
         "privacy": {
-          "prefix": "Before you start using the “Ticket” app, you can read its",
+          "prefix": "Before you start using the “{{value}}” app, you can read its",
           "connector": "and",
           "privacyLink": "privacy policy",
-          "termsLink": "terms of use."
+          "termsLink": "terms of use.",
+          "end": ""
         }
       },
       "status": {

@@ -126,17 +126,18 @@ export function PhoneForm({
             className={styles.privacyLink}
             rel="noreferrer"
           >
-            политикой конфиденциальности
+            {t('startDesktop.phone.form.privacy.privacyLink')}
           </a>{' '}
-          и{' '}
+          {t('startDesktop.phone.form.privacy.connector')}{' '}
           <a
             target="_blank"
             href={termOfServiceUrl ?? undefined}
             rel="noreferrer"
             className={styles.privacyLink}
           >
-            условиями пользования.
-          </a>
+            {t('startDesktop.phone.form.privacy.termsLink')}
+          </a>{' '}
+          {t('startDesktop.phone.form.privacy.end')}
         </p>
       </div>
     </form>
