@@ -58,7 +58,7 @@
     },
     "qr": {
       "header": {
-        "title": "Point the QR scanner\nfrom the MBANK app"
+        "title": "Use the QR scanner\nfrom the MBANK app"
       },
       "status": {
         "expired": {
