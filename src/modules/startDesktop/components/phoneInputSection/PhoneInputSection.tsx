@@ -91,7 +91,7 @@ export const PhoneInputSection = observer(function () {
     });
   }, [countryCodes]);
 
-  const boundTimerLabel = secondsLeft != null ? `Истекает через ${formatMMSS(secondsLeft)}` : null;
+  const boundTimerLabel = secondsLeft != null ? formatMMSS(secondsLeft) : null;
 
   const handleCountrySelect = useCallback(
     (country: CountryCode) => {

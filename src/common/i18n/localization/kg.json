@@ -21,7 +21,7 @@
       "codePlaceholder": "Код",
       "qrPlaceholder": "QR-код бул жерде пайда болот...",
       "awaitingLogin": "Кирүү ырастоосун күтүп жатабыз",
-      "noNotification": "Маалыматтама алган жокмун",
+      "noNotification": "Мага эскертме келген жок",
       "signInDenied": "Кирүү четке кагылды"
     }
   },
