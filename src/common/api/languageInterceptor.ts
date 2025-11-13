@@ -7,6 +7,12 @@ import {
   type LanguageCode,
 } from 'Common/i18n/config.ts';
 
+const acceptLanguages = {
+  kg: 'ky-KG',
+  en: 'en-US',
+  ru: 'ru-RU',
+};
+
 const isSupportedLanguage = (value: string | null | undefined): value is LanguageCode => {
   if (!value) {
     return false;
@@ -15,17 +21,17 @@ const isSupportedLanguage = (value: string | null | undefined): value is Languag
   return SUPPORTED_LANGUAGES.some((language) => language.code === value);
 };
 
-const resolveAcceptLanguage = (): LanguageCode => {
+const resolveAcceptLanguage = (): string => {
   const documentLanguage =
     typeof document !== 'undefined' ? document.documentElement.getAttribute('lang') : null;
   if (isSupportedLanguage(documentLanguage)) {
-    return documentLanguage;
+    return acceptLanguages[documentLanguage];
   }
 
   const storedLanguage =
     typeof window !== 'undefined' ? window.localStorage.getItem(LANGUAGE_STORAGE_KEY) : null;
   if (isSupportedLanguage(storedLanguage)) {
-    return storedLanguage;
+    return acceptLanguages[storedLanguage];
   }
 
   const navigatorLanguage =
@@ -33,10 +39,10 @@ const resolveAcceptLanguage = (): LanguageCode => {
       ? window.navigator.language?.slice(0, 2).toLowerCase()
       : undefined;
   if (isSupportedLanguage(navigatorLanguage)) {
-    return navigatorLanguage;
+    return acceptLanguages[navigatorLanguage];
   }
 
-  return DEFAULT_LANGUAGE;
+  return acceptLanguages[DEFAULT_LANGUAGE];
 };
 
 export const applyLanguageInterceptor = (client: AxiosInstance) => {
