@@ -2,6 +2,11 @@ import { isAxiosError } from 'axios';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
 import {
+  ERROR_CODE_TOO_MANY_REQUEST,
+  ERROR_CODE_USER_NOT_FOUND,
+} from 'Modules/startDesktop/services/helpers/constants.ts';
+
+import {
   fetchPhoneAuthStatus,
   sendPhoneAuthRequest,
   type PhoneAuthRequestPayload,
@@ -69,15 +74,9 @@ export class PhoneAuthService {
       if (isAxiosError(error)) {
         const responseData = error.response?.data;
 
-        if (
-          responseData.code ===
-          'unified.svc.biz.ib.cbk.mbank-id.errorDesktop.private-user-not-found'
-        ) {
-          message = 'Такой номер не найден, проверьте номер';
-        } else if (
-          responseData.code ===
-          'unified.svc.biz.ib.cbk.mbank-id.error.authorization-too-many-request'
-        ) {
+        if (responseData.code === ERROR_CODE_USER_NOT_FOUND) {
+          message = responseData.message;
+        } else if (responseData.code === ERROR_CODE_TOO_MANY_REQUEST) {
           message = responseData.message;
         } else if (typeof error.message === 'string' && error.message.trim()) {
           message = error.message;
