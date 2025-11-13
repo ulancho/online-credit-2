@@ -47,7 +47,7 @@
           "subtitle": "Permission was not granted, please try again"
         },
         "expired": {
-          "title": "Time is up",
+          "title": "Time expired",
           "subtitle": "Permission was not provided in time,\nplease try again"
         },
         "confirmed": {
