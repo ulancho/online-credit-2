@@ -95,6 +95,7 @@ export class CountryCodeService {
     } finally {
       runInAction(() => {
         this.awaiting = false;
+        this.isFetched = false;
       });
     }
   }

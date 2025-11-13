@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { type ChangeEvent, type FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
+import { useTranslation } from 'Common/i18n';
 import {
   useCountryCodesStore,
   usePhoneAuthStore,
@@ -25,6 +26,7 @@ export const PhoneInputSection = observer(function () {
   const { countryCodes, isLoading: ccLoading, hasError, error: ccError } = countryCodesService;
   const startService = useStartStore();
   const phoneAuthService = usePhoneAuthStore();
+  const { language } = useTranslation();
 
   const [selectedId, setSelectedId] = useState<number | string | null>(null);
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -76,7 +78,7 @@ export const PhoneInputSection = observer(function () {
 
   useEffect(() => {
     void countryCodesService.fetchCountryCodes();
-  }, [countryCodesService]);
+  }, [countryCodesService, language]);
 
   useEffect(() => {
     if (!countryCodes.length) {
