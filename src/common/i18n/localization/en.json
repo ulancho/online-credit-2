@@ -20,7 +20,7 @@
       "loading": "Loading…",
       "codePlaceholder": "Code",
       "qrPlaceholder": "The QR code will appear here...",
-      "awaitingLogin": "Waiting for sign-in confirmation",
+      "awaitingLogin": "Waiting for login confirmation",
       "noNotification": "I didn't receive a notification",
       "signInDenied": "Sign-in denied"
     }
@@ -51,8 +51,8 @@
           "subtitle": "Permission was not provided in time,\nplease try again"
         },
         "confirmed": {
-          "title": "Sign-in approved",
-          "subtitle": "We'll redirect you to Ticket.kg — this will only take a few seconds."
+          "title": "Login approved",
+          "subtitle": "We'll redirect you to {{value}} \nit'll only take a couple of seconds."
         }
       }
     },

@@ -1,14 +1,21 @@
 import confirmedIconUrl from 'Assets/icons/confirmed.svg';
+import { useTranslation } from 'Common/i18n';
 
 import styles from './ConfirmedStatus.module.scss';
 
-export function ConfirmedStatus() {
+type Props = {
+  clientName?: string;
+};
+
+export function ConfirmedStatus({ clientName }: Props) {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.container}>
       <img src={confirmedIconUrl} alt="confirmed" className={styles.icon} />
-      <p className={styles.title}>Вход одобрен</p>
+      <p className={styles.title}>{t('startDesktop.phone.status.confirmed.title')}</p>
       <p className={styles.subtitle}>
-        Мы перенаправим вас на сайт Ticket.kg <br /> — это займёт всего пару секунд.
+        {t('startDesktop.phone.status.confirmed.subtitle', { value: clientName || '' })}
       </p>
     </div>
   );

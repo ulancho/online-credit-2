@@ -130,7 +130,7 @@ export const PhoneInputSection = observer(function () {
   const renderContent = () => {
     switch (phoneAuthStatus) {
       case 'CONFIRMED':
-        return <ConfirmedStatus />;
+        return <ConfirmedStatus clientName={startService.startInfo?.clientName} />;
       case 'BOUND':
         return <BoundStatus timerLabel={boundTimerLabel} onBack={handleBack} />;
       case 'DENIED':
