@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 
 import backIconUrl from 'Assets/icons/back.svg';
+import { useTranslation } from 'Common/i18n';
 
 import styles from './style.module.scss';
 
@@ -17,6 +18,8 @@ const BackButton: React.FC<ButtonProps> = ({
   disabled = false,
   type = 'button',
 }) => {
+  const { t } = useTranslation();
+
   return (
     <button
       type={type}
@@ -25,7 +28,7 @@ const BackButton: React.FC<ButtonProps> = ({
       disabled={disabled}
     >
       <img src={backIconUrl} alt="back" />
-      <span>Вернуться</span>
+      <span>{t('common.actions.back')}</span>
     </button>
   );
 };

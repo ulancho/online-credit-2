@@ -22,7 +22,7 @@
       "qrPlaceholder": "The QR code will appear here...",
       "awaitingLogin": "Waiting for login confirmation",
       "noNotification": "I didn't receive a notification",
-      "signInDenied": "Sign-in denied"
+      "signInDenied": "Login rejected"
     }
   },
   "startDesktop": {
@@ -44,7 +44,7 @@
       },
       "status": {
         "denied": {
-          "subtitle": "Permission was not granted,\nplease try again"
+          "subtitle": "Permission was not granted, please try again"
         },
         "expired": {
           "title": "Time is up",
