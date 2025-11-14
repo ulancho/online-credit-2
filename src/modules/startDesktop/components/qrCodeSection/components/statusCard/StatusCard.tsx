@@ -48,13 +48,6 @@ export const StatusCard = ({
           <DeniedStatus onRetry={onRetry} isLoading={isLoading} />
         </div>
       );
-    // данный стейт скрыт, так как если EXPIRED то на фоне запрашиваю данные для QR заново и рендерим новый QR
-    // case 'EXPIRED':
-    //   return (
-    //     <div className={`${baseClassName} ${styles.statusContainer}`}>
-    //       <ExpiredStatus />
-    //     </div>
-    //   );
     default:
       return (
         <div className={baseClassName}>

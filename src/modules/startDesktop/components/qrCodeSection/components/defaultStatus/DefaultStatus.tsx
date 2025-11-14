@@ -1,5 +1,7 @@
 import { type MutableRefObject } from 'react';
 
+import { useTranslation } from 'Common/i18n';
+
 import styles from './DefaultStatus.module.scss';
 
 interface DefaultStateProps {
@@ -19,6 +21,7 @@ export const DefaultStatus = ({
   isLoading,
   timerLabel,
 }: DefaultStateProps) => {
+  const { t } = useTranslation();
   const placeholderText =
     qrError ?? libraryError ?? (isLoading ? 'Загрузка…' : 'QR-код появится здесь...');
 
@@ -28,7 +31,9 @@ export const DefaultStatus = ({
         <div ref={qrContainerRef} className={styles.qrCanvas} aria-hidden="true" />
       </div>
       <div className={qrError ? styles.errorMessage : styles.timerSection}>
-        <span className={qrError ? styles.errorText : styles.timerText}>{timerLabel}</span>
+        <span className={qrError ? styles.errorText : styles.timerText}>
+          {timerLabel && t('start.common.timerLabel', { value: timerLabel || '' })}
+        </span>
       </div>
       {!qrReady && <div className={styles.qrPlaceholder}>{placeholderText}</div>}
     </div>

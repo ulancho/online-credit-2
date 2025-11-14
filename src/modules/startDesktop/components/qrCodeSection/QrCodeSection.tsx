@@ -20,6 +20,7 @@ const QR_LOGO_DATA_URI = `data:image/svg+xml;utf8,${encodeURIComponent(qrLogoSvg
 export const QrCodeSection = observer(function () {
   const qrService = useQrStore();
   const qrStatusService = useQrStatusStore();
+
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
 
   const qrInfo = qrService.qrInfo;
@@ -120,11 +121,12 @@ export const QrCodeSection = observer(function () {
 
   const qrReady = Boolean(qrLink) && Boolean(qrInstanceRef.current);
 
-  const timerLabel = secondsLeft != null ? `Истекает через ${formatMMSS(secondsLeft)}` : null;
+  const timerLabel = secondsLeft != null ? formatMMSS(secondsLeft) : null;
 
   return (
     <section className={styles.section}>
       <div className={styles.content}>
+        {/*<ErrorStatus />*/}
         <Header />
         <StatusCard
           status={qrStatus}

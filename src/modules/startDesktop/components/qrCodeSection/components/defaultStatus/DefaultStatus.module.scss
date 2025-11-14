@@ -2,8 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  // flex: 1;
 }
 
 .qrCodeWrapper {
@@ -27,13 +25,10 @@
 }
 
 .qrPlaceholder {
-  border-radius: 12px;
-  background: #f4f5f6;
   color: #8c949f;
   text-align: center;
-  font-size: 14px;
-  padding: 16px;
-  margin-top: 30%;
+  font-size: 15px;
+  margin-top: 40%;
 }
 
 .timerSection {
