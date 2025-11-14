@@ -1,9 +1,11 @@
+import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import qrLogoSvg from 'Assets/icons/mbank-logo.svg?raw';
 import { useQrStatusStore, useQrStore } from 'Common/stores/rootStore.tsx';
 import { formatMMSS, getTargetMs } from 'Common/utils/time.ts';
+import ErrorStatus from 'Modules/startDesktop/components/qrCodeSection/components/errorStatus/ErrorStatus.tsx';
 import { Footer } from 'Modules/startDesktop/components/qrCodeSection/components/footer/Footer.tsx';
 import { Header } from 'Modules/startDesktop/components/qrCodeSection/components/header/Header.tsx';
 import { StatusCard } from 'Modules/startDesktop/components/qrCodeSection/components/statusCard/StatusCard.tsx';
@@ -29,6 +31,7 @@ export const QrCodeSection = observer(function () {
   const qrId = qrInfo?.id ?? null;
   const isLoading = qrService.isLoading;
   const qrError = qrService.error;
+  const hasError = Boolean(qrError);
 
   const qrStatus = qrStatusService.status;
   const redirectUrl = qrStatusService.redirectUrl;
@@ -123,10 +126,13 @@ export const QrCodeSection = observer(function () {
 
   const timerLabel = secondsLeft != null ? formatMMSS(secondsLeft) : null;
 
-  return (
-    <section className={styles.section}>
-      <div className={styles.content}>
-        {/*<ErrorStatus />*/}
+  const renderContent = () => {
+    if (hasError) {
+      return <ErrorStatus />;
+    }
+
+    return (
+      <>
         <Header />
         <StatusCard
           status={qrStatus}
@@ -138,6 +144,18 @@ export const QrCodeSection = observer(function () {
           timerLabel={timerLabel}
           onRetry={handleRetry}
         />
+      </>
+    );
+  };
+
+  return (
+    <section className={styles.section}>
+      <div
+        className={classNames(styles.content, {
+          [styles.contentError]: hasError,
+        })}
+      >
+        {renderContent()}
         <Footer />
       </div>
     </section>
