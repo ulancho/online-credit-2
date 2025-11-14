@@ -31,6 +31,8 @@ export const QrCodeSection = observer(function () {
   const qrId = qrInfo?.id ?? null;
   const isLoading = qrService.isLoading;
   const qrError = qrService.error;
+  const errorRedirectUri = qrService.redirectUriOnError;
+  const errorStatusCode = qrService.statusCodeOnError;
   const hasError = Boolean(qrError);
 
   const qrStatus = qrStatusService.status;
@@ -121,6 +123,12 @@ export const QrCodeSection = observer(function () {
       window.location.href = redirectUrl;
     }
   }, [qrStatus, redirectUrl]);
+
+  useEffect(() => {
+    if (errorRedirectUri && errorStatusCode && errorStatusCode !== 200) {
+      window.location.replace(errorRedirectUri);
+    }
+  }, [errorRedirectUri, errorStatusCode]);
 
   const qrReady = Boolean(qrLink) && Boolean(qrInstanceRef.current);
 

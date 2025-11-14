@@ -20,6 +20,8 @@ export class QrInfoService {
   @observable.ref private data: QrInfoData | null = createDefaultQrInfo();
   @observable private isFetching = false;
   @observable private errorMessage: string | null = null;
+  @observable private errorRedirectUri: string | null = null;
+  @observable private errorStatusCode: number | null = null;
 
   constructor(
     private readonly queryParamsService: QueryParamsService,
@@ -33,12 +35,16 @@ export class QrInfoService {
     this.data = createDefaultQrInfo();
     this.isFetching = false;
     this.errorMessage = null;
+    this.errorRedirectUri = null;
+    this.errorStatusCode = null;
   }
 
   @action
   async fetchQrInfo() {
     this.isFetching = true;
     this.errorMessage = null;
+    this.errorRedirectUri = null;
+    this.errorStatusCode = null;
 
     const payload = this.buildQrInfoPayload();
 
@@ -61,17 +67,16 @@ export class QrInfoService {
         message = 'Ошибка на сервере';
       }
 
+      const redirectUri =
+        response?.data?.redirect_uri ?? this.queryParamsService.queryParamRedirectUri;
+      const status = response?.status ?? null;
+
       runInAction(() => {
         this.data = null;
         this.errorMessage = message;
+        this.errorRedirectUri = redirectUri ?? null;
+        this.errorStatusCode = status;
       });
-
-      const redirectUri =
-        response?.data?.redirect_uri ?? this.queryParamsService.queryParamRedirectUri;
-
-      if (redirectUri && response?.status && response.status !== 200) {
-        window.location.replace(redirectUri);
-      }
     } finally {
       runInAction(() => {
         this.isFetching = false;
@@ -97,6 +102,16 @@ export class QrInfoService {
   @computed
   get error(): string | null {
     return this.errorMessage;
+  }
+
+  @computed
+  get redirectUriOnError(): string | null {
+    return this.errorRedirectUri;
+  }
+
+  @computed
+  get statusCodeOnError(): number | null {
+    return this.errorStatusCode;
   }
 
   private buildQrInfoPayload(): QrInfoRequestPayload {
