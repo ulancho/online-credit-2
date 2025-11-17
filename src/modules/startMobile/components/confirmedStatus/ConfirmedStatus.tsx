@@ -1,14 +1,17 @@
 import confirmedIconUrl from 'Assets/icons/confirmed.svg';
+import { useTranslation } from 'Common/i18n';
 
 import styles from './ConfirmedStatus.module.scss';
 
 const ConfirmedStatus = () => {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.confirmedContainer}>
       <h2 className={styles.mainTitle}>
-        Вы успешно вошли через <br /> MBank ID
+        {t('startMobile.confirmed.title.line1')} <br /> {t('startMobile.confirmed.title.line2')}
       </h2>
-      <p className={styles.subtitle}>Сейчас перенаправим вас в сервис..</p>
+      <p className={styles.subtitle}>{t('startMobile.confirmed.subtitle')}</p>
       <img src={confirmedIconUrl} alt="confirmed" className={styles.confirmedIcon} />
     </div>
   );
