@@ -19,12 +19,33 @@ function StartDesktop() {
 
     let isActive = true;
 
-    void (async () => {
-      const isStartInfoFetched = await startService.fetchStartInfo();
+    const redirectToErrorPage = () => {
+      window.location.assign('/error-web');
+    };
 
-      if (isActive && isStartInfoFetched) {
-        await qrService.fetchQrInfo();
+    const handleRedirect = (status?: number, redirectUri?: string | null) => {
+      if (status && status !== 200) {
+        if (redirectUri) {
+          window.location.replace(redirectUri);
+          return;
+        }
       }
+
+      redirectToErrorPage();
+    };
+
+    void (async () => {
+      const { isSuccess, errorStatus, redirectUri } = await startService.fetchStartInfo();
+
+      if (!isActive) {
+        return;
+      }
+
+      if (isSuccess) {
+        await qrService.fetchQrInfo();
+        return;
+      }
+      handleRedirect(errorStatus, redirectUri);
     })();
 
     return () => {

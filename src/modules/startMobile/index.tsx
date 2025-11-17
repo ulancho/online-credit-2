@@ -44,9 +44,37 @@ const StartMobile = () => {
   useEffect(() => {
     startStore.setQueryParams(queryParams);
 
-    void startStore.fetchStartInfo('mobile');
+    let isActive = true;
+
+    const redirectToErrorPage = () => {
+      window.location.assign('/error-mobile');
+    };
+
+    const handleRedirect = (status?: number, redirectUri?: string | null) => {
+      if (status && status !== 200) {
+        if (redirectUri) {
+          window.location.replace(redirectUri);
+          return;
+        }
+      }
+
+      redirectToErrorPage();
+    };
+
+    void (async () => {
+      const { isSuccess, errorStatus, redirectUri } = await startStore.fetchStartInfo();
+
+      if (!isActive) {
+        return;
+      }
+
+      if (!isSuccess) {
+        handleRedirect(errorStatus, redirectUri);
+      }
+    })();
 
     return () => {
+      isActive = false;
       startStore.reset();
     };
   }, [queryParams, startStore]);

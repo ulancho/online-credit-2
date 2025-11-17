@@ -22,6 +22,12 @@ interface StartInfoData {
   state: string;
 }
 
+interface FetchStartInfoResult {
+  isSuccess: boolean;
+  errorStatus?: number;
+  redirectUri?: string | null;
+}
+
 export class StartInfoService {
   @observable.ref private data: StartInfoData | null = null;
   @observable private isFetching = false;
@@ -48,7 +54,7 @@ export class StartInfoService {
   }
 
   @action
-  async fetchStartInfo(type = 'web'): Promise<boolean> {
+  async fetchStartInfo(): Promise<FetchStartInfoResult> {
     this.isFetching = true;
     this.errorMessage = null;
 
@@ -60,7 +66,7 @@ export class StartInfoService {
       runInAction(() => {
         this.data = this.transformStartInfo(data);
       });
-      return true;
+      return { isSuccess: true };
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Не удалось получить стартовую информацию.';
@@ -71,16 +77,13 @@ export class StartInfoService {
       });
 
       const status = (error as { response?: { status?: number } }).response?.status;
-      const redirectUri =
-        this.startInfo?.redirectUri ?? this.queryParamsService.queryParamRedirectUri;
-      if (status && status !== 200) {
-        if (redirectUri) {
-          window.location.replace(redirectUri);
-        } else {
-          window.location.assign(`/error-${type}`);
-        }
-      }
-      return false;
+      const redirectUri = this.queryParamsService.queryParamRedirectUri;
+
+      return {
+        isSuccess: false,
+        errorStatus: status,
+        redirectUri,
+      };
     } finally {
       runInAction(() => {
         this.isFetching = false;

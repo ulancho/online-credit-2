@@ -4,14 +4,14 @@ import { useTranslation } from 'Common/i18n';
 
 import styles from './Header.module.scss';
 
-interface HeaderSectionProps {
+interface HeaderProps {
   shouldShowSkeleton: boolean;
   logoUrl?: string;
   status?: string;
   clientName: string;
 }
 
-const Header = ({ shouldShowSkeleton, logoUrl, status, clientName }: HeaderSectionProps) => {
+const Header = ({ shouldShowSkeleton, logoUrl, status, clientName }: HeaderProps) => {
   const { t } = useTranslation();
 
   return (
