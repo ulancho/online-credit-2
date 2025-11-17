@@ -1,5 +1,8 @@
 {
   "common": {
+    "header": {
+      "title": "MBANK ID аркылуу кирүү"
+    },
     "actions": {
       "back": "Артка кайтуу",
       "retry": "Кайра аракет кылуу"
@@ -31,9 +34,6 @@
   },
   "startDesktop": {
     "phone": {
-      "header": {
-        "title": "MBANK ID аркылуу кирүү"
-      },
       "form": {
         "phoneLabel": "Телефон номери",
         "errorFallback": "Өлкөлөрдүн тизмесин жүктөө мүмкүн болбоду.",

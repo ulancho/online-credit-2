@@ -1,5 +1,8 @@
 {
   "common": {
+    "header": {
+      "title": "Войти через MBANK ID"
+    },
     "actions": {
       "back": "Вернуться",
       "retry": "Попробовать еще раз"
@@ -31,9 +34,6 @@
   },
   "startDesktop": {
     "phone": {
-      "header": {
-        "title": "Войти через MBANK ID"
-      },
       "form": {
         "phoneLabel": "Номер телефона",
         "errorFallback": "Не удалось загрузить список стран.",

@@ -1,5 +1,8 @@
 {
   "common": {
+    "header": {
+      "title": "Sign in with MBANK ID"
+    },
     "actions": {
       "back": "Go back",
       "retry": "Try again"
@@ -31,9 +34,6 @@
   },
   "startDesktop": {
     "phone": {
-      "header": {
-        "title": "Sign in with MBANK ID"
-      },
       "form": {
         "phoneLabel": "Phone number",
         "errorFallback": "Couldn't load the country list.",

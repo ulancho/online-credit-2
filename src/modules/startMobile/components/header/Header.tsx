@@ -1,5 +1,7 @@
 import Skeleton from 'react-loading-skeleton';
 
+import { useTranslation } from 'Common/i18n';
+
 import styles from './Header.module.scss';
 
 interface HeaderSectionProps {
@@ -10,6 +12,8 @@ interface HeaderSectionProps {
 }
 
 const Header = ({ shouldShowSkeleton, logoUrl, status, clientName }: HeaderSectionProps) => {
+  const { t } = useTranslation();
+
   return (
     <header className={styles.headerSection}>
       {shouldShowSkeleton ? (
@@ -19,7 +23,7 @@ const Header = ({ shouldShowSkeleton, logoUrl, status, clientName }: HeaderSecti
       )}
       {!status && (
         <div className={styles.titleSection}>
-          <h1 className={styles.mainTitle}>Войти через MBANK ID</h1>
+          <h1 className={styles.mainTitle}>{t('common.header.title')}</h1>
           {shouldShowSkeleton ? (
             <Skeleton height={22} width="60%" className={styles.subtitleSkeleton} />
           ) : (
