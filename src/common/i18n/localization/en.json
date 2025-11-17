@@ -17,6 +17,13 @@
     "errors": {
       "somethingError": "Something went wrong",
       "tryAgain": "Please try again later"
+    },
+    "privacy": {
+      "prefix": "Before you start using the “{{value}}” app, you can read its",
+      "connector": "and",
+      "privacyLink": "privacy policy",
+      "termsLink": "terms of use.",
+      "end": ""
     }
   },
   "start": {
@@ -37,14 +44,7 @@
       "form": {
         "phoneLabel": "Phone number",
         "errorFallback": "Couldn't load the country list.",
-        "submit": "Continue",
-        "privacy": {
-          "prefix": "Before you start using the “{{value}}” app, you can read its",
-          "connector": "and",
-          "privacyLink": "privacy policy",
-          "termsLink": "terms of use.",
-          "end": ""
-        }
+        "submit": "Continue"
       },
       "status": {
         "denied": {

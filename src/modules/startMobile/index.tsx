@@ -115,6 +115,7 @@ const StartMobile = () => {
             shouldShowSkeleton={shouldShowSkeleton}
             onLogin={handleMBankLogin}
             isLoading={startMobileInfoStore.isLoadingStartMobile}
+            clientName={clientName}
           />
         );
     }

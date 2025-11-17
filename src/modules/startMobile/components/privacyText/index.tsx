@@ -1,10 +1,16 @@
 import { observer } from 'mobx-react-lite';
 
+import { useTranslation } from 'Common/i18n';
 import { useStartStore } from 'Common/stores/rootStore.tsx';
 
 import styles from './PrivacyText.module.css';
 
-function PrivacyText() {
+interface PrivacyTextProps {
+  clientName: string;
+}
+
+function PrivacyText({ clientName }: PrivacyTextProps) {
+  const { t } = useTranslation();
   const startService = useStartStore();
   const privacyPolicyUrl = startService.startInfo?.privacyPolicyUrl;
   const termOfServiceUrl = startService.startInfo?.termOfServiceUrl;
@@ -12,14 +18,15 @@ function PrivacyText() {
   return (
     <div className={styles.privacyContainer}>
       <p className={styles.privacyText}>
-        Прежде чем начать работу с приложением &quot;Ticket&quot;, вы можете ознакомиться с его{' '}
+        {t('common.privacy.prefix', { value: clientName || '' })}{' '}
         <a target="_blank" href={privacyPolicyUrl} className={styles.privacyLink} rel="noreferrer">
-          политикой конфиденциальности
+          {t('common.privacy.privacyLink')}
         </a>{' '}
-        и{' '}
+        {t('common.privacy.connector')}{' '}
         <a target="_blank" href={termOfServiceUrl} className={styles.privacyLink} rel="noreferrer">
-          условиями пользования.
-        </a>
+          {t('common.privacy.termsLink')}
+        </a>{' '}
+        {t('common.privacy.end')}
       </p>
     </div>
   );

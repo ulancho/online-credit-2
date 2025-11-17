@@ -10,9 +10,15 @@ interface DefaultContentProps {
   shouldShowSkeleton: boolean;
   onLogin: () => Promise<void> | void;
   isLoading: boolean;
+  clientName: string;
 }
 
-const DefaultContent = ({ shouldShowSkeleton, onLogin, isLoading }: DefaultContentProps) => {
+const DefaultContent = ({
+  shouldShowSkeleton,
+  onLogin,
+  isLoading,
+  clientName,
+}: DefaultContentProps) => {
   const { t } = useTranslation();
 
   if (shouldShowSkeleton) {
@@ -33,7 +39,7 @@ const DefaultContent = ({ shouldShowSkeleton, onLogin, isLoading }: DefaultConte
       <AuthButton onClick={onLogin} isLoading={isLoading}>
         {t('startMobile.default.button')}
       </AuthButton>
-      <PrivacyText />
+      <PrivacyText clientName={clientName} />
     </section>
   );
 };

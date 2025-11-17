@@ -119,25 +119,25 @@ export function PhoneForm({
       </div>
       <div className={styles.privacyContainer}>
         <p className={styles.privacyText}>
-          {t('startDesktop.phone.form.privacy.prefix', { value: clientName || '' })}{' '}
+          {t('common.privacy.prefix', { value: clientName || '' })}{' '}
           <a
             target="_blank"
             href={privacyPolicyUrl ?? undefined}
             className={styles.privacyLink}
             rel="noreferrer"
           >
-            {t('startDesktop.phone.form.privacy.privacyLink')}
+            {t('common.privacy.privacyLink')}
           </a>{' '}
-          {t('startDesktop.phone.form.privacy.connector')}{' '}
+          {t('common.privacy.connector')}{' '}
           <a
             target="_blank"
             href={termOfServiceUrl ?? undefined}
             rel="noreferrer"
             className={styles.privacyLink}
           >
-            {t('startDesktop.phone.form.privacy.termsLink')}
+            {t('common.privacy.termsLink')}
           </a>{' '}
-          {t('startDesktop.phone.form.privacy.end')}
+          {t('common.privacy.end')}
         </p>
       </div>
     </form>
