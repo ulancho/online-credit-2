@@ -13,8 +13,7 @@
     "flagAlt": "{{country}} flag",
     "errors": {
       "somethingError": "Something went wrong",
-      "tryAgain": "Please try again later",
-      "tryAgainBtn": "Try again"
+      "tryAgain": "Please try again later"
     }
   },
   "start": {

@@ -23,7 +23,7 @@ const ErrorStatus = ({ onRetry }: ErrorStatusProps) => {
       <div className={styles.actionContainer}>
         <button type="button" className={styles.refreshButton} onClick={onRetry}>
           <img src={reloadIconUrl} alt="reload-icon" className={styles.refreshIcon} />
-          <span className={styles.refreshText}>{t('common.errors.tryAgainBtn')}</span>
+          <span className={styles.refreshText}>{t('common.actions.retry')}</span>
         </button>
       </div>
     </div>

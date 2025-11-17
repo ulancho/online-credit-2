@@ -13,8 +13,7 @@
     "flagAlt": "Флаг {{country}}",
     "errors": {
       "somethingError": "Что-то пошло не так",
-      "tryAgain": "Попробуйте еще раз позже",
-      "tryAgainBtn": "Попробовать еще раз"
+      "tryAgain": "Попробуйте еще раз позже"
     }
   },
   "start": {
