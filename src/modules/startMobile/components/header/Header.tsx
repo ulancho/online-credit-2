@@ -13,22 +13,36 @@ interface HeaderProps {
 
 const Header = ({ shouldShowSkeleton, logoUrl, status, clientName }: HeaderProps) => {
   const { t } = useTranslation();
+  const shouldRenderTitleSection = !status;
+  const shouldRenderLogo = Boolean(logoUrl);
+
+  const renderLogo = () => {
+    if (shouldShowSkeleton) {
+      return <Skeleton circle height={80} width={80} containerClassName={styles.logoSkeleton} />;
+    }
+
+    if (shouldRenderLogo) {
+      return <img src={logoUrl} alt="partner-logo" className={styles.logo} />;
+    }
+
+    return null;
+  };
+
+  const renderSubTitle = () => {
+    if (shouldShowSkeleton) {
+      return <Skeleton height={22} width="60%" className={styles.subtitleSkeleton} />;
+    }
+
+    return <p className={styles.subtitle}>{clientName}</p>;
+  };
 
   return (
     <header className={styles.headerSection}>
-      {shouldShowSkeleton ? (
-        <Skeleton circle height={80} width={80} containerClassName={styles.logoSkeleton} />
-      ) : (
-        logoUrl && <img src={logoUrl} alt="partner-logo" className={styles.logo} />
-      )}
-      {!status && (
+      {renderLogo()}
+      {shouldRenderTitleSection && (
         <div className={styles.titleSection}>
           <h1 className={styles.mainTitle}>{t('common.header.title')}</h1>
-          {shouldShowSkeleton ? (
-            <Skeleton height={22} width="60%" className={styles.subtitleSkeleton} />
-          ) : (
-            <p className={styles.subtitle}>{clientName}</p>
-          )}
+          {renderSubTitle()}
         </div>
       )}
     </header>
