@@ -20,7 +20,7 @@
 .action {
   margin-top: 24px;
 
-  button {
+  .refreshButton {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,12 +29,22 @@
     background-color: transparent;
     border: none;
     padding: 14px 0;
+    cursor: pointer;
+    transition: transform 0.4s ease;
+  }
 
-    span {
-      font-weight: 700;
-      font-size: 17px;
-      line-height: 22px;
-      color: #129958;
-    }
+  .refreshIcon {
+    transition: transform 0.4s ease;
+  }
+
+  .refreshButton:hover .refreshIcon {
+    transform: rotate(180deg);
+  }
+
+  .refreshText {
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 22px;
+    color: #129958;
   }
 }

@@ -10,7 +10,12 @@
     "languageSwitcher": {
       "label": "Тилди тандоо"
     },
-    "flagAlt": "{{country}} туусу"
+    "flagAlt": "{{country}} туусу",
+    "errors": {
+      "somethingError": "Бир жерден ката кетти",
+      "tryAgain": "Сураныч, кийинчерээк кайра аракет кылыңыз",
+      "tryAgainBtn": "Кайра аракет кылуу"
+    }
   },
   "start": {
     "common": {

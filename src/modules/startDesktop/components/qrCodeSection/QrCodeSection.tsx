@@ -136,7 +136,7 @@ export const QrCodeSection = observer(function () {
 
   const renderContent = () => {
     if (hasError) {
-      return <ErrorStatus />;
+      return <ErrorStatus onRetry={handleRetry} />;
     }
 
     return (

@@ -10,7 +10,12 @@
     "languageSwitcher": {
       "label": "Выбрать язык"
     },
-    "flagAlt": "Флаг {{country}}"
+    "flagAlt": "Флаг {{country}}",
+    "errors": {
+      "somethingError": "Что-то пошло не так",
+      "tryAgain": "Попробуйте еще раз позже",
+      "tryAgainBtn": "Попробовать еще раз"
+    }
   },
   "start": {
     "common": {

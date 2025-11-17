@@ -23,7 +23,7 @@ export const DefaultStatus = ({
 }: DefaultStateProps) => {
   const { t } = useTranslation();
   const placeholderText =
-    qrError ?? libraryError ?? (isLoading ? 'Загрузка…' : 'QR-код появится здесь...');
+    qrError ?? libraryError ?? (isLoading ? t('start.common.loading') : t('start.common.loading'));
 
   return (
     <div className={styles.wrapper}>
