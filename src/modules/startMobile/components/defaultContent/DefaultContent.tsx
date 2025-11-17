@@ -1,5 +1,6 @@
 import Skeleton from 'react-loading-skeleton';
 
+import { useTranslation } from 'Common/i18n';
 import AuthButton from 'Modules/startMobile/components/authButton';
 import PrivacyText from 'Modules/startMobile/components/privacyText';
 
@@ -12,6 +13,8 @@ interface DefaultContentProps {
 }
 
 const DefaultContent = ({ shouldShowSkeleton, onLogin, isLoading }: DefaultContentProps) => {
+  const { t } = useTranslation();
+
   if (shouldShowSkeleton) {
     return (
       <section className={styles.actionSection}>
@@ -28,7 +31,7 @@ const DefaultContent = ({ shouldShowSkeleton, onLogin, isLoading }: DefaultConte
   return (
     <section className={styles.actionSection}>
       <AuthButton onClick={onLogin} isLoading={isLoading}>
-        Перейти в MBANK
+        {t('startMobile.default.button')}
       </AuthButton>
       <PrivacyText />
     </section>
