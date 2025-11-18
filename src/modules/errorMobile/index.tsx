@@ -1,12 +1,15 @@
 import errorIconUrl from 'Assets/icons/error-mobile.svg';
 import mbankLogoUrl from 'Assets/icons/mbank-logo-2.svg';
 import reloadIconUrl from 'Assets/icons/reload.svg';
+import { useTranslation } from 'Common/i18n';
 
 import styles from './styles/style.module.scss';
 
 const ErrorMobile = () => {
+  const { t } = useTranslation();
+
   const handleReload = () => {
-    window.location.reload();
+    window.history.back();
   };
 
   return (
@@ -14,8 +17,8 @@ const ErrorMobile = () => {
       <div className={styles.container}>
         <div className={styles.cardWrapper}>
           <header>
-            <h2 className={styles.title}>Что-то пошло не так</h2>
-            <p className={styles.subtitle}>Попробуйте ещё раз позже</p>
+            <h2 className={styles.title}>{t('common.errors.somethingError')}</h2>
+            <p className={styles.subtitle}>{t('common.errors.tryAgain')}</p>
           </header>
           <div className={styles.errorIconContainer}>
             <img src={errorIconUrl} alt="error-icon" />
@@ -23,7 +26,7 @@ const ErrorMobile = () => {
           <div className={styles.action}>
             <button onClick={handleReload}>
               <img src={reloadIconUrl} alt="reload-icon" />
-              <span>Попробовать еще раз</span>
+              <span>{t('common.actions.retry')}</span>
             </button>
           </div>
           <footer className={styles.footerSection}>
