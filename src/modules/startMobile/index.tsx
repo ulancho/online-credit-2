@@ -68,8 +68,9 @@ const StartMobile = () => {
         return;
       }
 
-      if (!isSuccess) {
-        // handleRedirect(errorStatus, redirectUri);
+      // if (!isSuccess) {
+      if (isSuccess) {
+        handleRedirect(errorStatus, redirectUri);
       }
     })();
 
