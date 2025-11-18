@@ -7,7 +7,7 @@ import StartMobile from 'Modules/startMobile';
 function StartAuthRoute() {
   const isMobile = useMemo(() => isMobileUserAgent(), []);
 
-  return !isMobile ? <StartMobile /> : <StartDesktop />;
+  return isMobile ? <StartMobile /> : <StartDesktop />;
 }
 
 export default StartAuthRoute;
