@@ -13,6 +13,12 @@
   align-items: center;
 }
 
+.routesWrapperMobile {
+  // justify-content: flex-start;
+  // align-items: stretch;
+  min-height: auto !important;
+}
+
 @media (width <= 1536px) {
   .routesWrapper {
     zoom: 0.97;
