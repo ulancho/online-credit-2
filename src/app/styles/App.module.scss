@@ -1,13 +1,12 @@
 .appLayout {
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background: linear-gradient(135deg, #009c4d 0%, #007e8b 61.2%);
-  border: 2px solid black;
 }
 
 .routesWrapper {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,6 +16,8 @@
 .routesWrapperMobile {
   min-height: auto !important;
   zoom: 1 !important;
+
+  // border: 2px solid black;
 }
 
 @media (width <= 1536px) {
