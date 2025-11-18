@@ -4,37 +4,29 @@ import { Route, Routes, BrowserRouter, useLocation } from 'react-router-dom';
 import StartAuthRoute from '@/app/StartAuthRoute.tsx';
 import LanguageSwitcher from 'Common/components/languageSwitcher/LanguageSwitcher.tsx';
 import License from 'Common/components/license/License.tsx';
+import { isMobileUserAgent } from 'Common/utils/isMobileUserAgent.ts';
 import Error from 'Modules/errorDesktop';
 import ErrorMobile from 'Modules/errorMobile';
-import StartMobile from 'Modules/startMobile';
 
 import styles from './styles/App.module.scss';
 
-const StartMobileRoute = () => (
-  <>
-    <StartMobile />
-    <LanguageSwitcher />
-  </>
-);
-
 const AppContent = () => {
   const location = useLocation();
-  const isMobileRoute = location.pathname === '/start-mobile';
+  const isMobileStartRoute = location.pathname === '/oauth2/auth' && isMobileUserAgent();
 
   return (
     <div className={styles.appLayout}>
       <div
         className={classNames(styles.routesWrapper, {
-          [styles.routesWrapperMobile]: isMobileRoute,
+          [styles.routesWrapperMobile]: isMobileStartRoute,
         })}
       >
         <Routes>
           <Route path="/oauth2/auth" element={<StartAuthRoute />} />
-          <Route path="/start-mobile" element={<StartMobileRoute />} />
           <Route path="/error-web" element={<Error />} />
           <Route path="/error-mobile" element={<ErrorMobile />} />
         </Routes>
-        {!isMobileRoute && <LanguageSwitcher />}
+        {!isMobileStartRoute && <LanguageSwitcher />}
         <License />
       </div>
     </div>
