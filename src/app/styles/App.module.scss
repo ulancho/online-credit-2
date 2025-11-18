@@ -14,9 +14,8 @@
 }
 
 .routesWrapperMobile {
-  // justify-content: flex-start;
-  // align-items: stretch;
   min-height: auto !important;
+  zoom: 1 !important;
 }
 
 @media (width <= 1536px) {
