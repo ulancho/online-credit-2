@@ -24,7 +24,8 @@
       "privacyLink": "privacy policy",
       "termsLink": "terms of use.",
       "end": ""
-    }
+    },
+    "licence": "OJSC «MBANK». © 2006-{{currentYear}}, Licence №014 NB KR"
   },
   "start": {
     "common": {

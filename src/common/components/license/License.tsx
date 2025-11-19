@@ -1,11 +1,16 @@
+import { useTranslation } from 'Common/i18n';
+
 import styles from './License.module.scss';
 
-export const license = () => {
+const License = () => {
+  const { t } = useTranslation();
+  const year = new Date().getFullYear();
+
   return (
     <div className={styles.container}>
-      <p>ОАО «МБАНК». © 2006-2025, Лицензия №014 НБ КР</p>
+      <p>{t('common.licence', { currentYear: year })}</p>
     </div>
   );
 };
 
-export default license;
+export default License;
