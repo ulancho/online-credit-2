@@ -1,31 +1,4 @@
-.errorContainer {
-  font-family:
-    'Nunito mbank',
-    -apple-system,
-    Roboto,
-    Helvetica,
-    sans-serif;
-  overflow: hidden;
-  height: 100vh;
-}
-
-.backgroundWrapper {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #009c4d 0%, #007e8b 61.2%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-@media (width <= 991px) {
-  .backgroundWrapper {
-    max-width: 100%;
-  }
-}
-
-.mainContent {
+.content {
   border-radius: 16px;
   backdrop-filter: blur(3.3px);
   width: 842px;

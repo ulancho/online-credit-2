@@ -56,7 +56,7 @@ function StartDesktop() {
   }, [queryParams, startService, qrService, qrStatusService]);
 
   return (
-    <main className={styles.modalContent}>
+    <main className={styles.content}>
       <div className={styles.sectionsContainer}>
         <PhoneInputSection />
         <QrCodeSection />
