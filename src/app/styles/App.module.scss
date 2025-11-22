@@ -15,11 +15,12 @@
 
 .routesWrapperMobile {
   min-height: auto !important;
-  zoom: 1 !important;
+
+  // zoom: 1 !important;
 }
 
 @media (width <= 1536px) {
   .routesWrapper {
-    zoom: 0.97;
+    // zoom: 0.97;
   }
 }

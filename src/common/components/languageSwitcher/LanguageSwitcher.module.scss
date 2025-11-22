@@ -38,8 +38,11 @@
     }
   }
 
-  img {
-    width: 20px;
-    height: 20px;
+  .flag {
+    svg {
+      display: block;
+      height: 26px;
+      width: 26px;
+    }
   }
 }

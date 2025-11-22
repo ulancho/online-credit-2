@@ -20,6 +20,22 @@ const COUNTRY_FLAG_IMAGES = Object.entries(
   return acc;
 }, {});
 
+const COUNTRY_FLAG_SVGS = Object.entries(
+  import.meta.glob<string>('Assets/icons/countries/*.svg', {
+    eager: true,
+    as: 'raw',
+  }),
+).reduce<Record<string, string>>((acc, [path, svg]) => {
+  const fileName = path.split('/').pop();
+  if (!fileName) {
+    return acc;
+  }
+
+  const countryCode = fileName.replace(/\.svg$/i, '').toUpperCase();
+  acc[countryCode] = svg;
+  return acc;
+}, {});
+
 export interface CountryCode {
   id: string;
   isoCode: string;
@@ -28,6 +44,7 @@ export interface CountryCode {
   digitsCount: number;
   phoneMask?: string;
   flagPath?: string;
+  flagSvg?: string;
 }
 
 export class CountryCodeService {
@@ -126,7 +143,9 @@ export class CountryCodeService {
     const phoneCode = item.paramList?.phone_code ?? '';
     const mask = item.paramList?.phone_mask;
     const digitsCount = mask ? mask.replace(/[^X]/g, '').length : 0;
-    const flagPath = COUNTRY_FLAG_IMAGES[itemCode.toUpperCase()];
+    const countryCode = itemCode.toUpperCase();
+    const flagPath = COUNTRY_FLAG_IMAGES[countryCode];
+    const flagSvg = COUNTRY_FLAG_SVGS[countryCode];
 
     return {
       id: itemCode,
@@ -136,6 +155,7 @@ export class CountryCodeService {
       phoneMask: mask,
       digitsCount: digitsCount > 0 ? digitsCount : DEFAULT_PHONE_DIGITS_LENGTH,
       flagPath,
+      flagSvg,
     };
   }
 }

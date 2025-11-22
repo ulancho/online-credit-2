@@ -15,6 +15,7 @@ type Props = {
 export function DropdownButton({ country, isOpen, isLoading, onToggle }: Props) {
   const iso = country?.isoCode?.toUpperCase() ?? '--';
   const phoneCode = country?.code ?? '';
+  const flagSvg = country?.flagSvg;
 
   return (
     <button
@@ -24,11 +25,12 @@ export function DropdownButton({ country, isOpen, isLoading, onToggle }: Props) 
       aria-expanded={isOpen}
       aria-haspopup="listbox"
     >
-      {country?.flagPath ? (
-        <img
-          src={country.flagPath}
-          alt={`${country.country} flag`}
+      {flagSvg ? (
+        <span
           className={styles.flagMainIcon}
+          role="img"
+          aria-label={`${country?.country} flag`}
+          dangerouslySetInnerHTML={{ __html: flagSvg }}
         />
       ) : (
         <span className={styles.flagFallback}>{iso}</span>
