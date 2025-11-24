@@ -47,7 +47,7 @@ const StartMobile = () => {
     let isActive = true;
 
     const redirectToErrorPage = () => {
-      window.location.assign('/error-mobile');
+      // window.location.assign('/error-mobile');
     };
 
     const handleRedirect = (status?: number, redirectUri?: string | null) => {
