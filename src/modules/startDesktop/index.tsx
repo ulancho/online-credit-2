@@ -20,7 +20,7 @@ function StartDesktop() {
     let isActive = true;
 
     const redirectToErrorPage = () => {
-      window.location.assign('/error-web');
+      // window.location.assign('/error-web');
     };
 
     const handleRedirect = (status?: number, redirectUri?: string | null) => {
