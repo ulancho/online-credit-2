@@ -3,6 +3,11 @@
     "header": {
       "title": "Sign in with MBANK ID"
     },
+    "orientation": {
+      "title": "Switch to portrait mode",
+      "description": "This page is available only in portrait orientation on mobile browsers. Please rotate your device to continue.",
+      "iconAlt": "Rotate device illustration"
+    },
     "actions": {
       "back": "Go back",
       "retry": "Try again"
