@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { applyCsrfInterceptor } from 'Common/api/csrfInterceptor.ts';
 import { applyLanguageInterceptor } from 'Common/api/languageInterceptor.ts';
 
 const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
@@ -17,3 +18,4 @@ export const httpClient = axios.create({
 });
 
 applyLanguageInterceptor(httpClient);
+applyCsrfInterceptor(httpClient);
