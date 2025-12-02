@@ -4,6 +4,7 @@ export interface QrStatusRequestPayload {
   id: string;
   state: string | null;
   redirect_uri: string | null;
+  client_id: string | null;
   original_url?: string | null;
 }
 

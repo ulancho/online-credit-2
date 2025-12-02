@@ -62,6 +62,7 @@ export class QrStatusService {
       runInAction(() => {
         this.data = this.transformQrStatus(data);
       });
+
       if (data.status === 'EXPIRED') {
         await this.handleExpiredStatus();
       }
@@ -121,6 +122,7 @@ export class QrStatusService {
       id,
       state: queryParams.state,
       redirect_uri: queryParams.redirectUri,
+      client_id: queryParams.clientId,
     };
   }
 
