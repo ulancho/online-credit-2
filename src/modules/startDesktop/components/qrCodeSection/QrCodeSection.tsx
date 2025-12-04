@@ -126,7 +126,7 @@ export const QrCodeSection = observer(function () {
   // Редирект при CONFIRMED
   useEffect(() => {
     if (qrStatus === 'CONFIRMED' && redirectUrl) {
-      // window.location.href = redirectUrl;
+      window.location.href = redirectUrl;
     }
     if (qrStatus === 'CANCELED') {
       handleRetry();

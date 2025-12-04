@@ -35,7 +35,7 @@ function StartDesktop() {
     const handleRedirect = (status?: number, redirectUri?: string | null) => {
       if (status && status !== 200) {
         if (redirectUri) {
-          // window.location.replace(redirectUri);
+          window.location.replace(redirectUri);
           return;
         }
       }
