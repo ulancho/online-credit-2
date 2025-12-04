@@ -128,12 +128,15 @@ export const QrCodeSection = observer(function () {
     if (qrStatus === 'CONFIRMED' && redirectUrl) {
       // window.location.href = redirectUrl;
     }
+    if (qrStatus === 'CANCELED') {
+      handleRetry();
+    }
   }, [qrStatus, redirectUrl]);
 
   // Редирект
   useEffect(() => {
     if (errorRedirectUri && errorStatusCode && errorStatusCode !== 200) {
-      // window.location.replace(errorRedirectUri);
+      window.location.replace(errorRedirectUri);
       return;
     }
     if (qrStatusErrorRedirectUri && qrStatusErrorStatusCode && qrStatusErrorStatusCode !== 200) {

@@ -58,13 +58,13 @@ export class QrStatusService {
     this.isFetching = true;
     this.errorMessage = null;
 
-    const payload = this.buildQrStatusPayload(id);
+    const payload = this.buildRequestPayload(id);
 
     try {
       const data = await this.qrStatusFetcher(payload);
 
       runInAction(() => {
-        this.data = this.transformQrStatus(data);
+        this.data = this.transformResponse(data);
       });
 
       if (data.status === 'EXPIRED') {
@@ -128,7 +128,7 @@ export class QrStatusService {
     return this.errorStatusCode;
   }
 
-  private buildQrStatusPayload(id: string): QrStatusRequestPayload {
+  private buildRequestPayload(id: string): QrStatusRequestPayload {
     const queryParams = this.queryParamsService.queryParams;
 
     return {
@@ -139,7 +139,7 @@ export class QrStatusService {
     };
   }
 
-  private transformQrStatus(data: QrStatusResponse): QrStatusData {
+  private transformResponse(data: QrStatusResponse): QrStatusData {
     return {
       id: data.id,
       deeplinkUrl: data.deeplink_url,
