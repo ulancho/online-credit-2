@@ -66,6 +66,7 @@ export const QrCodeSection = observer(function () {
 
   useQrStatusPolling(qrId);
 
+  // Инициализирует таймер обратного отсчёта для QR-кода.
   useEffect(() => {
     isRefreshingQrInfoRef.current = false;
 
@@ -97,11 +98,13 @@ export const QrCodeSection = observer(function () {
     return () => window.clearInterval(id);
   }, [expiresIn]);
 
+  // Обновляет QR-ссылку в QR-коде
   useEffect(() => {
     if (!qrInstanceRef.current) return;
     qrInstanceRef.current.update({ data: qrLink ?? '' });
   }, [qrLink, qrInstanceRef]);
 
+  // Автоматический рефреш QR-кода, когда истекает таймер
   useEffect(() => {
     if (secondsLeft !== 0) {
       if (secondsLeft == null || secondsLeft > 0) {
@@ -118,15 +121,17 @@ export const QrCodeSection = observer(function () {
     void qrService.fetchQrInfo();
   }, [qrService, secondsLeft]);
 
+  // Редирект при CONFIRMED
   useEffect(() => {
     if (qrStatus === 'CONFIRMED' && redirectUrl) {
-      window.location.href = redirectUrl;
+      // window.location.href = redirectUrl;
     }
   }, [qrStatus, redirectUrl]);
 
+  // Редирект
   useEffect(() => {
     if (errorRedirectUri && errorStatusCode && errorStatusCode !== 200) {
-      window.location.replace(errorRedirectUri);
+      // window.location.replace(errorRedirectUri);
     }
   }, [errorRedirectUri, errorStatusCode]);
 
