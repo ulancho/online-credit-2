@@ -27,6 +27,8 @@ export class QrStatusService {
   @observable.ref private data: QrStatusData | null = createDefaultQrStatus();
   @observable private isFetching = false;
   @observable private errorMessage: string | null = null;
+  @observable private errorRedirectUri: string | null = null;
+  @observable private errorStatusCode: number | null = null;
   private isRefreshingQrInfo = false;
 
   constructor(
@@ -43,6 +45,8 @@ export class QrStatusService {
     this.data = createDefaultQrStatus();
     this.isFetching = false;
     this.errorMessage = null;
+    this.errorRedirectUri = null;
+    this.errorStatusCode = null;
   }
 
   @action
@@ -70,19 +74,18 @@ export class QrStatusService {
       const message =
         error instanceof Error ? error.message : 'Не удалось получить статус QR-кода.';
 
+      const status = (error as { response?: { status?: number } }).response?.status ?? null;
+      const redirectUri =
+        this.startInfoService.startInfo?.redirectUri ??
+        this.queryParamsService.queryParamRedirectUri ??
+        null;
+
       runInAction(() => {
         this.data = null;
         this.errorMessage = message;
+        this.errorRedirectUri = redirectUri;
+        this.errorStatusCode = status;
       });
-
-      const status = (error as { response?: { status?: number } }).response?.status;
-      const redirectUri =
-        this.startInfoService.startInfo?.redirectUri ??
-        this.queryParamsService.queryParamRedirectUri;
-
-      if (redirectUri && status && status !== 200) {
-        window.location.replace(redirectUri);
-      }
     } finally {
       runInAction(() => {
         this.isFetching = false;
@@ -113,6 +116,16 @@ export class QrStatusService {
   @computed
   get error(): string | null {
     return this.errorMessage;
+  }
+
+  @computed
+  get redirectUriOnError(): string | null {
+    return this.errorRedirectUri;
+  }
+
+  @computed
+  get statusCodeOnError(): number | null {
+    return this.errorStatusCode;
   }
 
   private buildQrStatusPayload(id: string): QrStatusRequestPayload {
