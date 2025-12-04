@@ -41,7 +41,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/svc-biz-ib-cbk-mbank-id-auth': {
-        target: 'https://mbank-idtest.cbk.kg',
+        target: 'https://mbank-idtest.cbk.kg/oauth2/v1/api',
         changeOrigin: true,
         secure: true,
       },
