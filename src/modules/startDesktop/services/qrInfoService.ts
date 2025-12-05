@@ -52,7 +52,7 @@ export class QrInfoService {
       const data = await this.qrInfoFetcher(payload);
 
       runInAction(() => {
-        this.data = this.transformQrInfo(data);
+        this.data = this.transformResponse(data);
       });
     } catch (error) {
       const response = (
@@ -128,7 +128,7 @@ export class QrInfoService {
     };
   }
 
-  private transformQrInfo(data: QrInfoResponse): QrInfoData {
+  private transformResponse(data: QrInfoResponse): QrInfoData {
     return {
       id: data.id,
       deeplinkUrl: data.deeplink_url,
