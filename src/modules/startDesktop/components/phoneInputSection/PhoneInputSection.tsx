@@ -7,6 +7,7 @@ import {
   usePhoneAuthStore,
   useStartStore,
 } from 'Common/stores/rootStore.tsx';
+import { AUTH_STATUSES } from 'Common/types/authStatus.ts';
 import { formatMMSS, getTargetMs } from 'Common/utils/time.ts';
 import { BoundStatus } from 'Modules/startDesktop/components/phoneInputSection/components/boundStatus/BoundStatus.tsx';
 import { ConfirmedStatus } from 'Modules/startDesktop/components/phoneInputSection/components/confirmedStatus/ConfirmedStatus.tsx';
@@ -44,7 +45,7 @@ export const PhoneInputSection = observer(function () {
   const submitError = phoneAuthService.error;
   const phoneAuthResponse = phoneAuthService.response;
   const phoneAuthStatus = phoneAuthResponse?.status ?? null;
-  const isBoundStatus = phoneAuthStatus === 'BOUND';
+  const isBoundStatus = phoneAuthStatus === AUTH_STATUSES.BOUND;
   const expiresIn = phoneAuthResponse?.expires_in;
 
   useEffect(() => {
@@ -129,13 +130,13 @@ export const PhoneInputSection = observer(function () {
 
   const renderContent = () => {
     switch (phoneAuthStatus) {
-      case 'CONFIRMED':
+      case AUTH_STATUSES.CONFIRMED:
         return <ConfirmedStatus clientName={startService.startInfo?.clientName} />;
-      case 'BOUND':
+      case AUTH_STATUSES.BOUND:
         return <BoundStatus timerLabel={boundTimerLabel} onBack={handleBack} />;
-      case 'DENIED':
+      case AUTH_STATUSES.DENIED:
         return <DeniedStatus onBack={handleBack} />;
-      case 'EXPIRED':
+      case AUTH_STATUSES.EXPIRED:
         return <ExpiredStatus onBack={handleBack} />;
       default:
         return (
