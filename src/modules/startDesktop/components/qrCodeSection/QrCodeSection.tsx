@@ -44,16 +44,16 @@ export const QrCodeSection = observer(function () {
   const isRefreshingQrInfoRef = useRef(false);
 
   const handleRetry = useCallback(() => {
-    console.log('retry start');
+    alert('retry start');
     if (isRefreshingQrInfoRef.current) {
-      console.log('retry cancel');
+      alert('retry cancel');
       return;
     }
 
     isRefreshingQrInfoRef.current = true;
     qrStatusService.reset();
     void qrService.fetchQrInfo();
-    console.log('retry end');
+    alert('retry end');
   }, [qrService, qrStatusService]);
 
   const qrConfig = useMemo(
@@ -132,7 +132,6 @@ export const QrCodeSection = observer(function () {
       window.location.replace(redirectUrl);
     }
     if (qrStatus === 'CANCELED') {
-      console.log('qrStatus: ', qrStatus);
       handleRetry();
     }
   }, [qrStatus, redirectUrl]);
