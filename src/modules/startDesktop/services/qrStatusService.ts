@@ -8,13 +8,14 @@ import {
 
 import type { StartInfoService } from './startInfoService.ts';
 import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
+import type { AuthStatus } from 'Common/types/authStatus.ts';
 import type { QrInfoService } from 'Modules/startDesktop/services/qrInfoService.ts';
 
 interface QrStatusData {
   id: string;
   deeplinkUrl: string;
   redirectUrl: string;
-  status: string;
+  status: AuthStatus;
   expiresIn: string;
   expirationSeconds: number;
 }
@@ -99,7 +100,7 @@ export class QrStatusService {
   }
 
   @computed
-  get status(): string | null {
+  get status(): AuthStatus | null {
     return this.data?.status ?? null;
   }
 

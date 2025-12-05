@@ -7,12 +7,13 @@ import {
 } from '../api/startMobileApi.ts';
 
 import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
+import type { AuthStatus } from 'Common/types/authStatus.ts';
 
 interface StartMobileStatusData {
   id: string;
   redirectUrl: string | null;
   deepLinkUrl: string | null;
-  status: string;
+  status: AuthStatus;
   expiresIn: string;
 }
 

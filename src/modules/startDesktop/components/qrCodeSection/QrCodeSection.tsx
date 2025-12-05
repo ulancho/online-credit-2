@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import qrLogoSvg from 'Assets/icons/mbank-logo.svg?raw';
 import { useQrStatusStore, useQrStore } from 'Common/stores/rootStore.tsx';
+import { AUTH_STATUSES } from 'Common/types/authStatus.ts';
 import { formatMMSS, getTargetMs } from 'Common/utils/time.ts';
 import ErrorStatus from 'Modules/startDesktop/components/qrCodeSection/components/errorStatus/ErrorStatus.tsx';
 import { Footer } from 'Modules/startDesktop/components/qrCodeSection/components/footer/Footer.tsx';
@@ -125,9 +126,9 @@ export const QrCodeSection = observer(function () {
 
   // Редирект при CONFIRMED
   useEffect(() => {
-    if (qrStatus === 'CONFIRMED' && redirectUrl) {
+    if (qrStatus === AUTH_STATUSES.CONFIRMED && redirectUrl) {
       window.location.replace(redirectUrl);
-    } else if (qrStatus === 'CANCELLED') {
+    } else if (qrStatus === AUTH_STATUSES.CANCELLED) {
       handleRetry();
     }
   }, [qrStatus, redirectUrl]);

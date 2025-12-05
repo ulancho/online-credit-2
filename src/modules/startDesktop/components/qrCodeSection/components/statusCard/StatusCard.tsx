@@ -1,13 +1,17 @@
 import { type MutableRefObject } from 'react';
 
+import { AUTH_STATUSES } from 'Common/types/authStatus.ts';
+
 import { BoundStatus } from './../boundStatus/BoundStatus.tsx';
 import { ConfirmedStatus } from './../confirmedStatus/ConfirmedStatus.tsx';
 import { DefaultStatus } from './../defaultStatus/DefaultStatus.tsx';
 import { DeniedStatus } from './../deniedStatus/DeniedStatus.tsx';
 import styles from './StatusCard.module.scss';
 
+import type { AuthStatus } from 'Common/types/authStatus.ts';
+
 interface StatusCardProps {
-  status: string | null;
+  status: AuthStatus | null;
   qrContainerRef: MutableRefObject<HTMLDivElement | null>;
   qrReady: boolean;
   qrError: string | null;
@@ -30,19 +34,19 @@ export const StatusCard = ({
   const baseClassName = styles.container;
 
   switch (status) {
-    case 'CONFIRMED':
+    case AUTH_STATUSES.CONFIRMED:
       return (
         <div className={`${baseClassName} ${styles.statusContainer}`}>
           <ConfirmedStatus />
         </div>
       );
-    case 'BOUND':
+    case AUTH_STATUSES.BOUND:
       return (
         <div className={`${baseClassName} ${styles.statusContainer}`}>
           <BoundStatus />
         </div>
       );
-    case 'DENIED':
+    case AUTH_STATUSES.DENIED:
       return (
         <div className={`${baseClassName} ${styles.statusContainer}`}>
           <DeniedStatus onRetry={onRetry} isLoading={isLoading} />

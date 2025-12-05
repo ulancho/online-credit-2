@@ -4,10 +4,12 @@ import { useTranslation } from 'Common/i18n';
 
 import styles from './Header.module.scss';
 
+import type { AuthStatus } from 'Common/types/authStatus.ts';
+
 interface HeaderProps {
   shouldShowSkeleton: boolean;
   logoUrl?: string;
-  status?: string;
+  status?: AuthStatus;
   clientName: string;
 }
 

@@ -1,5 +1,7 @@
 import { httpClient } from 'Common/api/httpClient.ts';
 
+import type { AuthStatus } from 'Common/types/authStatus.ts';
+
 export interface PhoneAuthRequestPayload {
   scope: string | null;
   state: string | null;
@@ -15,7 +17,7 @@ export interface PhoneAuthRequestPayload {
 export interface PhoneAuthResponse {
   id: string;
   redirect_url?: string | null;
-  status: string;
+  status: AuthStatus;
   expires_in: string;
   expiration_seconds: number;
 }

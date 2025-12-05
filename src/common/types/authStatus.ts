@@ -1,0 +1,11 @@
+export const AUTH_STATUSES = {
+  GENERATED: 'GENERATED',
+  BOUND: 'BOUND',
+  CONFIRMED: 'CONFIRMED',
+  CONSUMED: 'CONSUMED',
+  EXPIRED: 'EXPIRED',
+  DENIED: 'DENIED',
+  CANCELLED: 'CANCELLED',
+} as const;
+
+export type AuthStatus = (typeof AUTH_STATUSES)[keyof typeof AUTH_STATUSES];

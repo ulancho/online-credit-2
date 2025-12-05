@@ -1,5 +1,7 @@
 import { httpClient } from 'Common/api/httpClient.ts';
 
+import type { AuthStatus } from 'Common/types/authStatus.ts';
+
 export interface StartMobileRequestPayload {
   scope: string | null;
   state: string | null;
@@ -16,7 +18,7 @@ export interface StartMobileResponse {
   id: string;
   redirect_url: string | null;
   deep_link_url: string | null;
-  status: string;
+  status: AuthStatus;
   expires_in: string;
 }
 
@@ -31,7 +33,7 @@ export interface StartMobileStatusResponse {
   id: string;
   redirect_url: string | null;
   deep_link_url: string | null;
-  status: string;
+  status: AuthStatus;
   expires_in: string;
 }
 
