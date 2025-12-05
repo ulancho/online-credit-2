@@ -24,7 +24,6 @@ export const QrCodeSection = observer(function () {
   const qrStatusService = useQrStatusStore();
 
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
-  const [log, setLog] = useState<string>('');
 
   const qrInfo = qrService.qrInfo;
   const qrLink = qrInfo?.deeplinkUrl ?? null;
@@ -45,16 +44,13 @@ export const QrCodeSection = observer(function () {
   const isRefreshingQrInfoRef = useRef(false);
 
   const handleRetry = useCallback(() => {
-    setLog(`handleRetry вызван`);
     if (isRefreshingQrInfoRef.current) {
-      setLog(`return зашел`);
       return;
     }
 
     isRefreshingQrInfoRef.current = true;
     qrStatusService.reset();
     void qrService.fetchQrInfo();
-    setLog(`fetchQrInfo вызван`);
   }, [qrService, qrStatusService]);
 
   const qrConfig = useMemo(
@@ -129,12 +125,9 @@ export const QrCodeSection = observer(function () {
 
   // Редирект при CONFIRMED
   useEffect(() => {
-    setLog(`qrStatus: ${qrStatus}`);
     if (qrStatus === 'CONFIRMED' && redirectUrl) {
       window.location.replace(redirectUrl);
-    }
-    if (qrStatus === 'CANCELED') {
-      setLog(`qrStatus === 'CANCELED'`);
+    } else if (qrStatus === 'CANCELLED') {
       handleRetry();
     }
   }, [qrStatus, redirectUrl]);
@@ -183,7 +176,6 @@ export const QrCodeSection = observer(function () {
           [styles.contentError]: hasError,
         })}
       >
-        <h3>{log}</h3>
         {renderContent()}
         <Footer />
       </div>
