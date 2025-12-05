@@ -44,16 +44,13 @@ export const QrCodeSection = observer(function () {
   const isRefreshingQrInfoRef = useRef(false);
 
   const handleRetry = useCallback(() => {
-    alert('retry start');
     if (isRefreshingQrInfoRef.current) {
-      alert('retry cancel');
       return;
     }
 
     isRefreshingQrInfoRef.current = true;
     qrStatusService.reset();
     void qrService.fetchQrInfo();
-    alert('retry end');
   }, [qrService, qrStatusService]);
 
   const qrConfig = useMemo(
