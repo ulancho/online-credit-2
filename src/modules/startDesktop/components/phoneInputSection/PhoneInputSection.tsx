@@ -138,6 +138,7 @@ export const PhoneInputSection = observer(function () {
         return <DeniedStatus onBack={handleBack} />;
       case AUTH_STATUSES.EXPIRED:
         return <ExpiredStatus onBack={handleBack} />;
+      case AUTH_STATUSES.CANCELLED:
       default:
         return (
           <PhoneForm
