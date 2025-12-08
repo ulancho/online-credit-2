@@ -20,7 +20,7 @@ class RootStore {
     this.queryParamsStore,
     this.qrStore,
   );
-  readonly phoneAuthStore = new PhoneAuthService(this.queryParamsStore);
+  readonly phoneAuthStore = new PhoneAuthService(this.startStore, this.queryParamsStore);
   readonly startMobileStatusStore = new StartMobileStatusService(this.queryParamsStore);
   readonly startMobileStore = new StartMobileInfoService(
     this.queryParamsStore,

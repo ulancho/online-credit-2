@@ -25,6 +25,7 @@ export interface PhoneAuthResponse {
 export interface PhoneAuthStatusRequestPayload {
   id: string;
   state: string | null;
+  client_id: string | null;
   redirect_uri: string | null;
   original_url: string | null;
 }

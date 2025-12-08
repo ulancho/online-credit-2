@@ -15,6 +15,7 @@ import {
 } from '../api/phoneAuthApi.ts';
 
 import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
+import type { StartInfoService } from 'Modules/startDesktop/services/startInfoService.ts';
 
 export class PhoneAuthService {
   @observable private isSending = false;
@@ -26,6 +27,7 @@ export class PhoneAuthService {
   private isFetchingStatus = false;
 
   constructor(
+    private readonly startInfoService: StartInfoService,
     private readonly queryParamsService: QueryParamsService,
     private readonly phoneAuthRequester: typeof sendPhoneAuthRequest = sendPhoneAuthRequest,
     private readonly phoneAuthStatusFetcher: typeof fetchPhoneAuthStatus = fetchPhoneAuthStatus,
@@ -126,12 +128,13 @@ export class PhoneAuthService {
   private buildPhoneAuthPayload(phone: string): PhoneAuthRequestPayload {
     const queryParams = this.queryParamsService.queryParams;
     const sanitizedPhone = phone.replace(/\+/g, '');
+    const clientId = this.startInfoService.startInfo?.clientId ?? queryParams.clientId;
 
     return {
       phone: sanitizedPhone,
       scope: queryParams.scope,
       state: queryParams.state,
-      client_id: queryParams.clientId,
+      client_id: clientId,
       redirect_uri: queryParams.redirectUri,
       response_type: queryParams.responseType,
       code_challenge: queryParams.codeChallenge,
@@ -142,10 +145,12 @@ export class PhoneAuthService {
 
   private buildPhoneAuthStatusPayload(id: string): PhoneAuthStatusRequestPayload {
     const queryParams = this.queryParamsService.queryParams;
+    const clientId = this.startInfoService.startInfo?.clientId ?? queryParams.clientId;
 
     return {
       id,
       state: queryParams.state,
+      client_id: clientId,
       redirect_uri: queryParams.redirectUri,
       original_url: queryParams.originalUrl || null,
     };
