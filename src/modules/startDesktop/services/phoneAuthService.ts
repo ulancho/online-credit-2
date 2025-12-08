@@ -43,6 +43,7 @@ export class PhoneAuthService {
     this.phoneAuthResponse = null;
   }
 
+  // oauth/web/push
   @action
   async sendPhoneAuth(phone: string) {
     if (!phone.trim()) {
@@ -100,62 +101,7 @@ export class PhoneAuthService {
     }
   }
 
-  @computed
-  get isLoading() {
-    return this.isSending;
-  }
-
-  @computed
-  get error(): string | null {
-    return this.errorMessage;
-  }
-
-  @computed
-  get isSuccess() {
-    return this.isPhoneAuthSent;
-  }
-
-  @computed
-  get response(): PhoneAuthResponse | null {
-    return this.phoneAuthResponse;
-  }
-
-  @computed
-  get redirectUrl(): string | null {
-    return this.phoneAuthResponse?.redirect_url ?? null;
-  }
-
-  private buildPhoneAuthPayload(phone: string): PhoneAuthRequestPayload {
-    const queryParams = this.queryParamsService.queryParams;
-    const sanitizedPhone = phone.replace(/\+/g, '');
-    const clientId = this.startInfoService.startInfo?.clientId ?? queryParams.clientId;
-
-    return {
-      phone: sanitizedPhone,
-      scope: queryParams.scope,
-      state: queryParams.state,
-      client_id: clientId,
-      redirect_uri: queryParams.redirectUri,
-      response_type: queryParams.responseType,
-      code_challenge: queryParams.codeChallenge,
-      code_challenge_method: queryParams.codeChallengeMethod,
-      original_url: queryParams.originalUrl || null,
-    };
-  }
-
-  private buildPhoneAuthStatusPayload(id: string): PhoneAuthStatusRequestPayload {
-    const queryParams = this.queryParamsService.queryParams;
-    const clientId = this.startInfoService.startInfo?.clientId ?? queryParams.clientId;
-
-    return {
-      id,
-      state: queryParams.state,
-      client_id: clientId,
-      redirect_uri: queryParams.redirectUri,
-      original_url: queryParams.originalUrl || null,
-    };
-  }
-
+  // oauth/web/push/status
   private startStatusPolling(id: string) {
     if (!id) {
       return;
@@ -211,6 +157,62 @@ export class PhoneAuthService {
     this.statusPollingTimer = setInterval(() => {
       void poll();
     }, 1500);
+  }
+
+  @computed
+  get isLoading() {
+    return this.isSending;
+  }
+
+  @computed
+  get error(): string | null {
+    return this.errorMessage;
+  }
+
+  @computed
+  get isSuccess() {
+    return this.isPhoneAuthSent;
+  }
+
+  @computed
+  get response(): PhoneAuthResponse | null {
+    return this.phoneAuthResponse;
+  }
+
+  @computed
+  get redirectUrl(): string | null {
+    return this.phoneAuthResponse?.redirect_url ?? null;
+  }
+
+  private buildPhoneAuthPayload(phone: string): PhoneAuthRequestPayload {
+    const queryParams = this.queryParamsService.queryParams;
+    const sanitizedPhone = phone.replace(/\+/g, '');
+    const clientId = this.startInfoService.startInfo?.clientId ?? queryParams.clientId;
+
+    return {
+      phone: sanitizedPhone,
+      scope: queryParams.scope,
+      state: queryParams.state,
+      client_id: clientId,
+      redirect_uri: queryParams.redirectUri,
+      response_type: queryParams.responseType,
+      code_challenge: queryParams.codeChallenge,
+      code_challenge_method: queryParams.codeChallengeMethod,
+      original_url: queryParams.originalUrl || null,
+    };
+  }
+
+  private buildPhoneAuthStatusPayload(id: string): PhoneAuthStatusRequestPayload {
+    const queryParams = this.queryParamsService.queryParams;
+    const clientId = this.startInfoService.startInfo?.clientId ?? queryParams.clientId;
+
+    return {
+      id,
+      state: queryParams.state,
+      client_id: clientId,
+      redirect_uri: queryParams.redirectUri,
+      original_url: queryParams.originalUrl || null,
+    };
   }
 
   private stopStatusPolling() {
