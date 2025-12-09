@@ -8,6 +8,7 @@ import {
   useStartMobileStore,
   useStartStore,
 } from 'Common/stores/rootStore.tsx';
+import { AUTH_STATUSES } from 'Common/types/authStatus.ts';
 import ConfirmedStatus from 'Modules/startMobile/components/confirmedStatus/ConfirmedStatus.tsx';
 import DefaultContent from 'Modules/startMobile/components/defaultContent/DefaultContent.tsx';
 import DeniedStatus from 'Modules/startMobile/components/deniedStatus/DeniedStatus.tsx';
@@ -26,7 +27,6 @@ const StartMobile = () => {
   const clientName = startStore.startInfo?.clientName ?? '';
   const logoUrl = startStore.startInfo?.logoUrl;
   const status = startMobileStatusStore.mobileStatus?.status;
-  // const status = 'DENIED';
   const redirectUrl = startMobileStatusStore.mobileStatus?.redirectUrl;
 
   const handleMBankLogin = async () => {
@@ -103,12 +103,13 @@ const StartMobile = () => {
 
   const renderContainerContent = () => {
     switch (status) {
-      case 'GENERATED':
+      case AUTH_STATUSES.GENERATED:
         return <GeneratedStatus />;
-      case 'CONFIRMED':
+      case AUTH_STATUSES.CONFIRMED:
         return <ConfirmedStatus />;
-      case 'DENIED':
+      case AUTH_STATUSES.DENIED:
         return <DeniedStatus onReload={handleReload} />;
+      case AUTH_STATUSES.CANCELLED:
       default:
         return (
           <DefaultContent
