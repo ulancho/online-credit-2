@@ -6,7 +6,7 @@ import { applyLanguageInterceptor } from 'Common/api/languageInterceptor.ts';
 const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
 const baseURL = isLocalhost
-  ? import.meta.env.VITE_API_BASE_URL
+  ? '/svc-biz-ib-cbk-mbank-id-auth/v1/api'
   : `${window.location.origin}/oauth2/v1/api`;
 
 export const httpClient = axios.create({
