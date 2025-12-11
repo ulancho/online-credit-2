@@ -4,7 +4,13 @@ image:
   pullPolicy: IfNotPresent
   containerPort: 80
 
-resources: { }
+resources:
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 50m
+    memory: 256Mi
 
 nodeSelector: { }
 tolerations: [ ]
