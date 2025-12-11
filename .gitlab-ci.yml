@@ -106,6 +106,7 @@ default:
 
 test:
   stage: test
+  image: node:20-alpine
   only:
     - merge_requests
   script:
