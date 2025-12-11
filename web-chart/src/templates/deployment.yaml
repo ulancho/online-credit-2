@@ -26,16 +26,12 @@ spec:
     spec:
       securityContext:
         runAsNonRoot: true
-        fsGroup: 0
       containers:
         - name: {{ .Release.Name }}-{{ include "${projectName}.version" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             allowPrivilegeEscalation: false
-            capabilities:
-              add:
-                - NET_BIND_SERVICE
             readOnlyRootFilesystem: false
           ports:
             - name: http
