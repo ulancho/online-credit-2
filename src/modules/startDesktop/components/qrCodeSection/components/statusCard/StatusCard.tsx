@@ -52,7 +52,13 @@ export const StatusCard = ({
           <DeniedStatus onRetry={onRetry} isLoading={isLoading} />
         </div>
       );
-    default:
+    case AUTH_STATUSES.EXPIRED:
+      return (
+        <div className={`${baseClassName} ${styles.statusContainer}`}>
+          <DeniedStatus onRetry={onRetry} isLoading={isLoading} />
+        </div>
+      );
+    case AUTH_STATUSES.GENERATED:
       return (
         <div className={baseClassName}>
           <DefaultStatus

@@ -25,7 +25,6 @@ export const QrCodeSection = observer(function () {
   const qrStatusService = useQrStatusStore();
 
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
-  const [isTimerExpired, setIsTimerExpired] = useState(false);
 
   const qrInfo = qrService.qrInfo;
   const qrLink = qrInfo?.deeplinkUrl ?? null;
@@ -51,7 +50,6 @@ export const QrCodeSection = observer(function () {
     }
 
     isRefreshingQrInfoRef.current = true;
-    setIsTimerExpired(false);
     qrStatusService.reset();
     void qrService.fetchQrInfo();
   }, [qrService, qrStatusService]);
@@ -73,33 +71,27 @@ export const QrCodeSection = observer(function () {
 
   // Инициализирует таймер обратного отсчёта для QR-кода.
   useEffect(() => {
-    console.log('init timer');
     isRefreshingQrInfoRef.current = false;
 
     if (!expiresIn) {
       setSecondsLeft(null);
-      setIsTimerExpired(false);
       return;
     }
 
     const targetMs = getTargetMs(expiresIn);
     if (targetMs == null) {
       setSecondsLeft(0);
-      setIsTimerExpired(true);
       return;
     }
 
     const calc = () => Math.max(0, Math.floor((targetMs - Date.now()) / 1000));
 
-    const initialSeconds = calc();
-    setSecondsLeft(initialSeconds);
-    setIsTimerExpired(initialSeconds === 0);
+    setSecondsLeft(calc());
 
     const id = window.setInterval(() => {
       setSecondsLeft(() => {
         const next = calc();
         if (next === 0) {
-          setIsTimerExpired(true);
           window.clearInterval(id);
         }
         return next;
@@ -138,7 +130,6 @@ export const QrCodeSection = observer(function () {
   const qrReady = Boolean(qrLink) && Boolean(qrInstanceRef.current);
 
   const timerLabel = secondsLeft != null ? formatMMSS(secondsLeft) : null;
-  const qrStatusToDisplay = isTimerExpired ? AUTH_STATUSES.DENIED : qrStatus;
 
   const renderContent = () => {
     if (hasError) {
@@ -149,7 +140,7 @@ export const QrCodeSection = observer(function () {
       <>
         <Header />
         <StatusCard
-          status={qrStatusToDisplay}
+          status={qrStatus}
           qrContainerRef={qrContainerRef}
           qrReady={qrReady}
           qrError={qrError}
