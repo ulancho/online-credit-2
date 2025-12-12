@@ -25,6 +25,7 @@ export const QrCodeSection = observer(function () {
   const qrStatusService = useQrStatusStore();
 
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
+  const [isTimerExpired, setIsTimerExpired] = useState(false);
 
   const qrInfo = qrService.qrInfo;
   const qrLink = qrInfo?.deeplinkUrl ?? null;
@@ -50,6 +51,7 @@ export const QrCodeSection = observer(function () {
     }
 
     isRefreshingQrInfoRef.current = true;
+    setIsTimerExpired(false);
     qrStatusService.reset();
     void qrService.fetchQrInfo();
   }, [qrService, qrStatusService]);
@@ -71,27 +73,33 @@ export const QrCodeSection = observer(function () {
 
   // Инициализирует таймер обратного отсчёта для QR-кода.
   useEffect(() => {
+    console.log('init timer');
     isRefreshingQrInfoRef.current = false;
 
     if (!expiresIn) {
       setSecondsLeft(null);
+      setIsTimerExpired(false);
       return;
     }
 
     const targetMs = getTargetMs(expiresIn);
     if (targetMs == null) {
       setSecondsLeft(0);
+      setIsTimerExpired(true);
       return;
     }
 
     const calc = () => Math.max(0, Math.floor((targetMs - Date.now()) / 1000));
 
-    setSecondsLeft(calc());
+    const initialSeconds = calc();
+    setSecondsLeft(initialSeconds);
+    setIsTimerExpired(initialSeconds === 0);
 
     const id = window.setInterval(() => {
       setSecondsLeft(() => {
         const next = calc();
         if (next === 0) {
+          setIsTimerExpired(true);
           window.clearInterval(id);
         }
         return next;
@@ -106,23 +114,6 @@ export const QrCodeSection = observer(function () {
     if (!qrInstanceRef.current) return;
     qrInstanceRef.current.update({ data: qrLink ?? '' });
   }, [qrLink, qrInstanceRef]);
-
-  // Автоматический рефреш QR-кода, когда истекает таймер
-  useEffect(() => {
-    if (secondsLeft !== 0) {
-      if (secondsLeft == null || secondsLeft > 0) {
-        isRefreshingQrInfoRef.current = false;
-      }
-      return;
-    }
-
-    if (isRefreshingQrInfoRef.current) {
-      return;
-    }
-
-    isRefreshingQrInfoRef.current = true;
-    void qrService.fetchQrInfo();
-  }, [qrService, secondsLeft]);
 
   // Редирект при CONFIRMED
   useEffect(() => {
@@ -147,6 +138,7 @@ export const QrCodeSection = observer(function () {
   const qrReady = Boolean(qrLink) && Boolean(qrInstanceRef.current);
 
   const timerLabel = secondsLeft != null ? formatMMSS(secondsLeft) : null;
+  const qrStatusToDisplay = isTimerExpired ? AUTH_STATUSES.DENIED : qrStatus;
 
   const renderContent = () => {
     if (hasError) {
@@ -157,7 +149,7 @@ export const QrCodeSection = observer(function () {
       <>
         <Header />
         <StatusCard
-          status={qrStatus}
+          status={qrStatusToDisplay}
           qrContainerRef={qrContainerRef}
           qrReady={qrReady}
           qrError={qrError}
