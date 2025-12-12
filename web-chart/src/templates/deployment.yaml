@@ -24,10 +24,15 @@ spec:
         app.kubernetes.io/name: {{ include "${projectName}.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      securityContext:
+        runAsNonRoot: true
       containers:
         - name: {{ .Release.Name }}-{{ include "${projectName}.version" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
           ports:
             - name: http
               containerPort: {{ .Values.image.containerPort }}
