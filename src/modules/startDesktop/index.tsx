@@ -30,7 +30,6 @@ function StartDesktop() {
 
   // Загрузка стартовой информации и QR
   useEffect(() => {
-    console.log('start');
     let isActive = true;
 
     const handleRedirect = (status?: number, redirectUri?: string | null) => {
