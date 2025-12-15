@@ -15,11 +15,7 @@ class RootStore {
   readonly queryParamsStore = new QueryParamsService();
   readonly startStore = new StartInfoService(this.queryParamsStore);
   readonly qrStore = new QrInfoService(this.queryParamsStore);
-  readonly qrStatusStore = new QrStatusService(
-    this.startStore,
-    this.queryParamsStore,
-    this.qrStore,
-  );
+  readonly qrStatusStore = new QrStatusService(this.startStore, this.queryParamsStore);
   readonly phoneAuthStore = new PhoneAuthService(this.startStore, this.queryParamsStore);
   readonly startMobileStatusStore = new StartMobileStatusService(this.queryParamsStore);
   readonly startMobileStore = new StartMobileInfoService(

@@ -2,12 +2,16 @@ import { useEffect } from 'react';
 
 import { useQrStatusStore } from 'Common/stores/rootStore.tsx';
 
-export function useQrStatusPolling(qrId: string | null) {
+export function useQrStatusPolling(qrId: string | null, isEnabled = true) {
   const qrStatusStore = useQrStatusStore();
 
   useEffect(() => {
     if (!qrId) {
       qrStatusStore.reset();
+      return;
+    }
+
+    if (!isEnabled) {
       return;
     }
 
@@ -26,5 +30,5 @@ export function useQrStatusPolling(qrId: string | null) {
       disposed = true;
       window.clearInterval(intervalId);
     };
-  }, [qrId, qrStatusStore]);
+  }, [qrId, qrStatusStore, isEnabled]);
 }

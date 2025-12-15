@@ -9,7 +9,6 @@ import {
 import type { StartInfoService } from './startInfoService.ts';
 import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import type { AuthStatus } from 'Common/types/authStatus.ts';
-import type { QrInfoService } from 'Modules/startDesktop/services/qrInfoService.ts';
 
 interface QrStatusData {
   id: string;
@@ -30,12 +29,10 @@ export class QrStatusService {
   @observable private errorMessage: string | null = null;
   @observable private errorRedirectUri: string | null = null;
   @observable private errorStatusCode: number | null = null;
-  private isRefreshingQrInfo = false;
 
   constructor(
     private readonly startInfoService: StartInfoService,
     private readonly queryParamsService: QueryParamsService,
-    private readonly qrInfoService: QrInfoService,
     private readonly qrStatusFetcher: typeof fetchQrStatus = fetchQrStatus,
   ) {
     makeObservable(this);
@@ -52,10 +49,6 @@ export class QrStatusService {
 
   @action
   async fetchQrStatus(id: string) {
-    if (this.isRefreshingQrInfo) {
-      return;
-    }
-
     this.isFetching = true;
     this.errorMessage = null;
 
@@ -67,10 +60,6 @@ export class QrStatusService {
       runInAction(() => {
         this.data = this.transformResponse(data);
       });
-
-      if (data.status === 'EXPIRED') {
-        await this.handleExpiredStatus();
-      }
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Не удалось получить статус QR-кода.';
@@ -149,19 +138,5 @@ export class QrStatusService {
       expiresIn: data.expires_in,
       expirationSeconds: data.expiration_seconds,
     };
-  }
-
-  private async handleExpiredStatus() {
-    if (this.isRefreshingQrInfo) {
-      return;
-    }
-
-    this.isRefreshingQrInfo = true;
-
-    try {
-      await this.qrInfoService.fetchQrInfo();
-    } finally {
-      this.isRefreshingQrInfo = false;
-    }
   }
 }

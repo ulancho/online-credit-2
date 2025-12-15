@@ -25,6 +25,7 @@ export const QrCodeSection = observer(function () {
   const qrStatusService = useQrStatusStore();
 
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
+  const [isTimerExpired, setIsTimerExpired] = useState(false);
 
   const qrInfo = qrService.qrInfo;
   const qrLink = qrInfo?.deeplinkUrl ?? null;
@@ -40,6 +41,8 @@ export const QrCodeSection = observer(function () {
   const redirectUrl = qrStatusService.redirectUrl;
   const qrStatusErrorRedirectUri = qrStatusService.redirectUriOnError;
   const qrStatusErrorStatusCode = qrStatusService.statusCodeOnError;
+
+  const displayStatus = isTimerExpired ? AUTH_STATUSES.EXPIRED : qrStatus;
 
   const qrContainerRef = useRef<HTMLDivElement>(null);
   const isRefreshingQrInfoRef = useRef(false);
@@ -67,7 +70,7 @@ export const QrCodeSection = observer(function () {
     qrConfig,
   );
 
-  useQrStatusPolling(qrId);
+  useQrStatusPolling(qrId, !isTimerExpired);
 
   // Инициализирует таймер обратного отсчёта для QR-кода.
   useEffect(() => {
@@ -75,24 +78,29 @@ export const QrCodeSection = observer(function () {
 
     if (!expiresIn) {
       setSecondsLeft(null);
+      setIsTimerExpired(false);
       return;
     }
 
     const targetMs = getTargetMs(expiresIn);
     if (targetMs == null) {
       setSecondsLeft(0);
+      setIsTimerExpired(false);
       return;
     }
 
     const calc = () => Math.max(0, Math.floor((targetMs - Date.now()) / 1000));
 
-    setSecondsLeft(calc());
+    const initialSeconds = calc();
+    setSecondsLeft(initialSeconds);
+    setIsTimerExpired(initialSeconds === 0);
 
     const id = window.setInterval(() => {
       setSecondsLeft(() => {
         const next = calc();
         if (next === 0) {
           window.clearInterval(id);
+          setIsTimerExpired(true);
         }
         return next;
       });
@@ -140,7 +148,7 @@ export const QrCodeSection = observer(function () {
       <>
         <Header />
         <StatusCard
-          status={qrStatus}
+          status={displayStatus}
           qrContainerRef={qrContainerRef}
           qrReady={qrReady}
           qrError={qrError}
