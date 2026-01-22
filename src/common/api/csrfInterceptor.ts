@@ -6,6 +6,9 @@ export const applyCsrfInterceptor = (client: AxiosInstance) => {
   client.interceptors.response.use((response) => {
     const csrfHeader = response.headers['x-csrf-token'];
 
+    console.log('csrfHeader: ', csrfHeader);
+    console.log('response.headers: ', response.headers);
+
     if (csrfHeader) {
       csrfToken = Array.isArray(csrfHeader) ? csrfHeader[0] : csrfHeader;
       client.defaults.headers.common['x-csrf-token'] = csrfToken;
@@ -16,6 +19,8 @@ export const applyCsrfInterceptor = (client: AxiosInstance) => {
 
   client.interceptors.request.use((config) => {
     if (csrfToken) {
+      console.log('csrfToken: ', csrfToken);
+
       const headers =
         config.headers instanceof AxiosHeaders
           ? config.headers
