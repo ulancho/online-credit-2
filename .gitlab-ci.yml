@@ -42,10 +42,10 @@ variables:
 
 .credential-git-config: &credential-git-config
   - |
-    git config --global user.name "$GITLAB_USER_LOGIN"
-    git config --global user.email "$GITLAB_USER_EMAIL"
+    git config --global user.name "$GIT_PUSH_USER"
+    git config --global user.email "${GIT_PUSH_USER}@cbk.kg"
     git config pull.rebase true
-    git remote set-url origin https://${PERSONAL_TOKEN_NAME}:${PERSONAL_TOKEN_KEY}@$CI_SERVER_HOST/$CI_PROJECT_PATH.git
+    git remote set-url origin https://${GIT_PUSH_USER}:${GIT_PUSH_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
 
 .set-tag: &set-tag
   - |
