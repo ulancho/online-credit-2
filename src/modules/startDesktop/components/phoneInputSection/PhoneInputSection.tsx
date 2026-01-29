@@ -47,6 +47,7 @@ export const PhoneInputSection = observer(function () {
   const phoneAuthStatus = phoneAuthResponse?.status ?? null;
   const isBoundStatus = phoneAuthStatus === AUTH_STATUSES.BOUND;
   const expiresIn = phoneAuthResponse?.expires_in;
+  const redirectUrl = phoneAuthResponse?.redirect_url;
 
   useEffect(() => {
     if (!isBoundStatus || !expiresIn) {
@@ -91,6 +92,12 @@ export const PhoneInputSection = observer(function () {
       return countryCodes.some((c) => c.id === prev) ? prev : countryCodes[0].id;
     });
   }, [countryCodes]);
+
+  useEffect(() => {
+    if (phoneAuthStatus === AUTH_STATUSES.CONFIRMED && redirectUrl) {
+      window.location.replace(redirectUrl);
+    }
+  }, [phoneAuthStatus, redirectUrl]);
 
   const boundTimerLabel = secondsLeft != null ? formatMMSS(secondsLeft) : null;
 
