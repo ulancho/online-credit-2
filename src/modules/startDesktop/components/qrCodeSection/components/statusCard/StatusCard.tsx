@@ -1,6 +1,7 @@
 import { type MutableRefObject } from 'react';
 
 import { AUTH_STATUSES } from 'Common/types/authStatus.ts';
+import { ExpiredStatus } from 'Modules/startDesktop/components/qrCodeSection/components/expiredStatus/ExpiredStatus.tsx';
 
 import { BoundStatus } from './../boundStatus/BoundStatus.tsx';
 import { ConfirmedStatus } from './../confirmedStatus/ConfirmedStatus.tsx';
@@ -55,7 +56,7 @@ export const StatusCard = ({
     case AUTH_STATUSES.EXPIRED:
       return (
         <div className={`${baseClassName} ${styles.statusContainer}`}>
-          <DeniedStatus onRetry={onRetry} isLoading={isLoading} />
+          <ExpiredStatus onRetry={onRetry} isLoading={isLoading} />
         </div>
       );
     case AUTH_STATUSES.GENERATED:

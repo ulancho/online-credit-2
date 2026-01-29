@@ -73,7 +73,8 @@
       "status": {
         "expired": {
           "title": "The QR code has expired",
-          "subtitle": "Refresh the page and try again."
+          "subtitle": "Refresh the page and try again.",
+          "btn": "Refresh QR code"
         }
       }
     }

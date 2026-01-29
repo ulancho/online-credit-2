@@ -38,6 +38,7 @@ export const QrCodeSection = observer(function () {
   const hasError = Boolean(qrError);
 
   const qrStatus = qrStatusService.status;
+  // const qrStatus = AUTH_STATUSES.EXPIRED;
   const redirectUrl = qrStatusService.redirectUrl;
   const qrStatusErrorRedirectUri = qrStatusService.redirectUriOnError;
   const qrStatusErrorStatusCode = qrStatusService.statusCodeOnError;
@@ -115,7 +116,7 @@ export const QrCodeSection = observer(function () {
     qrInstanceRef.current.update({ data: qrLink ?? '' });
   }, [qrLink, qrInstanceRef]);
 
-  // Редирект при CONFIRMED
+  // Редирект при CONFIRMED, при CANCELLED заново рендерится (в мобильном приложении если просто вышел назад)
   useEffect(() => {
     if (qrStatus === AUTH_STATUSES.CONFIRMED && redirectUrl) {
       window.location.replace(redirectUrl);
