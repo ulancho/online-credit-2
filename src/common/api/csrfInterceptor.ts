@@ -16,8 +16,6 @@ export const applyCsrfInterceptor = (client: AxiosInstance) => {
 
   client.interceptors.request.use((config) => {
     if (csrfToken) {
-      console.log('csrfToken: ', csrfToken);
-
       const headers =
         config.headers instanceof AxiosHeaders
           ? config.headers
