@@ -109,6 +109,7 @@ export class StartMobileStatusService {
   private buildRequestPayload(id: string): StartMobileStatusRequestPayload {
     return {
       id,
+      client_id: this.queryParamsService.queryParamClientId,
       state: this.queryParamsService.queryParamState,
       redirect_uri: this.queryParamsService.queryParamRedirectUri,
       original_url: this.queryParamsService.queryParamOriginalUrl ?? null,

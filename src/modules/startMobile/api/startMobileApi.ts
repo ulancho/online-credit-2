@@ -27,6 +27,7 @@ export interface StartMobileStatusRequestPayload {
   state: string | null;
   redirect_uri: string | null;
   original_url: string | null;
+  client_id: string | null;
 }
 
 export interface StartMobileStatusResponse {
