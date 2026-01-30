@@ -88,8 +88,6 @@ const StartMobile = () => {
 
   useEffect(() => {
     if (status !== AUTH_STATUSES.CONFIRMED || !redirectUrl) {
-      alert(status);
-      alert(redirectUrl);
       return;
     }
 
