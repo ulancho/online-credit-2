@@ -26,6 +26,7 @@ const StartMobile = () => {
   const shouldShowSkeleton = startStore.isLoadingStartInfo && !startStore.startInfo;
   const clientName = startStore.startInfo?.clientName ?? '';
   const logoUrl = startStore.startInfo?.logoUrl;
+
   const status = startMobileStatusStore.mobileStatus?.status;
   const redirectUrl = startMobileStatusStore.mobileStatus?.redirectUrl;
 
@@ -86,7 +87,9 @@ const StartMobile = () => {
   }, [startMobileStatusStore]);
 
   useEffect(() => {
-    if (status !== 'CONFIRMED' || !redirectUrl) {
+    if (status !== AUTH_STATUSES.CONFIRMED || !redirectUrl) {
+      alert(status);
+      alert(redirectUrl);
       return;
     }
 
@@ -94,7 +97,7 @@ const StartMobile = () => {
 
     const timeoutId = window.setTimeout(() => {
       window.location.replace(redirectUrl);
-    }, 4000);
+    }, 3000);
 
     return () => {
       window.clearTimeout(timeoutId);

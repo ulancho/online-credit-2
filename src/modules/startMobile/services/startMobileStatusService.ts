@@ -47,13 +47,13 @@ export class StartMobileStatusService {
     this.isFetching = true;
     this.errorMessage = null;
 
-    const payload = this.buildStatusPayload(id);
+    const payload = this.buildRequestPayload(id);
 
     try {
       const response = await this.startMobileStatusFetcher(payload);
 
       runInAction(() => {
-        this.data = this.transformStatusData(response);
+        this.data = this.transformResponseData(response);
       });
     } catch (error) {
       const message =
@@ -106,7 +106,7 @@ export class StartMobileStatusService {
     return this.errorMessage;
   }
 
-  private buildStatusPayload(id: string): StartMobileStatusRequestPayload {
+  private buildRequestPayload(id: string): StartMobileStatusRequestPayload {
     return {
       id,
       state: this.queryParamsService.queryParamState,
@@ -115,7 +115,7 @@ export class StartMobileStatusService {
     };
   }
 
-  private transformStatusData(data: StartMobileStatusResponse): StartMobileStatusData {
+  private transformResponseData(data: StartMobileStatusResponse): StartMobileStatusData {
     return {
       id: data.id,
       redirectUrl: data.redirect_url,

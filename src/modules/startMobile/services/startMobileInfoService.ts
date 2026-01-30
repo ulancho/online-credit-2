@@ -54,12 +54,12 @@ export class StartMobileInfoService {
     this.isFetching = true;
     this.errorMessage = null;
 
-    const payload = this.buildAuthorizationPayload(this.queryParamsService.queryParams);
+    const payload = this.buildRequestPayload(this.queryParamsService.queryParams);
     let result: StartMobileData | null = null;
 
     try {
       const response = await this.startMobileFetcher(payload);
-      const transformedData = this.transformAuthorizationData(response);
+      const transformedData = this.transformResponseData(response);
 
       runInAction(() => {
         this.data = transformedData;
@@ -102,7 +102,7 @@ export class StartMobileInfoService {
     return this.errorMessage;
   }
 
-  private buildAuthorizationPayload(params: StartQueryParams): StartMobileRequestPayload {
+  private buildRequestPayload(params: StartQueryParams): StartMobileRequestPayload {
     const currentUrl = typeof window !== 'undefined' ? window.location.href : null;
 
     return {
@@ -118,7 +118,7 @@ export class StartMobileInfoService {
     };
   }
 
-  private transformAuthorizationData(data: StartMobileResponse): StartMobileData {
+  private transformResponseData(data: StartMobileResponse): StartMobileData {
     return {
       id: data.id,
       redirectUrl: data.redirect_url,
