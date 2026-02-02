@@ -83,6 +83,7 @@ export const applyCsrfInterceptor = (client: AxiosInstance) => {
     console.log('interceptors.request');
     clearExpiredToken();
 
+    console.log('csrfToken request: ', csrfToken);
     if (csrfToken) {
       console.log('csrfToken in interceptors.request: ', csrfToken);
       const headers =
