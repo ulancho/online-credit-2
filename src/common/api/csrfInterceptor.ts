@@ -14,6 +14,8 @@ function loadStoredToken() {
     const storedToken = sessionStorage.getItem(CSRF_STORAGE_KEY);
     const storedTs = sessionStorage.getItem(CSRF_STORAGE_TS_KEY);
 
+    console.log('storedToken: ', storedToken);
+
     if (!storedToken || !storedTs) {
       return null;
     }
@@ -66,6 +68,7 @@ export const applyCsrfInterceptor = (client: AxiosInstance) => {
     console.log('interceptors.response');
     const csrfHeader = response.headers[CSRF_HEADER];
     if (csrfHeader) {
+      console.log('csrfHeader: ', csrfHeader);
       const token = Array.isArray(csrfHeader) ? csrfHeader[0] : csrfHeader;
       if (token) {
         persistToken(token);
