@@ -63,6 +63,7 @@ function clearExpiredToken() {
 
 export const applyCsrfInterceptor = (client: AxiosInstance) => {
   client.interceptors.response.use((response) => {
+    console.log('interceptors.response');
     const csrfHeader = response.headers[CSRF_HEADER];
     if (csrfHeader) {
       const token = Array.isArray(csrfHeader) ? csrfHeader[0] : csrfHeader;
@@ -76,6 +77,7 @@ export const applyCsrfInterceptor = (client: AxiosInstance) => {
   });
 
   client.interceptors.request.use((config) => {
+    console.log('interceptors.request');
     clearExpiredToken();
 
     if (csrfToken) {
