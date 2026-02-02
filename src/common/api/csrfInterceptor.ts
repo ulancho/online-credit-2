@@ -56,6 +56,7 @@ function clearExpiredToken() {
     const ts = Number(storedTs);
 
     if (Number.isNaN(ts) || now() - ts > CSRF_TTL_MS) {
+      console.log('clearExpiredToken');
       sessionStorage.removeItem(CSRF_STORAGE_KEY);
       sessionStorage.removeItem(CSRF_STORAGE_TS_KEY);
       csrfToken = null;
