@@ -15,6 +15,7 @@ function loadStoredToken() {
     const storedTs = sessionStorage.getItem(CSRF_STORAGE_TS_KEY);
 
     console.log('storedToken: ', storedToken);
+    console.log('storedTs: ', storedTs);
 
     if (!storedToken || !storedTs) {
       return null;
@@ -23,6 +24,7 @@ function loadStoredToken() {
     const ts = Number(storedTs);
 
     if (Number.isNaN(ts) || now() - ts > CSRF_TTL_MS) {
+      console.log('remove ');
       sessionStorage.removeItem(CSRF_STORAGE_KEY);
       sessionStorage.removeItem(CSRF_STORAGE_TS_KEY);
       return null;
