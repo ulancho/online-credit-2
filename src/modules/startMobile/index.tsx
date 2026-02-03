@@ -18,6 +18,9 @@ import Header from 'Modules/startMobile/components/header/Header.tsx';
 
 import styles from './styles/style.module.scss';
 
+const START_MOBILE_RETURN_FLAG_KEY = 'startMobileReturnFromApp';
+const START_MOBILE_RETURN_ID_KEY = 'startMobileReturnId';
+
 const StartMobile = () => {
   const queryParams = useQueryParams();
   const startStore = useStartStore();
@@ -34,6 +37,8 @@ const StartMobile = () => {
     const data = await startMobileInfoStore.fetchStartMobileInfo();
 
     if (data?.deepLinkUrl) {
+      sessionStorage.setItem(START_MOBILE_RETURN_FLAG_KEY, '1');
+      sessionStorage.setItem(START_MOBILE_RETURN_ID_KEY, data.id);
       window.location.href = data.deepLinkUrl;
     }
   };
@@ -43,6 +48,7 @@ const StartMobile = () => {
   };
 
   useEffect(() => {
+    console.log('111');
     startStore.setQueryParams(queryParams);
 
     let isActive = true;
@@ -81,17 +87,32 @@ const StartMobile = () => {
   }, [queryParams, startStore]);
 
   useEffect(() => {
+    console.log('222');
+    const returnFlag = sessionStorage.getItem(START_MOBILE_RETURN_FLAG_KEY);
+    const returnId = sessionStorage.getItem(START_MOBILE_RETURN_ID_KEY);
+
+    if (returnFlag === '1' && returnId) {
+      startMobileStatusStore.startStatusPolling(returnId);
+    }
+  }, [startMobileStatusStore]);
+
+  useEffect(() => {
+    console.log('333');
     return () => {
       startMobileStatusStore.stopStatusPolling();
     };
   }, [startMobileStatusStore]);
 
   useEffect(() => {
+    console.log('444');
     if (status !== AUTH_STATUSES.CONFIRMED || !redirectUrl) {
       return;
     }
 
     startMobileStatusStore.stopStatusPolling();
+
+    sessionStorage.removeItem(START_MOBILE_RETURN_FLAG_KEY);
+    sessionStorage.removeItem(START_MOBILE_RETURN_ID_KEY);
 
     const timeoutId = window.setTimeout(() => {
       window.location.replace(redirectUrl);
