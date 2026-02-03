@@ -14,9 +14,6 @@ function loadStoredToken() {
     const storedToken = sessionStorage.getItem(CSRF_STORAGE_KEY);
     const storedTs = sessionStorage.getItem(CSRF_STORAGE_TS_KEY);
 
-    console.log('storedToken: ', storedToken);
-    console.log('storedTs: ', storedTs);
-
     if (!storedToken || !storedTs) {
       return null;
     }
@@ -24,7 +21,6 @@ function loadStoredToken() {
     const ts = Number(storedTs);
 
     if (Number.isNaN(ts) || now() - ts > CSRF_TTL_MS) {
-      console.log('remove ');
       sessionStorage.removeItem(CSRF_STORAGE_KEY);
       sessionStorage.removeItem(CSRF_STORAGE_TS_KEY);
       return null;
@@ -65,7 +61,6 @@ function clearExpiredToken() {
     const ts = Number(storedTs);
 
     if (Number.isNaN(ts) || now() - ts > CSRF_TTL_MS) {
-      console.log('clearExpiredToken');
       sessionStorage.removeItem(CSRF_STORAGE_KEY);
       sessionStorage.removeItem(CSRF_STORAGE_TS_KEY);
       csrfToken = null;
@@ -77,10 +72,8 @@ function clearExpiredToken() {
 
 export const applyCsrfInterceptor = (client: AxiosInstance) => {
   client.interceptors.response.use((response) => {
-    console.log('interceptors.response');
     const csrfHeader = response.headers[CSRF_HEADER];
     if (csrfHeader) {
-      console.log('csrfHeader: ', csrfHeader);
       const token = Array.isArray(csrfHeader) ? csrfHeader[0] : csrfHeader;
       if (token) {
         persistToken(token);
@@ -92,13 +85,10 @@ export const applyCsrfInterceptor = (client: AxiosInstance) => {
   });
 
   client.interceptors.request.use((config) => {
-    console.log('interceptors.request');
     clearExpiredToken();
 
     const token = getCsrfToken();
-    console.log('csrfToken request: ', token);
     if (token) {
-      console.log('csrfToken in interceptors.request: ', token);
       const headers =
         config.headers instanceof AxiosHeaders
           ? config.headers
