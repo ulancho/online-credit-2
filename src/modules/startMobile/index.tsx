@@ -92,6 +92,9 @@ const StartMobile = () => {
     const returnId = sessionStorage.getItem(START_MOBILE_RETURN_ID_KEY);
 
     if (returnFlag === '1' && returnId) {
+      sessionStorage.removeItem(START_MOBILE_RETURN_FLAG_KEY);
+      sessionStorage.removeItem(START_MOBILE_RETURN_ID_KEY);
+
       startMobileStatusStore.startStatusPolling(returnId);
     }
   }, [startMobileStatusStore]);
@@ -110,9 +113,6 @@ const StartMobile = () => {
     }
 
     startMobileStatusStore.stopStatusPolling();
-
-    sessionStorage.removeItem(START_MOBILE_RETURN_FLAG_KEY);
-    sessionStorage.removeItem(START_MOBILE_RETURN_ID_KEY);
 
     const timeoutId = window.setTimeout(() => {
       window.location.replace(redirectUrl);
