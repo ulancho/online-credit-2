@@ -5,7 +5,7 @@ const CSRF_STORAGE_KEY = 'mbankid.csrf.token';
 const CSRF_STORAGE_TS_KEY = 'mbankid.csrf.token.ts';
 const CSRF_TTL_MS = 15 * 60 * 1000;
 
-let csrfToken: string | null = loadStoredToken();
+let csrfToken: string | null = null;
 
 const now = () => Date.now();
 
@@ -44,6 +44,15 @@ function persistToken(token: string) {
   } catch {
     // Ignore storage errors
   }
+}
+
+function getCsrfToken() {
+  if (csrfToken) {
+    return csrfToken;
+  }
+
+  csrfToken = loadStoredToken();
+  return csrfToken;
 }
 
 function clearExpiredToken() {
@@ -86,15 +95,16 @@ export const applyCsrfInterceptor = (client: AxiosInstance) => {
     console.log('interceptors.request');
     clearExpiredToken();
 
-    console.log('csrfToken request: ', csrfToken);
-    if (csrfToken) {
-      console.log('csrfToken in interceptors.request: ', csrfToken);
+    const token = getCsrfToken();
+    console.log('csrfToken request: ', token);
+    if (token) {
+      console.log('csrfToken in interceptors.request: ', token);
       const headers =
         config.headers instanceof AxiosHeaders
           ? config.headers
           : AxiosHeaders.from(config.headers ?? {});
 
-      headers.set(CSRF_HEADER, csrfToken);
+      headers.set(CSRF_HEADER, token);
       config.headers = headers;
     }
 
