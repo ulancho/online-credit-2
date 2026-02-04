@@ -7,8 +7,8 @@ import { PhoneAuthService } from 'Modules/startDesktop/services/phoneAuthService
 import { QrInfoService } from 'Modules/startDesktop/services/qrInfoService.ts';
 import { QrStatusService } from 'Modules/startDesktop/services/qrStatusService.ts';
 import { StartInfoService } from 'Modules/startDesktop/services/startInfoService.ts';
-import { StartMobileInfoService } from 'Modules/startMobile/services/startMobileInfoService.ts';
-import { StartMobileStatusService } from 'Modules/startMobile/services/startMobileStatusService.ts';
+import { MobileInfoService } from 'Modules/startMobile/services/MobileInfoService.ts';
+import { MobileStatusService } from 'Modules/startMobile/services/MobileStatusService.ts';
 
 class RootStore {
   readonly countryCodesStore = new CountryCodeService();
@@ -17,8 +17,8 @@ class RootStore {
   readonly qrStore = new QrInfoService(this.queryParamsStore);
   readonly qrStatusStore = new QrStatusService(this.startStore, this.queryParamsStore);
   readonly phoneAuthStore = new PhoneAuthService(this.startStore, this.queryParamsStore);
-  readonly startMobileStatusStore = new StartMobileStatusService(this.queryParamsStore);
-  readonly startMobileStore = new StartMobileInfoService(
+  readonly startMobileStatusStore = new MobileStatusService(this.queryParamsStore);
+  readonly startMobileStore = new MobileInfoService(
     this.queryParamsStore,
     this.startMobileStatusStore,
   );

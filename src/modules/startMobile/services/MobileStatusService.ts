@@ -17,7 +17,7 @@ interface StartMobileStatusData {
   expiresIn: string;
 }
 
-export class StartMobileStatusService {
+export class MobileStatusService {
   @observable.ref private data: StartMobileStatusData | null = null;
   @observable private isFetching = false;
   @observable private errorMessage: string | null = null;

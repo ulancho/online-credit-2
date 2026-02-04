@@ -8,7 +8,7 @@ import {
 
 import type { StartQueryParams } from 'Common/hooks/useQueryParams.ts';
 import type { QueryParamsService } from 'Common/services/queryParamsService.ts';
-import type { StartMobileStatusService } from 'Modules/startMobile/services/startMobileStatusService.ts';
+import type { MobileStatusService } from 'Modules/startMobile/services/MobileStatusService.ts';
 
 interface StartMobileData {
   id: string;
@@ -18,14 +18,14 @@ interface StartMobileData {
   expiresIn: string;
 }
 
-export class StartMobileInfoService {
+export class MobileInfoService {
   @observable.ref private data: StartMobileData | null = null;
   @observable private isFetching = false;
   @observable private errorMessage: string | null = null;
 
   constructor(
     private readonly queryParamsService: QueryParamsService,
-    private readonly startMobileStatusService: StartMobileStatusService,
+    private readonly startMobileStatusService: MobileStatusService,
     private readonly startMobileFetcher: typeof fetchStartMobileAuthorization = fetchStartMobileAuthorization,
   ) {
     makeObservable(this);
