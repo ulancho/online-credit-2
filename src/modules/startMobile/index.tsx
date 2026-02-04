@@ -48,7 +48,6 @@ const StartMobile = () => {
   };
 
   useEffect(() => {
-    console.log('111');
     startStore.setQueryParams(queryParams);
 
     let isActive = true;
@@ -87,7 +86,6 @@ const StartMobile = () => {
   }, [queryParams, startStore]);
 
   useEffect(() => {
-    console.log('222');
     const returnFlag = sessionStorage.getItem(START_MOBILE_RETURN_FLAG_KEY);
     const returnId = sessionStorage.getItem(START_MOBILE_RETURN_ID_KEY);
 
@@ -100,14 +98,12 @@ const StartMobile = () => {
   }, [startMobileStatusStore]);
 
   useEffect(() => {
-    console.log('333');
     return () => {
       startMobileStatusStore.stopStatusPolling();
     };
   }, [startMobileStatusStore]);
 
   useEffect(() => {
-    console.log('444');
     if (status !== AUTH_STATUSES.CONFIRMED || !redirectUrl) {
       return;
     }
