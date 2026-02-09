@@ -56,7 +56,6 @@ variables:
         git push origin "$TAG"
     else
         echo "Tag $TAG alredy exist in $CI_COMMIT_BRANCH branch, please edit version in root pom.xml"
-        exit -1 # fail the job
     fi
 
 .docker-build-push: &docker-build-push
