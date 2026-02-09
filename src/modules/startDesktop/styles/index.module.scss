@@ -13,8 +13,10 @@
 
 .sectionsContainer {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: start;
+  align-items: stretch;
   gap: 12px;
   width: 100%;
+  min-width: 0;
 }
