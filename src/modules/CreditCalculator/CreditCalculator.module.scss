@@ -1,0 +1,72 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-bg-main);
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-bottom: 16px;
+}
+
+.fieldsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 16px;
+}
+
+.insuranceSection {
+  padding: 16px 16px 0;
+}
+
+.notificationSection {
+  padding: 8px 16px;
+}
+
+.termsSection {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.termLink {
+  color: var(--color-accent);
+}
+
+.submitSection {
+  position: sticky;
+  bottom: 0;
+  background: var(--color-bg-main);
+  padding: 8px 16px;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+}
+
+.submitButton {
+  width: 100%;
+  height: 56px;
+  border-radius: var(--radius-block);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.submitButtonActive {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  cursor: pointer;
+}
+
+.submitButtonDisabled {
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
+}

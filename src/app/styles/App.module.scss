@@ -1,26 +1,57 @@
-.appLayout {
-  height: 100dvh;
-  overflow: hidden;
-  background: linear-gradient(135deg, #009c4d 0%, #007e8b 61.2%);
+@import 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap';
+
+:root {
+  --color-bg-main: #eff0f1;
+  --color-bg-primary: #fff;
+  --color-bg-tertiary: #e3e5e8;
+  --color-text-primary: #111622;
+  --color-text-secondary: #626975;
+  --color-text-tertiary: #a0a7b1;
+  --color-accent: #129958;
+  --color-on-accent: #fff;
+  --radius-block: 20px;
+  --radius-small: 16px;
+  --spacing-s: 8px;
+  --spacing-m: 12px;
+  --spacing-l: 16px;
+  --spacing-xl: 24px;
+  --font-family: 'Nunito', -apple-system, roboto, helvetica, sans-serif;
 }
 
-.routesWrapper {
-  width: 100%;
-  min-height: 100dvh;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg-main);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
-.routesWrapperMobile {
-  min-height: auto !important;
-
-  // zoom: 1 !important;
+#root {
+  width: 100%;
+  max-width: 430px;
 }
 
-@media (width <= 1536px) {
-  .routesWrapper {
-    // zoom: 0.97;
-  }
+button {
+  font-family: var(--font-family);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input {
+  font-family: var(--font-family);
+  border: none;
+  outline: none;
+  background: none;
 }
