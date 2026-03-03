@@ -32,7 +32,7 @@ module.exports = {
     'import/no-duplicates': 'error',
     'import/newline-after-import': ['warn', { count: 1 }],
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
-    'import/no-unresolved': ['error', { ignore: ['^/'] }],
+    'import/no-unresolved': ['error', { ignore: ['^/', '\\.css$', '\\.scss$'] }],
   },
   ignorePatterns: ['dist', 'build', 'node_modules'],
   overrides: [
