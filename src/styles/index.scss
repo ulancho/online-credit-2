@@ -57,3 +57,13 @@ input {
   outline: none;
   background: none;
 }
+
+input[type='number'] {
+  appearance: textfield; /* Firefox */
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  appearance: none; /* Chrome, Safari, Edge */
+  margin: 0;
+}
