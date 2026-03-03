@@ -1,5 +1,5 @@
 {
-  "name": "mbankid",
+  "name": "online-credit",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -31,7 +31,6 @@
     "classnames": "^2.5.1",
     "mobx": "^6.13.7",
     "mobx-react-lite": "^4.1.0",
-    "qr-code-styling": "^1.9.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-loading-skeleton": "^3.5.0",
