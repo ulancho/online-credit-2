@@ -9,11 +9,13 @@ import { useState } from 'react';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useTranslation } from 'Common/i18n';
+import LoanTermSlider from 'Modules/CreditCalculator/components/LoanTermSlider/LoanTermSlider.tsx';
 
 import styles from './CreditCalculator.module.scss';
 
 export default function CreditCalculator() {
   const [loanAmount, setLoanAmount] = useState('');
+  const [loanTerm, setLoanTerm] = useState(3);
 
   const { t } = useTranslation();
   return (
@@ -25,12 +27,13 @@ export default function CreditCalculator() {
       <div className={styles.content}>
         <div className={styles.fieldsSection}>
           <InputField
-            mainPlaceholder="Сумма кредита"
-            secondaryPlaceholder="До 500 000 сом"
+            mainPlaceholder={t('credit-calculator.sum')}
+            secondaryPlaceholder={t('credit-calculator.to')}
             value={loanAmount}
             onChange={setLoanAmount}
             type="number"
           />
+          <LoanTermSlider value={loanTerm} min={3} max={60} onChange={setLoanTerm} />
         </div>
       </div>
     </div>
