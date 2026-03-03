@@ -1,0 +1,91 @@
+.wrapper {
+  width: 100%;
+}
+
+.fieldBox {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+  padding: 0 16px;
+  border-radius: var(--radius-block);
+  background: var(--color-bg-primary);
+  gap: 8px;
+  cursor: text;
+  transition: height 0.15s ease;
+}
+
+.fieldBoxFilled {
+  height: 56px;
+  align-items: flex-start;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.fieldContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+}
+
+.floatingLabel {
+  color: var(--color-text-secondary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  transition:
+    font-size 0.15s ease,
+    line-height 0.15s ease,
+    color 0.15s ease;
+  pointer-events: none;
+}
+
+.floatingLabelActive {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--color-text-secondary);
+}
+
+.input {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  padding: 0;
+  height: 0;
+  opacity: 0;
+  transition:
+    height 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.input::placeholder {
+  color: #999;
+  font-size: 14px;
+}
+
+.fieldBoxFilled .input {
+  height: 22px;
+  opacity: 1;
+}
+
+.selectedValue {
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+.chevron {
+  flex-shrink: 0;
+  align-self: center;
+}
