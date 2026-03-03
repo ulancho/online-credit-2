@@ -1,0 +1,44 @@
+.navbar {
+  background: var(--color-bg-main);
+  width: 100%;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  padding: 12px var(--spacing-l) 8px;
+  gap: var(--spacing-l);
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+.description {
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+}
