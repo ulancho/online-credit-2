@@ -17,6 +17,7 @@ export default function CreditCalculator() {
   const [loanAmount, setLoanAmount] = useState('');
   const [loanTerm, setLoanTerm] = useState(3);
   const [monthlyIncome, setMonthlyIncome] = useState('');
+  const [activityType, setActivityType] = useState('');
 
   const { t } = useTranslation();
 
@@ -42,6 +43,13 @@ export default function CreditCalculator() {
             value={monthlyIncome}
             onChange={setMonthlyIncome}
             type="number"
+          />
+          <InputField
+            mainPlaceholder={t('credit-calculator.activityType')}
+            secondaryPlaceholder={''}
+            value={activityType}
+            onChange={setActivityType}
+            hasChevron
           />
         </div>
       </div>
