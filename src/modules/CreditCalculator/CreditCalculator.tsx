@@ -8,6 +8,7 @@ import InfoNotification from 'Modules/CreditCalculator/components/InfoNotificati
 import InsuranceToggle from 'Modules/CreditCalculator/components/InsuranceToggle/InsuranceToggle.tsx';
 import LoanSummary from 'Modules/CreditCalculator/components/LoanSummary/LoanSummary.tsx';
 import LoanTermSlider from 'Modules/CreditCalculator/components/LoanTermSlider/LoanTermSlider.tsx';
+import TermsCheckbox from 'Modules/CreditCalculator/components/TermsCheckbox/TermsCheckbox.tsx';
 
 import styles from './CreditCalculator.module.scss';
 
@@ -17,6 +18,9 @@ export default function CreditCalculator() {
   const [monthlyIncome, setMonthlyIncome] = useState('');
   const [activityType, setActivityType] = useState('');
   const [insuranceEnabled, setInsuranceEnabled] = useState(true);
+  const [term1Checked, setTerm1Checked] = useState(false);
+  const [term2Checked, setTerm2Checked] = useState(false);
+  const [term3Checked, setTerm3Checked] = useState(false);
 
   const { t } = useTranslation();
 
@@ -56,6 +60,17 @@ export default function CreditCalculator() {
         />
         <div className={styles.notificationSection}>
           <InfoNotification text="После вашего действия будет создана заявка на кредит. Мы отправим вам одноразовый код для проверки номера телефона." />
+        </div>
+        <div className={styles.termsSection}>
+          <TermsCheckbox checked={term1Checked} onChange={setTerm1Checked}>
+            Я ознакомлен(а) и согласен(на) с условиями оферты
+          </TermsCheckbox>
+          <TermsCheckbox checked={term2Checked} onChange={setTerm2Checked}>
+            Я ознакомлен(а) и согласен(на) с условиями на обработку и передачу персональных данных
+          </TermsCheckbox>
+          <TermsCheckbox checked={term3Checked} onChange={setTerm3Checked}>
+            Я ознакомлен(на) <span className={styles.termLink}>с листком ключевых данных</span>
+          </TermsCheckbox>
         </div>
       </div>
     </div>
