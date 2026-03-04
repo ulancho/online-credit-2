@@ -16,8 +16,10 @@ import styles from './CreditCalculator.module.scss';
 export default function CreditCalculator() {
   const [loanAmount, setLoanAmount] = useState('');
   const [loanTerm, setLoanTerm] = useState(3);
+  const [monthlyIncome, setMonthlyIncome] = useState('');
 
   const { t } = useTranslation();
+
   return (
     <div className={styles.page}>
       <NavBar
@@ -34,6 +36,13 @@ export default function CreditCalculator() {
             type="number"
           />
           <LoanTermSlider value={loanTerm} min={3} max={60} onChange={setLoanTerm} />
+          <InputField
+            mainPlaceholder={t('credit-calculator.income')}
+            secondaryPlaceholder={''}
+            value={monthlyIncome}
+            onChange={setMonthlyIncome}
+            type="number"
+          />
         </div>
       </div>
     </div>
