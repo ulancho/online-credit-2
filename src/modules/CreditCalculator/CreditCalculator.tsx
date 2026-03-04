@@ -9,6 +9,7 @@ import { useState } from 'react';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useTranslation } from 'Common/i18n';
+import ActivityTypeSelect from 'Modules/CreditCalculator/components/ActivityTypeSelect/ActivityTypeSelect.tsx';
 import LoanTermSlider from 'Modules/CreditCalculator/components/LoanTermSlider/LoanTermSlider.tsx';
 
 import styles from './CreditCalculator.module.scss';
@@ -44,13 +45,7 @@ export default function CreditCalculator() {
             onChange={setMonthlyIncome}
             type="number"
           />
-          <InputField
-            mainPlaceholder={t('credit-calculator.activityType')}
-            secondaryPlaceholder={''}
-            value={activityType}
-            onChange={setActivityType}
-            hasChevron
-          />
+          <ActivityTypeSelect value={activityType} onChange={setActivityType} />
         </div>
       </div>
     </div>
