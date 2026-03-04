@@ -1,15 +1,10 @@
-// import InfoNotification from '../../components/InfoNotification/InfoNotification';
-// import InputField from '../../components/InputField/InputField';
-// import InsuranceToggle from '../../components/InsuranceToggle/InsuranceToggle';
-// import LoanSummary from '../../components/LoanSummary/LoanSummary';
-// import LoanTermSlider from '../../components/LoanTermSlider/LoanTermSlider';
-// import TermsCheckbox from '../../components/TermsCheckbox/TermsCheckbox';
 import { useState } from 'react';
 
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useTranslation } from 'Common/i18n';
 import ActivityTypeSelect from 'Modules/CreditCalculator/components/ActivityTypeSelect/ActivityTypeSelect.tsx';
+import InsuranceToggle from 'Modules/CreditCalculator/components/InsuranceToggle/InsuranceToggle.tsx';
 import LoanTermSlider from 'Modules/CreditCalculator/components/LoanTermSlider/LoanTermSlider.tsx';
 
 import styles from './CreditCalculator.module.scss';
@@ -19,6 +14,7 @@ export default function CreditCalculator() {
   const [loanTerm, setLoanTerm] = useState(3);
   const [monthlyIncome, setMonthlyIncome] = useState('');
   const [activityType, setActivityType] = useState('');
+  const [insuranceEnabled, setInsuranceEnabled] = useState(true);
 
   const { t } = useTranslation();
 
@@ -46,6 +42,9 @@ export default function CreditCalculator() {
             type="number"
           />
           <ActivityTypeSelect value={activityType} onChange={setActivityType} />
+        </div>
+        <div className={styles.insuranceSection}>
+          <InsuranceToggle checked={insuranceEnabled} onChange={setInsuranceEnabled} />
         </div>
       </div>
     </div>

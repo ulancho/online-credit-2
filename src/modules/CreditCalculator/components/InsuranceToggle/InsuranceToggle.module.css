@@ -1,0 +1,74 @@
+.card {
+  width: 100%;
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-block);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  padding: 17px 16px;
+  gap: 8px;
+}
+
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.title {
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+}
+
+.toggle {
+  position: relative;
+  width: 51px;
+  height: 31px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+  padding: 0;
+}
+
+.toggleOn {
+  background: var(--color-accent);
+}
+
+.toggleOff {
+  background: var(--color-text-tertiary);
+}
+
+.thumb {
+  position: absolute;
+  top: 2px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
+  transition: left 0.2s ease;
+}
+
+.toggleOn .thumb {
+  left: calc(100% - 29px);
+}
+
+.toggleOff .thumb {
+  left: 2px;
+}
