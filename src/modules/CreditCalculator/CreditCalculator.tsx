@@ -4,6 +4,7 @@ import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useTranslation } from 'Common/i18n';
 import ActivityTypeSelect from 'Modules/CreditCalculator/components/ActivityTypeSelect/ActivityTypeSelect.tsx';
+import InfoNotification from 'Modules/CreditCalculator/components/InfoNotification/InfoNotification.tsx';
 import InsuranceToggle from 'Modules/CreditCalculator/components/InsuranceToggle/InsuranceToggle.tsx';
 import LoanSummary from 'Modules/CreditCalculator/components/LoanSummary/LoanSummary.tsx';
 import LoanTermSlider from 'Modules/CreditCalculator/components/LoanTermSlider/LoanTermSlider.tsx';
@@ -53,6 +54,9 @@ export default function CreditCalculator() {
           discountedRate="25.99%"
           overpayment="7 262"
         />
+        <div className={styles.notificationSection}>
+          <InfoNotification text="После вашего действия будет создана заявка на кредит. Мы отправим вам одноразовый код для проверки номера телефона." />
+        </div>
       </div>
     </div>
   );

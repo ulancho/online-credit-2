@@ -1,0 +1,21 @@
+.notification {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px;
+  border-radius: var(--radius-block);
+  background: var(--color-bg-tertiary);
+  width: 100%;
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.text {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+}
