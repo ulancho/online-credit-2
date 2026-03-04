@@ -39,8 +39,6 @@
 }
 
 .submitSection {
-  position: sticky;
-  bottom: 0;
   background: var(--color-bg-main);
   padding: 8px 16px;
   padding-bottom: max(8px, env(safe-area-inset-bottom));

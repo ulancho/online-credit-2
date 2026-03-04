@@ -22,6 +22,9 @@ export default function CreditCalculator() {
   const [term2Checked, setTerm2Checked] = useState(false);
   const [term3Checked, setTerm3Checked] = useState(false);
 
+  const allTermsAccepted = term1Checked && term2Checked && term3Checked;
+  const isSubmitEnabled = allTermsAccepted && loanAmount !== '' && monthlyIncome !== '';
+
   const { t } = useTranslation();
 
   return (
@@ -72,6 +75,14 @@ export default function CreditCalculator() {
             Я ознакомлен(на) <span className={styles.termLink}>с листком ключевых данных</span>
           </TermsCheckbox>
         </div>
+      </div>
+      <div className={styles.submitSection}>
+        <button
+          className={`${styles.submitButton} ${isSubmitEnabled ? styles.submitButtonActive : styles.submitButtonDisabled}`}
+          disabled={!isSubmitEnabled}
+        >
+          Отправить заявку
+        </button>
       </div>
     </div>
   );
