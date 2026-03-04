@@ -1,0 +1,86 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 16px 8px;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.rowLabel {
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+.rowLabelMuted {
+  color: var(--color-text-secondary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+.rowValueBold {
+  color: var(--color-text-primary);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 24px;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.rowValue {
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+.rateLabel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rateValues {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.originalRate {
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  text-decoration: line-through;
+}
+
+.discountedRate {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  background: linear-gradient(
+    133deg,
+    #ce9e26 19.69%,
+    #dec64d 46.34%,
+    #f7d14e 59.76%,
+    #f8c52c 86.16%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
