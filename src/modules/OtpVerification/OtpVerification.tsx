@@ -1,58 +1,84 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from './OtpVerification.module.scss';
 
-const PHONE_NUMBER = '+996 (555) XXX 123';
-const CODE_LENGTH = 6;
-const TIMER_SECONDS = 60;
-
-function formatTime(seconds: number): string {
-  const m = Math.floor(seconds / 60)
-    .toString()
-    .padStart(2, '0');
-  const s = (seconds % 60).toString().padStart(2, '0');
-  return `${m}:${s}`;
-}
+const OTP_LENGTH = 6;
+const INITIAL_SECONDS = 23;
+const PHONE = '+996 (555) XXX 123';
 
 export default function OtpVerification() {
-  const [code, setCode] = useState<string[]>([]);
-  const [timeLeft, setTimeLeft] = useState(TIMER_SECONDS);
+  const [code, setCode] = useState('');
+  const [seconds, setSeconds] = useState(INITIAL_SECONDS);
   const [canResend, setCanResend] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (timeLeft <= 0) {
+    if (seconds <= 0) {
       setCanResend(true);
       return;
     }
-    const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
+    const timer = setTimeout(() => setSeconds((s) => s - 1), 1000);
     return () => clearTimeout(timer);
-  }, [timeLeft]);
+  }, [seconds]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, OTP_LENGTH);
+    setCode(value);
+  };
 
   const handleResend = () => {
     if (!canResend) return;
-    setCode([]);
-    setTimeLeft(TIMER_SECONDS);
+    setCode('');
+    setSeconds(INITIAL_SECONDS);
     setCanResend(false);
+    inputRef.current?.focus();
   };
+
+  const focusInput = () => {
+    inputRef.current?.focus();
+  };
+
+  const formatTime = (s: number) => {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+  };
+
+  const digits = Array.from({ length: OTP_LENGTH }, (_, i) => code[i] ?? '');
 
   return (
     <div className={styles.page}>
       <div className={styles.content}>
-        <div className={styles.timerBlock}>
-          <span className={styles.timer}>{formatTime(timeLeft)}</span>
-          <p className={styles.description}>
-            На Ваш номер мобильного телефона {PHONE_NUMBER} был отправлен код подтверждения
-          </p>
-        </div>
-        <div className={styles.codeDisplay}>
-          {Array.from({ length: CODE_LENGTH }).map((_, i) => (
-            <div key={i} className={styles.codeCell}>
-              <span className={styles.codeDigit}>{code[i] ?? ''}</span>
-            </div>
-          ))}
+        <span className={styles.timer}>{formatTime(seconds)}</span>
+        <p className={styles.description}>
+          На Ваш номер мобильного телефона {PHONE} был отправлен код подтверждения
+        </p>
+        <div className={styles.codeArea} onClick={focusInput}>
+          <input
+            ref={inputRef}
+            className={styles.hiddenInput}
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            autoComplete="one-time-code"
+            maxLength={OTP_LENGTH}
+            value={code}
+            onChange={handleChange}
+            aria-label="Код подтверждения"
+          />
+          <div className={styles.digits}>
+            {digits.map((digit, i) => (
+              <span
+                key={i}
+                className={`${styles.digitCell} ${digit ? styles.digitCellFilled : styles.digitCellEmpty}`}
+              >
+                {digit || '–'}
+              </span>
+            ))}
+          </div>
         </div>
         <button
-          className={`${styles.resendButton} ${canResend ? styles.resendActive : styles.resendDisabled}`}
+          className={`${styles.resendBtn} ${canResend ? styles.resendBtnActive : styles.resendBtnDisabled}`}
           onClick={handleResend}
           disabled={!canResend}
         >
