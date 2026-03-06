@@ -1,6 +1,4 @@
 .page {
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
   background: var(--color-bg-main);
   width: 100%;
@@ -11,6 +9,32 @@
   flex-direction: column;
   flex: 1;
   padding-bottom: 16px;
+}
+
+.headerSection {
+  padding: 0 16px 8px;
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+.description {
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
 }
 
 .fieldsSection {

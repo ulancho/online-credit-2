@@ -29,11 +29,14 @@ export default function CreditCalculator() {
 
   return (
     <div className={styles.page}>
-      <NavBar
-        title={t('credit-calculator.title')}
-        description={t('credit-calculator.description')}
-      />
+      <NavBar />
       <div className={styles.content}>
+        <div className={styles.headerSection}>
+          <div className={styles.titleBlock}>
+            <h1 className={styles.title}>{t('credit-calculator.title')}</h1>
+            <p className={styles.description}>{t('credit-calculator.description')}</p>
+          </div>
+        </div>
         <div className={styles.fieldsSection}>
           <InputField
             mainPlaceholder={t('credit-calculator.sum')}
