@@ -1,12 +1,10 @@
 import styles from './NavBar.module.css';
 
 interface NavBarProps {
-  title: string;
-  description?: string;
   onBack?: () => void;
 }
 
-export default function NavBar({ title, description, onBack }: NavBarProps) {
+export default function NavBar({ onBack }: NavBarProps) {
   return (
     <div className={styles.navbar}>
       <div className={styles.toolbar}>
@@ -18,10 +16,6 @@ export default function NavBar({ title, description, onBack }: NavBarProps) {
             />
           </svg>
         </button>
-        <div className={styles.titleBlock}>
-          <h1 className={styles.title}>{title}</h1>
-          {description && <p className={styles.description}>{description}</p>}
-        </div>
       </div>
     </div>
   );
