@@ -62,7 +62,8 @@
     "stylelint-config-standard-scss": "^16.0.0",
     "stylelint-order": "^7.0.0",
     "typescript": "~5.8.3",
-    "vite": "^7.1.5"
+    "vite": "^7.1.5",
+    "vite-plugin-svgr": "^4.5.0"
   },
   "browserslist": {
     "production": [
