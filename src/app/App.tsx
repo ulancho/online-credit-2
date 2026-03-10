@@ -22,7 +22,7 @@ const AppContent = () => {
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/online-credit-2">
       <AppContent />
     </BrowserRouter>
   );
