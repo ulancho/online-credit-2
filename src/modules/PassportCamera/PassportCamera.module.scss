@@ -1,0 +1,345 @@
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  background: #bebebe;
+  overflow: hidden;
+  font-family:
+    'Nunito mbank',
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
+}
+
+/* ── Media layer (video / photo) ── */
+.mediaLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.videoFeed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Overlay with passport-frame cutout ── */
+.overlayLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/*
+ * The frame div itself is transparent.
+ * box-shadow with a massive spread paints the dark veil
+ * everywhere EXCEPT the frame rectangle.
+ */
+.passportFrame {
+  position: absolute;
+  left: 7.2%; /* 27 / 375 */
+  width: 85.6%; /* 320 / 375 */
+  top: 40.6%; /* 330 / 812 */
+  aspect-ratio: 320 / 188;
+  border-radius: 16px;
+  border: 1px solid #fff;
+  box-shadow: 0 0 0 9999px rgb(0 0 0 / 20%);
+}
+
+/* ── Back button ── */
+.backBtn {
+  position: absolute;
+  z-index: 10;
+  top: 50px; /* status bar 44px + 6px toolbar padding */
+  left: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgb(39 40 45 / 20%);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+/* ── Title + subtitle (camera mode only) ── */
+.titleSection {
+  position: absolute;
+  z-index: 10;
+  top: 92px;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  text-align: center;
+}
+
+.pageTitle {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 21px;
+  margin: 0 0 12px;
+}
+
+.pageSubtitle {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+/* ── Side label badge ── */
+.sideBadgeWrapper {
+  position: absolute;
+  z-index: 10;
+  top: 30.2%; /* 245 / 812 */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.sideBadge {
+  display: inline-flex;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgb(39 40 45 / 20%);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+}
+
+/* ── Camera error ── */
+.cameraErrorMsg {
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgb(0 0 0 / 80%);
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  text-align: center;
+  max-width: 80%;
+}
+
+/* ── Capture bar (camera mode) ── */
+.captureBar {
+  position: absolute;
+  z-index: 10;
+  bottom: 50px; /* 16px above 34px home-indicator area */
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 0 50px;
+}
+
+.frontThumbnail {
+  position: relative;
+  width: 79px;
+  height: 68px;
+  border-radius: 8px;
+  border: 2px solid #fff;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.doneLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 30%);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.thumbnailSlot {
+  width: 79px;
+  height: 68px;
+  flex-shrink: 0;
+}
+
+.shutterBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 68px;
+  height: 68px;
+
+  &:active {
+    opacity: 0.85;
+    transform: scale(0.97);
+  }
+}
+
+.captureBarSpacer {
+  width: 79px;
+  flex-shrink: 0;
+}
+
+/* ── Preview action bar ── */
+.previewActionsBar {
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.previewButtons {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.retakeBtn,
+.keepBtn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family:
+    'Nunito mbank',
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  color: #129958;
+  text-align: center;
+  padding: 7px 16px;
+  height: 36px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+/* ── Home indicators ── */
+.homeIndicatorLight {
+  position: absolute;
+  z-index: 10;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 134px;
+  height: 5px;
+  border-radius: 100px;
+  background: #fff;
+}
+
+.homeIndicatorDark {
+  width: 134px;
+  height: 5px;
+  border-radius: 100px;
+  background: #000;
+  align-self: center;
+  margin: 0 auto 8px;
+}
+
+/* ── Upload error ── */
+.uploadErrorMsg {
+  position: absolute;
+  z-index: 20;
+  bottom: 110px;
+  left: 16px;
+  right: 16px;
+  background: rgb(224 45 60 / 92%);
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  text-align: center;
+}
+
+/* ── Uploading screen ── */
+.uploadingScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100dvh;
+  background: #fff;
+  gap: 16px;
+  font-family:
+    'Nunito mbank',
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e3e5e8;
+  border-top-color: #129958;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.uploadingText {
+  font-size: 17px;
+  font-weight: 500;
+  color: #111622;
+  margin: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Hidden canvas ── */
+.hiddenCanvas {
+  display: none;
+}

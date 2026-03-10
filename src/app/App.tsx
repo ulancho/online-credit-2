@@ -4,6 +4,7 @@ import ApplicationSuccess from 'Modules/ApplicationSuccess/ApplicationSuccess.ts
 import CreditCalculator from 'Modules/CreditCalculator/CreditCalculator.tsx';
 import Loader from 'Modules/Loader/Loader.tsx';
 import OtpVerification from 'Modules/OtpVerification/OtpVerification.tsx';
+import PassportCamera from 'Modules/PassportCamera/PassportCamera.tsx';
 import ServiceUnavailable from 'Modules/ServiceUnavailable/ServiceUnavailable.tsx';
 
 const AppContent = () => {
@@ -14,6 +15,7 @@ const AppContent = () => {
       <Route path="/loading" element={<Loader />} />
       <Route path="/application-success" element={<ApplicationSuccess />} />
       <Route path="/service-unavailable" element={<ServiceUnavailable />} />
+      <Route path="/passport" element={<PassportCamera />} />
     </Routes>
   );
 };
