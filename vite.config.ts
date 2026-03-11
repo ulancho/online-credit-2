@@ -2,31 +2,35 @@ import { resolve } from 'node:path';
 import { fileURLToPath, URL } from 'node:url';
 
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import svgr from 'vite-plugin-svgr';
 
 const srcDir = fileURLToPath(new URL('./src', import.meta.url));
 
-export default defineConfig({
-  base: '/',
-  plugins: [react(), svgr()],
-  resolve: {
-    alias: {
-      '@': srcDir,
-      Common: resolve(srcDir, 'common'),
-      Modules: resolve(srcDir, 'modules'),
-      Assets: resolve(srcDir, 'assets'),
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+
+  return {
+    base: env.VITE_BASE_PATH || '/',
+    plugins: [react(), svgr()],
+    resolve: {
+      alias: {
+        '@': srcDir,
+        Common: resolve(srcDir, 'common'),
+        Modules: resolve(srcDir, 'modules'),
+        Assets: resolve(srcDir, 'assets'),
+      },
+      extensions: ['.tsx', '.ts', '.js'],
+      preserveSymlinks: false,
     },
-    extensions: ['.tsx', '.ts', '.js'],
-    preserveSymlinks: false,
-  },
-  server: {
-    proxy: {
-      '/svc-biz-ib-cbk-mbank-id-auth/v1/api': {
-        target: 'https://preprodib.mbank.kg/svc-biz-ib-cbk-mbank-id-auth/v1/api',
-        changeOrigin: true,
-        secure: true,
+    server: {
+      proxy: {
+        '/svc-biz-ib-cbk-mbank-id-auth/v1/api': {
+          target: 'https://preprodib.mbank.kg/svc-biz-ib-cbk-mbank-id-auth/v1/api',
+          changeOrigin: true,
+          secure: true,
+        },
       },
     },
-  },
+  };
 });

@@ -23,7 +23,7 @@ build-and-push:
     policy: pull
   script:
     - npm install
-    - CI=false npm run build
+    - VITE_BASE_PATH=/${CI_PROJECT_NAME}/ CI=false npm run build
     - docker pull $CI_REGISTRY_IMAGE:latest || true
     - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
