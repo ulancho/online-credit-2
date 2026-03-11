@@ -1,4 +1,4 @@
-import { Route, Routes, HashRouter } from 'react-router-dom';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import ApplicationSuccess from 'Modules/ApplicationSuccess/ApplicationSuccess.tsx';
 import CreditCalculator from 'Modules/CreditCalculator/CreditCalculator.tsx';
@@ -22,9 +22,9 @@ const AppContent = () => {
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <AppContent />
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 

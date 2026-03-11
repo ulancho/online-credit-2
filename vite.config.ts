@@ -8,7 +8,7 @@ import svgr from 'vite-plugin-svgr';
 const srcDir = fileURLToPath(new URL('./src', import.meta.url));
 
 export default defineConfig({
-  base: '/online-credit-2/',
+  base: '/',
   plugins: [react(), svgr()],
   resolve: {
     alias: {
