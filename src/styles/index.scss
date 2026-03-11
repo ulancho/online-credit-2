@@ -44,6 +44,12 @@ body {
   max-width: 430px;
 }
 
+#page {
+  min-height: 100vh;
+  background: var(--color-bg-main);
+  width: 100%;
+}
+
 button {
   font-family: var(--font-family);
   cursor: pointer;

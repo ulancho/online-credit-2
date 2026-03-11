@@ -30,7 +30,7 @@ export default function CreditCalculator() {
   const { t } = useTranslation();
 
   return (
-    <div className={styles.page}>
+    <div id="page">
       <NavBar />
       <div className={styles.content}>
         <div className={styles.headerSection}>
