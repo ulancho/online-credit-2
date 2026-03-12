@@ -1,5 +1,6 @@
 import PercentIcon from 'Assets/icons/badge_percent.svg?react';
 import CalendarIcon from 'Assets/icons/calendar.svg?react';
+import WalletImage from 'Assets/icons/coin_percent.png';
 import LoanInfoIcon from 'Assets/icons/loan_info_icon.svg?react';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
@@ -21,11 +22,7 @@ export default function LoanConditions() {
             <button className={styles.promoButton}>Заполнить анкету</button>
           </div>
           <div className={styles.promoImageWrapper}>
-            <img
-              className={styles.promoImage}
-              src="src/assets/icons/coin_percent.png"
-              alt="Wallet illustration"
-            />
+            <img className={styles.promoImage} src={WalletImage} alt="Wallet illustration" />
           </div>
         </div>
         {/* Loan details card */}
