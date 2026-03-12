@@ -1,0 +1,211 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px max(20px, env(safe-area-inset-bottom));
+  flex: 1;
+}
+
+.pageTitle {
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+/* ── Promo banner ── */
+.promoBanner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-block);
+  background: linear-gradient(180deg, #008fe5 0%, #0078c1 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+.promoText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  flex: 1;
+}
+
+.promoTitle {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.promoDescription {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: -0.1px;
+  margin: 0;
+}
+
+.promoButton {
+  margin-top: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #fff;
+  color: #017cc7;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: -0.1px;
+  border: none;
+  cursor: pointer;
+}
+
+.promoImageWrapper {
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+
+.promoImage {
+  width: 120px;
+  object-fit: contain;
+  display: block;
+}
+
+/* ── Details card ── */
+.detailsCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--radius-small);
+  background: var(--color-bg-primary);
+}
+
+.amountRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.amount {
+  color: var(--color-text-primary);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 34px;
+  letter-spacing: -0.3px;
+  flex: 1;
+}
+
+.onlineBadge {
+  display: flex;
+  padding: 6px 8px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.amountSubtitle {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  margin: -8px 0 0;
+}
+
+/* ── Info list ── */
+.infoList {
+  width: 100%;
+}
+
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.infoIcon {
+  display: flex;
+  padding: 19px 19px 0 0;
+  flex-shrink: 0;
+}
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  padding: 8px 0;
+  border-bottom: 0.5px solid var(--color-bg-tertiary);
+}
+
+.infoRowLast .infoContent {
+  border-bottom: none;
+}
+
+.infoLabel {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+}
+
+.infoValue {
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+/* ── Buttons ── */
+.primaryButton {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: var(--radius-block);
+  background: #ffdd2d;
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+
+.declineButton {
+  width: 100%;
+  padding: 17px 16px;
+  border-radius: var(--radius-block);
+  background: none;
+  color: #e02d3c;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
