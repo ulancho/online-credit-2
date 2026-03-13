@@ -2,8 +2,10 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import ApplicationSuccess from 'Modules/ApplicationSuccess/ApplicationSuccess.tsx';
 import CreditCalculator from 'Modules/CreditCalculator/CreditCalculator.tsx';
+import InsuranceCompanies from 'Modules/InsuranceCompanies/InsuranceCompanies.tsx';
 import Loader from 'Modules/Loader/Loader.tsx';
 import LoanConditions from 'Modules/LoanConditions/LoanConditions.tsx';
+import LoanConfirmation from 'Modules/LoanConfirmation/LoanConfirmation.tsx';
 import OtpVerification from 'Modules/OtpVerification/OtpVerification.tsx';
 import PassportCamera from 'Modules/PassportCamera/PassportCamera.tsx';
 import PassportConfirmation from 'Modules/PassportConfirmation/PassportConfirmation.tsx';
@@ -20,6 +22,8 @@ const AppContent = () => {
       <Route path="/passport" element={<PassportCamera />} />
       <Route path="/passport-confirmation" element={<PassportConfirmation />} />
       <Route path="/loan-conditions" element={<LoanConditions />} />
+      <Route path="/insurance-companies" element={<InsuranceCompanies />} />
+      <Route path="/loan-confirmation" element={<LoanConfirmation />} />
     </Routes>
   );
 };
