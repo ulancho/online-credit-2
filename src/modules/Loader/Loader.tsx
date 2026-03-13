@@ -1,6 +1,6 @@
 import Lottie from 'lottie-react';
 
-import loaderAnimation from 'Assets/loader.json';
+import loaderAnimation from 'Assets/lottie/loader.json';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
 import styles from './Loader.module.scss';
