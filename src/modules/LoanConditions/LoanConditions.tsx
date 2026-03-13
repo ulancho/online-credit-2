@@ -1,6 +1,6 @@
-import WalletImage from 'Assets/icons/6924dfbf3edabac6a14720386d712ab47b222588.png';
 import PercentIcon from 'Assets/icons/badge_percent.svg?react';
 import CalendarIcon from 'Assets/icons/calendar.svg?react';
+import WalletImage from 'Assets/icons/coin_percent.png';
 import LoanInfoIcon from 'Assets/icons/loan_info_icon.svg?react';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
