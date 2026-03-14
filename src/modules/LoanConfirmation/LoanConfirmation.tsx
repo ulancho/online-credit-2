@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import PercentIcon from 'Assets/icons/products.svg?react';
+import Button from 'Common/components/Button/Button.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
 import styles from './LoanConfirmation.module.scss';
@@ -182,13 +183,10 @@ export default function LoanConfirmation() {
         </div>
 
         <div className={styles.buttonsWrap}>
-          <button
-            className={`${styles.submitBtn} ${isButtonActive ? styles.submitBtnActive : styles.submitBtnDisabled}`}
-            disabled={!isButtonActive}
-          >
+          <Button variant="yellow" disabled={!isButtonActive}>
             Оформить кредит
-          </button>
-          <button className={styles.declineBtn}>Отказаться</button>
+          </Button>
+          <Button variant="text-danger">Отказаться</Button>
         </div>
       </div>
     </div>
