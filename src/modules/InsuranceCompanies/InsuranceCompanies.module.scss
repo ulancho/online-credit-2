@@ -5,34 +5,18 @@
   background: var(--color-bg-main);
 }
 
-/* ── NavBar ── */
-.navbar {
+/* ── Content ── */
+.content {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 12px var(--spacing-l) var(--spacing-s);
-  gap: var(--spacing-l);
-  width: 100%;
+  gap: var(--spacing-s);
+  padding: 0 var(--spacing-l);
 }
 
-.backBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.navContent {
+.titleBlock {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  width: 100%;
 }
 
 .pageTitle {
@@ -49,14 +33,6 @@
   font-weight: 500;
   line-height: 20px;
   letter-spacing: -0.2px;
-}
-
-/* ── Content ── */
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-s);
-  padding: 0 var(--spacing-l);
 }
 
 .insuranceInfoLink {
