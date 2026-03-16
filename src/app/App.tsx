@@ -1,6 +1,7 @@
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import ApplicationSuccess from 'Modules/ApplicationSuccess/ApplicationSuccess.tsx';
+import CoolingPeriod from 'Modules/CoolingPeriod/CoolingPeriod.tsx';
 import CreditCalculator from 'Modules/CreditCalculator/CreditCalculator.tsx';
 import InsuranceCompanies from 'Modules/InsuranceCompanies/InsuranceCompanies.tsx';
 import Loader from 'Modules/Loader/Loader.tsx';
@@ -24,6 +25,7 @@ const AppContent = () => {
       <Route path="/loan-conditions" element={<LoanConditions />} />
       <Route path="/insurance-companies" element={<InsuranceCompanies />} />
       <Route path="/loan-confirmation" element={<LoanConfirmation />} />
+      <Route path="/cooling-period" element={<CoolingPeriod />} />
     </Routes>
   );
 };
