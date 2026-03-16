@@ -78,7 +78,7 @@ export default function LoanConfirmation() {
             <div className={styles.amountInfo}>
               <span className={styles.amountLabel}>Сумма кредита</span>
               <span className={styles.amountValue}>
-                {CREDIT_AMOUNT} <span>&#8384;</span>
+                {CREDIT_AMOUNT} <span className={styles.currencySymbol}>{'\u20C0'}</span>
               </span>
             </div>
           </div>
