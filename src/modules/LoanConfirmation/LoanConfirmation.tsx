@@ -78,7 +78,7 @@ export default function LoanConfirmation() {
             <div className={styles.amountInfo}>
               <span className={styles.amountLabel}>Сумма кредита</span>
               <span className={styles.amountValue}>
-                {CREDIT_AMOUNT} {'\u20C0'}
+                {CREDIT_AMOUNT} <span>&#8384;</span>
               </span>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function LoanConfirmation() {
               <span className={styles.infoLabel}>Сумма ежемесячного платежа</span>
               <span className={styles.infoValue}>
                 {MONTHLY_PAYMENT}
-                {'\u20C0'}
+                <span>&#8384;</span>
               </span>
             </div>
             <div className={styles.infoRow}>
@@ -102,7 +102,7 @@ export default function LoanConfirmation() {
               <span className={styles.infoLabel}>Переплата по кредиту</span>
               <span className={styles.infoValue}>
                 {OVERPAYMENT}
-                {'\u20C0'}
+                <span>&#8384;</span>
               </span>
             </div>
             <div className={`${styles.infoRow} ${styles.infoRowLast}`}>
