@@ -77,9 +77,7 @@ export default function LoanConfirmation() {
             <PercentIcon />
             <div className={styles.amountInfo}>
               <span className={styles.amountLabel}>Сумма кредита</span>
-              <span className={styles.amountValue}>
-                {CREDIT_AMOUNT} <span className="currencySymbol">{'\u20C0'}</span>
-              </span>
+              <span className={styles.amountValue}>{CREDIT_AMOUNT} c</span>
             </div>
           </div>
         </div>
@@ -89,10 +87,7 @@ export default function LoanConfirmation() {
           <div className={styles.infoCard}>
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>Сумма ежемесячного платежа</span>
-              <span className={styles.infoValue}>
-                {MONTHLY_PAYMENT}
-                <span>&#8384;</span>
-              </span>
+              <span className={styles.infoValue}>{MONTHLY_PAYMENT} c</span>
             </div>
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>Срок кредита</span>
@@ -100,10 +95,7 @@ export default function LoanConfirmation() {
             </div>
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>Переплата по кредиту</span>
-              <span className={styles.infoValue}>
-                {OVERPAYMENT}
-                <span>&#8384;</span>
-              </span>
+              <span className={styles.infoValue}>{OVERPAYMENT} c</span>
             </div>
             <div className={`${styles.infoRow} ${styles.infoRowLast}`}>
               <span className={styles.infoLabel}>Проценты</span>
