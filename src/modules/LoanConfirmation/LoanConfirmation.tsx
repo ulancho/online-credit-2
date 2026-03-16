@@ -15,8 +15,6 @@ const LOAN_TERM = '12 месяцев';
 const OVERPAYMENT = '5 340.00';
 const INTEREST_RATE = '32%';
 
-const SOM = '\u20C0';
-
 interface CheckboxProps {
   checked: boolean;
   onChange: (val: boolean) => void;
@@ -68,7 +66,8 @@ export default function LoanConfirmation() {
           <div className={styles.titleBlock}>
             <h1 className={styles.title}>Ваша заявка одобрена</h1>
             <p className={styles.description}>
-              Условия могли измениться.{'\n'}Пожалуйста, проверьте данные
+              Условия могли измениться.
+              <br /> Пожалуйста, проверьте данные
             </p>
           </div>
         </div>
@@ -79,7 +78,7 @@ export default function LoanConfirmation() {
             <div className={styles.amountInfo}>
               <span className={styles.amountLabel}>Сумма кредита</span>
               <span className={styles.amountValue}>
-                {CREDIT_AMOUNT} {SOM}
+                {CREDIT_AMOUNT} {'\u20C0'}
               </span>
             </div>
           </div>
@@ -92,7 +91,7 @@ export default function LoanConfirmation() {
               <span className={styles.infoLabel}>Сумма ежемесячного платежа</span>
               <span className={styles.infoValue}>
                 {MONTHLY_PAYMENT}
-                {SOM}
+                {'\u20C0'}
               </span>
             </div>
             <div className={styles.infoRow}>
@@ -103,7 +102,7 @@ export default function LoanConfirmation() {
               <span className={styles.infoLabel}>Переплата по кредиту</span>
               <span className={styles.infoValue}>
                 {OVERPAYMENT}
-                {SOM}
+                {'\u20C0'}
               </span>
             </div>
             <div className={`${styles.infoRow} ${styles.infoRowLast}`}>
