@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import NavIcon from 'Assets/icons/nav.svg?react';
+import CloseIcon from 'Assets/icons/close.svg?react';
 import ClockImage from 'Assets/images/clock.png';
 
 import styles from './CoolingPeriod.module.scss';
@@ -12,7 +12,7 @@ export default function CoolingPeriod() {
     <div className={styles.page}>
       <header className={styles.navbar}>
         <button className={styles.closeBtn} onClick={() => navigate(-1)} aria-label="Закрыть">
-          <NavIcon />
+          <CloseIcon />
         </button>
       </header>
       <main className={styles.content}>
