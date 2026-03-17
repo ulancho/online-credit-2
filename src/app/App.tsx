@@ -3,6 +3,7 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import ApplicationSuccess from 'Modules/ApplicationSuccess/ApplicationSuccess.tsx';
 import CoolingPeriod from 'Modules/CoolingPeriod/CoolingPeriod.tsx';
 import CreditCalculator from 'Modules/CreditCalculator/CreditCalculator.tsx';
+import DataFillStep1 from 'Modules/DataFillStep1/DataFillStep1.tsx';
 import InsuranceCompanies from 'Modules/InsuranceCompanies/InsuranceCompanies.tsx';
 import Loader from 'Modules/Loader/Loader.tsx';
 import LoanConditions from 'Modules/LoanConditions/LoanConditions.tsx';
@@ -30,6 +31,7 @@ const AppContent = () => {
       <Route path="/security-warning" element={<SecurityWarning />} />
       <Route path="/security-remember" element={<SecurityRemember />} />
       <Route path="/cooling-period" element={<CoolingPeriod />} />
+      <Route path="/data-fill" element={<DataFillStep1 />} />
     </Routes>
   );
 };
