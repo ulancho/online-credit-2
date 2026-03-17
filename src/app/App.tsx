@@ -11,6 +11,7 @@ import OtpVerification from 'Modules/OtpVerification/OtpVerification.tsx';
 import PassportCamera from 'Modules/PassportCamera/PassportCamera.tsx';
 import PassportConfirmation from 'Modules/PassportConfirmation/PassportConfirmation.tsx';
 import SecurityRemember from 'Modules/SecurityRemember/SecurityRemember.tsx';
+import SecurityWarning from 'Modules/SecurityWarning/SecurityWarning.tsx';
 import ServiceUnavailable from 'Modules/ServiceUnavailable/ServiceUnavailable.tsx';
 
 const AppContent = () => {
@@ -26,6 +27,7 @@ const AppContent = () => {
       <Route path="/loan-conditions" element={<LoanConditions />} />
       <Route path="/insurance-companies" element={<InsuranceCompanies />} />
       <Route path="/loan-confirmation" element={<LoanConfirmation />} />
+      <Route path="/security-warning" element={<SecurityWarning />} />
       <Route path="/security-remember" element={<SecurityRemember />} />
       <Route path="/cooling-period" element={<CoolingPeriod />} />
     </Routes>
