@@ -3,10 +3,12 @@ import { createContext, useContext, type ReactNode } from 'react';
 
 import { CreditCalculatorService } from '@/modules/CreditCalculator/services/CreditCalculatorService';
 import { QueryParamsService } from 'Common/services/queryParamsService.ts';
+import { PassportService } from 'Modules/PassportCamera/services/passportService.ts';
 
 class RootStore {
   readonly queryParamsStore = new QueryParamsService();
   readonly creditCalculatorService = new CreditCalculatorService();
+  readonly passportService = new PassportService();
 }
 
 const rootStore = new RootStore();
@@ -33,4 +35,8 @@ export function useQueryParamsStore() {
 
 export function useCreditCalculatorStore() {
   return useRootStore().creditCalculatorService;
+}
+
+export function usePassportStore() {
+  return useRootStore().passportService;
 }
