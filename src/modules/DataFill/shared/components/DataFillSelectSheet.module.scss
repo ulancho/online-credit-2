@@ -1,0 +1,144 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottomAligned {
+  justify-content: flex-end;
+  align-items: center;
+  background: rgb(0 0 0 / 60%);
+  backdrop-filter: blur(7.5px);
+}
+
+.fullscreen {
+  background: var(--color-bg-main);
+  overflow: hidden;
+}
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--color-bg-main);
+}
+
+.bottomSheet {
+  max-width: 430px;
+  max-height: 80vh;
+  border-radius: 20px 20px 0 0;
+}
+
+.fullscreenSheet {
+  height: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+.handle {
+  width: 34px;
+  height: 4px;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 50%);
+  margin: 12px auto 8px;
+  flex-shrink: 0;
+}
+
+.header {
+  flex-shrink: 0;
+}
+
+.bottomHeader {
+  padding: 12px var(--spacing-l);
+}
+
+.fullscreenHeader {
+  display: flex;
+  flex-direction: column;
+  padding: 12px var(--spacing-l) var(--spacing-s);
+  gap: var(--spacing-l);
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.titleBottom {
+  color: var(--color-text-primary);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 24px;
+  letter-spacing: -0.3px;
+}
+
+.titleFullscreen {
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+.description {
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.bottomBody {
+  background: var(--color-bg-primary);
+  border-radius: 16px;
+  margin: 0 var(--spacing-l) var(--spacing-l);
+}
+
+.fullscreenBody {
+  padding: var(--spacing-s) var(--spacing-l);
+}
+
+.list {
+  overflow: hidden;
+}
+
+.itemBottom {
+  padding: 12px var(--spacing-l);
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.itemFullscreen {
+  padding: 17px var(--spacing-l);
+  font-size: 17px;
+  line-height: 22px;
+}
+
+.item {
+  display: flex;
+  width: 100%;
+  text-align: left;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  border-bottom: 0.5px solid var(--color-bg-main);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
