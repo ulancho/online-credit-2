@@ -1,17 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useState, useCallback, useEffect } from 'react';
 
 import { uploadPassportPhotos } from './api';
 import styles from './PassportCamera.module.scss';
 
 type Step = 'front-camera' | 'front-preview' | 'back-camera' | 'back-preview' | 'uploading';
+
 interface PassportCameraProps {
   onBack?: () => void;
   onSuccess?: () => void;
 }
+
 export default function PassportCamera({ onBack, onSuccess }: PassportCameraProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
   const [step, setStep] = useState<Step>('front-camera');
   const [frontPhoto, setFrontPhoto] = useState<string | null>(null);
   const [backPhoto, setBackPhoto] = useState<string | null>(null);
@@ -27,6 +31,12 @@ export default function PassportCamera({ onBack, onSuccess }: PassportCameraProp
 
   const startCamera = useCallback(async () => {
     setCameraError(null);
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setCameraError('Камера не поддерживается');
+      return;
+    }
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
@@ -35,12 +45,21 @@ export default function PassportCamera({ onBack, onSuccess }: PassportCameraProp
           height: { ideal: 1080 },
         },
       });
+
       streamRef.current = stream;
+
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        await videoRef.current.play();
       }
-    } catch {
-      setCameraError('Не удалось получить доступ к камере');
+    } catch (error: any) {
+      if (error.name === 'NotAllowedError') {
+        setCameraError('Доступ к камере запрещён');
+      } else if (error.name === 'NotFoundError') {
+        setCameraError('Камера не найдена');
+      } else {
+        setCameraError('Ошибка камеры');
+      }
     }
   }, []);
 
