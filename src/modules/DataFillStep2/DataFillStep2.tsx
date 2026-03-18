@@ -28,9 +28,11 @@ export default function DataFillStep2() {
   const [relation, setRelation] = useState('');
   const isFormValid = phone && fullName && relation;
 
+  const hasThirdStep = true;
+
   const handleContinue = () => {
     if (isFormValid) {
-      navigate('/data-fill-success');
+      navigate(hasThirdStep ? '/data-fill-3' : '/data-fill-success');
     }
   };
 
@@ -45,6 +47,12 @@ export default function DataFillStep2() {
           <CheckIcon />
           <div className={`${styles.progressLine} ${styles.progressLineFilled}`} />
           <div className={`${styles.stepDot} ${styles.stepDotActive}`}>2</div>
+          {hasThirdStep && (
+            <>
+              <div className={styles.progressLine} />
+              <div className={`${styles.stepDot} ${styles.stepDotDisabled}`}>3</div>
+            </>
+          )}
         </div>
       </div>
       <div className={styles.content}>

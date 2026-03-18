@@ -1,0 +1,168 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-bg-main);
+}
+
+.titleSection {
+  padding: 4px var(--spacing-l) 0;
+}
+
+.pageTitle {
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+.progressBar {
+  padding: var(--spacing-s) var(--spacing-l);
+}
+
+.progressStep {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stepDot {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.stepDotActive {
+  background: var(--color-accent);
+}
+
+.progressLine {
+  flex: 1;
+  height: 3px;
+  background: #e3e5e8;
+  border-radius: 2px;
+  margin: 0 6px;
+}
+
+.progressLineFilled {
+  background: var(--color-accent);
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--spacing-l) var(--spacing-s);
+  overflow-y: auto;
+}
+
+.groupSubtitle {
+  color: var(--color-text-secondary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  padding: var(--spacing-s) 0;
+}
+
+.footer {
+  padding: var(--spacing-s) var(--spacing-l);
+  padding-bottom: max(var(--spacing-s), env(safe-area-inset-bottom));
+  background: var(--color-bg-main);
+}
+
+/* ── Branch Selection Sheet ── */
+.sheetOverlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg-main);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sheetContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+.sheetHeader {
+  display: flex;
+  flex-direction: column;
+  padding: 12px var(--spacing-l) var(--spacing-s);
+  gap: var(--spacing-l);
+  flex-shrink: 0;
+}
+
+.sheetBackBtn {
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.sheetTitleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sheetTitle {
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+.sheetDescription {
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+}
+
+.sheetBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-s) var(--spacing-l);
+}
+
+.branchList {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-block);
+  overflow: hidden;
+}
+
+.branchItem {
+  display: flex;
+  width: 100%;
+  padding: 17px var(--spacing-l);
+  text-align: left;
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  border-bottom: 0.5px solid var(--color-bg-main);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

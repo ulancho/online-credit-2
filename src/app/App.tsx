@@ -5,6 +5,7 @@ import CoolingPeriod from 'Modules/CoolingPeriod/CoolingPeriod.tsx';
 import CreditCalculator from 'Modules/CreditCalculator/CreditCalculator.tsx';
 import DataFillStep1 from 'Modules/DataFillStep1/DataFillStep1.tsx';
 import DataFillStep2 from 'Modules/DataFillStep2/DataFillStep2.tsx';
+import DataFillStep3 from 'Modules/DataFillStep3/DataFillStep3.tsx';
 import DataFillSuccess from 'Modules/DataFillSuccess/DataFillSuccess.tsx';
 import InsuranceCompanies from 'Modules/InsuranceCompanies/InsuranceCompanies.tsx';
 import Loader from 'Modules/Loader/Loader.tsx';
@@ -35,6 +36,7 @@ const AppContent = () => {
       <Route path="/cooling-period" element={<CoolingPeriod />} />
       <Route path="/data-fill" element={<DataFillStep1 />} />
       <Route path="/data-fill-2" element={<DataFillStep2 />} />
+      <Route path="/data-fill-3" element={<DataFillStep3 />} />
       <Route path="/data-fill-success" element={<DataFillSuccess />} />
     </Routes>
   );

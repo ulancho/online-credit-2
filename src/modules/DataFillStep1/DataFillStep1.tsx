@@ -59,6 +59,8 @@ export default function DataFillStep1() {
   const [openSheet, setOpenSheet] = useState<'region' | 'settlement' | 'insurance' | null>(null);
   const isFormValid = region && settlement && street && house && insurance;
 
+  const hasThirdStep = true;
+
   const handleContinue = () => {
     if (isFormValid) {
       navigate('/data-fill-2');
@@ -76,6 +78,12 @@ export default function DataFillStep1() {
           <div className={`${styles.stepDot} ${styles.stepDotActive}`}>1</div>
           <div className={styles.progressLine} />
           <div className={`${styles.stepDot} ${styles.stepDotDisabled}`}>2</div>
+          {hasThirdStep && (
+            <>
+              <div className={styles.progressLine} />
+              <div className={`${styles.stepDot} ${styles.stepDotDisabled}`}>3</div>
+            </>
+          )}
         </div>
       </div>
       <div className={styles.content}>

@@ -46,6 +46,12 @@
   background: var(--color-accent);
 }
 
+.stepDotDisabled {
+  background: #fff;
+  border: 3px solid #fff;
+  color: #e3e5e8;
+}
+
 .progressLine {
   flex: 1;
   height: 3px;
