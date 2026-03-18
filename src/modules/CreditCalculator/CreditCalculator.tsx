@@ -17,21 +17,13 @@ import TermsCheckbox from 'Modules/CreditCalculator/components/TermsCheckbox/Ter
 import styles from './CreditCalculator.module.scss';
 
 const CreditCalculator = () => {
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { isValid },
-  } = useForm();
+  const { control, handleSubmit, setValue, watch } = useForm();
 
   const creditCalculatorStore = useCreditCalculatorStore();
 
-  const [loanAmount, setLoanAmount] = useState('');
+  const [loanAmount] = useState('');
   // const [loanTerm, setLoanTerm] = useState(3);
-  const [monthlyIncome, setMonthlyIncome] = useState('');
-  const [activityType, setActivityType] = useState('');
-  const [insuranceEnabled, setInsuranceEnabled] = useState(true);
+  const [monthlyIncome] = useState('');
   const [term1Checked, setTerm1Checked] = useState(false);
   const [term2Checked, setTerm2Checked] = useState(false);
   const [term3Checked, setTerm3Checked] = useState(false);
@@ -39,6 +31,7 @@ const CreditCalculator = () => {
 
   const allTermsAccepted = term1Checked && term2Checked && term3Checked;
   const isSubmitEnabled = allTermsAccepted && loanAmount !== '' && monthlyIncome !== '';
+  console.log(isSubmitEnabled);
 
   const { t } = useTranslation();
 
