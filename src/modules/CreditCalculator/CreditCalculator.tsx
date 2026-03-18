@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
@@ -14,6 +15,8 @@ import TermsCheckbox from 'Modules/CreditCalculator/components/TermsCheckbox/Ter
 import styles from './CreditCalculator.module.scss';
 
 export default function CreditCalculator() {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const [loanAmount, setLoanAmount] = useState('');
   const [loanTerm, setLoanTerm] = useState(3);
   const [monthlyIncome, setMonthlyIncome] = useState('');
@@ -27,7 +30,10 @@ export default function CreditCalculator() {
   const allTermsAccepted = term1Checked && term2Checked && term3Checked;
   const isSubmitEnabled = allTermsAccepted && loanAmount !== '' && monthlyIncome !== '';
 
-  const { t } = useTranslation();
+  const handleContinuePassport = () => {
+    setIsPassportModalOpen(false);
+    navigate('/passport');
+  };
 
   return (
     <div id="page">
@@ -92,7 +98,7 @@ export default function CreditCalculator() {
       {isPassportModalOpen && (
         <PassportModal
           onCancel={() => setIsPassportModalOpen(false)}
-          onContinue={() => setIsPassportModalOpen(false)}
+          onContinue={handleContinuePassport}
         />
       )}
     </div>
