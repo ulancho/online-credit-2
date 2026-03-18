@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-import { applyCsrfInterceptor } from 'Common/api/csrfInterceptor.ts';
-import { applyLanguageInterceptor } from 'Common/api/languageInterceptor.ts';
-
 const baseURL = '/svc-biz-ib-cbk-private-credits/v1/api/webview';
 
 // temporary token implementation
@@ -17,6 +14,3 @@ export const httpClient = axios.create({
   },
   timeout: 10000,
 });
-
-applyLanguageInterceptor(httpClient);
-applyCsrfInterceptor(httpClient);
