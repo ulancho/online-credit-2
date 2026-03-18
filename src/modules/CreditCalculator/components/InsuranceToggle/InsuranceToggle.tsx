@@ -14,6 +14,7 @@ export default function InsuranceToggle({ checked, onChange }: InsuranceTogglePr
           <p className={styles.subtitle}>Снижает ставку и уменьшает ежемесячный платёж</p>
         </div>
         <button
+          type="button"
           className={`${styles.toggle} ${checked ? styles.toggleOn : styles.toggleOff}`}
           onClick={() => onChange(!checked)}
           role="switch"

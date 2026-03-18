@@ -22,6 +22,7 @@ export default function LoanTermSlider({
   onChange,
 }: LoanTermSliderProps) {
   const percent = useMemo(() => ((value - min) / (max - min)) * 100, [value, min, max]);
+  console.log(value, 'val');
 
   return (
     <div className={styles.card}>
