@@ -53,18 +53,8 @@ export default function DataFillStep2() {
           связь с Вами
         </p>
         <PhoneField value={phone} onChange={setPhone} />
-        <InputField
-          mainPlaceholder="ФИО"
-          secondaryPlaceholder="ФИО"
-          value={fullName}
-          onChange={setFullName}
-        />
-        <InputField
-          mainPlaceholder="Кем приходится"
-          secondaryPlaceholder="Кем приходится"
-          value={relation}
-          onChange={setRelation}
-        />
+        <InputField mainPlaceholder="ФИО" value={fullName} onChange={setFullName} />
+        <InputField mainPlaceholder="Кем приходится" value={relation} onChange={setRelation} />
       </div>
       <div className={styles.footer}>
         <Button disabled={!isFormValid} onClick={handleContinue}>

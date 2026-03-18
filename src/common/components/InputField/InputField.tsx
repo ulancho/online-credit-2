@@ -4,7 +4,7 @@ import styles from './InputField.module.css';
 
 interface InputFieldProps {
   mainPlaceholder: string;
-  secondaryPlaceholder: string;
+  secondaryPlaceholder?: string;
   value?: string;
   onChange?: (value: string) => void;
   hasChevron?: boolean;
