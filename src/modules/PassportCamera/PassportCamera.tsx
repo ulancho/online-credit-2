@@ -80,14 +80,20 @@ export default function PassportCamera({ onBack, onSuccess }: PassportCameraProp
   const capturePhoto = useCallback(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
+
     if (!video || !canvas) return;
+
     canvas.width = video.videoWidth || 1280;
     canvas.height = video.videoHeight || 720;
+
     const ctx = canvas.getContext('2d');
+
     if (!ctx) return;
+
     ctx.drawImage(video, 0, 0);
     const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
     stopCamera();
+
     if (step === 'front-camera') {
       setFrontPhoto(dataUrl);
       setStep('front-preview');
