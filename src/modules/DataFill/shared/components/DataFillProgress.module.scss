@@ -1,0 +1,46 @@
+.progressBar {
+  padding: var(--spacing-s) var(--spacing-l);
+}
+
+.progressStep {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stepDot {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.stepDotActive {
+  background: var(--color-accent);
+}
+
+.stepDotDisabled {
+  background: #fff;
+  border: 3px solid #fff;
+  color: #e3e5e8;
+}
+
+.progressLine {
+  flex: 1;
+  height: 3px;
+  background: #e3e5e8;
+  border-radius: 2px;
+  margin: 0 6px;
+}
+
+.progressLineFilled {
+  background: var(--color-accent);
+}

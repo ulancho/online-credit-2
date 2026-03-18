@@ -1,0 +1,57 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-bg-main);
+}
+
+.titleSection {
+  padding: 4px var(--spacing-l) 0;
+}
+
+.pageTitle {
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--spacing-l) var(--spacing-s);
+  overflow-y: auto;
+}
+
+.contentWithGap {
+  padding-top: var(--spacing-s);
+  gap: var(--spacing-s);
+}
+
+.groupSubtitle {
+  color: var(--color-text-secondary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  padding: var(--spacing-s) 0;
+}
+
+.subtitlePreLine {
+  white-space: pre-line;
+  padding-bottom: var(--spacing-s);
+}
+
+.footer {
+  padding: var(--spacing-s) var(--spacing-l);
+  padding-bottom: max(var(--spacing-s), env(safe-area-inset-bottom));
+  background: var(--color-bg-main);
+}
+
+.centeredContent {
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
