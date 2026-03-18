@@ -24,25 +24,27 @@ export default function PhoneField({ value, onChange }: InputFieldProps) {
   const isFloating = focused || isFilled;
 
   return (
-    <div className={styles.phoneField}>
-      <div className={styles.phoneIcon}>
-        <PhoneIcon />
-      </div>
-      <label className={`${styles.phoneLabel} ${isFloating ? styles.phoneLabelFilled : ''}`}>
-        <span
-          className={`${styles.phoneFloatingLabel} ${isFloating ? styles.phoneFloatingLabelActive : ''}`}
-        >
-          Номер телефона
-        </span>
-        <input
-          className={styles.phoneInput}
-          type="tel"
-          value={value}
-          onChange={(e) => onChange?.(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          placeholder="Номер телефона"
-        />
+    <div className={styles.wrapper}>
+      <label className={`${styles.phoneField} ${isFloating ? styles.phoneFieldFilled : ''}`}>
+        <div className={styles.phoneIcon}>
+          <PhoneIcon />
+        </div>
+        <div className={styles.fieldContent}>
+          <span
+            className={`${styles.phoneFloatingLabel} ${isFloating ? styles.phoneFloatingLabelActive : ''}`}
+          >
+            Номер телефона
+          </span>
+          <input
+            className={styles.phoneInput}
+            type="tel"
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            placeholder=""
+          />
+        </div>
       </label>
     </div>
   );
