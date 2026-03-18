@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { observer } from 'mobx-react-lite';
 import { useRef, useState, useCallback, useEffect } from 'react';
 
-import { uploadPassportPhotos } from './api';
+import { usePassportStore } from 'Common/stores/rootStore.tsx';
+
 import styles from './PassportCamera.module.scss';
 
 type Step = 'front-camera' | 'front-preview' | 'back-camera' | 'back-preview' | 'uploading';
@@ -11,7 +13,8 @@ interface PassportCameraProps {
   onSuccess?: () => void;
 }
 
-export default function PassportCamera({ onBack, onSuccess }: PassportCameraProps) {
+function PassportCamera({ onBack, onSuccess }: PassportCameraProps) {
+  const passportStore = usePassportStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -117,19 +120,18 @@ export default function PassportCamera({ onBack, onSuccess }: PassportCameraProp
     if (step === 'front-preview') {
       setStep('back-camera');
     } else if (step === 'back-preview' && frontPhoto && backPhoto) {
-      setStep('uploading');
       setUploadError(null);
       try {
-        await uploadPassportPhotos(frontPhoto, backPhoto);
+        await passportStore.processPassportPhotos(frontPhoto, backPhoto);
         onSuccess?.();
       } catch {
-        setUploadError('Ошибка отправки. Попробуйте снова.');
+        setUploadError(passportStore.error ?? 'Ошибка отправки. Попробуйте снова.');
         setStep('back-preview');
       }
     }
-  }, [step, frontPhoto, backPhoto, onSuccess]);
+  }, [step, frontPhoto, backPhoto, onSuccess, passportStore]);
 
-  if (step === 'uploading') {
+  if (passportStore.isLoading) {
     return (
       <div className={styles.uploadingScreen}>
         <div className={styles.spinner} />
@@ -225,3 +227,5 @@ export default function PassportCamera({ onBack, onSuccess }: PassportCameraProp
     </div>
   );
 }
+
+export default observer(PassportCamera);
