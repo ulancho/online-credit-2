@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { useCreditCalculatorStore } from '@/common/stores/rootStore';
 import InputField from 'Common/components/InputField/InputField.tsx';
@@ -20,6 +21,7 @@ const CreditCalculator = () => {
   const { control, handleSubmit, setValue, watch } = useForm();
 
   const creditCalculatorStore = useCreditCalculatorStore();
+  const navigate = useNavigate();
 
   const [loanAmount] = useState('');
   // const [loanTerm, setLoanTerm] = useState(3);
@@ -41,6 +43,11 @@ const CreditCalculator = () => {
 
   const onSubmit = () => {
     // console.log(data, 'data');
+  };
+
+  const handleContinuePassport = () => {
+    setIsPassportModalOpen(false);
+    navigate('/passport');
   };
 
   useEffect(() => {
@@ -175,7 +182,7 @@ const CreditCalculator = () => {
       {isPassportModalOpen && (
         <PassportModal
           onCancel={() => setIsPassportModalOpen(false)}
-          onContinue={() => setIsPassportModalOpen(false)}
+          onContinue={handleContinuePassport}
         />
       )}
     </div>
