@@ -18,20 +18,19 @@ import TermsCheckbox from 'Modules/CreditCalculator/components/TermsCheckbox/Ter
 import styles from './CreditCalculator.module.scss';
 
 const CreditCalculator = () => {
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, getValues } = useForm();
 
   const creditCalculatorStore = useCreditCalculatorStore();
   const navigate = useNavigate();
 
-  const [loanAmount] = useState('');
-  const [monthlyIncome] = useState('');
   const [term1Checked, setTerm1Checked] = useState(false);
   const [term2Checked, setTerm2Checked] = useState(false);
   const [term3Checked, setTerm3Checked] = useState(false);
   const [isPassportModalOpen, setIsPassportModalOpen] = useState(true);
 
   const allTermsAccepted = term1Checked && term2Checked && term3Checked;
-  const isSubmitEnabled = allTermsAccepted && loanAmount !== '' && monthlyIncome !== '';
+  const isSubmitEnabled =
+    allTermsAccepted && getValues('loanAmount') !== '' && getValues('monthlyIncome') !== '';
   console.log(isSubmitEnabled);
 
   const { t } = useTranslation();
@@ -152,8 +151,8 @@ const CreditCalculator = () => {
         </div>
         <div className={styles.submitSection}>
           <button
-          // className={`${styles.submitButton} ${isSubmitEnabled ? styles.submitButtonActive : styles.submitButtonDisabled}`}
-          // disabled={!isValid}
+            className={`${styles.submitButton} ${isSubmitEnabled ? styles.submitButtonActive : styles.submitButtonDisabled}`}
+            disabled={!isSubmitEnabled}
           >
             Отправить заявку
           </button>
