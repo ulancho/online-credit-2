@@ -12,7 +12,7 @@ const ApplicationStatusRedirect = () => {
 
   useEffect(() => {
     if (!applicationStatusStore.application && !applicationStatusStore.isLoading) {
-      void applicationStatusStore.loadActiveApplicationStatus();
+      void applicationStatusStore.loadActiveApplicationExist();
     }
   }, [applicationStatusStore]);
 
@@ -22,7 +22,7 @@ const ApplicationStatusRedirect = () => {
     }
 
     navigate(applicationStatusStore.redirectRoute, { replace: true });
-  }, [applicationStatusStore, navigate]);
+  }, [applicationStatusStore.isLoading, navigate]);
 
   return (
     <div className={styles.uploadingScreen}>

@@ -1,40 +1,40 @@
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
 import {
-  getActiveApplicationStatus,
   type ActiveApplicationResponse,
+  fetchActiveApplicationsExist,
 } from '../api/ApplicationStatusApi.ts';
 
 const STATUS_ROUTE_MAP: Record<string, string> = {
   NO_REQUESTS: '/credit-calculator',
-  Waiting: '/loan-conditions',
+  WAITING: '/loan-conditions',
 };
 
 const FALLBACK_ROUTE = '/credit-calculator';
 
 export class ApplicationStatusService {
   @observable private isStatusLoading = false;
-  @observable.ref private activeApplication: ActiveApplicationResponse | null = null;
+  @observable private activeApplication: ActiveApplicationResponse | null = null;
 
   constructor() {
     makeObservable(this);
   }
 
-  async loadActiveApplicationStatus() {
+  async loadActiveApplicationExist() {
     this.isStatusLoading = true;
 
     try {
-      const response = await getActiveApplicationStatus();
+      const response = await fetchActiveApplicationsExist();
 
       runInAction(() => {
         this.activeApplication = response;
         this.isStatusLoading = false;
       });
     } catch (error) {
-      console.error('Failed to load application status', error);
+      console.error('Failed to load application status: ', error);
 
       runInAction(() => {
-        this.activeApplication = { status: undefined };
+        this.activeApplication = null;
         this.isStatusLoading = false;
       });
     }

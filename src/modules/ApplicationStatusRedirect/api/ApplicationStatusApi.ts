@@ -12,7 +12,7 @@ export interface ActiveApplicationResponse {
 }
 
 // Проверка наличия активной заявки
-export async function getActiveApplicationStatus(): Promise<ActiveApplicationResponse> {
+export async function fetchActiveApplicationsExist(): Promise<ActiveApplicationResponse> {
   const response = await httpClient.get<ActiveApplicationResponse>(
     '/credit/application/active/exists',
     {
