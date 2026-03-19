@@ -19,8 +19,7 @@ import styles from './CreditCalculator.module.scss';
 
 const CreditCalculator = () => {
   const { control, handleSubmit, getValues } = useForm();
-
-  const creditCalculatorStore = useCreditRatesStore();
+  const creditRatesService = useCreditRatesStore();
   const navigate = useNavigate();
 
   const [term1Checked, setTerm1Checked] = useState(false);
@@ -35,7 +34,7 @@ const CreditCalculator = () => {
 
   const { t } = useTranslation();
 
-  const terms = creditCalculatorStore.availableLoanTerms;
+  const terms = creditRatesService.availableLoanTerms;
 
   const onSubmit = () => {};
 
@@ -46,11 +45,11 @@ const CreditCalculator = () => {
 
   useEffect(() => {
     const loadFieldsData = async () => {
-      await creditCalculatorStore.getCreditRates();
+      await creditRatesService.getCreditRates();
     };
 
     loadFieldsData();
-  }, [creditCalculatorStore]);
+  }, [creditRatesService]);
 
   return (
     <div id="page">
