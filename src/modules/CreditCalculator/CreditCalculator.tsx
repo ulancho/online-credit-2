@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { useCreditCalculatorStore } from '@/common/stores/rootStore';
+import { useCreditRatesStore } from '@/common/stores/rootStore';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useTranslation } from 'Common/i18n';
@@ -20,7 +20,7 @@ import styles from './CreditCalculator.module.scss';
 const CreditCalculator = () => {
   const { control, handleSubmit, getValues } = useForm();
 
-  const creditCalculatorStore = useCreditCalculatorStore();
+  const creditCalculatorStore = useCreditRatesStore();
   const navigate = useNavigate();
 
   const [term1Checked, setTerm1Checked] = useState(false);

@@ -1,4 +1,4 @@
-export type CreditRatesType = {
+export type CreditRatesResponse = {
   clientRateWithInsurance: number;
   clientRateWithoutInsurance: number;
   employeeRateWithInsurance: number;
