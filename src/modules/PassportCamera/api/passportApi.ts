@@ -13,54 +13,9 @@ export interface PassportProcessResponse {
   age: number;
 }
 
-const MAX_IMAGE_WIDTH = 1600;
-const MAX_IMAGE_HEIGHT = 1600;
-const JPEG_QUALITY = 0.8;
-
-const dataUrlToImage = (dataUrl: string): Promise<HTMLImageElement> =>
-  new Promise((resolve, reject) => {
-    const image = new Image();
-
-    image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error('Failed to load passport image'));
-    image.src = dataUrl;
-  });
-
-const canvasToBlob = (canvas: HTMLCanvasElement, quality: number): Promise<Blob> =>
-  new Promise((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => {
-        if (blob) {
-          resolve(blob);
-          return;
-        }
-
-        reject(new Error('Failed to compress passport image'));
-      },
-      'image/jpeg',
-      quality,
-    );
-  });
-
-const compressPassportImage = async (dataUrl: string): Promise<Blob> => {
-  const image = await dataUrlToImage(dataUrl);
-  const scale = Math.min(MAX_IMAGE_WIDTH / image.width, MAX_IMAGE_HEIGHT / image.height, 1);
-  const targetWidth = Math.round(image.width * scale);
-  const targetHeight = Math.round(image.height * scale);
-
-  const canvas = document.createElement('canvas');
-  canvas.width = targetWidth;
-  canvas.height = targetHeight;
-
-  const ctx = canvas.getContext('2d');
-
-  if (!ctx) {
-    throw new Error('Failed to create image canvas');
-  }
-
-  ctx.drawImage(image, 0, 0, targetWidth, targetHeight);
-
-  return canvasToBlob(canvas, JPEG_QUALITY);
+const dataUrlToBlob = async (dataUrl: string): Promise<Blob> => {
+  const response = await fetch(dataUrl);
+  return response.blob();
 };
 
 export async function processPassportImages(
@@ -68,8 +23,8 @@ export async function processPassportImages(
   backDataUrl: string,
 ): Promise<PassportProcessResponse> {
   const [frontBlob, backBlob] = await Promise.all([
-    compressPassportImage(frontDataUrl),
-    compressPassportImage(backDataUrl),
+    dataUrlToBlob(frontDataUrl),
+    dataUrlToBlob(backDataUrl),
   ]);
 
   const formData = new FormData();
