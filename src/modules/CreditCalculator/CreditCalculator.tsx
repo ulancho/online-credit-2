@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,12 +14,40 @@ import LoanSummary from 'Modules/CreditCalculator/components/LoanSummary/LoanSum
 import LoanTermSlider from 'Modules/CreditCalculator/components/LoanTermSlider/LoanTermSlider.tsx';
 import PassportModal from 'Modules/CreditCalculator/components/PassportModal/PassportModal.tsx';
 import TermsCheckbox from 'Modules/CreditCalculator/components/TermsCheckbox/TermsCheckbox.tsx';
+import {
+  useLoanCalculatorService,
+  type RateCategory,
+  type RateInsuranceOption,
+} from 'Modules/CreditCalculator/services/LoanCalculatorService.ts';
 
 import styles from './CreditCalculator.module.scss';
 
+const DEFAULT_LOAN_AMOUNT = '';
+const EMPLOYEE_ACTIVITY_TYPE_KEY = 'credit-calculator.activityTypes.employee';
+
+const formatCurrency = (value: number) => new Intl.NumberFormat('ru-RU').format(value);
+
+type CreditCalculatorFormValues = {
+  loanAmount: string;
+  loanTerm?: number;
+  monthlyIncome: string;
+  activityType: string;
+  insuranceEnabled: boolean;
+};
+
 const CreditCalculator = () => {
-  const { control, handleSubmit, getValues } = useForm();
+  const { control, handleSubmit, getValues, watch } = useForm<CreditCalculatorFormValues>({
+    defaultValues: {
+      loanAmount: DEFAULT_LOAN_AMOUNT,
+      loanTerm: undefined,
+      monthlyIncome: '',
+      activityType: '',
+      insuranceEnabled: false,
+    },
+  });
+
   const creditRatesService = useCreditRatesStore();
+  const loanCalculatorService = useLoanCalculatorService();
   const navigate = useNavigate();
 
   const [term1Checked, setTerm1Checked] = useState(false);
@@ -35,6 +63,51 @@ const CreditCalculator = () => {
   const { t } = useTranslation();
 
   const terms = creditRatesService.availableLoanTerms;
+  const loanAmount = watch('loanAmount');
+  const loanTerm = watch('loanTerm');
+  const activityType = watch('activityType');
+  const insuranceEnabled = watch('insuranceEnabled');
+
+  //вот здесь меняем на клиент или сотрудник
+  const selectedRateCategory: RateCategory =
+    activityType === t(EMPLOYEE_ACTIVITY_TYPE_KEY) ? 'employee' : 'client';
+  const selectedInsuranceOption: RateInsuranceOption = insuranceEnabled
+    ? 'withInsurance'
+    : 'withoutInsurance';
+
+  const loanSummary = useMemo(() => {
+    const amount = Number(loanAmount) || 0;
+    const month = Number(loanTerm) || terms[0] || 0;
+    const oppositeInsuranceOption: RateInsuranceOption = insuranceEnabled
+      ? 'withoutInsurance'
+      : 'withInsurance';
+
+    const calculatedLoan = loanCalculatorService.calculateLoan({
+      amount,
+      month,
+      category: selectedRateCategory,
+      insuranceOption: selectedInsuranceOption,
+    });
+    const oppositeRate = loanCalculatorService.resolvePercent({
+      category: selectedRateCategory,
+      insuranceOption: oppositeInsuranceOption,
+    });
+
+    return {
+      monthlyPayment: calculatedLoan ? formatCurrency(calculatedLoan.monthlyPayment) : '0',
+      discountedRate: calculatedLoan ? `${calculatedLoan.percent.toFixed(2)}%` : '0%',
+      originalRate: oppositeRate !== null ? `${oppositeRate.toFixed(2)}%` : '0%',
+      overpayment: calculatedLoan ? formatCurrency(calculatedLoan.overpayment) : '0',
+    };
+  }, [
+    insuranceEnabled,
+    loanAmount,
+    loanCalculatorService,
+    loanTerm,
+    selectedInsuranceOption,
+    selectedRateCategory,
+    terms,
+  ]);
 
   const onSubmit = () => {};
 
@@ -81,7 +154,7 @@ const CreditCalculator = () => {
               name="loanTerm"
               control={control}
               render={({ field }) => {
-                const currentIndex = terms.findIndex((t) => t === Number(field.value));
+                const currentIndex = terms.findIndex((term) => term === Number(field.value));
                 const safeIndex = currentIndex >= 0 ? currentIndex : 0;
 
                 return (
@@ -128,10 +201,10 @@ const CreditCalculator = () => {
             )}
           />
           <LoanSummary
-            monthlyPayment="5 262"
-            originalRate="28.99%"
-            discountedRate="25.99%"
-            overpayment="7 262"
+            monthlyPayment={loanSummary.monthlyPayment}
+            originalRate={loanSummary.originalRate}
+            discountedRate={loanSummary.discountedRate}
+            overpayment={loanSummary.overpayment}
           />
           <div className={styles.notificationSection}>
             <InfoNotification text="После вашего действия будет создана заявка на кредит. Мы отправим вам одноразовый код для проверки номера телефона." />
