@@ -18,13 +18,12 @@ import TermsCheckbox from 'Modules/CreditCalculator/components/TermsCheckbox/Ter
 import styles from './CreditCalculator.module.scss';
 
 const CreditCalculator = () => {
-  const { control, handleSubmit, setValue, watch } = useForm();
+  const { control, handleSubmit } = useForm();
 
   const creditCalculatorStore = useCreditCalculatorStore();
   const navigate = useNavigate();
 
   const [loanAmount] = useState('');
-  // const [loanTerm, setLoanTerm] = useState(3);
   const [monthlyIncome] = useState('');
   const [term1Checked, setTerm1Checked] = useState(false);
   const [term2Checked, setTerm2Checked] = useState(false);
@@ -37,13 +36,9 @@ const CreditCalculator = () => {
 
   const { t } = useTranslation();
 
-  const loanTerm = watch('loanTerm');
   const terms = creditCalculatorStore.availableLoanTerms;
-  console.log(loanTerm);
 
-  const onSubmit = () => {
-    // console.log(data, 'data');
-  };
+  const onSubmit = () => {};
 
   const handleContinuePassport = () => {
     setIsPassportModalOpen(false);
@@ -56,13 +51,7 @@ const CreditCalculator = () => {
     };
 
     loadFieldsData();
-  }, []);
-
-  useEffect(() => {
-    if (terms.length) {
-      setValue('loanTerm', terms[0]);
-    }
-  }, [terms]);
+  }, [creditCalculatorStore]);
 
   return (
     <div id="page">
@@ -94,31 +83,22 @@ const CreditCalculator = () => {
               name="loanTerm"
               control={control}
               render={({ field }) => {
-                // индекс текущего значения
                 const currentIndex = terms.findIndex((t) => t === Number(field.value));
                 const safeIndex = currentIndex >= 0 ? currentIndex : 0;
 
                 return (
                   <LoanTermSlider
+                    label={terms[safeIndex]}
                     value={safeIndex}
                     min={0}
                     max={terms.length - 1}
                     onChange={(index: number) => {
-                      field.onChange(terms[index]); // сохраняем реальное значение
+                      field.onChange(terms[index]);
                     }}
                   />
                 );
               }}
             />
-            {/* <LoanTermSlider
-              value={Math.max(
-                0,
-                terms.findIndex((t) => t === Number(loanTerm)),
-              )}
-              min={0}
-              max={terms.length - 1}
-              onChange={(i) => setValue('loanTerm', terms[i])}
-            /> */}
             <Controller
               name="monthlyIncome"
               control={control}
