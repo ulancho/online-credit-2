@@ -35,6 +35,7 @@ export function useQueryParamsStore() {
   return useRootStore().queryParamsStore;
 }
 
+// Получение процентных ставок по кредиту для текущего клиента
 export function useCreditRatesStore() {
   return useRootStore().creditRatesService;
 }
