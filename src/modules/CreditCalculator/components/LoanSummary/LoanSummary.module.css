@@ -73,6 +73,21 @@
   font-weight: 800;
   line-height: 22px;
   letter-spacing: -0.2px;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.discountedRateBronze {
+  background: linear-gradient(133deg, #c3733a 19.69%, #e3a578 46.34%, #ba5700 86.16%);
+}
+
+.discountedRateSilver {
+  background: linear-gradient(133deg, #a8a8a6 19.69%, #bbb 46.34%, #7f7f7f 86.16%);
+}
+
+.discountedRateGold {
   background: linear-gradient(
     133deg,
     #ce9e26 19.69%,
@@ -80,7 +95,8 @@
     #f7d14e 59.76%,
     #f8c52c 86.16%
   );
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+}
+
+.discountedRatePlatinum {
+  background: linear-gradient(133deg, #4a4d53 19.69%, #989898 46.34%, #53575e 86.16%);
 }

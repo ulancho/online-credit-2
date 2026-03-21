@@ -88,6 +88,7 @@ const CreditCalculator = () => {
       category: selectedRateCategory,
       insuranceOption: selectedInsuranceOption,
     });
+
     const oppositeRate = loanCalculatorService.resolvePercent({
       category: selectedRateCategory,
       insuranceOption: oppositeInsuranceOption,

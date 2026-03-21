@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import { useCreditRatesStore } from 'Common/stores/rootStore.tsx';
 import LoanRate from 'Modules/CreditCalculator/components/LoanRate/LoanRate.tsx';
 import { mapApiLoyaltyLevel } from 'Modules/CreditCalculator/models/loyalty.ts';
@@ -10,6 +12,14 @@ interface LoanSummaryProps {
   discountedRate: string;
   overpayment: string;
 }
+
+const discountedRateGradientClassMap = {
+  bronze: styles.discountedRateBronze,
+  silver: styles.discountedRateSilver,
+  gold: styles.discountedRateGold,
+  platinum: styles.discountedRatePlatinum,
+  standart: '',
+} as const;
 
 export default function LoanSummary({
   monthlyPayment,
@@ -33,7 +43,14 @@ export default function LoanSummary({
         <LoanRate loyaltyLevel={loyaltyLevel} />
         <div className={styles.rateValues}>
           <span className={styles.originalRate}>{originalRate}</span>
-          <span className={styles.discountedRate}>{discountedRate}</span>
+          <span
+            className={classNames(
+              styles.discountedRate,
+              discountedRateGradientClassMap[loyaltyLevel],
+            )}
+          >
+            {discountedRate}
+          </span>
         </div>
       </div>
 
