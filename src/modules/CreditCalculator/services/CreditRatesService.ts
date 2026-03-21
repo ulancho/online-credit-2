@@ -2,7 +2,7 @@ import { action, computed, observable } from 'mobx';
 
 import { getCreditRates } from 'Modules/CreditCalculator/api/creditRatesApi.ts';
 
-import type { CreditRatesResponse } from '../model/creditRates';
+import type { CreditRatesResponse } from 'Modules/CreditCalculator/models/creditRates';
 
 // Получение процентных ставок по кредиту для текущего клиента
 export class CreditRatesService {

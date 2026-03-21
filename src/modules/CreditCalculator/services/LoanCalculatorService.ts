@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useCreditRatesStore } from '@/common/stores/rootStore';
 
-import type { CreditRatesResponse } from '../model/creditRates';
+import type { CreditRatesResponse } from 'Modules/CreditCalculator/models/creditRates';
 
 const AMOUNT_DIVIDER_THRESHOLD = 40000;
 const SMALL_AMOUNT_DIVIDER = 20;

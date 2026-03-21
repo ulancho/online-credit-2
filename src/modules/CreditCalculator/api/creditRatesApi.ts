@@ -1,6 +1,6 @@
 import { httpClient } from '@/common/api/httpClient';
 
-import type { CreditRatesResponse } from '../model/creditRates';
+import type { CreditRatesResponse } from 'Modules/CreditCalculator/models/creditRates';
 
 // Получение процентных ставок по кредиту для текущего клиента
 export async function getCreditRates(): Promise<CreditRatesResponse> {
