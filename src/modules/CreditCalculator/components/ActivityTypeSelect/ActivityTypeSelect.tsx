@@ -1,6 +1,8 @@
+import { observer } from 'mobx-react-lite';
 import { useEffect, useRef, useState } from 'react';
 
 import { useTranslation } from 'Common/i18n';
+import { useActivityTypeStore } from 'Common/stores/rootStore.tsx';
 
 import styles from './ActivityTypeSelect.module.css';
 
@@ -9,17 +11,14 @@ interface ActivityTypeSelectProps {
   onChange: (value: string) => void;
 }
 
-export default function ActivityTypeSelect({ value, onChange }: ActivityTypeSelectProps) {
+function ActivityTypeSelect({ value, onChange }: ActivityTypeSelectProps) {
   const { t } = useTranslation();
+  const activityTypeService = useActivityTypeStore();
   const [isOpen, setIsOpen] = useState(false);
   const [pendingValue, setPendingValue] = useState(value);
   const sheetRef = useRef<HTMLDivElement>(null);
 
-  const options = [
-    t('credit-calculator.activityTypes.employee'),
-    t('credit-calculator.activityTypes.entrepreneur'),
-    t('credit-calculator.activityTypes.agriculture'),
-  ];
+  const options = activityTypeService.availableActivityTypes;
 
   const openSheet = () => {
     setPendingValue(value);
@@ -80,11 +79,11 @@ export default function ActivityTypeSelect({ value, onChange }: ActivityTypeSele
             <ul className={styles.optionList}>
               {options.map((option) => (
                 <li
-                  key={option}
-                  className={`${styles.optionItem} ${pendingValue === option ? styles.optionItemSelected : ''}`}
-                  onClick={() => setPendingValue(option)}
+                  key={option.itemCode}
+                  className={`${styles.optionItem} ${pendingValue === option.nameRu ? styles.optionItemSelected : ''}`}
+                  onClick={() => setPendingValue(option.nameRu)}
                 >
-                  <span className={styles.optionText}>{option}</span>
+                  <span className={styles.optionText}>{option.nameRu}</span>
                 </li>
               ))}
             </ul>
@@ -103,3 +102,5 @@ export default function ActivityTypeSelect({ value, onChange }: ActivityTypeSele
     </>
   );
 }
+
+export default observer(ActivityTypeSelect);

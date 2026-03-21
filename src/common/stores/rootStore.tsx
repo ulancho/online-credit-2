@@ -3,6 +3,7 @@ import { createContext, useContext, type ReactNode } from 'react';
 
 import { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import { ApplicationStatusService } from 'Modules/ApplicationStatusRedirect/services/ApplicationStatusService.ts';
+import { ActivityTypeService } from 'Modules/CreditCalculator/services/ActivityTypeService.ts';
 import { CreditRatesService } from 'Modules/CreditCalculator/services/CreditRatesService.ts';
 import { PassportService } from 'Modules/PassportCamera/services/passportService.ts';
 
@@ -11,6 +12,7 @@ class RootStore {
   readonly creditRatesService = new CreditRatesService();
   readonly passportService = new PassportService();
   readonly applicationStatusService = new ApplicationStatusService();
+  readonly activityTypeService = new ActivityTypeService();
 }
 
 const rootStore = new RootStore();
@@ -46,4 +48,8 @@ export function usePassportStore() {
 
 export function useApplicationStatusStore() {
   return useRootStore().applicationStatusService;
+}
+
+export function useActivityTypeStore() {
+  return useRootStore().activityTypeService;
 }

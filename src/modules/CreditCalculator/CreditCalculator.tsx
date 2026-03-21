@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { useCreditRatesStore } from '@/common/stores/rootStore';
+import { useActivityTypeStore, useCreditRatesStore } from '@/common/stores/rootStore';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useTranslation } from 'Common/i18n';
@@ -47,6 +47,7 @@ const CreditCalculator = () => {
   });
 
   const creditRatesService = useCreditRatesStore();
+  const activityTypeService = useActivityTypeStore();
   const loanCalculatorService = useLoanCalculatorService();
   const navigate = useNavigate();
 
@@ -119,7 +120,10 @@ const CreditCalculator = () => {
 
   useEffect(() => {
     const loadFieldsData = async () => {
-      await creditRatesService.getCreditRates();
+      await Promise.all([
+        creditRatesService.getCreditRates(),
+        activityTypeService.getActivityTypes(),
+      ]);
     };
 
     loadFieldsData();
