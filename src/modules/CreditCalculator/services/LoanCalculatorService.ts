@@ -40,6 +40,7 @@ interface AnnuityCalculationParams {
 }
 
 export class LoanCalculatorService {
+  // аннуитетная формула для вычисления месячной оплаты
   static calculateAnnuity({ amount, month, percent }: AnnuityCalculationParams) {
     if (amount <= 0 || month <= 0) {
       return 0;
@@ -56,6 +57,7 @@ export class LoanCalculatorService {
     return rawPayment - remainder + (remainder !== 0 ? divider : 0);
   }
 
+  // формула для высчитывания процента
   static resolvePercent(params: CreditRatesResponse, options: LoanRateOptions) {
     const rateKey: CreditRateKey =
       `${options.category}Rate${options.insuranceOption === 'withInsurance' ? 'WithInsurance' : 'WithoutInsurance'}` as CreditRateKey;
@@ -106,6 +108,6 @@ export function useLoanCalculatorService() {
         return LoanCalculatorService.resolvePercent(creditRatesStore.creditRates, options);
       },
     }),
-    [creditRatesStore],
+    [creditRatesStore.creditRates],
   );
 }
