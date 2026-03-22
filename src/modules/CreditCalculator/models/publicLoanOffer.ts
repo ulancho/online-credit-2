@@ -1,4 +1,4 @@
-export interface PublicLoanOfferResponse {
+export interface LoanOfferResponse {
   id: string;
   code: string;
   name: string;

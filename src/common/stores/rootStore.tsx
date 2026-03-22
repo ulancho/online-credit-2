@@ -5,7 +5,7 @@ import { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import { ApplicationStatusService } from 'Modules/ApplicationStatusRedirect/services/ApplicationStatusService.ts';
 import { ActivityTypeService } from 'Modules/CreditCalculator/services/ActivityTypeService.ts';
 import { CreditRatesService } from 'Modules/CreditCalculator/services/CreditRatesService.ts';
-import { PublicLoanOfferService } from 'Modules/CreditCalculator/services/PublicLoanOfferService.ts';
+import { LoanOffersService } from 'Modules/CreditCalculator/services/LoanOffersService.ts';
 import { PassportService } from 'Modules/PassportCamera/services/passportService.ts';
 
 class RootStore {
@@ -14,7 +14,7 @@ class RootStore {
   readonly passportService = new PassportService();
   readonly applicationStatusService = new ApplicationStatusService();
   readonly activityTypeService = new ActivityTypeService();
-  readonly publicLoanOfferService = new PublicLoanOfferService();
+  readonly loanOffersService = new LoanOffersService();
 }
 
 const rootStore = new RootStore();
@@ -56,6 +56,6 @@ export function useActivityTypeStore() {
   return useRootStore().activityTypeService;
 }
 
-export function usePublicLoanOfferStore() {
-  return useRootStore().publicLoanOfferService;
+export function useLoanOffersStore() {
+  return useRootStore().loanOffersService;
 }
