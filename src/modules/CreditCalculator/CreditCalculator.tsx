@@ -123,6 +123,18 @@ const CreditCalculator = () => {
     navigate('/passport');
   };
 
+  const handlePdfLkdClick = async () => {
+    const amount = Number(getValues('loanAmount')) || 0;
+    const termMonths = Number(getValues('loanTerm')) || terms[0] || 0;
+
+    await creditRatesService.generatePdfLkd({
+      amount,
+      termMonths,
+      category: selectedRateCategory,
+      insuranceOption: selectedInsuranceOption,
+    });
+  };
+
   useEffect(() => {
     const loadFieldsData = async () => {
       await Promise.all([
@@ -232,11 +244,14 @@ const CreditCalculator = () => {
               text={loanOffersService.loanOfferData?.agreementText || ''}
               onChange={setTerm2Checked}
             />
-            <TermsCheckbox
-              checked={term3Checked}
-              text="Я ознакомлен(на) [с листком ключевых данных](sheet)"
-              onChange={setTerm3Checked}
-            />
+            {loanAmount && (
+              <TermsCheckbox
+                checked={term3Checked}
+                text="Я ознакомлен(на) [с листком ключевых данных]()"
+                onChange={setTerm3Checked}
+                onTapLink={handlePdfLkdClick}
+              />
+            )}
           </div>
         </div>
         <div className={styles.submitSection}>
