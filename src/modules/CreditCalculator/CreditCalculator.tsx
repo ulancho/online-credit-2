@@ -3,7 +3,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { useActivityTypeStore, useCreditRatesStore } from '@/common/stores/rootStore';
+import {
+  useActivityTypeStore,
+  useCreditRatesStore,
+  usePublicLoanOfferStore,
+} from '@/common/stores/rootStore';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useTranslation } from 'Common/i18n';
@@ -49,6 +53,7 @@ const CreditCalculator = () => {
   const creditRatesService = useCreditRatesStore();
   const activityTypeService = useActivityTypeStore();
   const loanCalculatorService = useLoanCalculatorService();
+  const publicLoanOfferService = usePublicLoanOfferStore();
   const navigate = useNavigate();
 
   const [term1Checked, setTerm1Checked] = useState(false);
@@ -123,6 +128,7 @@ const CreditCalculator = () => {
       await Promise.all([
         creditRatesService.getCreditRates(),
         activityTypeService.getActivityTypes(),
+        publicLoanOfferService.getPublicLoanOffer(),
       ]);
     };
 
