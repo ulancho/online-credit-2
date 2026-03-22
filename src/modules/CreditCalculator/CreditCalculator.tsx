@@ -222,15 +222,21 @@ const CreditCalculator = () => {
             <InfoNotification text="После вашего действия будет создана заявка на кредит. Мы отправим вам одноразовый код для проверки номера телефона." />
           </div>
           <div className={styles.termsSection}>
-            <TermsCheckbox checked={term1Checked} onChange={setTerm1Checked}>
-              Я ознакомлен(а) и согласен(на) с условиями оферты
-            </TermsCheckbox>
-            <TermsCheckbox checked={term2Checked} onChange={setTerm2Checked}>
-              Я ознакомлен(а) и согласен(на) с условиями на обработку и передачу персональных данных
-            </TermsCheckbox>
-            <TermsCheckbox checked={term3Checked} onChange={setTerm3Checked}>
-              Я ознакомлен(на) <span className={styles.termLink}>с листком ключевых данных</span>
-            </TermsCheckbox>
+            <TermsCheckbox
+              checked={term1Checked}
+              text={loanOffersService.publicLoanOfferData?.agreementText || ''}
+              onChange={setTerm1Checked}
+            />
+            <TermsCheckbox
+              checked={term2Checked}
+              text={loanOffersService.loanOfferData?.agreementText || ''}
+              onChange={setTerm2Checked}
+            />
+            <TermsCheckbox
+              checked={term3Checked}
+              text="Я ознакомлен(на) [с листком ключевых данных](sheet)"
+              onChange={setTerm3Checked}
+            />
           </div>
         </div>
         <div className={styles.submitSection}>
