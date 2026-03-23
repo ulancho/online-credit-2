@@ -1,6 +1,7 @@
 import { toJS } from 'mobx';
 import { createContext, useContext, type ReactNode } from 'react';
 
+import { LoanCondtionsService } from '@/modules/LoanConditions/services/LoanConditionsService';
 import { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import { ApplicationStatusService } from 'Modules/ApplicationStatusRedirect/services/ApplicationStatusService.ts';
 import { ActivityTypeService } from 'Modules/CreditCalculator/services/ActivityTypeService.ts';
@@ -15,6 +16,7 @@ class RootStore {
   readonly applicationStatusService = new ApplicationStatusService();
   readonly activityTypeService = new ActivityTypeService();
   readonly loanOffersService = new LoanOffersService();
+  readonly loanCondtionsService = new LoanCondtionsService();
 }
 
 const rootStore = new RootStore();
@@ -58,4 +60,8 @@ export function useActivityTypeStore() {
 
 export function useLoanOffersStore() {
   return useRootStore().loanOffersService;
+}
+
+export function useLoanConditionsStore() {
+  return useRootStore().loanCondtionsService;
 }
