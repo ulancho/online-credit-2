@@ -20,14 +20,12 @@ import PassportModal from 'Modules/CreditCalculator/components/PassportModal/Pas
 import TermsCheckbox from 'Modules/CreditCalculator/components/TermsCheckbox/TermsCheckbox.tsx';
 import {
   useLoanCalculatorService,
-  type RateCategory,
   type RateInsuranceOption,
 } from 'Modules/CreditCalculator/services/LoanCalculatorService.ts';
 
 import styles from './CreditCalculator.module.scss';
 
 const DEFAULT_LOAN_AMOUNT = '';
-const EMPLOYEE_ACTIVITY_TYPE_KEY = 'credit-calculator.activityTypes.employee';
 
 const formatCurrency = (value: number) => new Intl.NumberFormat('ru-RU').format(value);
 
@@ -71,12 +69,8 @@ const CreditCalculator = () => {
   const terms = creditRatesService.availableLoanTerms;
   const loanAmount = watch('loanAmount');
   const loanTerm = watch('loanTerm');
-  const activityType = watch('activityType');
   const insuranceEnabled = watch('insuranceEnabled');
 
-  //вот здесь меняем на клиент или сотрудник
-  const selectedRateCategory: RateCategory =
-    activityType === t(EMPLOYEE_ACTIVITY_TYPE_KEY) ? 'employee' : 'client';
   const selectedInsuranceOption: RateInsuranceOption = insuranceEnabled
     ? 'withInsurance'
     : 'withoutInsurance';
@@ -91,12 +85,10 @@ const CreditCalculator = () => {
     const calculatedLoan = loanCalculatorService.calculateLoan({
       amount,
       month,
-      category: selectedRateCategory,
       insuranceOption: selectedInsuranceOption,
     });
 
     const oppositeRate = loanCalculatorService.resolvePercent({
-      category: selectedRateCategory,
       insuranceOption: oppositeInsuranceOption,
     });
 
@@ -112,7 +104,6 @@ const CreditCalculator = () => {
     loanCalculatorService,
     loanTerm,
     selectedInsuranceOption,
-    selectedRateCategory,
     terms,
   ]);
 
@@ -130,7 +121,6 @@ const CreditCalculator = () => {
     await creditRatesService.generatePdfLkd({
       amount,
       termMonths,
-      category: selectedRateCategory,
       insuranceOption: selectedInsuranceOption,
     });
   };

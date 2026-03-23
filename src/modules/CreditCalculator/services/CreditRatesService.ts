@@ -20,7 +20,6 @@ export class CreditRatesService {
   async generatePdfLkd({
     amount,
     termMonths,
-    category,
     insuranceOption,
   }: { amount: number; termMonths: number } & LoanRateOptions) {
     if (!this.creditRates) {
@@ -28,13 +27,9 @@ export class CreditRatesService {
     }
 
     const nominalRate =
-      category === 'employee'
-        ? insuranceOption === 'withInsurance'
-          ? this.creditRates.employeeRateWithInsurance
-          : this.creditRates.employeeRateWithoutInsurance
-        : insuranceOption === 'withInsurance'
-          ? this.creditRates.clientRateWithInsurance
-          : this.creditRates.clientRateWithoutInsurance;
+      insuranceOption === 'withInsurance'
+        ? this.creditRates.rateWithInsurance
+        : this.creditRates.rateWithoutInsurance;
 
     const response = await generatePdfLkd({
       amount,

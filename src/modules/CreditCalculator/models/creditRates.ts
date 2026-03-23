@@ -1,10 +1,8 @@
 import type { ApiLoyaltyLevel } from 'Modules/CreditCalculator/models/loyalty.ts';
 
 export type CreditRatesResponse = {
-  clientRateWithInsurance: number;
-  clientRateWithoutInsurance: number;
-  employeeRateWithInsurance: number;
-  employeeRateWithoutInsurance: number;
+  rateWithInsurance: number;
+  rateWithoutInsurance: number;
   loyaltyLevel: ApiLoyaltyLevel | string;
   productCode: string;
   availableLoanTerms: number[];

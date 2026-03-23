@@ -8,17 +8,9 @@ const AMOUNT_DIVIDER_THRESHOLD = 40000;
 const SMALL_AMOUNT_DIVIDER = 20;
 const LARGE_AMOUNT_DIVIDER = 50;
 
-export type RateCategory = 'employee' | 'client';
 export type RateInsuranceOption = 'withInsurance' | 'withoutInsurance';
 
-type CreditRateKey =
-  | 'employeeRateWithInsurance'
-  | 'employeeRateWithoutInsurance'
-  | 'clientRateWithInsurance'
-  | 'clientRateWithoutInsurance';
-
 export interface LoanRateOptions {
-  category: RateCategory;
   insuranceOption: RateInsuranceOption;
 }
 
@@ -59,10 +51,9 @@ export class LoanCalculatorService {
 
   // формула для высчитывания процента
   static resolvePercent(params: CreditRatesResponse, options: LoanRateOptions) {
-    const rateKey: CreditRateKey =
-      `${options.category}Rate${options.insuranceOption === 'withInsurance' ? 'WithInsurance' : 'WithoutInsurance'}` as CreditRateKey;
-
-    return params[rateKey];
+    return options.insuranceOption === 'withInsurance'
+      ? params.rateWithInsurance
+      : params.rateWithoutInsurance;
   }
 
   static calculateLoan(
