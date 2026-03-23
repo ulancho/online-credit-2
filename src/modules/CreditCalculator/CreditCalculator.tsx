@@ -61,7 +61,6 @@ const CreditCalculator = () => {
   const [term2Checked, setTerm2Checked] = useState(false);
   const [term3Checked, setTerm3Checked] = useState(false);
   const [isPassportModalOpen, setIsPassportModalOpen] = useState(false);
-  const [isNoAccountModalOpen, setIsNoAccountModalOpen] = useState(true);
 
   const allTermsAccepted = term1Checked && term2Checked && term3Checked;
   const isSubmitEnabled =
@@ -265,11 +264,11 @@ const CreditCalculator = () => {
         />
       )}
 
-      {isNoAccountModalOpen && (
+      {creditApplicationService.accountNotAvailableModal && (
         <AccountNotAvailable
-          onClose={() => setIsNoAccountModalOpen(false)}
-          title={''}
-          description={''}
+          onClose={() => creditApplicationService.resetAccountNotAvailableModal()}
+          title={creditApplicationService.accountNotAvailableModal.title}
+          description={creditApplicationService.accountNotAvailableModal.description}
         />
       )}
     </div>
