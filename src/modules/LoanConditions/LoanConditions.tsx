@@ -1,3 +1,9 @@
+import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
+
+import { useLoanConditionsStore } from '@/common/stores/rootStore';
+import { formatAmount } from '@/common/utils/formatAmount';
+import { getMonthLabel } from '@/common/utils/months';
 import PercentIcon from 'Assets/icons/badge_percent.svg?react';
 import CalendarIcon from 'Assets/icons/calendar.svg?react';
 import WalletImage from 'Assets/icons/coin_percent.png';
@@ -6,35 +12,55 @@ import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
 import styles from './LoanConditions.module.scss';
 
-export default function LoanConditions() {
+
+const LoanConditions = () => {
+  const loanConditionsStore = useLoanConditionsStore();
+  const { activeRequestsData, extendedIsAvailable, onlineClaimAvailable } = loanConditionsStore;
+
+  const { onlineAmount, offlineAmount, period, percent, monthlyPayment } = activeRequestsData;
+
+  useEffect(() => {
+    const loadData = async () => {
+      loanConditionsStore.getActiveRequests();
+    };
+
+    loadData();
+  }, [loanConditionsStore]);
+
+  console.log(loanConditionsStore);
+
   return (
     <div id="page">
       <NavBar />
       <div className={styles.content}>
         <h1 className={styles.pageTitle}>Ваша заявка одобрена на следующих условиях</h1>
         {/* Blue promo banner */}
-        <div className={styles.promoBanner}>
-          <div className={styles.promoText}>
-            <p className={styles.promoTitle}>Расширенная анкета</p>
-            <p className={styles.promoDescription}>
-              Предоставьте дополнительные данные для увеличения суммы займа
-            </p>
-            <button className={styles.promoButton}>Заполнить анкету</button>
+        {extendedIsAvailable && (
+          <div className={styles.promoBanner}>
+            <div className={styles.promoText}>
+              <p className={styles.promoTitle}>Расширенная анкета</p>
+              <p className={styles.promoDescription}>
+                Предоставьте дополнительные данные для увеличения суммы займа
+              </p>
+              <button className={styles.promoButton}>Заполнить анкету</button>
+            </div>
+            <div className={styles.promoImageWrapper}>
+              <img
+                className={styles.promoImage}
+                src={WalletImage}
+                decoding="async"
+                alt="Wallet illustration"
+              />
+            </div>
           </div>
-          <div className={styles.promoImageWrapper}>
-            <img
-              className={styles.promoImage}
-              src={WalletImage}
-              decoding="async"
-              alt="Wallet illustration"
-            />
-          </div>
-        </div>
+        )}
         {/* Loan details card */}
         <div className={styles.detailsCard}>
           {/* Amount & badge */}
           <div className={styles.amountRow}>
-            <span className={styles.amount}>50 000 сом</span>
+            <span className={styles.amount}>
+              {onlineClaimAvailable ? formatAmount(onlineAmount) : formatAmount(offlineAmount)} сом
+            </span>
             <span className={styles.onlineBadge}>Онлайн</span>
           </div>
           <p className={styles.amountSubtitle}>Прямо сейчас на свой счет МБанк!</p>
@@ -47,7 +73,7 @@ export default function LoanConditions() {
               </div>
               <div className={styles.infoContent}>
                 <span className={styles.infoLabel}>Срок</span>
-                <span className={styles.infoValue}>Бессрочно</span>
+                <span className={styles.infoValue}>{getMonthLabel(Number(period))}</span>
               </div>
             </div>
             {/* Процент */}
@@ -57,7 +83,7 @@ export default function LoanConditions() {
               </div>
               <div className={styles.infoContent}>
                 <span className={styles.infoLabel}>Процент</span>
-                <span className={styles.infoValue}>25,99 %</span>
+                <span className={styles.infoValue}>{percent} %</span>
               </div>
             </div>
             {/* Ежемесячный взнос */}
@@ -67,7 +93,9 @@ export default function LoanConditions() {
               </div>
               <div className={styles.infoContent}>
                 <span className={styles.infoLabel}>Ежемесячный взнос</span>
-                <span className={styles.infoValue}>12 340 {'\u20C0'}</span>
+                <span className={styles.infoValue}>
+                  {formatAmount(monthlyPayment)} {'\u20C0'}
+                </span>
               </div>
             </div>
           </div>
@@ -78,4 +106,6 @@ export default function LoanConditions() {
       </div>
     </div>
   );
-}
+};
+
+export default observer(LoanConditions);

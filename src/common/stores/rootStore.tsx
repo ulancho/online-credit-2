@@ -2,6 +2,7 @@ import { toJS } from 'mobx';
 import { createContext, useContext, type ReactNode } from 'react';
 
 import { CreditCalculatorService } from '@/modules/CreditCalculator/services/CreditCalculatorService';
+import { LoanCondtionsService } from '@/modules/LoanConditions/services/LoanConditionsService';
 import { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import { PassportService } from 'Modules/PassportCamera/services/passportService.ts';
 
@@ -9,6 +10,7 @@ class RootStore {
   readonly queryParamsStore = new QueryParamsService();
   readonly creditCalculatorService = new CreditCalculatorService();
   readonly passportService = new PassportService();
+  readonly loanCondtionsService = new LoanCondtionsService();
 }
 
 const rootStore = new RootStore();
@@ -39,4 +41,8 @@ export function useCreditCalculatorStore() {
 
 export function usePassportStore() {
   return useRootStore().passportService;
+}
+
+export function useLoanConditionsStore() {
+  return useRootStore().loanCondtionsService;
 }
