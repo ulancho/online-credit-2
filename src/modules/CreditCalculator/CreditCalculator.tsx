@@ -12,6 +12,7 @@ import {
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useTranslation } from 'Common/i18n';
+import AccountNotAvailable from 'Modules/CreditCalculator/components/AccountNotAvailable/AccountNotAvailable.tsx';
 import ActivityTypeSelect from 'Modules/CreditCalculator/components/ActivityTypeSelect/ActivityTypeSelect.tsx';
 import InfoNotification from 'Modules/CreditCalculator/components/InfoNotification/InfoNotification.tsx';
 import InsuranceToggle from 'Modules/CreditCalculator/components/InsuranceToggle/InsuranceToggle.tsx';
@@ -59,7 +60,8 @@ const CreditCalculator = () => {
   const [term1Checked, setTerm1Checked] = useState(false);
   const [term2Checked, setTerm2Checked] = useState(false);
   const [term3Checked, setTerm3Checked] = useState(false);
-  const [isPassportModalOpen, setIsPassportModalOpen] = useState(true);
+  const [isPassportModalOpen, setIsPassportModalOpen] = useState(false);
+  const [isNoAccountModalOpen, setIsNoAccountModalOpen] = useState(true);
 
   const allTermsAccepted = term1Checked && term2Checked && term3Checked;
   const isSubmitEnabled =
@@ -260,6 +262,14 @@ const CreditCalculator = () => {
         <PassportModal
           onCancel={() => setIsPassportModalOpen(false)}
           onContinue={handleContinuePassport}
+        />
+      )}
+
+      {isNoAccountModalOpen && (
+        <AccountNotAvailable
+          onClose={() => setIsNoAccountModalOpen(false)}
+          title={''}
+          description={''}
         />
       )}
     </div>
