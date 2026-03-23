@@ -78,9 +78,6 @@ const CreditCalculator = () => {
   const loanSummary = useMemo(() => {
     const amount = Number(loanAmount) || 0;
     const month = Number(loanTerm) || terms[0] || 0;
-    const oppositeInsuranceOption: RateInsuranceOption = insuranceEnabled
-      ? 'withoutInsurance'
-      : 'withInsurance';
 
     const calculatedLoan = loanCalculatorService.calculateLoan({
       amount,
@@ -88,24 +85,11 @@ const CreditCalculator = () => {
       insuranceOption: selectedInsuranceOption,
     });
 
-    const oppositeRate = loanCalculatorService.resolvePercent({
-      insuranceOption: oppositeInsuranceOption,
-    });
-
     return {
       monthlyPayment: calculatedLoan ? formatCurrency(calculatedLoan.monthlyPayment) : '0',
-      discountedRate: calculatedLoan ? `${calculatedLoan.percent.toFixed(2)}%` : '0%',
-      originalRate: oppositeRate !== null ? `${oppositeRate.toFixed(2)}%` : '0%',
       overpayment: calculatedLoan ? formatCurrency(calculatedLoan.overpayment) : '0',
     };
-  }, [
-    insuranceEnabled,
-    loanAmount,
-    loanCalculatorService,
-    loanTerm,
-    selectedInsuranceOption,
-    terms,
-  ]);
+  }, [loanAmount, loanCalculatorService, loanTerm, selectedInsuranceOption, terms]);
 
   const onSubmit = () => {};
 
@@ -216,8 +200,7 @@ const CreditCalculator = () => {
           />
           <LoanSummary
             monthlyPayment={loanSummary.monthlyPayment}
-            originalRate={loanSummary.originalRate}
-            discountedRate={loanSummary.discountedRate}
+            insuranceEnabled={insuranceEnabled}
             overpayment={loanSummary.overpayment}
           />
           <div className={styles.notificationSection}>

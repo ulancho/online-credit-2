@@ -8,27 +8,30 @@ import styles from './LoanSummary.module.css';
 
 interface LoanSummaryProps {
   monthlyPayment: string;
-  originalRate: string;
-  discountedRate: string;
+  insuranceEnabled: boolean;
   overpayment: string;
 }
+
+const formatRate = (value: number | null | undefined) =>
+  typeof value === 'number' ? `${value.toFixed(2)}%` : '0%';
 
 const discountedRateGradientClassMap = {
   bronze: styles.discountedRateBronze,
   silver: styles.discountedRateSilver,
   gold: styles.discountedRateGold,
   platinum: styles.discountedRatePlatinum,
-  standart: '',
+  standart: styles.originalRateStandalone,
 } as const;
 
 export default function LoanSummary({
   monthlyPayment,
-  originalRate,
-  discountedRate,
+  insuranceEnabled,
   overpayment,
 }: LoanSummaryProps) {
   const { creditRates } = useCreditRatesStore();
   const loyaltyLevel = mapApiLoyaltyLevel(creditRates?.loyaltyLevel);
+  const originalRate = formatRate(creditRates?.rateWithoutInsurance);
+  const discountedRate = formatRate(creditRates?.rateWithInsurance);
 
   return (
     <div className={styles.container}>
@@ -42,15 +45,23 @@ export default function LoanSummary({
       <div className={styles.row}>
         <LoanRate loyaltyLevel={loyaltyLevel} />
         <div className={styles.rateValues}>
-          <span className={styles.originalRate}>{originalRate}</span>
           <span
-            className={classNames(
-              styles.discountedRate,
-              discountedRateGradientClassMap[loyaltyLevel],
-            )}
+            className={classNames(styles.originalRate, {
+              [styles.originalRateStandalone]: !insuranceEnabled,
+            })}
           >
-            {discountedRate}
+            {originalRate}
           </span>
+          {insuranceEnabled ? (
+            <span
+              className={classNames(
+                styles.discountedRate,
+                discountedRateGradientClassMap[loyaltyLevel],
+              )}
+            >
+              {discountedRate}
+            </span>
+          ) : null}
         </div>
       </div>
 

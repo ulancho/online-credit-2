@@ -79,6 +79,17 @@
   -webkit-text-fill-color: transparent;
 }
 
+.originalRateStandalone {
+  color: var(--color-text-secondary);
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 22px;
+  text-decoration: none;
+  background: none !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: unset !important;
+}
+
 .discountedRateBronze {
   background: linear-gradient(133deg, #c3733a 19.69%, #e3a578 46.34%, #ba5700 86.16%);
 }
