@@ -40,15 +40,17 @@ type CreditCalculatorFormValues = {
 };
 
 const CreditCalculator = () => {
-  const { control, handleSubmit, getValues, watch } = useForm<CreditCalculatorFormValues>({
-    defaultValues: {
-      loanAmount: DEFAULT_LOAN_AMOUNT,
-      loanTerm: undefined,
-      monthlyIncome: '',
-      activityType: '',
-      insuranceEnabled: false,
+  const { control, handleSubmit, getValues, setValue, watch } = useForm<CreditCalculatorFormValues>(
+    {
+      defaultValues: {
+        loanAmount: DEFAULT_LOAN_AMOUNT,
+        loanTerm: undefined,
+        monthlyIncome: '',
+        activityType: '',
+        insuranceEnabled: false,
+      },
     },
-  });
+  );
 
   const creditRatesService = useCreditRatesStore();
   const activityTypeService = useActivityTypeStore();
@@ -56,6 +58,7 @@ const CreditCalculator = () => {
   const loanOffersService = useLoanOffersStore();
   const creditApplicationService = useCreditApplicationStore();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [term1Checked, setTerm1Checked] = useState(false);
   const [term2Checked, setTerm2Checked] = useState(false);
@@ -66,8 +69,6 @@ const CreditCalculator = () => {
   const isSubmitEnabled =
     allTermsAccepted && getValues('loanAmount') !== '' && getValues('monthlyIncome') !== '';
   console.log(isSubmitEnabled);
-
-  const { t } = useTranslation();
 
   const terms = creditRatesService.availableLoanTerms;
   const loanAmount = watch('loanAmount');
@@ -141,7 +142,15 @@ const CreditCalculator = () => {
     };
 
     loadFieldsData();
-  }, [creditRatesService]);
+  }, [activityTypeService, creditRatesService, loanOffersService]);
+
+  useEffect(() => {
+    if (!terms.length || loanTerm !== undefined) {
+      return;
+    }
+
+    setValue('loanTerm', terms[0], { shouldDirty: false, shouldTouch: false });
+  }, [loanTerm, setValue, terms]);
 
   return (
     <div id="page">
@@ -178,12 +187,17 @@ const CreditCalculator = () => {
 
                 return (
                   <LoanTermSlider
-                    label={terms[safeIndex]}
+                    label={terms[safeIndex] ?? 0}
                     value={safeIndex}
                     min={0}
-                    max={terms.length - 1}
+                    max={Math.max(terms.length - 1, 0)}
+                    disabled={!terms.length}
                     onChange={(index: number) => {
-                      field.onChange(terms[index]);
+                      const nextTerm = terms[index];
+
+                      if (nextTerm !== undefined) {
+                        field.onChange(nextTerm);
+                      }
                     }}
                   />
                 );

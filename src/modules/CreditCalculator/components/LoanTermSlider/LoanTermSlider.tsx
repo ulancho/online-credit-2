@@ -8,6 +8,7 @@ interface LoanTermSliderProps {
   min?: number;
   max?: number;
   onChange?: (value: number) => void;
+  disabled?: boolean;
 }
 
 function getMonthLabel(months: number): string {
@@ -22,8 +23,15 @@ export default function LoanTermSlider({
   min = 3,
   max = 60,
   onChange,
+  disabled = false,
 }: LoanTermSliderProps) {
-  const percent = useMemo(() => ((value - min) / (max - min)) * 100, [value, min, max]);
+  const percent = useMemo(() => {
+    if (max <= min) {
+      return 0;
+    }
+
+    return ((value - min) / (max - min)) * 100;
+  }, [value, min, max]);
 
   return (
     <div className={styles.card}>
@@ -39,6 +47,7 @@ export default function LoanTermSlider({
           min={min}
           max={max}
           value={value}
+          disabled={disabled}
           onChange={(e) => onChange?.(Number(e.target.value))}
           style={{ '--thumb-percent': `${percent}%` } as React.CSSProperties}
         />

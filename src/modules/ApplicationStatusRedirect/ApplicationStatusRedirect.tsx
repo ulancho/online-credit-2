@@ -7,22 +7,21 @@ import { useApplicationStatusStore } from 'Common/stores/rootStore.tsx';
 import styles from './ApplicationStatusRedirect.module.scss';
 
 const ApplicationStatusRedirect = () => {
-  const applicationStatusStore = useApplicationStatusStore();
+  const applicationStatusService = useApplicationStatusStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!applicationStatusStore.application && !applicationStatusStore.isLoading) {
-      void applicationStatusStore.loadActiveApplicationExist();
+    if (!applicationStatusService.application && !applicationStatusService.isLoading) {
+      void applicationStatusService.loadActiveApplicationExist();
     }
-  }, [applicationStatusStore]);
+  }, [applicationStatusService]);
 
   useEffect(() => {
-    if (applicationStatusStore.isLoading || !applicationStatusStore.application) {
+    if (applicationStatusService.isLoading || !applicationStatusService.application) {
       return;
     }
-
-    navigate(applicationStatusStore.redirectRoute, { replace: true });
-  }, [applicationStatusStore.isLoading, navigate]);
+    navigate(applicationStatusService.redirectRoute, { replace: true });
+  }, [applicationStatusService.isLoading, navigate]);
 
   return (
     <div className={styles.uploadingScreen}>
