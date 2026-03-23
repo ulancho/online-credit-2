@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import {
   useActivityTypeStore,
+  useCreditApplicationStore,
   useCreditRatesStore,
   useLoanOffersStore,
 } from '@/common/stores/rootStore';
@@ -52,6 +53,7 @@ const CreditCalculator = () => {
   const activityTypeService = useActivityTypeStore();
   const loanCalculatorService = useLoanCalculatorService();
   const loanOffersService = useLoanOffersStore();
+  const creditApplicationService = useCreditApplicationStore();
   const navigate = useNavigate();
 
   const [term1Checked, setTerm1Checked] = useState(false);
@@ -91,7 +93,25 @@ const CreditCalculator = () => {
     };
   }, [loanAmount, loanCalculatorService, loanTerm, selectedInsuranceOption, terms]);
 
-  const onSubmit = () => {};
+  const onSubmit = async (values: CreditCalculatorFormValues) => {
+    const amount = Number(values.loanAmount) || 0;
+    const periodInterval = Number(values.loanTerm) || terms[0] || 0;
+    const percent = loanCalculatorService.resolvePercent({
+      insuranceOption: selectedInsuranceOption,
+    });
+
+    await creditApplicationService.initCreditApplication({
+      amount,
+      periodInterval,
+      productCode: creditRatesService.creditRates?.productCode || '',
+      percent: percent || 0,
+      level: creditRatesService.creditRates?.loyaltyLevel || '',
+      activityType: values.activityType,
+      clientIncome: Number(values.monthlyIncome) || 0,
+      insuranceConsent: values.insuranceEnabled,
+      hash: loanOffersService.loanOfferData?.hash || '',
+    });
+  };
 
   const handleContinuePassport = () => {
     setIsPassportModalOpen(false);

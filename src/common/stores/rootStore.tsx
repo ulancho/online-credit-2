@@ -5,6 +5,7 @@ import { LoanCondtionsService } from '@/modules/LoanConditions/services/LoanCond
 import { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import { ApplicationStatusService } from 'Modules/ApplicationStatusRedirect/services/ApplicationStatusService.ts';
 import { ActivityTypeService } from 'Modules/CreditCalculator/services/ActivityTypeService.ts';
+import { CreditApplicationService } from 'Modules/CreditCalculator/services/CreditApplicationService.ts';
 import { CreditRatesService } from 'Modules/CreditCalculator/services/CreditRatesService.ts';
 import { LoanOffersService } from 'Modules/CreditCalculator/services/LoanOffersService.ts';
 import { PassportService } from 'Modules/PassportCamera/services/passportService.ts';
@@ -17,6 +18,7 @@ class RootStore {
   readonly activityTypeService = new ActivityTypeService();
   readonly loanOffersService = new LoanOffersService();
   readonly loanCondtionsService = new LoanCondtionsService();
+  readonly creditApplicationService = new CreditApplicationService();
 }
 
 const rootStore = new RootStore();
@@ -64,4 +66,8 @@ export function useLoanOffersStore() {
 
 export function useLoanConditionsStore() {
   return useRootStore().loanCondtionsService;
+}
+
+export function useCreditApplicationStore() {
+  return useRootStore().creditApplicationService;
 }
