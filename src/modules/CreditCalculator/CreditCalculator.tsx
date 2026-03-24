@@ -346,25 +346,11 @@ const CreditCalculator = () => {
         />
       )}
 
-      {creditApplicationService.accountNotAvailableModal && (
+      {creditApplicationService.modal && (
         <InfoModal
-          onClose={() => creditApplicationService.resetAccountNotAvailableModal()}
-          title={creditApplicationService.accountNotAvailableModal.title}
-          description={creditApplicationService.accountNotAvailableModal.description}
-        />
-      )}
-
-      {creditApplicationService.notEnoughModal && (
-        <InfoModal
-          onClose={() => creditApplicationService.resetNotEnoughDataModal()}
-          title={creditApplicationService.notEnoughModal.title}
-        />
-      )}
-
-      {creditApplicationService.hasActiveRequestModal && (
-        <InfoModal
-          onClose={() => creditApplicationService.resetHasActiveRequestModal()}
-          title={creditApplicationService.hasActiveRequestModal.title}
+          onClose={() => creditApplicationService.resetModal()}
+          title={creditApplicationService.modal.content.title}
+          description={creditApplicationService.modal.content.description}
         />
       )}
     </div>

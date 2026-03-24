@@ -20,6 +20,13 @@ type ModalContentType = {
   description?: string;
 };
 
+type ModalType = 'accountNotAvailable' | 'notEnoughData' | 'hasActiveRequest';
+
+type CreditApplicationModalState = {
+  type: ModalType;
+  content: ModalContentType;
+};
+
 const ACCOUNT_NOT_AVAILABLE_ERROR_CODE =
   'unified.svc.biz.ib.cbk.private.credits.error.account-not-available-for-credit';
 
@@ -39,36 +46,20 @@ export class CreditApplicationValidationError extends Error {
 
 export class CreditApplicationService {
   @observable.ref
-  private accountNotAvailableModalContent: ModalContentType | null = null;
-  @observable.ref
-  private notEnoughDataModalContent: ModalContentType | null = null;
-  @observable.ref
-  private hasActiveRequestModalContent: ModalContentType | null = null;
+  private activeModal: CreditApplicationModalState | null = null;
 
   constructor() {
     makeObservable(this);
   }
 
   @action
-  resetAccountNotAvailableModal() {
-    this.accountNotAvailableModalContent = null;
-  }
-
-  @action
-  resetNotEnoughDataModal() {
-    this.notEnoughDataModalContent = null;
-  }
-
-  @action
-  resetHasActiveRequestModal() {
-    this.hasActiveRequestModalContent = null;
+  resetModal() {
+    this.activeModal = null;
   }
 
   @action
   async initCreditApplication(payload: CreditApplicationInitParams) {
-    this.accountNotAvailableModalContent = null;
-    this.notEnoughDataModalContent = null;
-    this.hasActiveRequestModalContent = null;
+    this.activeModal = null;
 
     try {
       return await initCreditApplication({
@@ -90,9 +81,12 @@ export class CreditApplicationService {
           responseData?.code === ACCOUNT_NOT_AVAILABLE_ERROR_CODE
         ) {
           runInAction(() => {
-            this.accountNotAvailableModalContent = {
-              title: responseData.details?.title?.[0] || '',
-              description: responseData.message || '',
+            this.activeModal = {
+              type: 'accountNotAvailable',
+              content: {
+                title: responseData.details?.title?.[0] || '',
+                description: responseData.message || '',
+              },
             };
           });
 
@@ -101,8 +95,11 @@ export class CreditApplicationService {
 
         if (error.response?.status === 500 && responseData?.code === NOT_ENOUGH_DATA_ERROR_CODE) {
           runInAction(() => {
-            this.notEnoughDataModalContent = {
-              title: responseData.message || '',
+            this.activeModal = {
+              type: 'notEnoughData',
+              content: {
+                title: responseData.message || '',
+              },
             };
           });
 
@@ -114,8 +111,11 @@ export class CreditApplicationService {
           responseData?.code === HAS_ACTIVE_REQUEST_ERROR_CODE
         ) {
           runInAction(() => {
-            this.hasActiveRequestModalContent = {
-              title: responseData.message || '',
+            this.activeModal = {
+              type: 'hasActiveRequest',
+              content: {
+                title: responseData.message || '',
+              },
             };
           });
 
@@ -128,17 +128,7 @@ export class CreditApplicationService {
   }
 
   @computed
-  get accountNotAvailableModal() {
-    return this.accountNotAvailableModalContent;
-  }
-
-  @computed
-  get notEnoughModal() {
-    return this.notEnoughDataModalContent;
-  }
-
-  @computed
-  get hasActiveRequestModal() {
-    return this.hasActiveRequestModalContent;
+  get modal() {
+    return this.activeModal;
   }
 }
