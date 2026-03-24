@@ -28,7 +28,7 @@ const Test = () => {
   const handleClick2 = () => {};
 
   const handleClick3 = async () => {
-    downloadBase64File(base64Data, 'file.pdf', 'application/pdf');
+    downloadBase64File(base64Data, 'file.pdf', 'base64/pdf');
   };
 
   return (
