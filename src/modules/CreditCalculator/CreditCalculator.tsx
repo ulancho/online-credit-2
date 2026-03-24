@@ -124,7 +124,7 @@ const CreditCalculator = () => {
     });
 
     try {
-      await creditApplicationService.initCreditApplication({
+      const initResponse = await creditApplicationService.initCreditApplication({
         amount,
         periodInterval,
         productCode: creditRatesService.creditRates?.productCode || '',
@@ -135,6 +135,10 @@ const CreditCalculator = () => {
         insuranceConsent: values.insuranceEnabled,
         hash: loanOffersService.loanOfferData?.hash || '',
       });
+
+      if (initResponse?.status === 200) {
+        navigate('/otp');
+      }
     } catch (error) {
       if (error instanceof CreditApplicationValidationError) {
         Object.entries(error.details).forEach(([field, messages]) => {

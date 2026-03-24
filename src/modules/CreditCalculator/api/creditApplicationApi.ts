@@ -17,7 +17,5 @@ export type CreditApplicationInitPayload = {
 const CREDIT_APPLICATION_INIT_API = '/credit/application/init';
 
 export async function initCreditApplication(payload: CreditApplicationInitPayload) {
-  const response = await httpClient.post(CREDIT_APPLICATION_INIT_API, payload);
-
-  return response.data;
+  return await httpClient.post(CREDIT_APPLICATION_INIT_API, payload);
 }
