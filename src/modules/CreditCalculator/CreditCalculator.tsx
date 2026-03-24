@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -145,6 +146,16 @@ const CreditCalculator = () => {
         });
 
         return;
+      }
+
+      if (error instanceof AxiosError && error.response?.status === 500) {
+        const responseData = error.response?.data;
+
+        if (responseData?.message) {
+          alert(responseData.message);
+
+          return;
+        }
       }
 
       throw error;
