@@ -12,8 +12,8 @@ import {
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useTranslation } from 'Common/i18n';
-import AccountNotAvailable from 'Modules/CreditCalculator/components/AccountNotAvailable/AccountNotAvailable.tsx';
 import ActivityTypeSelect from 'Modules/CreditCalculator/components/ActivityTypeSelect/ActivityTypeSelect.tsx';
+import InfoModal from 'Modules/CreditCalculator/components/InfoModal/InfoModal.tsx';
 import InfoNotification from 'Modules/CreditCalculator/components/InfoNotification/InfoNotification.tsx';
 import InsuranceToggle from 'Modules/CreditCalculator/components/InsuranceToggle/InsuranceToggle.tsx';
 import LoanSummary from 'Modules/CreditCalculator/components/LoanSummary/LoanSummary.tsx';
@@ -310,6 +310,7 @@ const CreditCalculator = () => {
           </button>
         </div>
       </form>
+
       {isPassportModalOpen && (
         <PassportModal
           onCancel={() => setIsPassportModalOpen(false)}
@@ -318,10 +319,17 @@ const CreditCalculator = () => {
       )}
 
       {creditApplicationService.accountNotAvailableModal && (
-        <AccountNotAvailable
+        <InfoModal
           onClose={() => creditApplicationService.resetAccountNotAvailableModal()}
           title={creditApplicationService.accountNotAvailableModal.title}
           description={creditApplicationService.accountNotAvailableModal.description}
+        />
+      )}
+
+      {creditApplicationService.notEnoughModal && (
+        <InfoModal
+          onClose={() => creditApplicationService.resetNotEnoughDataModal()}
+          title={creditApplicationService.notEnoughModal.title}
         />
       )}
     </div>

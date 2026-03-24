@@ -1,18 +1,14 @@
 import InformationIcon from 'Assets/icons/information.svg?react';
 
-import styles from './AccountNotAvailable.module.scss';
+import styles from './InfoModal.module.scss';
 
-interface AccountNotAvailableProps {
+interface InfoModalProps {
   title: string;
-  description: string;
+  description?: string;
   onClose: () => void;
 }
 
-export default function AccountNotAvailable({
-  title,
-  description,
-  onClose,
-}: AccountNotAvailableProps) {
+export default function InfoModal({ title, description, onClose }: InfoModalProps) {
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>

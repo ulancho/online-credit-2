@@ -15,13 +15,15 @@ type InitCreditApplicationErrorResponse = {
   details?: Record<string, string[]>;
 };
 
-type AccountNotAvailableModalContent = {
+type ModalContentType = {
   title: string;
-  description: string;
+  description?: string;
 };
 
 const ACCOUNT_NOT_AVAILABLE_ERROR_CODE =
   'unified.svc.biz.ib.cbk.private.credits.error.account-not-available-for-credit';
+
+const NOT_ENOUGH_DATA_ERROR_CODE = 'unified.svc.biz.ib.cbk.private.credits.error.not-enough-data';
 
 export class CreditApplicationValidationError extends Error {
   details: Record<string, string[]>;
@@ -35,7 +37,9 @@ export class CreditApplicationValidationError extends Error {
 
 export class CreditApplicationService {
   @observable.ref
-  private accountNotAvailableModalContent: AccountNotAvailableModalContent | null = null;
+  private accountNotAvailableModalContent: ModalContentType | null = null;
+  @observable.ref
+  private notEnoughDataModalContent: ModalContentType | null = null;
 
   constructor() {
     makeObservable(this);
@@ -44,6 +48,11 @@ export class CreditApplicationService {
   @action
   resetAccountNotAvailableModal() {
     this.accountNotAvailableModalContent = null;
+  }
+
+  @action
+  resetNotEnoughDataModal() {
+    this.notEnoughDataModalContent = null;
   }
 
   @action
@@ -78,6 +87,16 @@ export class CreditApplicationService {
 
           return null;
         }
+
+        if (error.response?.status === 500 && responseData?.code === NOT_ENOUGH_DATA_ERROR_CODE) {
+          runInAction(() => {
+            this.notEnoughDataModalContent = {
+              title: responseData.message || '',
+            };
+          });
+
+          return null;
+        }
       }
 
       throw error;
@@ -87,5 +106,10 @@ export class CreditApplicationService {
   @computed
   get accountNotAvailableModal() {
     return this.accountNotAvailableModalContent;
+  }
+
+  @computed
+  get notEnoughModal() {
+    return this.notEnoughDataModalContent;
   }
 }
