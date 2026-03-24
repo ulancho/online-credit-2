@@ -20,6 +20,7 @@ import LoanSummary from 'Modules/CreditCalculator/components/LoanSummary/LoanSum
 import LoanTermSlider from 'Modules/CreditCalculator/components/LoanTermSlider/LoanTermSlider.tsx';
 import PassportModal from 'Modules/CreditCalculator/components/PassportModal/PassportModal.tsx';
 import TermsCheckbox from 'Modules/CreditCalculator/components/TermsCheckbox/TermsCheckbox.tsx';
+import { CreditApplicationValidationError } from 'Modules/CreditCalculator/services/CreditApplicationService.ts';
 import {
   useLoanCalculatorService,
   type RateInsuranceOption,
@@ -39,18 +40,32 @@ type CreditCalculatorFormValues = {
   insuranceEnabled: boolean;
 };
 
+const initCreditApplicationFieldMap: Record<string, keyof CreditCalculatorFormValues> = {
+  'applicationCreditRequestDto.amount': 'loanAmount',
+  'applicationCreditRequestDto.periodInterval': 'loanTerm',
+  'applicationCreditRequestDto.activityType': 'activityType',
+  'applicationCreditRequestDto.clientIncome': 'monthlyIncome',
+};
+
 const CreditCalculator = () => {
-  const { control, handleSubmit, getValues, setValue, watch } = useForm<CreditCalculatorFormValues>(
-    {
-      defaultValues: {
-        loanAmount: DEFAULT_LOAN_AMOUNT,
-        loanTerm: undefined,
-        monthlyIncome: '',
-        activityType: '',
-        insuranceEnabled: false,
-      },
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    setValue,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm<CreditCalculatorFormValues>({
+    defaultValues: {
+      loanAmount: DEFAULT_LOAN_AMOUNT,
+      loanTerm: undefined,
+      monthlyIncome: '',
+      activityType: '',
+      insuranceEnabled: false,
     },
-  );
+  });
 
   const creditRatesService = useCreditRatesStore();
   const activityTypeService = useActivityTypeStore();
@@ -95,31 +110,51 @@ const CreditCalculator = () => {
     };
   }, [loanAmount, loanCalculatorService, loanTerm, selectedInsuranceOption, terms]);
 
+  // оформление заявки
   const onSubmit = async (values: CreditCalculatorFormValues) => {
+    clearErrors();
     const amount = Number(values.loanAmount) || 0;
     const periodInterval = Number(values.loanTerm) || terms[0] || 0;
     const percent = loanCalculatorService.resolvePercent({
       insuranceOption: selectedInsuranceOption,
     });
 
-    await creditApplicationService.initCreditApplication({
-      amount,
-      periodInterval,
-      productCode: creditRatesService.creditRates?.productCode || '',
-      percent: percent || 0,
-      level: creditRatesService.creditRates?.loyaltyLevel || '',
-      activityType: values.activityType,
-      clientIncome: Number(values.monthlyIncome) || 0,
-      insuranceConsent: values.insuranceEnabled,
-      hash: loanOffersService.loanOfferData?.hash || '',
-    });
+    try {
+      await creditApplicationService.initCreditApplication({
+        amount,
+        periodInterval,
+        productCode: creditRatesService.creditRates?.productCode || '',
+        percent: percent || 0,
+        level: creditRatesService.creditRates?.loyaltyLevel || '',
+        activityType: values.activityType,
+        clientIncome: Number(values.monthlyIncome) || 0,
+        insuranceConsent: values.insuranceEnabled,
+        hash: loanOffersService.loanOfferData?.hash || '',
+      });
+    } catch (error) {
+      if (error instanceof CreditApplicationValidationError) {
+        Object.entries(error.details).forEach(([field, messages]) => {
+          const formField = initCreditApplicationFieldMap[field];
+
+          if (formField && messages.length) {
+            setError(formField, { type: 'server', message: messages[0] });
+          }
+        });
+
+        return;
+      }
+
+      throw error;
+    }
   };
 
-  const handleContinuePassport = () => {
+  // переход к обновлению паспорта
+  const handleContinuePassportClick = () => {
     setIsPassportModalOpen(false);
     navigate('/passport');
   };
 
+  // листок ключевых данных
   const handlePdfLkdClick = async () => {
     const amount = Number(getValues('loanAmount')) || 0;
     const termMonths = Number(getValues('loanTerm')) || terms[0] || 0;
@@ -131,6 +166,7 @@ const CreditCalculator = () => {
     });
   };
 
+  // подгрузка данных
   useEffect(() => {
     const loadFieldsData = async () => {
       await Promise.all([
@@ -144,6 +180,7 @@ const CreditCalculator = () => {
     loadFieldsData();
   }, [activityTypeService, creditRatesService, loanOffersService]);
 
+  // установка значения по умолчанию для срока кредита
   useEffect(() => {
     if (!terms.length || loanTerm !== undefined) {
       return;
@@ -175,6 +212,7 @@ const CreditCalculator = () => {
                   value={field.value}
                   onChange={field.onChange}
                   type="number"
+                  errorMessage={errors.loanAmount?.message}
                 />
               )}
             />
@@ -213,6 +251,7 @@ const CreditCalculator = () => {
                   value={field.value}
                   onChange={field.onChange}
                   type="number"
+                  errorMessage={errors.monthlyIncome?.message}
                 />
               )}
             />
@@ -274,7 +313,7 @@ const CreditCalculator = () => {
       {isPassportModalOpen && (
         <PassportModal
           onCancel={() => setIsPassportModalOpen(false)}
-          onContinue={handleContinuePassport}
+          onContinue={handleContinuePassportClick}
         />
       )}
 

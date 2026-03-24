@@ -9,6 +9,7 @@ interface InputFieldProps {
   onChange?: (value: string) => void;
   hasChevron?: boolean;
   type?: string;
+  errorMessage?: string;
 }
 
 export default function InputField({
@@ -18,6 +19,7 @@ export default function InputField({
   onChange,
   hasChevron = false,
   type = 'text',
+  errorMessage,
 }: InputFieldProps) {
   const [focused, setFocused] = useState(false);
   const isFilled = Boolean(value);
@@ -26,7 +28,9 @@ export default function InputField({
   if (hasChevron) {
     return (
       <div className={styles.wrapper}>
-        <div className={`${styles.fieldBox} ${isFilled ? styles.fieldBoxFilled : ''}`}>
+        <div
+          className={`${styles.fieldBox} ${isFilled ? styles.fieldBoxFilled : ''} ${errorMessage ? styles.fieldBoxError : ''}`}
+        >
           <div className={styles.fieldContent}>
             <span
               className={`${styles.floatingLabel} ${isFilled ? styles.floatingLabelActive : ''}`}
@@ -44,16 +48,19 @@ export default function InputField({
             />
           </svg>
         </div>
+        {errorMessage && <p className={styles.errorText}>{errorMessage}</p>}
       </div>
     );
   }
 
   return (
     <div className={styles.wrapper}>
-      <label className={`${styles.fieldBox} ${isFloating ? styles.fieldBoxFilled : ''}`}>
+      <label
+        className={`${styles.fieldBox} ${isFloating ? styles.fieldBoxFilled : ''} ${errorMessage ? styles.fieldBoxError : ''}`}
+      >
         <div className={styles.fieldContent}>
           <span
-            className={`${styles.floatingLabel} ${isFloating ? styles.floatingLabelActive : ''}`}
+            className={`${styles.floatingLabel} ${isFloating ? styles.floatingLabelActive : ''} ${errorMessage ? styles.errorPlaceholder : ''}`}
           >
             {mainPlaceholder}
           </span>
@@ -68,6 +75,7 @@ export default function InputField({
           />
         </div>
       </label>
+      {errorMessage && <p className={styles.errorText}>{errorMessage}</p>}
     </div>
   );
 }

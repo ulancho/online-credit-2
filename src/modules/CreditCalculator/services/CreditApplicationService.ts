@@ -12,9 +12,7 @@ type CreditApplicationInitParams = Omit<
 type InitCreditApplicationErrorResponse = {
   code?: string;
   message?: string;
-  details?: {
-    title?: string[];
-  };
+  details?: Record<string, string[]>;
 };
 
 type AccountNotAvailableModalContent = {
@@ -24,6 +22,16 @@ type AccountNotAvailableModalContent = {
 
 const ACCOUNT_NOT_AVAILABLE_ERROR_CODE =
   'unified.svc.biz.ib.cbk.private.credits.error.account-not-available-for-credit';
+
+export class CreditApplicationValidationError extends Error {
+  details: Record<string, string[]>;
+
+  constructor(details: Record<string, string[]>) {
+    super('Credit application validation failed');
+    this.name = 'CreditApplicationValidationError';
+    this.details = details;
+  }
+}
 
 export class CreditApplicationService {
   @observable.ref
@@ -51,6 +59,11 @@ export class CreditApplicationService {
     } catch (error) {
       if (error instanceof AxiosError) {
         const responseData = error.response?.data as InitCreditApplicationErrorResponse | undefined;
+        const validationDetails = responseData?.details || {};
+
+        if (error.response?.status === 400 && Object.keys(validationDetails).length) {
+          throw new CreditApplicationValidationError(validationDetails);
+        }
 
         if (
           error.response?.status === 500 &&
