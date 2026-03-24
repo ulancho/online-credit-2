@@ -42,6 +42,7 @@ type CreditCalculatorFormValues = {
 
 const initCreditApplicationFieldMap: Record<string, keyof CreditCalculatorFormValues> = {
   'applicationCreditRequestDto.amount': 'loanAmount',
+  ' applicationCreditDto.amount': 'loanAmount',
   'applicationCreditRequestDto.periodInterval': 'loanTerm',
   'applicationCreditRequestDto.activityType': 'activityType',
   'applicationCreditRequestDto.clientIncome': 'monthlyIncome',

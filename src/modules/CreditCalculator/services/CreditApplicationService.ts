@@ -63,7 +63,7 @@ export class CreditApplicationService {
       return await initCreditApplication({
         ...payload,
         acceptAgreement: true,
-        deviceReport: '',
+        deviceReport: 'test',
       });
     } catch (error) {
       if (error instanceof AxiosError) {
