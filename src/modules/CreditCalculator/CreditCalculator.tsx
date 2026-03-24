@@ -167,6 +167,9 @@ const CreditCalculator = () => {
     });
   };
 
+  // скачивание офферт
+  const handleOfferClick = () => {};
+
   // подгрузка данных
   useEffect(() => {
     const loadFieldsData = async () => {
@@ -286,11 +289,13 @@ const CreditCalculator = () => {
               checked={term1Checked}
               text={loanOffersService.publicLoanOfferData?.agreementText || ''}
               onChange={setTerm1Checked}
+              onTapLink={handleOfferClick}
             />
             <TermsCheckbox
               checked={term2Checked}
               text={loanOffersService.loanOfferData?.agreementText || ''}
               onChange={setTerm2Checked}
+              onTapLink={handleOfferClick}
             />
             {loanAmount && (
               <TermsCheckbox
