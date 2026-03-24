@@ -1,6 +1,5 @@
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
-import ApplicationStatusRedirect from 'Modules/ApplicationStatusRedirect/ApplicationStatusRedirect.tsx';
 import ApplicationSuccess from 'Modules/ApplicationSuccess/ApplicationSuccess.tsx';
 import CoolingPeriod from 'Modules/CoolingPeriod/CoolingPeriod.tsx';
 import CreditCalculator from 'Modules/CreditCalculator/CreditCalculator.tsx';
@@ -18,11 +17,13 @@ import PassportConfirmation from 'Modules/PassportConfirmation/PassportConfirmat
 import SecurityRemember from 'Modules/SecurityRemember/SecurityRemember.tsx';
 import SecurityWarning from 'Modules/SecurityWarning/SecurityWarning.tsx';
 import ServiceUnavailable from 'Modules/ServiceUnavailable/ServiceUnavailable.tsx';
+import Test from 'Modules/Test/Test.tsx';
 
 const AppContent = () => {
   return (
     <Routes>
-      <Route path="/" element={<ApplicationStatusRedirect />} />
+      <Route path="/" element={<Test />} />
+      {/*<Route path="/" element={<ApplicationStatusRedirect />} />*/}
       <Route path="/credit-calculator" element={<CreditCalculator />} />
       <Route path="/otp" element={<OtpVerification />} />
       <Route path="/loading" element={<Loader />} />
