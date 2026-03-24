@@ -1,6 +1,10 @@
 import { action, computed, observable } from 'mobx';
 
-import { getLoanOffer, getPublicLoanOffer } from 'Modules/CreditCalculator/api/loanOffersApi.ts';
+import {
+  downloadOfferFile as downloadOfferFileApi,
+  getLoanOffer,
+  getPublicLoanOffer,
+} from 'Modules/CreditCalculator/api/loanOffersApi.ts';
 
 import type { LoanOfferResponse } from 'Modules/CreditCalculator/models/publicLoanOffer.ts';
 
@@ -16,6 +20,10 @@ export class LoanOffersService {
   @action
   async getLoanOffer() {
     this.loanOffer = await getLoanOffer();
+  }
+
+  async downloadOfferFile(code: string, hash: string) {
+    return downloadOfferFileApi(code, hash);
   }
 
   @computed

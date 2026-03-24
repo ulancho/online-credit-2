@@ -48,6 +48,8 @@ const initCreditApplicationFieldMap: Record<string, keyof CreditCalculatorFormVa
   'applicationCreditRequestDto.clientIncome': 'monthlyIncome',
 };
 
+type OfferType = 'public' | 'loan';
+
 const CreditCalculator = () => {
   const {
     control,
@@ -168,7 +170,27 @@ const CreditCalculator = () => {
   };
 
   // скачивание офферт
-  const handleOfferClick = () => {};
+  const handleOfferClick = async (offerType: OfferType) => {
+    const offer =
+      offerType === 'public'
+        ? loanOffersService.publicLoanOfferData
+        : loanOffersService.loanOfferData;
+
+    if (!offer?.code || !offer?.hash) {
+      return;
+    }
+
+    const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
+    const fileUrl = window.URL.createObjectURL(fileBlob);
+    const link = document.createElement('a');
+
+    link.href = fileUrl;
+    link.download = `${offer.code}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(fileUrl);
+  };
 
   // подгрузка данных
   useEffect(() => {
@@ -289,13 +311,13 @@ const CreditCalculator = () => {
               checked={term1Checked}
               text={loanOffersService.publicLoanOfferData?.agreementText || ''}
               onChange={setTerm1Checked}
-              onTapLink={handleOfferClick}
+              onTapLink={() => handleOfferClick('public')}
             />
             <TermsCheckbox
               checked={term2Checked}
               text={loanOffersService.loanOfferData?.agreementText || ''}
               onChange={setTerm2Checked}
-              onTapLink={handleOfferClick}
+              onTapLink={() => handleOfferClick('loan')}
             />
             {loanAmount && (
               <TermsCheckbox
