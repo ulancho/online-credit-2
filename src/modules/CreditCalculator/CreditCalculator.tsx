@@ -42,7 +42,7 @@ type CreditCalculatorFormValues = {
 
 const initCreditApplicationFieldMap: Record<string, keyof CreditCalculatorFormValues> = {
   'applicationCreditRequestDto.amount': 'loanAmount',
-  ' applicationCreditDto.amount': 'loanAmount',
+  'applicationCreditDto.amount': 'loanAmount',
   'applicationCreditRequestDto.periodInterval': 'loanTerm',
   'applicationCreditRequestDto.activityType': 'activityType',
   'applicationCreditRequestDto.clientIncome': 'monthlyIncome',
@@ -331,6 +331,13 @@ const CreditCalculator = () => {
         <InfoModal
           onClose={() => creditApplicationService.resetNotEnoughDataModal()}
           title={creditApplicationService.notEnoughModal.title}
+        />
+      )}
+
+      {creditApplicationService.hasActiveRequestModal && (
+        <InfoModal
+          onClose={() => creditApplicationService.resetHasActiveRequestModal()}
+          title={creditApplicationService.hasActiveRequestModal.title}
         />
       )}
     </div>

@@ -24,6 +24,8 @@ const ACCOUNT_NOT_AVAILABLE_ERROR_CODE =
   'unified.svc.biz.ib.cbk.private.credits.error.account-not-available-for-credit';
 
 const NOT_ENOUGH_DATA_ERROR_CODE = 'unified.svc.biz.ib.cbk.private.credits.error.not-enough-data';
+const HAS_ACTIVE_REQUEST_ERROR_CODE =
+  'unified.svc.biz.ib.cbk.private.credits.error.user-has-active-request';
 
 export class CreditApplicationValidationError extends Error {
   details: Record<string, string[]>;
@@ -40,6 +42,8 @@ export class CreditApplicationService {
   private accountNotAvailableModalContent: ModalContentType | null = null;
   @observable.ref
   private notEnoughDataModalContent: ModalContentType | null = null;
+  @observable.ref
+  private hasActiveRequestModalContent: ModalContentType | null = null;
 
   constructor() {
     makeObservable(this);
@@ -56,8 +60,15 @@ export class CreditApplicationService {
   }
 
   @action
+  resetHasActiveRequestModal() {
+    this.hasActiveRequestModalContent = null;
+  }
+
+  @action
   async initCreditApplication(payload: CreditApplicationInitParams) {
     this.accountNotAvailableModalContent = null;
+    this.notEnoughDataModalContent = null;
+    this.hasActiveRequestModalContent = null;
 
     try {
       return await initCreditApplication({
@@ -97,6 +108,19 @@ export class CreditApplicationService {
 
           return null;
         }
+
+        if (
+          error.response?.status === 500 &&
+          responseData?.code === HAS_ACTIVE_REQUEST_ERROR_CODE
+        ) {
+          runInAction(() => {
+            this.hasActiveRequestModalContent = {
+              title: responseData.message || '',
+            };
+          });
+
+          return null;
+        }
       }
 
       throw error;
@@ -111,5 +135,10 @@ export class CreditApplicationService {
   @computed
   get notEnoughModal() {
     return this.notEnoughDataModalContent;
+  }
+
+  @computed
+  get hasActiveRequestModal() {
+    return this.hasActiveRequestModalContent;
   }
 }
