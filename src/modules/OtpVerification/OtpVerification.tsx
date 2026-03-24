@@ -1,25 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { confirmOtp } from 'Modules/OtpVerification/api/otpVerificationApi.ts';
 
 import styles from './OtpVerification.module.scss';
 
 const OTP_LENGTH = 6;
-const INITIAL_SECONDS = 23;
+const INITIAL_SECONDS = 60;
 const PHONE = '+996 (555) XXX 123';
 
 export default function OtpVerification() {
+  const navigate = useNavigate();
   const [code, setCode] = useState('');
   const [seconds, setSeconds] = useState(INITIAL_SECONDS);
   const [canResend, setCanResend] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (seconds <= 0) {
-      setCanResend(true);
-      return;
-    }
-    const timer = setTimeout(() => setSeconds((s) => s - 1), 1000);
-    return () => clearTimeout(timer);
-  }, [seconds]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '').slice(0, OTP_LENGTH);
@@ -28,10 +24,28 @@ export default function OtpVerification() {
 
   const handleResend = () => {
     if (!canResend) return;
+    if (isSubmitting) return;
+
     setCode('');
     setSeconds(INITIAL_SECONDS);
     setCanResend(false);
     inputRef.current?.focus();
+  };
+
+  const handleConfirmOtp = async () => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      const response = await confirmOtp({ code });
+      if (response.status === 200) {
+        navigate('/loading');
+      }
+    } catch (error) {
+      alert('OTP confirmation failed: ' + error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const focusInput = () => {
@@ -45,6 +59,23 @@ export default function OtpVerification() {
   };
 
   const digits = Array.from({ length: OTP_LENGTH }, (_, i) => code[i] ?? '');
+
+  useEffect(() => {
+    if (seconds <= 0) {
+      setCanResend(true);
+      return;
+    }
+    const timer = setTimeout(() => setSeconds((s) => s - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [seconds]);
+
+  useEffect(() => {
+    if (code.length !== OTP_LENGTH) {
+      return;
+    }
+
+    void handleConfirmOtp();
+  }, [code]);
 
   return (
     <div className={styles.page}>
