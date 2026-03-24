@@ -1,4 +1,4 @@
-import { httpClient } from '@/common/api/httpClient';
+import { httpClient } from 'Common/api/httpClient.ts';
 
 export type GeneratePdfLkdRequest = {
   amount: number;

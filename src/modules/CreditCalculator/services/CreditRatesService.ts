@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx';
 
 import { getCreditRates } from 'Modules/CreditCalculator/api/creditRatesApi.ts';
-import { generatePdfLkd } from 'Modules/CreditCalculator/services/pdfLkdApi.ts';
+import { generatePdfLkd } from 'Modules/CreditCalculator/api/pdfLkdApi.ts';
 
 import type { CreditRatesResponse } from 'Modules/CreditCalculator/models/creditRates';
 import type { LoanRateOptions } from 'Modules/CreditCalculator/services/LoanCalculatorService.ts';
