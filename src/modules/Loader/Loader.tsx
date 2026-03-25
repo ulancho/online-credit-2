@@ -16,10 +16,12 @@ const HOME_ROUTE = '/credit-calculator';
 export default function Loader() {
   const navigate = useNavigate();
 
+  // переход на страницу отказа, если статус: DENIED
   const navigateDenied = useCallback(() => {
     navigate(DENIED_ROUTE, { replace: true });
   }, [navigate]);
 
+  // переход на страницу условий,
   const navigateWaitingFlow = useCallback(() => {
     navigate(WAITING_ROUTE, { replace: true });
   }, [navigate]);
@@ -39,6 +41,7 @@ export default function Loader() {
     onErrorToHome: navigateHomeOnError,
   });
 
+  //для кнопки назад, по умолчанию не разрешаем назад выйти пока загрузка не завершится
   const handleBlockedBack = useCallback(() => {
     return;
   }, []);
@@ -54,7 +57,6 @@ export default function Loader() {
             loop
             autoplay
           />
-
           <div className={styles.loaderCounter}>{progress}%</div>
         </div>
         <div className={styles.textSection}>

@@ -121,12 +121,12 @@ export function useLoanProcessingFlow({
           return;
         }
 
-        if (result.status === 'denied' || result.status === 'extended') {
+        if (result.status === 'DENIED') {
           fastCompleteAndThen(() => finishOnce(onDenied));
           return;
         }
 
-        if (result.status === 'waiting') {
+        if (result.status === 'WAITING') {
           fastCompleteAndThen(() => {
             clearWaitingTimer();
             waitingTimerRef.current = setTimeout(() => {
