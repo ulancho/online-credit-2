@@ -1,0 +1,146 @@
+.m-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+  animation: m-overlay-in 180ms ease forwards;
+}
+
+@keyframes m-overlay-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.m-dialog {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: m-dialog-in 220ms cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+  max-height: 90vh;
+}
+
+@keyframes m-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.m-header {
+  padding: 1.5rem 1.5rem 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.m-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text-warning);
+  margin: 0;
+  text-align: left;
+  line-height: 1.3;
+}
+
+.m-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgb(255 255 255 / 35%);
+  font-size: 1rem;
+  padding: 0;
+  line-height: 1;
+  margin-left: 0.75rem;
+  flex-shrink: 0;
+  transition: color 150ms;
+}
+
+.m-close:hover {
+  color: rgb(255 255 255 / 70%);
+}
+
+.m-body {
+  padding: 0.5rem 1.5rem 1.25rem;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: left;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.m-body::-webkit-scrollbar {
+  width: 3px;
+}
+
+.m-body::-webkit-scrollbar-thumb {
+  background: #fff;
+  border-radius: 2px;
+}
+
+.m-footer {
+  padding: 0.5rem 1.25rem 1.25rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
+
+.btn {
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 140ms ease;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.btn:hover {
+  opacity: 0.75;
+}
+
+.btn-text-green {
+  color: var(--color-accent);
+}
+
+.btn-text-red {
+  color: var(--color-text-warning);
+}
+
+.btn-text-muted {
+  color: rgb(255 255 255 / 45%);
+}
+
+.btn-solid-primary {
+  background: #7c4dff;
+  color: #fff;
+  border-radius: 9px;
+  padding: 0.5rem 1.2rem;
+}
+
+.btn-solid-danger {
+  background: var(--color-text-warning);
+  color: #fff;
+  border-radius: 9px;
+  padding: 0.5rem 1.2rem;
+}

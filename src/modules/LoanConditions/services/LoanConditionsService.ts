@@ -10,7 +10,7 @@ import {
 } from '../constants/common';
 import { ACTIVE_REQUESTS_API } from '../constants/urls';
 
-import type { ActiveRequests } from '../model/ActiveRequests';
+import type { ActiveRequests, LoanGroup } from '../models/ActiveRequests';
 
 export class LoanCondtionsService {
   @observable activeRequests: ActiveRequests | null = null;
@@ -33,7 +33,38 @@ export class LoanCondtionsService {
 
   @computed
   get activeRequestsData() {
-    return this.activeRequests ?? {};
+    if (!this.activeRequests) return {};
+
+    const {
+      onlineAmount,
+      offlineAmount,
+      refAmount,
+      percent,
+      period,
+      offlinePeriod,
+      monthlyPayment,
+      offlineMonthlyPayment,
+      refPeriod,
+      refPercent,
+      refMonthlyPayment,
+    } = this.activeRequests;
+
+    const groupedData: Record<LoanGroup, ActiveRequests> = {
+      online: { amount: onlineAmount, period, percent, monthlyPayment },
+      offline: {
+        amount: offlineAmount,
+        period: offlinePeriod,
+        percent,
+        monthlyPayment: offlineMonthlyPayment,
+      },
+      ref: {
+        amount: refAmount,
+        period: refPeriod,
+        percent: refPercent,
+        monthlyPayment: refMonthlyPayment,
+      },
+    };
+    return groupedData;
   }
 
   @computed

@@ -32,7 +32,7 @@ const AppContent = () => {
       <Route path="/passport-confirmation" element={<PassportConfirmation />} />
       <Route path="/loan-conditions" element={<LoanConditions />} />
       <Route path="/insurance-companies" element={<InsuranceCompanies />} />
-      <Route path="/loan-confirmation" element={<LoanConfirmation />} />
+      <Route path="/loan-confirmation/:type" element={<LoanConfirmation />} />
       <Route path="/security-warning" element={<SecurityWarning />} />
       <Route path="/security-remember" element={<SecurityRemember />} />
       <Route path="/cooling-period" element={<CoolingPeriod />} />
