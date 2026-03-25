@@ -14,6 +14,8 @@ import styles from './LoanConfirmation.module.scss';
 
 import type { ActiveRequests } from '../LoanConditions/models/ActiveRequests';
 
+
+
 interface CheckboxProps {
   checked: boolean;
   onChange: (val: boolean) => void;
@@ -67,11 +69,9 @@ const LoanConfirmation = () => {
 
   const activeGroup: ActiveRequests = activeRequestsData[type as keyof typeof activeRequestsData];
 
-  const { amount, offlineAmount, period, percent, monthlyPayment } = activeGroup;
-
   const overPayment = useMemo(
-    () => monthlyPayment * Number(period) - (amount || offlineAmount),
-    [monthlyPayment, amount, offlineAmount, period],
+    () => activeGroup?.monthlyPayment * Number(activeGroup?.period) - activeGroup?.amount,
+    [activeGroup?.monthlyPayment, activeGroup?.amount, activeGroup?.period],
   );
 
   const isButtonActive =
@@ -87,6 +87,15 @@ const LoanConfirmation = () => {
       loadData();
     }
   }, [loanConfirmationStore, loadData, activeRequests]);
+
+  const proceedToDeclinedPage = () =>
+    navigate('/application-decline', {
+      state: {
+        title: 'Вы отказались от кредита',
+        description:
+          'К сожалению, сейчас мы не можем вам открыть Mplus. Повторная заявка будет доступна 28.12.2024',
+      },
+    });
 
   return (
     <div id="page" className={styles.page}>
@@ -107,7 +116,7 @@ const LoanConfirmation = () => {
             <PercentIcon />
             <div className={styles.amountInfo}>
               <span className={styles.amountLabel}>Сумма кредита</span>
-              <span className={styles.amountValue}>{formatAmount(amount)} c</span>
+              <span className={styles.amountValue}>{formatAmount(activeGroup?.amount)} c</span>
             </div>
           </div>
         </div>
@@ -117,11 +126,13 @@ const LoanConfirmation = () => {
           <div className={styles.infoCard}>
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>Сумма ежемесячного платежа</span>
-              <span className={styles.infoValue}>{formatAmount(monthlyPayment)} c</span>
+              <span className={styles.infoValue}>
+                {formatAmount(activeGroup?.monthlyPayment)} c
+              </span>
             </div>
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>Срок кредита</span>
-              <span className={styles.infoValue}>{period}</span>
+              <span className={styles.infoValue}>{activeGroup?.period}</span>
             </div>
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>Переплата по кредиту</span>
@@ -129,7 +140,7 @@ const LoanConfirmation = () => {
             </div>
             <div className={`${styles.infoRow} ${styles.infoRowLast}`}>
               <span className={styles.infoLabel}>Проценты</span>
-              <span className={styles.infoValue}>{percent}%</span>
+              <span className={styles.infoValue}>{activeGroup?.percent}%</span>
             </div>
           </div>
         </div>
@@ -225,7 +236,7 @@ const LoanConfirmation = () => {
                 <button className="btn btn-text-green" onClick={close}>
                   Нет
                 </button>
-                <button className="btn btn-text-green" onClick={close}>
+                <button className="btn btn-text-green" onClick={proceedToDeclinedPage}>
                   Да
                 </button>
               </>

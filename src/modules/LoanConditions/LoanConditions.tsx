@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useLoanConditionsStore } from '@/common/stores/rootStore';
 import WalletImage from 'Assets/icons/coin_percent.png';
@@ -11,13 +12,10 @@ import styles from './LoanConditions.module.scss';
 
 const LoanConditions = () => {
   const loanConditionsStore = useLoanConditionsStore();
-  const {
-    activeRequests,
-    activeRequestsData,
-    extendedIsAvailable,
-    onlineClaimAvailable,
-    offlineClaimAvailable,
-  } = loanConditionsStore;
+  const { activeRequests, extendedIsAvailable, onlineClaimAvailable, offlineClaimAvailable } =
+    loanConditionsStore;
+
+  const navigate = useNavigate();
 
   const [active, setActive] = useState<boolean | null>(null);
 
@@ -31,6 +29,15 @@ const LoanConditions = () => {
 
     loadData();
   }, [loanConditionsStore]);
+
+  const proceedToDeclinedPage = () =>
+    navigate('/application-decline', {
+      state: {
+        title: 'Вы отказались от кредита',
+        description:
+          'К сожалению, сейчас мы не можем вам открыть Mplus. Повторная заявка будет доступна 28.12.2024',
+      },
+    });
 
   return (
     <div id="page">
@@ -77,7 +84,7 @@ const LoanConditions = () => {
               <button className="btn btn-text-green" onClick={close}>
                 Нет
               </button>
-              <button className="btn btn-text-green" onClick={close}>
+              <button className="btn btn-text-green" onClick={proceedToDeclinedPage}>
                 Да
               </button>
             </>
