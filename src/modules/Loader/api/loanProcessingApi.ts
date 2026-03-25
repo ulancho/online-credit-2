@@ -1,10 +1,11 @@
 import { httpClient } from 'Common/api/httpClient';
 
-import type { ApplicationStatus, CheckStatusResult } from '../models/types.ts';
+import type { ApplicationStatus } from 'Modules/Loader/models/applicationStatus.ts';
 
-interface FetchStatusResponse {
-  status?: string;
-  message?: string;
+interface ApplicationStatusResponse {
+  id: string;
+  status: ApplicationStatus;
+  tokenLifetime?: string;
 }
 
 interface CheckStatusParams {
@@ -12,45 +13,20 @@ interface CheckStatusParams {
   signal?: AbortSignal;
 }
 
-const KNOWN_STATUSES: ReadonlySet<ApplicationStatus> = new Set([
-  'waiting',
-  'denied',
-  'extended',
-  'inProcess',
-  'complete',
-  'toIssue',
-  'offline',
-  'awaitingIssue',
-  'unknown',
-]);
-
-function normalizeStatus(status?: string): ApplicationStatus {
-  if (!status) {
-    return 'unknown';
-  }
-
-  const normalized = status.trim() as ApplicationStatus;
-
-  return KNOWN_STATUSES.has(normalized) ? normalized : 'unknown';
-}
-
 export async function fetchActiveApplicationStatus(
   signal?: AbortSignal,
-): Promise<CheckStatusResult> {
-  const response = await httpClient.get<FetchStatusResponse>('/credit/application/status', {
+): Promise<ApplicationStatusResponse> {
+  const response = await httpClient.get<ApplicationStatusResponse>('/credit/application/status', {
     signal,
   });
 
-  return {
-    status: normalizeStatus(response.data.status),
-    message: response.data.message,
-  };
+  return response.data;
 }
 
 export async function checkActiveApplicationStatus({
   lastRequest,
   signal,
-}: CheckStatusParams): Promise<CheckStatusResult> {
+}: CheckStatusParams): Promise<ApplicationStatusResponse> {
   void lastRequest;
 
   return fetchActiveApplicationStatus(signal);
