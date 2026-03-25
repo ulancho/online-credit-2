@@ -129,6 +129,12 @@
 }
 
 .footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  background: var(--color-bg-main);
   padding: 8px var(--spacing-l);
   padding-bottom: max(8px, env(safe-area-inset-bottom));
 }

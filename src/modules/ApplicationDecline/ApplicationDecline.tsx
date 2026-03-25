@@ -57,9 +57,11 @@ const ChevronDown = () => (
 );
 
 export default function ApplicationDecline() {
-  const [openId, setOpenId] = useState<number | null>(1);
+  const [openIds, setOpenIds] = useState<number[]>([1]);
   const toggle = (id: number) => {
-    setOpenId((prev) => (prev === id ? null : id));
+    setOpenIds((prev) =>
+      prev.includes(id) ? prev.filter((openId) => openId !== id) : [...prev, id],
+    );
   };
 
   return (
@@ -77,7 +79,7 @@ export default function ApplicationDecline() {
         <h2 className={styles.sectionTitle}>Возможные причины отказа</h2>
         <div className={styles.accordionList}>
           {DECLINE_REASONS.map((reason) => {
-            const isOpen = openId === reason.id;
+            const isOpen = openIds.includes(reason.id);
             return (
               <div key={reason.id} className={styles.accordionItem}>
                 <button
