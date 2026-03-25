@@ -96,15 +96,6 @@
   align-items: center;
   flex-shrink: 0;
   margin-top: 2px;
-  transition: transform 0.3s ease;
-
-  svg {
-    transition: transform 0.3s ease;
-  }
-}
-
-.accordionHeader[aria-expanded='true'] .accordionChevron svg {
-  transform: rotate(180deg);
 }
 
 .accordionBody {
