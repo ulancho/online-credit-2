@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { checkActiveApplicationStatus } from '../api/loanProcessingApi.ts';
+import { useLoanProcessingStore } from 'Common/stores/rootStore.tsx';
 
 const MAIN_TICK_MIN_MS = 300;
 const MAIN_TICK_MAX_MS = 700;
@@ -29,6 +29,7 @@ export function useLoanProcessingFlow({
   onErrorToHome,
 }: UseLoanProcessingFlowOptions) {
   const [progress, setProgress] = useState(0);
+  const loanProcessingStore = useLoanProcessingStore();
 
   const progressRef = useRef(0);
   const finishedRef = useRef(false);
@@ -112,10 +113,10 @@ export function useLoanProcessingFlow({
       activeControllersRef.current.add(controller);
 
       try {
-        const result = await checkActiveApplicationStatus({
+        const result = await loanProcessingStore.loadActiveApplicationStatus(
           lastRequest,
-          signal: controller.signal,
-        });
+          controller.signal,
+        );
 
         if (controller.signal.aborted || finishedRef.current) {
           return;
@@ -168,6 +169,7 @@ export function useLoanProcessingFlow({
       onErrorToHome,
       onFinalSuccess,
       onWaiting,
+      loanProcessingStore,
     ],
   );
 

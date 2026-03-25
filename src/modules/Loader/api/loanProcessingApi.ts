@@ -2,7 +2,7 @@ import { httpClient } from 'Common/api/httpClient';
 
 import type { ApplicationStatus } from 'Modules/Loader/models/applicationStatus.ts';
 
-interface ApplicationStatusResponse {
+export interface ApplicationStatusResponse {
   id: string;
   status: ApplicationStatus;
   tokenLifetime?: string;
