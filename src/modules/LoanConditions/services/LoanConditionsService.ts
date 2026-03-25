@@ -8,9 +8,13 @@ import {
   onlineFormCodeList,
   refinanceFormCodeList,
 } from '../constants/common';
-import { ACTIVE_REQUESTS_API } from '../constants/urls';
+import {
+  ACTIVE_REQUESTS_API,
+  DECLINE_APPLICATION_API,
+  DECLINE_APPLICATION_STATUS_API,
+} from '../constants/urls';
 
-import type { ActiveRequests } from '../model/ActiveRequests';
+import type { ActiveRequests, LoanGroup } from '../models/ActiveRequests';
 
 export class LoanCondtionsService {
   @observable activeRequests: ActiveRequests | null = null;
@@ -31,9 +35,56 @@ export class LoanCondtionsService {
     }
   }
 
+  @action
+  async setDeclineApplication(applicationId: string) {
+    try {
+      await httpClient.post(DECLINE_APPLICATION_API, {
+        applicationId,
+        responseCode: 'DENY',
+        paymentDay: 26,
+      });
+
+      const response = await httpClient.get(DECLINE_APPLICATION_STATUS_API);
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return Promise.reject(null);
+    }
+  }
+
   @computed
   get activeRequestsData() {
-    return this.activeRequests ?? {};
+    if (!this.activeRequests) return {};
+
+    const {
+      onlineAmount,
+      offlineAmount,
+      refAmount,
+      percent,
+      period,
+      offlinePeriod,
+      monthlyPayment,
+      offlineMonthlyPayment,
+      refPeriod,
+      refPercent,
+      refMonthlyPayment,
+    } = this.activeRequests;
+
+    const groupedData: Record<LoanGroup, ActiveRequests> = {
+      online: { amount: onlineAmount, period, percent, monthlyPayment },
+      offline: {
+        amount: offlineAmount,
+        period: offlinePeriod,
+        percent,
+        monthlyPayment: offlineMonthlyPayment,
+      },
+      ref: {
+        amount: refAmount,
+        period: refPeriod,
+        percent: refPercent,
+        monthlyPayment: refMonthlyPayment,
+      },
+    };
+    return groupedData;
   }
 
   @computed

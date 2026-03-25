@@ -1,7 +1,9 @@
 import { toJS } from 'mobx';
 import { createContext, useContext, type ReactNode } from 'react';
 
+import { InsuranceCompaniesService } from '@/modules/InsuranceCompanies/services/InsuranceCompaniesService';
 import { LoanCondtionsService } from '@/modules/LoanConditions/services/LoanConditionsService';
+import { LoanConfirmationService } from '@/modules/LoanConfirmation/services/LoanConfirmationService';
 import { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import { ApplicationStatusService } from 'Modules/ApplicationStatusRedirect/services/ApplicationStatusService.ts';
 import { ActivityTypeService } from 'Modules/CreditCalculator/services/ActivityTypeService.ts';
@@ -21,6 +23,8 @@ class RootStore {
   readonly loanCondtionsService = new LoanCondtionsService();
   readonly creditApplicationService = new CreditApplicationService();
   readonly loanProcessingService = new LoanProcessingService();
+  readonly insuranceCompaniesService = new InsuranceCompaniesService();
+  readonly loanConfirmationService = new LoanConfirmationService();
 }
 
 const rootStore = new RootStore();
@@ -76,4 +80,12 @@ export function useCreditApplicationStore() {
 
 export function useLoanProcessingStore() {
   return useRootStore().loanProcessingService;
+}
+
+export function useLoanConfirmationStore() {
+  return useRootStore().loanConfirmationService;
+}
+
+export function useInsuranceCompaniesStore() {
+  return useRootStore().insuranceCompaniesService;
 }

@@ -1,5 +1,6 @@
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
+import ErrorPage from '@/common/components/ErrorPage/ErrorPage';
 import ApplicationSuccess from 'Modules/ApplicationSuccess/ApplicationSuccess.tsx';
 import CoolingPeriod from 'Modules/CoolingPeriod/CoolingPeriod.tsx';
 import CreditCalculator from 'Modules/CreditCalculator/CreditCalculator.tsx';
@@ -33,7 +34,7 @@ const AppContent = () => {
       <Route path="/passport-confirmation" element={<PassportConfirmation />} />
       <Route path="/loan-conditions" element={<LoanConditions />} />
       <Route path="/insurance-companies" element={<InsuranceCompanies />} />
-      <Route path="/loan-confirmation" element={<LoanConfirmation />} />
+      <Route path="/loan-confirmation/:type" element={<LoanConfirmation />} />
       <Route path="/security-warning" element={<SecurityWarning />} />
       <Route path="/security-remember" element={<SecurityRemember />} />
       <Route path="/cooling-period" element={<CoolingPeriod />} />
@@ -41,6 +42,7 @@ const AppContent = () => {
       <Route path="/data-fill-2" element={<DataFillStep2 />} />
       <Route path="/data-fill-3" element={<DataFillStep3 />} />
       <Route path="/data-fill-success" element={<DataFillSuccess />} />
+      <Route path="/application-decline" element={<ErrorPage />} />
     </Routes>
   );
 };

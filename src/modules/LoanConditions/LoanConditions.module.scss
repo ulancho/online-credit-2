@@ -111,19 +111,30 @@
   flex: 1;
 }
 
-.onlineBadge {
+%badge {
   display: flex;
   padding: 6px 8px;
   justify-content: center;
   align-items: center;
   border-radius: 100px;
-  background: var(--color-accent);
   color: #fff;
   font-size: 10px;
   font-weight: 600;
   line-height: 10px;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+.onlineBadge {
+  @extend %badge;
+
+  background: var(--color-accent);
+}
+
+.offlineBadge {
+  @extend %badge;
+
+  background: var(--color-text-secondary);
 }
 
 .amountSubtitle {
@@ -188,6 +199,21 @@
   border-radius: var(--radius-block);
   background: #ffdd2d;
   color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+
+.secondaryButton {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: var(--radius-block);
+  background: #f4f5f6;
+  color: var(--color-accent);
   font-size: 17px;
   font-weight: 700;
   line-height: 22px;
