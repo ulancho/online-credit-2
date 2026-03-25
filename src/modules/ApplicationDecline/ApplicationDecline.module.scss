@@ -118,8 +118,11 @@
   &[data-open='true'] {
     max-height: 500px;
     opacity: 1;
-    padding: 0 var(--spacing-l) var(--spacing-l);
   }
+}
+
+.accordionBodyInner {
+  padding: 0 var(--spacing-l) var(--spacing-l);
 }
 
 .accordionDescription {

@@ -89,7 +89,9 @@ export default function ApplicationDecline() {
                   </span>
                 </button>
                 <div className={styles.accordionBody} data-open={isOpen}>
-                  <p className={styles.accordionDescription}>{reason.description}</p>
+                  <div className={styles.accordionBodyInner}>
+                    <p className={styles.accordionDescription}>{reason.description}</p>
+                  </div>
                 </div>
               </div>
             );
