@@ -8,7 +8,11 @@ import {
   onlineFormCodeList,
   refinanceFormCodeList,
 } from '../constants/common';
-import { ACTIVE_REQUESTS_API } from '../constants/urls';
+import {
+  ACTIVE_REQUESTS_API,
+  DECLINE_APPLICATION_API,
+  DECLINE_APPLICATION_STATUS_API,
+} from '../constants/urls';
 
 import type { ActiveRequests, LoanGroup } from '../models/ActiveRequests';
 
@@ -28,6 +32,22 @@ export class LoanCondtionsService {
       });
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  @action
+  async setDeclineApplication(applicationId: string) {
+    try {
+      await httpClient.post(DECLINE_APPLICATION_API, {
+        applicationId,
+        responseCode: 'DENY',
+        paymentDay: 26,
+      });
+
+      const response = await httpClient.get(DECLINE_APPLICATION_STATUS_API);
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return Promise.reject(null);
     }
   }
 

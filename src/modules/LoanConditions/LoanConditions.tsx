@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useLoanConditionsStore } from '@/common/stores/rootStore';
+import { formatMMSS } from '@/common/utils/time';
 import WalletImage from 'Assets/icons/coin_percent.png';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
@@ -30,14 +31,18 @@ const LoanConditions = () => {
     loadData();
   }, [loanConditionsStore]);
 
-  const proceedToDeclinedPage = () =>
-    navigate('/application-decline', {
-      state: {
-        title: 'Вы отказались от кредита',
-        description:
-          'К сожалению, сейчас мы не можем вам открыть Mplus. Повторная заявка будет доступна 28.12.2024',
-      },
-    });
+  const proceedToDeclinedPage = async () => {
+    const success = await loanConditionsStore.setDeclineApplication(activeRequests?.applicationId);
+
+    if (success) {
+      navigate('/application-decline', {
+        state: {
+          title: 'Вы отказались от кредита',
+          description: `Повторная заявка будет доступна ${formatMMSS(success.tokenlifeTime)}`,
+        },
+      });
+    }
+  };
 
   return (
     <div id="page">
