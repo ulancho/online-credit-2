@@ -8,7 +8,7 @@ import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useLoanProcessingFlow } from './hooks/useLoanProcessingFlow.ts';
 import styles from './Loader.module.scss';
 
-const DENIED_ROUTE = '/service-unavailable';
+const DENIED_ROUTE = '/application-decline';
 const WAITING_ROUTE = '/loan-conditions';
 const SUCCESS_ROUTE = '/application-success';
 const HOME_ROUTE = '/credit-calculator';
@@ -16,12 +16,11 @@ const HOME_ROUTE = '/credit-calculator';
 export default function Loader() {
   const navigate = useNavigate();
 
-  // переход на страницу отказа, если статус: DENIED
+  // переход на страницу отказа, без рассширенной анкеты если статус: DENIED
   const navigateDenied = useCallback(() => {
     navigate(DENIED_ROUTE, { replace: true });
   }, [navigate]);
 
-  // переход на страницу условий,
   const navigateWaitingFlow = useCallback(() => {
     navigate(WAITING_ROUTE, { replace: true });
   }, [navigate]);

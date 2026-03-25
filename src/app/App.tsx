@@ -1,6 +1,6 @@
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
-import ErrorPage from '@/common/components/ErrorPage/ErrorPage';
+import ApplicationDecline from 'Modules/ApplicationDecline/ApplicationDecline.tsx';
 import ApplicationSuccess from 'Modules/ApplicationSuccess/ApplicationSuccess.tsx';
 import CoolingPeriod from 'Modules/CoolingPeriod/CoolingPeriod.tsx';
 import CreditCalculator from 'Modules/CreditCalculator/CreditCalculator.tsx';
@@ -42,7 +42,7 @@ const AppContent = () => {
       <Route path="/data-fill-2" element={<DataFillStep2 />} />
       <Route path="/data-fill-3" element={<DataFillStep3 />} />
       <Route path="/data-fill-success" element={<DataFillSuccess />} />
-      <Route path="/application-decline" element={<ErrorPage />} />
+      <Route path="/application-decline" element={<ApplicationDecline />} />
     </Routes>
   );
 };
