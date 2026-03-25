@@ -8,7 +8,7 @@ import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useLoanProcessingFlow } from './hooks/useLoanProcessingFlow.ts';
 import styles from './Loader.module.scss';
 
-const DENIED_ROUTE = '/application-decline';
+const DENIED_ROUTE = '/declined';
 const WAITING_ROUTE = '/loan-conditions';
 const SUCCESS_ROUTE = '/application-success';
 const HOME_ROUTE = '/credit-calculator';
