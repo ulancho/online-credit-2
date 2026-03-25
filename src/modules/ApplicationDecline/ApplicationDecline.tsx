@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import Button from 'Common/components/Button/Button.tsx';
+
 import styles from './ApplicationDecline.module.scss';
 
 const DECLINE_REASONS = [
@@ -99,7 +101,9 @@ export default function ApplicationDecline() {
         </div>
       </main>
       <div className={styles.footer}>
-        <button className={styles.confirmButton}>Понятно</button>
+        <Button type="button" className={styles.confirmButton}>
+          Понятно
+        </Button>
       </div>
     </div>
   );

@@ -132,23 +132,3 @@
   padding: 8px var(--spacing-l);
   padding-bottom: max(8px, env(safe-area-inset-bottom));
 }
-
-.confirmButton {
-  width: 100%;
-  padding: 17px var(--spacing-l);
-  border-radius: var(--radius-block);
-  background: var(--color-bg-primary);
-  color: var(--color-accent);
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 22px;
-  letter-spacing: -0.2px;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-
-  &:active {
-    opacity: 0.8;
-  }
-}
