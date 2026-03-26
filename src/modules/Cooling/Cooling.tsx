@@ -1,15 +1,11 @@
+import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import Button from 'Common/components/Button/Button.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
+import { useApplicationStatusStore, useCoolingStore } from 'Common/stores/rootStore.tsx';
 
 import styles from './Cooling.module.scss';
-
-interface LocationState {
-  secondsLeft?: number;
-  showInfoNotification?: boolean;
-}
 
 function formatTime(seconds: number): string {
   const h = Math.floor(seconds / 3600);
@@ -18,24 +14,42 @@ function formatTime(seconds: number): string {
   return [h, m, s].map((v) => String(v).padStart(2, '0')).join(':');
 }
 
-export default function Cooling() {
-  const location = useLocation();
+function Cooling() {
+  const applicationStatusService = useApplicationStatusStore();
+  const coolingStore = useCoolingStore();
 
-  const state = (location.state as LocationState) ?? {};
-  const initialSeconds = state.secondsLeft ?? 23 * 60 + 30;
-  const showInfoNotification = false;
-
-  const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
-  const isFinished = secondsLeft <= 0;
+  const [secondsLeft, setSecondsLeft] = useState(0);
+  const awaitingIssueInfo = coolingStore.awaitingIssueInfo;
 
   useEffect(() => {
-    if (initialSeconds <= 0) return;
-    const interval = setInterval(() => {
-      setSecondsLeft((prev) => Math.max(0, prev - 1));
-    }, 1000);
+    const requestId = applicationStatusService.application?.requestId;
+
+    if (!requestId) {
+      return;
+    }
+
+    void coolingStore.loadAwaitingIssue(requestId);
+  }, [applicationStatusService.application?.requestId, coolingStore]);
+
+  useEffect(() => {
+    if (!awaitingIssueInfo?.awaitingLifetime) {
+      setSecondsLeft(0);
+      return;
+    }
+
+    const tick = () => {
+      const msLeft = new Date(awaitingIssueInfo.awaitingLifetime).getTime() - Date.now();
+      setSecondsLeft(Math.max(0, Math.floor(msLeft / 1000)));
+    };
+
+    tick();
+
+    const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [awaitingIssueInfo?.awaitingLifetime]);
+
+  const isFinished = secondsLeft <= 0;
+  const showInfoNotification = false;
 
   return (
     <div className={styles.page}>
@@ -100,3 +114,5 @@ export default function Cooling() {
     </div>
   );
 }
+
+export default observer(Cooling);

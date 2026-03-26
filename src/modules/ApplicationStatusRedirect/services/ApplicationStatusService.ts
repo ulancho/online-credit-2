@@ -10,6 +10,7 @@ const STATUS_ROUTE_MAP: Record<string, string> = {
   DENIED: '/declined',
   WAITING: '/loan-conditions',
   WAITING2: '/loan-conditions',
+  AWAITING_ISSUE: '/cooling',
 };
 
 const FALLBACK_ROUTE = '/credit-calculator';

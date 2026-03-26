@@ -7,6 +7,7 @@ import { LoanCondtionsService } from '@/modules/LoanConditions/services/LoanCond
 import { LoanConfirmationService } from '@/modules/LoanConfirmation/services/LoanConfirmationService';
 import { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import { ApplicationStatusService } from 'Modules/ApplicationStatusRedirect/services/ApplicationStatusService.ts';
+import { CoolingService } from 'Modules/Cooling/services/CoolingService.ts';
 import { ActivityTypeService } from 'Modules/CreditCalculator/services/ActivityTypeService.ts';
 import { CreditApplicationService } from 'Modules/CreditCalculator/services/CreditApplicationService.ts';
 import { CreditRatesService } from 'Modules/CreditCalculator/services/CreditRatesService.ts';
@@ -27,6 +28,7 @@ class RootStore {
   readonly insuranceCompaniesService = new InsuranceCompaniesService();
   readonly loanConfirmationService = new LoanConfirmationService();
   readonly dataFillStep1Service = new DataFillStep1Service();
+  readonly coolingService = new CoolingService();
 }
 
 const rootStore = new RootStore();
@@ -94,4 +96,8 @@ export function useInsuranceCompaniesStore() {
 
 export function useDataFillStep1Store() {
   return useRootStore().dataFillStep1Service;
+}
+
+export function useCoolingStore() {
+  return useRootStore().coolingService;
 }
