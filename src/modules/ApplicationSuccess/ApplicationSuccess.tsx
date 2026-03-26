@@ -1,8 +1,14 @@
 import SuccessIcon from 'Assets/icons/success.svg?react';
+import { exitApp } from 'Common/api/common.ts';
+import Button from 'Common/components/Button/Button.tsx';
 
 import styles from './ApplicationSuccess.module.scss';
 
 export default function ApplicationSuccess() {
+  const closeWebView = () => {
+    exitApp().then((res) => console.log(res.status));
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.content}>
@@ -15,7 +21,9 @@ export default function ApplicationSuccess() {
         </div>
       </div>
       <div className={styles.buttonSection}>
-        <button className={styles.continueButton}>В кабинет кредитов</button>
+        <Button className={styles.continueButton} onClick={closeWebView}>
+          В кабинет кредитов
+        </Button>
       </div>
     </div>
   );
