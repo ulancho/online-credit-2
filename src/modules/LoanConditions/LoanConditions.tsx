@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useLoanConditionsStore } from '@/common/stores/rootStore';
-import { formatMMSS } from '@/common/utils/time';
 import WalletImage from 'Assets/icons/coin_percent.png';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
@@ -38,8 +37,9 @@ const LoanConditions = () => {
       navigate('/application-decline', {
         state: {
           title: 'Вы отказались от кредита',
-          description: `Повторная заявка будет доступна ${formatMMSS(success.tokenlifeTime)}`,
+          description: `Ваша заявка успешно отклонена`,
         },
+        replace: true,
       });
     }
   };

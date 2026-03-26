@@ -12,6 +12,11 @@
   gap: var(--spacing-l);
 }
 
+.selectRow:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .selectRowContent {
   flex: 1;
   min-width: 0;

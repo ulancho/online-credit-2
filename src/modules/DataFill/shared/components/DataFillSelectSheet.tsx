@@ -1,9 +1,11 @@
 import styles from './DataFillSelectSheet.module.scss';
 
+import type { Area } from '../../models/area';
+
 interface DataFillSelectSheetProps {
   title: string;
-  items: string[];
-  onSelect: (item: string) => void;
+  items: Area[];
+  onSelect: (item: Area) => void;
   onClose: () => void;
   description?: string;
   variant?: 'bottom-sheet' | 'fullscreen';
@@ -62,14 +64,14 @@ export default function DataFillSelectSheet({
           <div className={styles.list}>
             {items.map((item) => (
               <button
-                key={item}
+                key={item.code}
                 className={[
                   styles.item,
                   isFullscreen ? styles.itemFullscreen : styles.itemBottom,
                 ].join(' ')}
                 onClick={() => onSelect(item)}
               >
-                {item}
+                {item.name}
               </button>
             ))}
           </div>
