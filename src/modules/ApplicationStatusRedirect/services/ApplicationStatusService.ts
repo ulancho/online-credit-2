@@ -9,6 +9,7 @@ const STATUS_ROUTE_MAP: Record<string, string> = {
   NO_REQUESTS: '/credit-calculator',
   DENIED: '/declined',
   WAITING: '/loan-conditions',
+  WAITING2: '/loan-conditions',
 };
 
 const FALLBACK_ROUTE = '/credit-calculator';
