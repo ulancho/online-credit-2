@@ -25,6 +25,7 @@ export default function Loader() {
     navigate(WAITING_ROUTE, { replace: true });
   }, [navigate]);
 
+  // переход на страницу принятия заявки, если статус: IN_PROCESS
   const navigateSuccess = useCallback(() => {
     navigate(SUCCESS_ROUTE, { replace: true });
   }, [navigate]);
@@ -35,8 +36,8 @@ export default function Loader() {
 
   const { progress } = useLoanProcessingFlow({
     onDenied: navigateDenied,
-    onWaiting: navigateWaitingFlow,
     onFinalSuccess: navigateSuccess,
+    onWaiting: navigateWaitingFlow,
     onErrorToHome: navigateHomeOnError,
   });
 

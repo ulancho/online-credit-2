@@ -127,6 +127,11 @@ export function useLoanProcessingFlow({
           return;
         }
 
+        if (result.status === 'IN_PROCESS') {
+          fastCompleteAndThen(() => finishOnce(onFinalSuccess));
+          return;
+        }
+
         if (result.status === 'WAITING') {
           fastCompleteAndThen(() => {
             clearWaitingTimer();
