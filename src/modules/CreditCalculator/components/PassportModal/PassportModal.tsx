@@ -4,6 +4,7 @@ interface PassportModalProps {
   onCancel: () => void;
   onContinue: () => void;
 }
+
 export default function PassportModal({ onCancel, onContinue }: PassportModalProps) {
   return (
     <div className={styles.overlay}>

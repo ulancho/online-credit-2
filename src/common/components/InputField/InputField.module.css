@@ -9,10 +9,13 @@
   height: 56px;
   padding: 0 16px;
   border-radius: var(--radius-block);
+  border: 1px solid transparent;
   background: var(--color-bg-primary);
   gap: 8px;
   cursor: text;
-  transition: height 0.15s ease;
+  transition:
+    height 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .fieldBoxFilled {
@@ -88,4 +91,19 @@
 .chevron {
   flex-shrink: 0;
   align-self: center;
+}
+
+.fieldBoxError {
+  border-color: #e02d3c;
+}
+
+.errorText {
+  margin: 4px 16px 0;
+  color: #e02d3c;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.errorPlaceholder {
+  color: #e02d3c;
 }

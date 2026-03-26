@@ -1,21 +1,36 @@
 .navbar {
-  background: var(--color-bg-main);
-  width: 100%;
-}
-
-.toolbar {
-  display: flex;
-  flex-direction: column;
-  padding: 15px var(--spacing-l) 15px;
-}
-
-.backButton {
   display: flex;
   align-items: center;
+  padding: 15px var(--spacing-l);
+  position: relative;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
-  width: 24px;
-  height: 24px;
+  flex-shrink: 0;
+}
+
+.backBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.navTitle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
 }

@@ -1,0 +1,140 @@
+.page {
+  min-height: 100vh;
+  background: var(--color-bg-main);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  background: var(--color-bg-main);
+  padding: 12px var(--spacing-l) 8px;
+}
+
+.navbarContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navbarTitle {
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.navbarDescription {
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.main {
+  flex: 1;
+  padding: 8px var(--spacing-l) 96px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-l);
+}
+
+.sectionTitle {
+  color: var(--color-text-primary);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 24px;
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.accordionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.accordionItem {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-block);
+  overflow: hidden;
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.accordionHeader {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-l);
+  padding: var(--spacing-l);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordionTitle {
+  flex: 1;
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+.accordionChevron {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.accordionBody {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease;
+
+  &[data-open='true'] {
+    max-height: 500px;
+    opacity: 1;
+  }
+}
+
+.accordionBodyInner {
+  padding: 0 var(--spacing-l) var(--spacing-l);
+}
+
+.accordionDescription {
+  background: var(--color-bg-main);
+  border-radius: 12px;
+  padding: var(--spacing-s);
+  color: var(--color-text-secondary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  background: var(--color-bg-main);
+  padding: 8px var(--spacing-l);
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+}

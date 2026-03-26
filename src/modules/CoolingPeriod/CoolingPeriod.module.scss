@@ -1,0 +1,197 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-bg-main);
+  width: 100%;
+}
+
+/* ── NavBar ────────────────────────────────── */
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.navbarToolbar {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px var(--spacing-l) 8px;
+  width: 100%;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.navbarContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 var(--spacing-l) 8px;
+  width: 100%;
+}
+
+.pageTitle {
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+.pageDescription {
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  white-space: pre-line;
+}
+
+/* ── Main Content ──────────────────────────── */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 0 var(--spacing-l);
+  justify-content: center;
+  gap: var(--spacing-l);
+}
+
+/* ── Timer ─────────────────────────────────── */
+
+.timerBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.timerDisplay {
+  color: var(--color-text-primary);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.timerLabel {
+  color: var(--color-text-primary);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+  text-align: center;
+  max-width: 280px;
+}
+
+/* ── Info Notification ─────────────────────── */
+
+.infoNotification {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-s);
+  padding: var(--spacing-l);
+  border-radius: var(--radius-block);
+  background: var(--color-bg-primary);
+  width: 100%;
+}
+
+.infoIcon {
+  flex-shrink: 0;
+}
+
+.infoText {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  white-space: pre-line;
+}
+
+.infoTextGray {
+  color: var(--color-text-secondary);
+}
+
+.infoTextAccent {
+  color: var(--color-accent);
+}
+
+/* ── Footer ────────────────────────────────── */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  background: var(--color-bg-main);
+  width: 100%;
+}
+
+.primaryBtnWrap {
+  width: 100%;
+  padding: 8px var(--spacing-l) 4px;
+}
+
+.primaryBtn {
+  display: flex;
+  width: 100%;
+  padding: 17px var(--spacing-l);
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-block);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  border: none;
+  cursor: pointer;
+}
+
+.dangerBtnWrap {
+  width: 100%;
+  padding: 8px var(--spacing-l);
+}
+
+.dangerBtn {
+  display: flex;
+  width: 100%;
+  padding: 17px var(--spacing-l);
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-block);
+  background: none;
+  border: none;
+  color: var(--color-text-warning);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+}
+
+.homeIndicator {
+  width: 134px;
+  height: 5px;
+  border-radius: 100px;
+  background: #000;
+  margin: 8px auto 8px;
+}

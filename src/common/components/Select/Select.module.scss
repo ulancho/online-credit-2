@@ -1,0 +1,48 @@
+.selectRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px var(--spacing-l);
+  border-radius: var(--radius-block);
+  background: var(--color-bg-primary);
+  margin: var(--spacing-s) 0;
+  min-height: 56px;
+  text-align: left;
+  gap: var(--spacing-l);
+}
+
+.selectRowContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.selectRowInner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.selectRowPlaceholder {
+  color: var(--color-text-secondary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+.selectRowValue {
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+.selectRowSubLabel {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+}

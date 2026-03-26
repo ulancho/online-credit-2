@@ -1,21 +1,16 @@
 import axios from 'axios';
 
-import { applyCsrfInterceptor } from 'Common/api/csrfInterceptor.ts';
-import { applyLanguageInterceptor } from 'Common/api/languageInterceptor.ts';
+const baseURL = '/svc-biz-ib-cbk-private-credits/v1/api/webview';
 
-const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
-
-const baseURL = isLocalhost
-  ? '/svc-biz-ib-cbk-mbank-id-auth/v1/api'
-  : `${window.location.origin}/oauth2/v1/api`;
+// temporary token implementation
+const token =
+  'ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKcFpDSTZJamhtWVRNMU9UazBMVEUxTWpjdE5EWXhZaTA1WW1Sa0xXRTFNbUV4TWpJMk1UazJNeUlzSW1saGRDSTZNVGMzTkRNM05ESTNOaXdpWlhod0lqb3hOemMwTXpjME5UYzJmUS5ZSzdOUk84UjhLOGg1SlRoOWxpX2pYX0xPeWVmQ0NtNmFYMVk3QWtZbEpV';
 
 export const httpClient = axios.create({
   baseURL,
   headers: {
     'Content-Type': 'application/json',
+    token: token,
   },
   timeout: 10000,
 });
-
-applyLanguageInterceptor(httpClient);
-applyCsrfInterceptor(httpClient);

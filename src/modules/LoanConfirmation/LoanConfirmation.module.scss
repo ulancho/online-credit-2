@@ -1,0 +1,249 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-bg-main);
+}
+
+/* ── Content ── */
+.content {
+  flex-shrink: 1;
+  flex-basis: 0%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+}
+
+.headerSection {
+  padding: 0 16px 8px;
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+.description {
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+}
+
+.sectionPad {
+  padding: var(--spacing-s) var(--spacing-l);
+}
+
+/* ── Amount card ── */
+.amountCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-l);
+  padding: var(--spacing-l);
+  border-radius: var(--radius-block);
+  background: var(--color-bg-primary);
+}
+
+.amountInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.amountLabel {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+}
+
+.amountValue {
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+/* ── Info card ── */
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-small);
+  background: var(--color-bg-primary);
+  padding: 6px 0;
+}
+
+.infoRow {
+  display: flex;
+  flex-direction: column;
+  padding: 8px var(--spacing-l);
+  border-bottom: 0.5px solid #dcdfe4;
+}
+
+.infoRowLast {
+  border-bottom: none;
+}
+
+.infoLabel {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+}
+
+.infoValue {
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+/* ── Section title ── */
+.sectionTitle {
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  margin-bottom: var(--spacing-s);
+}
+
+/* ── Day chips ── */
+.dayChips {
+  display: flex;
+  gap: var(--spacing-s);
+  flex-wrap: wrap;
+}
+
+.dayChip {
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  border: none;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.dayChipActive {
+  background: var(--color-bg-primary);
+}
+
+/* ── Insurance selector ── */
+.insuranceSelector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px var(--spacing-l);
+  border-radius: var(--radius-small);
+  background: var(--color-bg-primary);
+  border: none;
+  cursor: pointer;
+}
+
+.insurancePlaceholder {
+  color: var(--color-text-tertiary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+.insuranceSelected {
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+
+/* ── Footer ── */
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--color-bg-main);
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+}
+
+.termsList {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--spacing-l);
+}
+
+.termRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-s);
+  padding: var(--spacing-s) 0;
+}
+
+.termText {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+}
+
+.termTextGray {
+  color: var(--color-text-secondary);
+}
+
+.termLink {
+  color: var(--color-accent);
+}
+
+/* ── Checkbox ── */
+.checkbox {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  border: 1.5px solid #dcdfe4;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.checkboxChecked {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* ── Buttons ── */
+.buttonsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+  padding: var(--spacing-s) var(--spacing-l);
+}

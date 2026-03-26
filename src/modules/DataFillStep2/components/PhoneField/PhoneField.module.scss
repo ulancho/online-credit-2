@@ -1,0 +1,85 @@
+.wrapper {
+  width: 100%;
+}
+
+.phoneField {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 16px;
+  gap: var(--spacing-l);
+  border-radius: var(--radius-block);
+  background: var(--color-bg-primary);
+  cursor: text;
+}
+
+.phoneIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  background: #f4f5f6;
+  flex-shrink: 0;
+}
+
+.fieldContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  min-height: 40px;
+}
+
+.phoneFieldFilled .fieldContent {
+  justify-content: flex-start;
+}
+
+.phoneFloatingLabel {
+  color: var(--color-text-secondary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  transition:
+    font-size 0.15s ease,
+    line-height 0.15s ease,
+    color 0.15s ease;
+  pointer-events: none;
+}
+
+.phoneFloatingLabelActive {
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.phoneInput {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--color-text-primary);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  font-family: var(--font-family);
+  padding: 0;
+  height: 0;
+  opacity: 0;
+  transition:
+    height 0.15s ease,
+    opacity 0.15s ease;
+
+  &::placeholder {
+    color: #999;
+    font-size: 14px;
+  }
+}
+
+.phoneFieldFilled .phoneInput {
+  height: 22px;
+  opacity: 1;
+}

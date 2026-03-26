@@ -1,100 +1,375 @@
-import { useState } from 'react';
+import { AxiosError } from 'axios';
+import { observer } from 'mobx-react-lite';
+import { useEffect, useMemo, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
+import {
+  useActivityTypeStore,
+  useCreditApplicationStore,
+  useCreditRatesStore,
+  useLoanOffersStore,
+} from '@/common/stores/rootStore';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useTranslation } from 'Common/i18n';
 import ActivityTypeSelect from 'Modules/CreditCalculator/components/ActivityTypeSelect/ActivityTypeSelect.tsx';
+import InfoModal from 'Modules/CreditCalculator/components/InfoModal/InfoModal.tsx';
 import InfoNotification from 'Modules/CreditCalculator/components/InfoNotification/InfoNotification.tsx';
 import InsuranceToggle from 'Modules/CreditCalculator/components/InsuranceToggle/InsuranceToggle.tsx';
 import LoanSummary from 'Modules/CreditCalculator/components/LoanSummary/LoanSummary.tsx';
 import LoanTermSlider from 'Modules/CreditCalculator/components/LoanTermSlider/LoanTermSlider.tsx';
 import PassportModal from 'Modules/CreditCalculator/components/PassportModal/PassportModal.tsx';
 import TermsCheckbox from 'Modules/CreditCalculator/components/TermsCheckbox/TermsCheckbox.tsx';
+import { CreditApplicationValidationError } from 'Modules/CreditCalculator/services/CreditApplicationService.ts';
+import {
+  useLoanCalculatorService,
+  type RateInsuranceOption,
+} from 'Modules/CreditCalculator/services/LoanCalculatorService.ts';
 
 import styles from './CreditCalculator.module.scss';
 
-export default function CreditCalculator() {
-  const [loanAmount, setLoanAmount] = useState('');
-  const [loanTerm, setLoanTerm] = useState(3);
-  const [monthlyIncome, setMonthlyIncome] = useState('');
-  const [activityType, setActivityType] = useState('');
-  const [insuranceEnabled, setInsuranceEnabled] = useState(true);
+const DEFAULT_LOAN_AMOUNT = '';
+
+const formatCurrency = (value: number) => new Intl.NumberFormat('ru-RU').format(value);
+
+type CreditCalculatorFormValues = {
+  loanAmount: string;
+  loanTerm?: number;
+  monthlyIncome: string;
+  activityType: string;
+  insuranceEnabled: boolean;
+};
+
+const initCreditApplicationFieldMap: Record<string, keyof CreditCalculatorFormValues> = {
+  'applicationCreditRequestDto.amount': 'loanAmount',
+  'applicationCreditDto.amount': 'loanAmount',
+  'applicationCreditRequestDto.periodInterval': 'loanTerm',
+  'applicationCreditRequestDto.activityType': 'activityType',
+  'applicationCreditRequestDto.clientIncome': 'monthlyIncome',
+};
+
+type OfferType = 'public' | 'loan';
+
+const CreditCalculator = () => {
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    setValue,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm<CreditCalculatorFormValues>({
+    defaultValues: {
+      loanAmount: DEFAULT_LOAN_AMOUNT,
+      loanTerm: undefined,
+      monthlyIncome: '',
+      activityType: '',
+      insuranceEnabled: false,
+    },
+  });
+
+  const creditRatesService = useCreditRatesStore();
+  const activityTypeService = useActivityTypeStore();
+  const loanCalculatorService = useLoanCalculatorService();
+  const loanOffersService = useLoanOffersStore();
+  const creditApplicationService = useCreditApplicationStore();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const [term1Checked, setTerm1Checked] = useState(false);
   const [term2Checked, setTerm2Checked] = useState(false);
   const [term3Checked, setTerm3Checked] = useState(false);
-  const [isPassportModalOpen, setIsPassportModalOpen] = useState(true);
+  const [isPassportModalOpen, setIsPassportModalOpen] = useState(false);
 
   const allTermsAccepted = term1Checked && term2Checked && term3Checked;
-  const isSubmitEnabled = allTermsAccepted && loanAmount !== '' && monthlyIncome !== '';
+  const isSubmitEnabled =
+    allTermsAccepted && getValues('loanAmount') !== '' && getValues('monthlyIncome') !== '';
+  console.log(isSubmitEnabled);
 
-  const { t } = useTranslation();
+  const terms = creditRatesService.availableLoanTerms;
+  const loanAmount = watch('loanAmount');
+  const loanTerm = watch('loanTerm');
+  const insuranceEnabled = watch('insuranceEnabled');
+
+  const selectedInsuranceOption: RateInsuranceOption = insuranceEnabled
+    ? 'withInsurance'
+    : 'withoutInsurance';
+
+  const loanSummary = useMemo(() => {
+    const amount = Number(loanAmount) || 0;
+    const month = Number(loanTerm) || terms[0] || 0;
+
+    const calculatedLoan = loanCalculatorService.calculateLoan({
+      amount,
+      month,
+      insuranceOption: selectedInsuranceOption,
+    });
+
+    return {
+      monthlyPayment: calculatedLoan ? formatCurrency(calculatedLoan.monthlyPayment) : '0',
+      overpayment: calculatedLoan ? formatCurrency(calculatedLoan.overpayment) : '0',
+    };
+  }, [loanAmount, loanCalculatorService, loanTerm, selectedInsuranceOption, terms]);
+
+  // оформление заявки
+  const onSubmit = async (values: CreditCalculatorFormValues) => {
+    clearErrors();
+    const amount = Number(values.loanAmount) || 0;
+    const periodInterval = Number(values.loanTerm) || terms[0] || 0;
+    const percent = loanCalculatorService.resolvePercent({
+      insuranceOption: selectedInsuranceOption,
+    });
+
+    try {
+      const initResponse = await creditApplicationService.initCreditApplication({
+        amount,
+        periodInterval,
+        productCode: creditRatesService.creditRates?.productCode || '',
+        percent: percent || 0,
+        level: creditRatesService.creditRates?.loyaltyLevel || '',
+        activityType: values.activityType,
+        clientIncome: Number(values.monthlyIncome) || 0,
+        insuranceConsent: values.insuranceEnabled,
+        hash: loanOffersService.loanOfferData?.hash || '',
+      });
+
+      if (initResponse?.status === 200) {
+        navigate('/otp');
+      }
+    } catch (error) {
+      if (error instanceof CreditApplicationValidationError) {
+        Object.entries(error.details).forEach(([field, messages]) => {
+          const formField = initCreditApplicationFieldMap[field];
+
+          if (formField && messages.length) {
+            setError(formField, { type: 'server', message: messages[0] });
+          }
+        });
+
+        return;
+      }
+
+      if (error instanceof AxiosError && error.response?.status === 500) {
+        const responseData = error.response?.data;
+
+        if (responseData?.message) {
+          alert(responseData.message);
+
+          return;
+        }
+      }
+
+      throw error;
+    }
+  };
+
+  // переход к обновлению паспорта
+  const handleContinuePassportClick = () => {
+    setIsPassportModalOpen(false);
+    navigate('/passport');
+  };
+
+  // листок ключевых данных
+  const handlePdfLkdClick = async () => {
+    const amount = Number(getValues('loanAmount')) || 0;
+    const termMonths = Number(getValues('loanTerm')) || terms[0] || 0;
+
+    await creditRatesService.generatePdfLkd({
+      amount,
+      termMonths,
+      insuranceOption: selectedInsuranceOption,
+    });
+  };
+
+  // скачивание офферт
+  const handleOfferClick = async (offerType: OfferType) => {
+    const offer =
+      offerType === 'public'
+        ? loanOffersService.publicLoanOfferData
+        : loanOffersService.loanOfferData;
+
+    if (!offer?.code || !offer?.hash) {
+      return;
+    }
+
+    const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
+    const fileUrl = window.URL.createObjectURL(fileBlob);
+    const link = document.createElement('a');
+
+    link.href = fileUrl;
+    link.download = `${offer.code}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(fileUrl);
+  };
+
+  // подгрузка данных
+  useEffect(() => {
+    const loadFieldsData = async () => {
+      await Promise.all([
+        creditRatesService.getCreditRates(),
+        activityTypeService.getActivityTypes(),
+        loanOffersService.getPublicLoanOffer(),
+        loanOffersService.getLoanOffer(),
+      ]);
+    };
+
+    loadFieldsData();
+  }, [activityTypeService, creditRatesService, loanOffersService]);
+
+  // установка значения по умолчанию для срока кредита
+  useEffect(() => {
+    if (!terms.length || loanTerm !== undefined) {
+      return;
+    }
+
+    setValue('loanTerm', terms[0], { shouldDirty: false, shouldTouch: false });
+  }, [loanTerm, setValue, terms]);
 
   return (
-    <div className={styles.page}>
+    <div id="page">
       <NavBar />
-      <div className={styles.content}>
-        <div className={styles.headerSection}>
-          <div className={styles.titleBlock}>
-            <h1 className={styles.title}>{t('credit-calculator.title')}</h1>
-            <p className={styles.description}>{t('credit-calculator.description')}</p>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles.content}>
+          <div className={styles.headerSection}>
+            <div className={styles.titleBlock}>
+              <h1 className={styles.title}>{t('credit-calculator.title')}</h1>
+              <p className={styles.description}>{t('credit-calculator.description')}</p>
+            </div>
+          </div>
+          <div className={styles.fieldsSection}>
+            <Controller
+              name="loanAmount"
+              control={control}
+              render={({ field }) => (
+                <InputField
+                  {...field}
+                  mainPlaceholder={t('credit-calculator.sum')}
+                  secondaryPlaceholder={t('credit-calculator.to')}
+                  value={field.value}
+                  onChange={field.onChange}
+                  type="number"
+                  errorMessage={errors.loanAmount?.message}
+                />
+              )}
+            />
+            <Controller
+              name="loanTerm"
+              control={control}
+              render={({ field }) => {
+                const currentIndex = terms.findIndex((term) => term === Number(field.value));
+                const safeIndex = currentIndex >= 0 ? currentIndex : 0;
+
+                return (
+                  <LoanTermSlider
+                    label={terms[safeIndex] ?? 0}
+                    value={safeIndex}
+                    min={0}
+                    max={Math.max(terms.length - 1, 0)}
+                    disabled={!terms.length}
+                    onChange={(index: number) => {
+                      const nextTerm = terms[index];
+
+                      if (nextTerm !== undefined) {
+                        field.onChange(nextTerm);
+                      }
+                    }}
+                  />
+                );
+              }}
+            />
+            <Controller
+              name="monthlyIncome"
+              control={control}
+              render={({ field }) => (
+                <InputField
+                  mainPlaceholder={t('credit-calculator.income')}
+                  secondaryPlaceholder={''}
+                  value={field.value}
+                  onChange={field.onChange}
+                  type="number"
+                  errorMessage={errors.monthlyIncome?.message}
+                />
+              )}
+            />
+            <Controller
+              name="activityType"
+              control={control}
+              render={({ field }) => (
+                <ActivityTypeSelect value={field.value} onChange={field.onChange} />
+              )}
+            />
+          </div>
+          <Controller
+            name="insuranceEnabled"
+            control={control}
+            render={({ field }) => (
+              <div className={styles.insuranceSection}>
+                <InsuranceToggle checked={field.value} onChange={field.onChange} />
+              </div>
+            )}
+          />
+          <LoanSummary
+            monthlyPayment={loanSummary.monthlyPayment}
+            insuranceEnabled={insuranceEnabled}
+            overpayment={loanSummary.overpayment}
+          />
+          <div className={styles.notificationSection}>
+            <InfoNotification text="После вашего действия будет создана заявка на кредит. Мы отправим вам одноразовый код для проверки номера телефона." />
+          </div>
+          <div className={styles.termsSection}>
+            <TermsCheckbox
+              checked={term1Checked}
+              text={loanOffersService.publicLoanOfferData?.agreementText || ''}
+              onChange={setTerm1Checked}
+              onTapLink={() => handleOfferClick('public')}
+            />
+            <TermsCheckbox
+              checked={term2Checked}
+              text={loanOffersService.loanOfferData?.agreementText || ''}
+              onChange={setTerm2Checked}
+              onTapLink={() => handleOfferClick('loan')}
+            />
+            {loanAmount && (
+              <TermsCheckbox
+                checked={term3Checked}
+                text="Я ознакомлен(на) [с листком ключевых данных]()"
+                onChange={setTerm3Checked}
+                onTapLink={handlePdfLkdClick}
+              />
+            )}
           </div>
         </div>
-        <div className={styles.fieldsSection}>
-          <InputField
-            mainPlaceholder={t('credit-calculator.sum')}
-            secondaryPlaceholder={t('credit-calculator.to')}
-            value={loanAmount}
-            onChange={setLoanAmount}
-            type="number"
-          />
-          <LoanTermSlider value={loanTerm} min={3} max={60} onChange={setLoanTerm} />
-          <InputField
-            mainPlaceholder={t('credit-calculator.income')}
-            secondaryPlaceholder={''}
-            value={monthlyIncome}
-            onChange={setMonthlyIncome}
-            type="number"
-          />
-          <ActivityTypeSelect value={activityType} onChange={setActivityType} />
+        <div className={styles.submitSection}>
+          <button
+            className={`${styles.submitButton} ${isSubmitEnabled ? styles.submitButtonActive : styles.submitButtonDisabled}`}
+            disabled={!isSubmitEnabled}
+          >
+            Отправить заявку
+          </button>
         </div>
-        <div className={styles.insuranceSection}>
-          <InsuranceToggle checked={insuranceEnabled} onChange={setInsuranceEnabled} />
-        </div>
-        <LoanSummary
-          monthlyPayment="5 262"
-          originalRate="28.99%"
-          discountedRate="25.99%"
-          overpayment="7 262"
-        />
-        <div className={styles.notificationSection}>
-          <InfoNotification text="После вашего действия будет создана заявка на кредит. Мы отправим вам одноразовый код для проверки номера телефона." />
-        </div>
-        <div className={styles.termsSection}>
-          <TermsCheckbox checked={term1Checked} onChange={setTerm1Checked}>
-            Я ознакомлен(а) и согласен(на) с условиями оферты
-          </TermsCheckbox>
-          <TermsCheckbox checked={term2Checked} onChange={setTerm2Checked}>
-            Я ознакомлен(а) и согласен(на) с условиями на обработку и передачу персональных данных
-          </TermsCheckbox>
-          <TermsCheckbox checked={term3Checked} onChange={setTerm3Checked}>
-            Я ознакомлен(на) <span className={styles.termLink}>с листком ключевых данных</span>
-          </TermsCheckbox>
-        </div>
-      </div>
-      <div className={styles.submitSection}>
-        <button
-          className={`${styles.submitButton} ${isSubmitEnabled ? styles.submitButtonActive : styles.submitButtonDisabled}`}
-          disabled={!isSubmitEnabled}
-        >
-          Отправить заявку
-        </button>
-      </div>
+      </form>
+
       {isPassportModalOpen && (
         <PassportModal
           onCancel={() => setIsPassportModalOpen(false)}
-          onContinue={() => setIsPassportModalOpen(false)}
+          onContinue={handleContinuePassportClick}
+        />
+      )}
+
+      {creditApplicationService.modal && (
+        <InfoModal
+          onClose={() => creditApplicationService.resetModal()}
+          title={creditApplicationService.modal.content.title}
+          description={creditApplicationService.modal.content.description}
         />
       )}
     </div>
   );
-}
+};
+
+export default observer(CreditCalculator);

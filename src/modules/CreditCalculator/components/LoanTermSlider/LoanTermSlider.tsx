@@ -3,10 +3,12 @@ import { useMemo } from 'react';
 import styles from './LoanTermSlider.module.css';
 
 interface LoanTermSliderProps {
+  label: number;
   value: number;
   min?: number;
   max?: number;
   onChange?: (value: number) => void;
+  disabled?: boolean;
 }
 
 function getMonthLabel(months: number): string {
@@ -16,17 +18,25 @@ function getMonthLabel(months: number): string {
 }
 
 export default function LoanTermSlider({
+  label,
   value,
   min = 3,
   max = 60,
   onChange,
+  disabled = false,
 }: LoanTermSliderProps) {
-  const percent = useMemo(() => ((value - min) / (max - min)) * 100, [value, min, max]);
+  const percent = useMemo(() => {
+    if (max <= min) {
+      return 0;
+    }
+
+    return ((value - min) / (max - min)) * 100;
+  }, [value, min, max]);
 
   return (
     <div className={styles.card}>
       <p className={styles.label}>Срок кредита</p>
-      <p className={styles.valueText}>{getMonthLabel(value)}</p>
+      <p className={styles.valueText}>{getMonthLabel(label)}</p>
       <div className={styles.sliderWrapper}>
         <div className={styles.trackBackground}>
           <div className={styles.trackFilled} style={{ width: `${percent}%` }} />
@@ -37,6 +47,7 @@ export default function LoanTermSlider({
           min={min}
           max={max}
           value={value}
+          disabled={disabled}
           onChange={(e) => onChange?.(Number(e.target.value))}
           style={{ '--thumb-percent': `${percent}%` } as React.CSSProperties}
         />

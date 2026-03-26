@@ -48,22 +48,3 @@
   padding-bottom: max(15px, env(safe-area-inset-bottom));
   width: 100%;
 }
-
-.continueButton {
-  width: 100%;
-  height: 56px;
-  border-radius: var(--radius-block);
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 22px;
-  letter-spacing: -0.2px;
-  border: none;
-  cursor: pointer;
-  background: var(--color-accent);
-  color: var(--color-on-accent);
-  transition: opacity 0.2s ease;
-}
-
-.continueButton:active {
-  opacity: 0.8;
-}

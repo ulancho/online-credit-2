@@ -11,6 +11,7 @@
   --color-text-tertiary: #a0a7b1;
   --color-accent: #129958;
   --color-on-accent: #fff;
+  --color-text-warning: #e02d3c;
   --radius-block: 20px;
   --radius-small: 16px;
   --spacing-s: 8px;
@@ -24,6 +25,12 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -44,18 +51,99 @@ body {
   max-width: 430px;
 }
 
+#page {
+  min-height: 100vh;
+  background: var(--color-bg-main);
+  width: 100%;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* отключаем задержку клика */
+button,
+a {
+  touch-action: manipulation;
+}
+
+/* ============================= */
+
+/* Prevent Text Selection */
+
+/* ============================= */
+
+button,
+a,
+img {
+  user-select: none;
+}
+
+/* ============================= */
+
+/* Buttons */
+
+/* ============================= */
+
 button {
-  font-family: var(--font-family);
+  appearance: none;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
   cursor: pointer;
+  outline: none;
+  font-family: var(--font-family);
+  transition:
+    transform 0.12s ease,
+    opacity 0.12s ease;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+/* легкий нативный эффект */
+button:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+/* убрать outline при тапе */
+button:focus,
+button:active {
+  outline: none;
+  box-shadow: none;
+}
+
+/* если не нужна подсветка фокуса */
+button:focus-visible {
+  outline: none;
+}
+
+/* ============================= */
+
+/* Inputs */
+
+/* ============================= */
+
+input,
+textarea,
+select {
+  appearance: none;
+  border-radius: 0;
+  outline: none;
+  font: inherit;
+  font-family: var(--font-family);
   border: none;
   background: none;
 }
 
-input {
-  font-family: var(--font-family);
-  border: none;
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
-  background: none;
+  box-shadow: none;
 }
 
 input[type='number'] {
@@ -66,4 +154,31 @@ input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {
   appearance: none; /* Chrome, Safari, Edge */
   margin: 0;
+}
+
+/* ============================= */
+
+/* Links */
+
+/* ============================= */
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ============================= */
+
+/* Images */
+
+/* ============================= */
+
+img {
+  max-width: 100%;
+  display: block;
+  -webkit-user-drag: none;
+}
+
+.currencySymbol {
+  font-family: 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Arial Unicode MS', sans-serif;
 }
