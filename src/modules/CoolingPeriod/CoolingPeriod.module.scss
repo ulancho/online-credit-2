@@ -2,128 +2,196 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: linear-gradient(180deg, #008fe5 18.49%, #0078c1 100%);
+  background: var(--color-bg-main);
   width: 100%;
 }
 
+/* ── NavBar ────────────────────────────────── */
+
 .navbar {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 15px var(--spacing-l);
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
   flex-shrink: 0;
 }
 
-.closeBtn {
+.navbarToolbar {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px var(--spacing-l) 8px;
+  width: 100%;
+}
+
+.backBtn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 4px;
-  background: rgb(32 32 32 / 40%);
-  backdrop-filter: blur(5px);
-  border-radius: 100px;
+  background: none;
   border: none;
+  padding: 0;
   cursor: pointer;
   flex-shrink: 0;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xl);
-  padding: var(--spacing-m) var(--spacing-l);
-  flex: 1;
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-m);
-}
-
-.title {
-  color: #fff;
-  font-size: 28px;
-  font-weight: 800;
-  line-height: 34px;
-  letter-spacing: -0.3px;
-}
-
-.bodyText {
-  color: #fff;
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 22px;
-  letter-spacing: -0.2px;
-}
-
-.periodInfo {
+.navbarContent {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  padding: 0 var(--spacing-l) 8px;
+  width: 100%;
 }
 
-.periodTitle {
-  color: #fff;
-  font-size: 17px;
+.pageTitle {
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+}
+
+.pageDescription {
+  color: var(--color-text-secondary);
+  font-size: 15px;
   font-weight: 500;
-  line-height: 22px;
+  line-height: 20px;
   letter-spacing: -0.2px;
+  white-space: pre-line;
 }
 
-.bulletList {
-  list-style: disc;
-  padding-left: 20px;
+/* ── Main Content ──────────────────────────── */
+
+.content {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-
-  li {
-    color: #fff;
-    font-size: 17px;
-    font-weight: 500;
-    line-height: 22px;
-    letter-spacing: -0.2px;
-  }
-}
-
-.clockImageWrapper {
-  display: flex;
-  justify-content: center;
   align-items: center;
   flex: 1;
-  padding: 16px 50px;
+  padding: 0 var(--spacing-l);
+  justify-content: center;
+  gap: var(--spacing-l);
 }
 
-.clockImage {
+/* ── Timer ─────────────────────────────────── */
+
+.timerBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
   width: 100%;
-  max-width: 263px;
-  height: auto;
-  object-fit: contain;
-  transform: rotate(-3deg);
 }
 
-.bottomBar {
-  padding: var(--spacing-s) var(--spacing-l);
-  padding-bottom: max(var(--spacing-s), env(safe-area-inset-bottom));
+.timerDisplay {
+  color: var(--color-text-primary);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.timerLabel {
+  color: var(--color-text-primary);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.2px;
+  text-align: center;
+  max-width: 280px;
+}
+
+/* ── Info Notification ─────────────────────── */
+
+.infoNotification {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-s);
+  padding: var(--spacing-l);
+  border-radius: var(--radius-block);
+  background: var(--color-bg-primary);
+  width: 100%;
+}
+
+.infoIcon {
   flex-shrink: 0;
 }
 
-.continueBtn {
+.infoText {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  white-space: pre-line;
+}
+
+.infoTextGray {
+  color: var(--color-text-secondary);
+}
+
+.infoTextAccent {
+  color: var(--color-accent);
+}
+
+/* ── Footer ────────────────────────────────── */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  background: var(--color-bg-main);
+  width: 100%;
+}
+
+.primaryBtnWrap {
+  width: 100%;
+  padding: 8px var(--spacing-l) 4px;
+}
+
+.primaryBtn {
   display: flex;
   width: 100%;
   padding: 17px var(--spacing-l);
   justify-content: center;
   align-items: center;
   border-radius: var(--radius-block);
-  background: #f4f5f6;
-  color: #129958;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
   font-size: 17px;
   font-weight: 700;
   line-height: 22px;
   letter-spacing: -0.2px;
   border: none;
   cursor: pointer;
+}
+
+.dangerBtnWrap {
+  width: 100%;
+  padding: 8px var(--spacing-l);
+}
+
+.dangerBtn {
+  display: flex;
+  width: 100%;
+  padding: 17px var(--spacing-l);
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-block);
+  background: none;
+  border: none;
+  color: var(--color-text-warning);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+}
+
+.homeIndicator {
+  width: 134px;
+  height: 5px;
+  border-radius: 100px;
+  background: #000;
+  margin: 8px auto 8px;
 }
