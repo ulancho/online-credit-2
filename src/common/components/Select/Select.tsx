@@ -6,6 +6,7 @@ interface SelectProps {
   onClick: () => void;
   filled?: boolean;
   subLabel?: string;
+  disabled?: boolean;
 }
 
 const ChevronRightIcon = () => (
@@ -19,11 +20,12 @@ const ChevronRightIcon = () => (
   </svg>
 );
 
-export default function Select({ label, value, onClick, filled, subLabel }: SelectProps) {
+export default function Select({ label, value, onClick, filled, subLabel, disabled }: SelectProps) {
   return (
     <button
       className={`${styles.selectRow} ${filled ? styles.selectRowFilled : ''}`}
       onClick={onClick}
+      disabled={disabled}
     >
       <div className={styles.selectRowContent}>
         {filled && subLabel ? (

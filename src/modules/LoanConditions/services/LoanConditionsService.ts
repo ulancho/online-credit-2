@@ -37,11 +37,13 @@ export class LoanCondtionsService {
 
   @action
   async setDeclineApplication(applicationId: string) {
+    const date = new Date();
+    const day = date.getDate();
     try {
       await httpClient.post(DECLINE_APPLICATION_API, {
         applicationId,
         responseCode: 'DENY',
-        paymentDay: 26,
+        paymentDay: day,
       });
 
       const response = await httpClient.get(DECLINE_APPLICATION_STATUS_API);

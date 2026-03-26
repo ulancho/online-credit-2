@@ -1,6 +1,7 @@
 import { toJS } from 'mobx';
 import { createContext, useContext, type ReactNode } from 'react';
 
+import { DataFillStep1Service } from '@/modules/DataFillStep1/services/DataFillStep1Service';
 import { InsuranceCompaniesService } from '@/modules/InsuranceCompanies/services/InsuranceCompaniesService';
 import { LoanCondtionsService } from '@/modules/LoanConditions/services/LoanConditionsService';
 import { LoanConfirmationService } from '@/modules/LoanConfirmation/services/LoanConfirmationService';
@@ -25,6 +26,7 @@ class RootStore {
   readonly loanProcessingService = new LoanProcessingService();
   readonly insuranceCompaniesService = new InsuranceCompaniesService();
   readonly loanConfirmationService = new LoanConfirmationService();
+  readonly dataFillStep1Service = new DataFillStep1Service();
 }
 
 const rootStore = new RootStore();
@@ -88,4 +90,8 @@ export function useLoanConfirmationStore() {
 
 export function useInsuranceCompaniesStore() {
   return useRootStore().insuranceCompaniesService;
+}
+
+export function useDataFillStep1Store() {
+  return useRootStore().dataFillStep1Service;
 }

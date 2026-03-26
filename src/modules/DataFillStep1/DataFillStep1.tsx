@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useDataFillStep1Store } from '@/common/stores/rootStore';
 import Button from 'Common/components/Button/Button.tsx';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import Select from 'Common/components/Select/Select.tsx';
@@ -8,31 +10,74 @@ import layoutStyles from 'Modules/DataFill/shared/components/DataFillLayout.modu
 import DataFillLayout from 'Modules/DataFill/shared/components/DataFillLayout.tsx';
 import DataFillProgress from 'Modules/DataFill/shared/components/DataFillProgress.tsx';
 import DataFillSelectSheet from 'Modules/DataFill/shared/components/DataFillSelectSheet.tsx';
-import { INSURANCE_COMPANIES, REGIONS, SETTLEMENTS } from 'Modules/DataFill/shared/constants.ts';
 
 import styles from './DataFillStep1.module.scss';
 
-export default function DataFillStep1() {
+import type { Area } from '../DataFill/models/area';
+
+const DataFillStep1 = () => {
+  const dataFillStep1Store = useDataFillStep1Store();
   const navigate = useNavigate();
-  const [region, setRegion] = useState('');
-  const [settlement, setSettlement] = useState('');
+  const [area, setArea] = useState<Area | null>(null);
+  const [region, setRegion] = useState<Area | null>(null);
+  const [settlement, setSettlement] = useState<Area | null>(null);
   const [street, setStreet] = useState('');
   const [house, setHouse] = useState('');
   const [apartment, setApartment] = useState('');
-  const [insurance, setInsurance] = useState('');
-  const [openSheet, setOpenSheet] = useState<'region' | 'settlement' | 'insurance' | null>(null);
-  const isFormValid = region && settlement && street && house && insurance;
+  const [openSheet, setOpenSheet] = useState<'area' | 'region' | 'settlement' | 'insurance' | null>(
+    null,
+  );
+  const isFormValid = region && settlement && street && house;
 
   const handleContinue = () => {
     if (isFormValid) {
       navigate('/data-fill-2');
     }
+    dataFillStep1Store.setFormData({ area, region, settlement, street, house, apartment });
   };
+
+  useEffect(() => {
+    if (dataFillStep1Store.formData) {
+      const { area, region, settlement, street, house, apartment } = dataFillStep1Store.formData;
+      setArea(area);
+      setRegion(region);
+      setSettlement(settlement);
+      setStreet(street);
+      setHouse(house);
+      setApartment(apartment);
+    }
+
+    const loadData = async () => {
+      await dataFillStep1Store.getAreas();
+    };
+
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      if (area?.code) {
+        await dataFillStep1Store.getDistricts(area.code);
+      }
+    };
+
+    loadData();
+  }, [area]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      if (region?.code) {
+        await dataFillStep1Store.getCities(region.code);
+      }
+    };
+
+    loadData();
+  }, [region]);
 
   return (
     <DataFillLayout
       onBack={() => navigate(-1)}
-      progress={<DataFillProgress currentStep={1} />}
+      progress={<DataFillProgress currentStep={1} totalSteps={2} />}
       contentClassName={layoutStyles.content}
       footer={
         <Button disabled={!isFormValid} onClick={handleContinue}>
@@ -42,18 +87,27 @@ export default function DataFillStep1() {
     >
       <p className={layoutStyles.groupSubtitle}>Обновите данные о фактическом адресе проживания</p>
       <Select
+        label="Область"
+        value={area ? area.name : ''}
+        subLabel="Область"
+        filled={area ? !!area.name : false}
+        onClick={() => setOpenSheet('area')}
+      />
+      <Select
         label="Регион"
-        value={region}
+        value={region ? region.name : ''}
         subLabel="Регион"
-        filled={!!region}
+        filled={region ? !!region : false}
         onClick={() => setOpenSheet('region')}
+        disabled={!area}
       />
       <Select
         label="Населённый пункт"
-        value={settlement}
+        value={settlement ? settlement.name : ''}
         subLabel="Населённый пункт"
-        filled={!!settlement}
+        filled={settlement ? !!settlement : false}
         onClick={() => setOpenSheet('settlement')}
+        disabled={!region}
       />
       <div className={styles.inputWrapper}>
         <InputField
@@ -79,17 +133,21 @@ export default function DataFillStep1() {
           onChange={setApartment}
         />
       </div>
-      <Select
-        label="Страховая компания"
-        value={insurance}
-        subLabel="Страховая компания"
-        filled={!!insurance}
-        onClick={() => setOpenSheet('insurance')}
-      />
+      {openSheet === 'area' ? (
+        <DataFillSelectSheet
+          title="Выберите область"
+          items={dataFillStep1Store.areasData}
+          onSelect={(value: { name: string; code: string }) => {
+            setArea(value);
+            setOpenSheet(null);
+          }}
+          onClose={() => setOpenSheet(null)}
+        />
+      ) : null}
       {openSheet === 'region' ? (
         <DataFillSelectSheet
           title="Выберите регион"
-          items={REGIONS}
+          items={dataFillStep1Store.districtsData}
           onSelect={(value) => {
             setRegion(value);
             setOpenSheet(null);
@@ -100,7 +158,7 @@ export default function DataFillStep1() {
       {openSheet === 'settlement' ? (
         <DataFillSelectSheet
           title="Выберите населённый пункт"
-          items={SETTLEMENTS}
+          items={dataFillStep1Store.citiesData}
           onSelect={(value) => {
             setSettlement(value);
             setOpenSheet(null);
@@ -108,17 +166,8 @@ export default function DataFillStep1() {
           onClose={() => setOpenSheet(null)}
         />
       ) : null}
-      {openSheet === 'insurance' ? (
-        <DataFillSelectSheet
-          title="Выберите страховую компанию"
-          items={INSURANCE_COMPANIES}
-          onSelect={(value) => {
-            setInsurance(value);
-            setOpenSheet(null);
-          }}
-          onClose={() => setOpenSheet(null)}
-        />
-      ) : null}
     </DataFillLayout>
   );
-}
+};
+
+export default observer(DataFillStep1);
