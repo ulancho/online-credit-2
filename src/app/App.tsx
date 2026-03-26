@@ -4,6 +4,7 @@ import ErrorPage from 'Common/components/ErrorPage/ErrorPage.tsx';
 import ApplicationDecline from 'Modules/ApplicationDecline/ApplicationDecline.tsx';
 import ApplicationStatusRedirect from 'Modules/ApplicationStatusRedirect/ApplicationStatusRedirect.tsx';
 import ApplicationSuccess from 'Modules/ApplicationSuccess/ApplicationSuccess.tsx';
+import Cooling from 'Modules/Cooling/Cooling.tsx';
 import CoolingPeriod from 'Modules/CoolingPeriod/CoolingPeriod.tsx';
 import CreditCalculator from 'Modules/CreditCalculator/CreditCalculator.tsx';
 import DataFillStep1 from 'Modules/DataFillStep1/DataFillStep1.tsx';
@@ -45,6 +46,7 @@ const AppContent = () => {
       <Route path="/data-fill-success" element={<DataFillSuccess />} />
       <Route path="/application-decline" element={<ErrorPage />} />
       <Route path="/declined" element={<ApplicationDecline />} />
+      <Route path="/cooling" element={<Cooling />} />
     </Routes>
   );
 };
