@@ -7,6 +7,7 @@ import {
 
 const STATUS_ROUTE_MAP: Record<string, string> = {
   NO_REQUESTS: '/credit-calculator',
+  DENIED: '/declined',
   WAITING: '/loan-conditions',
 };
 
@@ -31,7 +32,7 @@ export class ApplicationStatusService {
         this.isStatusLoading = false;
       });
     } catch (error) {
-      console.error('Failed to load application status: ', error);
+      alert('Failed to load application status: ' + error);
 
       runInAction(() => {
         this.activeApplication = null;
