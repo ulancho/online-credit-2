@@ -11,6 +11,7 @@ export type InsuranceCompaniesItemDto = {
 };
 
 export type InsuranceCompaniesItem = {
+  insureCompanyId: string | undefined;
   position: number;
   name: string;
   insurePrc: string;

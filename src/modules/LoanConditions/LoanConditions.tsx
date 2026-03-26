@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { exitApp } from '@/common/api/common';
 import { useLoanConditionsStore } from '@/common/stores/rootStore';
 import WalletImage from 'Assets/icons/coin_percent.png';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
@@ -44,9 +45,13 @@ const LoanConditions = () => {
     }
   };
 
+  const closeWebView = () => {
+    exitApp().then((res) => console.log(res.status));
+  };
+
   return (
     <div id="page">
-      <NavBar />
+      <NavBar onBack={closeWebView} />
       <div className={styles.content}>
         <h1 className={styles.pageTitle}>Ваша заявка одобрена на следующих условиях</h1>
         {/* Blue promo banner */}

@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useDataFillStep1Store } from '@/common/stores/rootStore';
+import { useDataFillStep1Store, useLoanConfirmationStore } from '@/common/stores/rootStore';
 import Button from 'Common/components/Button/Button.tsx';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import Select from 'Common/components/Select/Select.tsx';
@@ -21,28 +21,41 @@ const DataFillStep1 = () => {
   const [area, setArea] = useState<Area | null>(null);
   const [region, setRegion] = useState<Area | null>(null);
   const [settlement, setSettlement] = useState<Area | null>(null);
-  const [street, setStreet] = useState('');
+  const [factStreet, setFactStreet] = useState('');
   const [house, setHouse] = useState('');
   const [apartment, setApartment] = useState('');
   const [openSheet, setOpenSheet] = useState<'area' | 'region' | 'settlement' | 'insurance' | null>(
     null,
   );
-  const isFormValid = region && settlement && street && house;
+  const isFormValid = region && settlement && factStreet && house;
+
+  const loanConfirmationStore = useLoanConfirmationStore();
 
   const handleContinue = () => {
     if (isFormValid) {
-      navigate('/data-fill-2');
+      navigate('/data-fill-2', {
+        state: {
+          dataFirstStep: JSON.stringify({
+            factOblast: area?.code,
+            factRaion: region.code,
+            factCity: settlement.code,
+            factStreet,
+            factAddress: `${house}, ${apartment}`,
+          }),
+        },
+      });
     }
-    dataFillStep1Store.setFormData({ area, region, settlement, street, house, apartment });
+    dataFillStep1Store.setFormData({ area, region, settlement, factStreet, house, apartment });
   };
 
   useEffect(() => {
     if (dataFillStep1Store.formData) {
-      const { area, region, settlement, street, house, apartment } = dataFillStep1Store.formData;
+      const { area, region, settlement, factStreet, house, apartment } =
+        dataFillStep1Store.formData;
       setArea(area);
       setRegion(region);
       setSettlement(settlement);
-      setStreet(street);
+      setFactStreet(factStreet);
       setHouse(house);
       setApartment(apartment);
     }
@@ -77,7 +90,12 @@ const DataFillStep1 = () => {
   return (
     <DataFillLayout
       onBack={() => navigate(-1)}
-      progress={<DataFillProgress currentStep={1} totalSteps={2} />}
+      progress={
+        <DataFillProgress
+          currentStep={1}
+          totalSteps={loanConfirmationStore.dataSubmitCredit?.type === 'offline' ? 3 : 2}
+        />
+      }
       contentClassName={layoutStyles.content}
       footer={
         <Button disabled={!isFormValid} onClick={handleContinue}>
@@ -113,8 +131,8 @@ const DataFillStep1 = () => {
         <InputField
           mainPlaceholder="Улица"
           secondaryPlaceholder="Улица"
-          value={street}
-          onChange={setStreet}
+          value={factStreet}
+          onChange={setFactStreet}
         />
       </div>
       <div className={styles.inputWrapper}>

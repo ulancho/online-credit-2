@@ -12,6 +12,7 @@ import { Modal } from '../LoanConditions/components/Modal';
 
 import styles from './LoanConfirmation.module.scss';
 
+import type { InsuranceCompaniesItem } from '../InsuranceCompanies/models/InsuranceCompanies';
 import type { ActiveRequests } from '../LoanConditions/models/ActiveRequests';
 
 interface CheckboxProps {
@@ -50,11 +51,25 @@ const LoanConfirmation = () => {
   const loanConditionsStore = useLoanConditionsStore();
   const loanConfirmationStore = useLoanConfirmationStore();
 
-  const selectedInsurance: string | null =
-    (location.state as { insurance?: string })?.insurance ?? null;
+  const state = location.state as { insurance?: string } | null;
+
+  const selectedInsurance: InsuranceCompaniesItem | null = useMemo(() => {
+    const rawData = state?.insurance;
+
+    if (!rawData) return null;
+
+    try {
+      return JSON.parse(rawData) as InsuranceCompaniesItem;
+    } catch (error) {
+      console.error('Ошибка парсинга JSON из state:', error);
+      return null;
+    }
+  }, [state?.insurance]);
 
   const [active, setActive] = useState<boolean | null>(null);
-  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [selectedDay, setSelectedDay] = useState<number | null>(
+    loanConfirmationStore.selectedPaymentDay || null,
+  );
   const [isKeyDataChecked, setIsKeyDataChecked] = useState(true);
   const [isInsuranceTermsChecked, setIsInsuranceTermsChecked] = useState(
     selectedInsurance !== null,
@@ -100,9 +115,19 @@ const LoanConfirmation = () => {
     }
   };
 
+  const submitCredit = () => {
+    loanConfirmationStore.setSubmitCredit({
+      acceptAgreement: isInsuranceTermsChecked,
+      insureCompanyId: selectedInsurance?.insureCompanyId as string,
+      paymentDay: selectedDay as number,
+      type,
+    });
+    navigate('/data-fill');
+  };
+
   return (
     <div id="page" className={styles.page}>
-      <NavBar />
+      <NavBar onBack={() => navigate('/loan-conditions')} />
       <div className={styles.content}>
         <div className={styles.headerSection}>
           <div className={styles.titleBlock}>
@@ -170,18 +195,21 @@ const LoanConfirmation = () => {
             <h3 className={styles.sectionTitle}>Выберите страхование</h3>
             <button
               className={styles.insuranceSelector}
-              onClick={() =>
+              onClick={() => {
+                if (selectedDay) {
+                  loanConfirmationStore.selectedPaymentDay = selectedDay;
+                }
                 navigate('/insurance-companies', {
                   state: { from: `/loan-confirmation/${type}`, selectedInsurance },
-                })
-              }
+                });
+              }}
             >
               <span
                 className={
                   selectedInsurance ? styles.insuranceSelected : styles.insurancePlaceholder
                 }
               >
-                {selectedInsurance ?? 'Выберите из списка'}
+                {selectedInsurance?.name ?? 'Выберите из списка'}
               </span>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
@@ -222,7 +250,7 @@ const LoanConfirmation = () => {
         </div>
 
         <div className={styles.buttonsWrap}>
-          <Button variant="yellow" disabled={!isButtonActive}>
+          <Button onClick={submitCredit} variant="yellow" disabled={!isButtonActive}>
             Оформить кредит
           </Button>
           <Button onClick={() => open(true)} variant="text-danger">

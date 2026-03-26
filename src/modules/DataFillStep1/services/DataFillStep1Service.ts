@@ -6,11 +6,12 @@ import { AREA_API, CITIES_API, DISTRICTS_API } from '../api/localities';
 
 import type { Area } from '@/modules/DataFill/models/area';
 
-type FormData = {
+type FormDataFirstStep = {
   area: Area | null;
   region: Area | null;
   settlement: Area | null;
-  street: string;
+  factStreet: string;
+  factAddress?: string;
   house: string;
   apartment: string;
 };
@@ -20,7 +21,7 @@ export class DataFillStep1Service {
   @observable districts: Area[] | null = null;
   @observable cities: Area[] | null = null;
 
-  @observable formData: FormData | null = null;
+  @observable formData: FormDataFirstStep | null = null;
 
   constructor() {
     makeObservable(this);
@@ -57,7 +58,7 @@ export class DataFillStep1Service {
   }
 
   @action
-  setFormData(formData: FormData) {
+  setFormData(formData: FormDataFirstStep) {
     this.formData = formData;
   }
 

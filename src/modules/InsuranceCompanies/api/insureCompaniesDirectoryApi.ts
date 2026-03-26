@@ -35,6 +35,7 @@ const normalizeItem = (item: InsuranceCompaniesResponse[number]): InsuranceCompa
   }
 
   return {
+    insureCompanyId: item.itemCode,
     position: item.position ?? 0,
     name: item.paramList.insureCompany,
     insurePrc: item.paramList.insurePrc,

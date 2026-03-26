@@ -87,19 +87,26 @@ export function Modal({
         ref={dialogRef}
         tabIndex={-1}
       >
-        <div className="m-header">
-          <h2 className="m-title" id="m-title">
-            {title}
-          </h2>
+        {title && (
+          <div className="m-header" style={{ padding: '1.5rem 1.5rem 0.75rem' }}>
+            <h2 className="m-title" id="m-title">
+              {title}
+            </h2>
 
-          {showCloseButton && (
-            <button className="m-close" onClick={onClose} aria-label="Close">
-              ✕
-            </button>
-          )}
+            {showCloseButton && (
+              <button className="m-close" onClick={onClose} aria-label="Close">
+                ✕
+              </button>
+            )}
+          </div>
+        )}
+
+        <div
+          className="m-body"
+          style={{ padding: title ? '0.5rem 1.5rem 0.75rem' : '1.5rem 1.5rem 0.75rem' }}
+        >
+          {children}
         </div>
-
-        <div className="m-body">{children}</div>
 
         {footer && <div className="m-footer">{footer}</div>}
       </div>
