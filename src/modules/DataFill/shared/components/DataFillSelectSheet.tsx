@@ -57,7 +57,7 @@ export default function DataFillSelectSheet({
           </div>
         </div>
         <div
-          className={[styles.body, isFullscreen ? styles.fullscreenBody : styles.bottomBody].join(
+          className={[styles.body, styles.bottomBody, isFullscreen && styles.fullscreenBody].join(
             ' ',
           )}
         >

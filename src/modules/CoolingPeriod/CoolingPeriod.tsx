@@ -11,7 +11,11 @@ export default function CoolingPeriod() {
   return (
     <div className={styles.page}>
       <header className={styles.navbar}>
-        <button className={styles.closeBtn} onClick={() => navigate(-1)} aria-label="Закрыть">
+        <button
+          className={styles.closeBtn}
+          onClick={() => navigate('/loan-conditions')}
+          aria-label="Закрыть"
+        >
           <CloseIcon />
         </button>
       </header>
@@ -36,7 +40,10 @@ export default function CoolingPeriod() {
         </div>
       </main>
       <div className={styles.bottomBar}>
-        <button className={styles.continueBtn} onClick={() => navigate('/loan-conditions')}>
+        <button
+          className={styles.continueBtn}
+          onClick={() => navigate('/security-warning', { state: { type: 'online' } })}
+        >
           Продолжить
         </button>
       </div>

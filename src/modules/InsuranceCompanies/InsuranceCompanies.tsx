@@ -42,9 +42,9 @@ const InsuranceCompanies = () => {
             </p>
           </div>
         </div>
-        <a href="#" className={styles.insuranceInfoLink}>
+        {/* <a href="#" className={styles.insuranceInfoLink}>
           Подробнее о страховании
-        </a>
+        </a> */}
         <div className={styles.companiesList}>
           {insuranceCompaniesStore.availableInsuranceCompaniesItems.map((company, index) => (
             <button

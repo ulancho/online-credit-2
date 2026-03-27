@@ -35,7 +35,7 @@ const LoanConditions = () => {
     const success = await loanConditionsStore.setDeclineApplication(activeRequests?.applicationId);
 
     if (success) {
-      navigate('/application-decline', {
+      navigate('/finish-page', {
         state: {
           title: 'Вы отказались от кредита',
           description: `Ваша заявка успешно отклонена`,
