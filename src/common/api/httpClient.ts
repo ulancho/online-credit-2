@@ -11,7 +11,7 @@ export const httpClient = axios.create({
   baseURL,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: token,
+    token: token,
   },
   timeout: 10000,
 });
