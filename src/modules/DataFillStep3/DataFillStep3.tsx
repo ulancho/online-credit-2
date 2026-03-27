@@ -1,40 +1,36 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'Common/components/Button/Button.tsx';
-import Select from 'Common/components/Select/Select.tsx';
+// import Select from 'Common/components/Select/Select.tsx';
 import layoutStyles from 'Modules/DataFill/shared/components/DataFillLayout.module.scss';
 import DataFillLayout from 'Modules/DataFill/shared/components/DataFillLayout.tsx';
 import DataFillProgress from 'Modules/DataFill/shared/components/DataFillProgress.tsx';
-import DataFillSelectSheet from 'Modules/DataFill/shared/components/DataFillSelectSheet.tsx';
-import { BRANCHES_BY_REGION, REGIONS } from 'Modules/DataFill/shared/constants.ts';
+// import DataFillSelectSheet from 'Modules/DataFill/shared/components/DataFillSelectSheet.tsx';
+// import { BRANCHES_BY_REGION, REGIONS } from 'Modules/DataFill/shared/constants.ts';
 
 export default function DataFillStep3() {
   const navigate = useNavigate();
-  const [region, setRegion] = useState('');
-  const [branch, setBranch] = useState('');
-  const [openSheet, setOpenSheet] = useState<'region' | 'branch' | null>(null);
-  const isFormValid = region && branch;
-  const availableBranches = region ? (BRANCHES_BY_REGION[region] ?? []) : [];
+  // const [region, setRegion] = useState('');
+  // const [branch, setBranch] = useState('');
+  // const [openSheet, setOpenSheet] = useState<'region' | 'branch' | null>(null);
+  // const isFormValid = region && branch;
+  // const availableBranches = region ? (BRANCHES_BY_REGION[region] ?? []) : [];
 
   const handleContinue = () => {
-    if (isFormValid) {
-      navigate('/data-fill-success');
-    }
+    // if (isFormValid) {
+    navigate('/data-fill-success');
+    // }
   };
 
   return (
     <DataFillLayout
       onBack={() => navigate(-1)}
       progress={<DataFillProgress currentStep={3} />}
-      footer={
-        <Button disabled={!isFormValid} onClick={handleContinue}>
-          Продолжить
-        </Button>
-      }
+      footer={<Button onClick={handleContinue}>Продолжить</Button>}
     >
       <p className={layoutStyles.groupSubtitle}>Выберите филиал для прикрепления вашей заявки</p>
-      <Select
+      {/* <Select
         label="Регион"
         value={region}
         subLabel="Регион"
@@ -51,8 +47,8 @@ export default function DataFillStep3() {
             setOpenSheet('branch');
           }
         }}
-      />
-      {openSheet === 'region' ? (
+      /> */}
+      {/* {openSheet === 'region' ? (
         <DataFillSelectSheet
           title="Выберите регион"
           items={REGIONS}
@@ -76,7 +72,7 @@ export default function DataFillStep3() {
           }}
           onClose={() => setOpenSheet(null)}
         />
-      ) : null}
+      ) : null} */}
     </DataFillLayout>
   );
 }
