@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseURL = '/svc-biz-ib-cbk-private-credits/v1/api/webview';
+// const baseURL = '/svc-biz-ib-cbk-private-credits/v1/api/webview';
+const baseURL = 'https://preprodib.mbank.kg/svc-biz-ib-cbk-private-credits/v1/api/webview';
 
 // temporary token implementation
 const token =
