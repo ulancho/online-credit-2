@@ -1,32 +1,24 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
-export interface StartQueryParams {
-  clientId: string | null;
-  codeChallenge: string | null;
-  codeChallengeMethod: string | null;
-  redirectUri: string | null;
-  responseType: string | null;
-  scope: string | null;
-  state: string | null;
-  originalUrl?: string | null;
+export interface QueryParams {
+  token: string | null;
+  deviceId: string | null;
+  lang: string | null;
+  theme: string | null;
 }
 
-export function useQueryParams(): StartQueryParams {
+export function useQueryParams(): QueryParams {
   const { search } = useLocation();
 
   return useMemo(() => {
     const searchParams = new URLSearchParams(search);
 
     return {
-      clientId: searchParams.get('client_id'),
-      codeChallenge: searchParams.get('code_challenge'),
-      codeChallengeMethod: searchParams.get('code_challenge_method'),
-      redirectUri: searchParams.get('redirect_uri'),
-      responseType: searchParams.get('response_type'),
-      scope: searchParams.get('scope'),
-      state: searchParams.get('state'),
-      originalUrl: searchParams.get('original_url'),
+      token: searchParams.get('token'),
+      deviceId: searchParams.get('device-id'),
+      lang: searchParams.get('lang'),
+      theme: searchParams.get('theme'),
     };
   }, [search]);
 }

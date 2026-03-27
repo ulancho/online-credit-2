@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
 import { useApplicationStatusStore } from 'Common/stores/rootStore.tsx';
 
 import styles from './ApplicationStatusRedirect.module.scss';
@@ -9,6 +10,7 @@ import styles from './ApplicationStatusRedirect.module.scss';
 const ApplicationStatusRedirect = () => {
   const applicationStatusService = useApplicationStatusStore();
   const navigate = useNavigate();
+  // const queryParamService = useQueryParams();
 
   useEffect(() => {
     if (!applicationStatusService.application && !applicationStatusService.isLoading) {
