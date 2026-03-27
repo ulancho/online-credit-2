@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 
+import { exitApp } from 'Common/api/common.ts';
 import Button from 'Common/components/Button/Button.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useApplicationStatusStore, useCoolingStore } from 'Common/stores/rootStore.tsx';
@@ -49,7 +50,9 @@ function Cooling() {
   }, [awaitingIssueInfo?.awaitingLifetime]);
 
   const isFinished = secondsLeft <= 0;
-  const showInfoNotification = false;
+  const showInfoNotification = applicationStatusService.application?.amount
+    ? applicationStatusService.application?.amount > 100000
+    : false;
 
   return (
     <div className={styles.page}>
@@ -104,7 +107,7 @@ function Cooling() {
         )}
 
         <div className={styles.primaryBtnWrap}>
-          <Button>Понятно</Button>
+          <Button onClick={() => exitApp()}>Понятно</Button>
         </div>
         <div className={styles.dangerBtnWrap}>
           <Button variant="text-danger">Отказаться от кредита</Button>
