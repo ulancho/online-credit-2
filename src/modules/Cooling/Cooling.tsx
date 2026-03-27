@@ -5,6 +5,7 @@ import { exitApp } from 'Common/api/common.ts';
 import Button from 'Common/components/Button/Button.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import { useApplicationStatusStore, useCoolingStore } from 'Common/stores/rootStore.tsx';
+import { Modal } from 'Modules/LoanConditions/components/Modal.tsx';
 
 import styles from './Cooling.module.scss';
 
@@ -16,11 +17,18 @@ function formatTime(seconds: number): string {
 }
 
 function Cooling() {
+  const [confirmationModalActive, setConfirmationModalActive] = useState<boolean | null>(null);
+
   const applicationStatusService = useApplicationStatusStore();
   const coolingStore = useCoolingStore();
 
   const [secondsLeft, setSecondsLeft] = useState(0);
   const awaitingIssueInfo = coolingStore.awaitingIssueInfo;
+
+  const handleOpenConfirmationModalClick = () => setConfirmationModalActive(true);
+  const handleCloseConfirmationModalClick = () => setConfirmationModalActive(null);
+
+  const handleDeclineApplicationClick = () => {};
 
   useEffect(() => {
     const requestId = applicationStatusService.application?.requestId;
@@ -110,10 +118,31 @@ function Cooling() {
           <Button onClick={() => exitApp()}>Понятно</Button>
         </div>
         <div className={styles.dangerBtnWrap}>
-          <Button variant="text-danger">Отказаться от кредита</Button>
+          <Button variant="text-danger" onClick={handleOpenConfirmationModalClick}>
+            Отказаться от кредита
+          </Button>
         </div>
         <div className={styles.homeIndicator} />
       </footer>
+
+      <Modal
+        isOpen={confirmationModalActive}
+        onClose={handleCloseConfirmationModalClick}
+        title="Подтвердите действие"
+        size="sm"
+        footer={
+          <>
+            <button className="btn btn-text-green" onClick={handleCloseConfirmationModalClick}>
+              Нет
+            </button>
+            <button className="btn btn-text-green" onClick={handleDeclineApplicationClick}>
+              Да
+            </button>
+          </>
+        }
+      >
+        Вы уверены, что хотите отказаться от выдачи кредита?
+      </Modal>
     </div>
   );
 }
