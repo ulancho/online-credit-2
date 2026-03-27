@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react';
 import { exitApp } from 'Common/api/common.ts';
 import Button from 'Common/components/Button/Button.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
-import { useApplicationStatusStore, useCoolingStore } from 'Common/stores/rootStore.tsx';
+import {
+  useApplicationStatusStore,
+  useApplicationStore,
+  useCoolingStore,
+} from 'Common/stores/rootStore.tsx';
 import { Modal } from 'Modules/LoanConditions/components/Modal.tsx';
 
 import styles from './Cooling.module.scss';
@@ -20,6 +24,7 @@ function Cooling() {
   const [confirmationModalActive, setConfirmationModalActive] = useState<boolean | null>(null);
 
   const applicationStatusService = useApplicationStatusStore();
+  const applicationService = useApplicationStore();
   const coolingStore = useCoolingStore();
 
   const [secondsLeft, setSecondsLeft] = useState(0);
@@ -28,7 +33,24 @@ function Cooling() {
   const handleOpenConfirmationModalClick = () => setConfirmationModalActive(true);
   const handleCloseConfirmationModalClick = () => setConfirmationModalActive(null);
 
-  const handleDeclineApplicationClick = () => {};
+  const handleDeclineApplicationClick = async () => {
+    const applicationId = applicationStatusService.requestId;
+
+    if (!applicationId) {
+      alert('Не удалось получить идентификатор заявки');
+      return;
+    }
+
+    try {
+      const response = await applicationService.setDeclineApplication(applicationId);
+
+      if (response.status === 200) {
+        exitApp().then(() => console.log('закрытие модалки'));
+      }
+    } catch (error) {
+      alert('Попробуйте позже');
+    }
+  };
 
   useEffect(() => {
     const requestId = applicationStatusService.application?.requestId;

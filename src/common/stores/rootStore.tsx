@@ -6,6 +6,7 @@ import { DataFillStep2Service } from '@/modules/DataFillStep2/services/DataFillS
 import { InsuranceCompaniesService } from '@/modules/InsuranceCompanies/services/InsuranceCompaniesService';
 import { LoanCondtionsService } from '@/modules/LoanConditions/services/LoanConditionsService';
 import { LoanConfirmationService } from '@/modules/LoanConfirmation/services/LoanConfirmationService';
+import { ApplicationService } from 'Common/services/ApplicationService.ts';
 import { QueryParamsService } from 'Common/services/queryParamsService.ts';
 import { ApplicationStatusService } from 'Modules/ApplicationStatusRedirect/services/ApplicationStatusService.ts';
 import { CoolingService } from 'Modules/Cooling/services/CoolingService.ts';
@@ -31,6 +32,7 @@ class RootStore {
   readonly dataFillStep1Service = new DataFillStep1Service();
   readonly dataFillStep2Service = new DataFillStep2Service();
   readonly coolingService = new CoolingService();
+  readonly applicationService = new ApplicationService();
 }
 
 const rootStore = new RootStore();
@@ -106,4 +108,8 @@ export function useDataFillStep2Store() {
 
 export function useCoolingStore() {
   return useRootStore().coolingService;
+}
+
+export function useApplicationStore() {
+  return useRootStore().applicationService;
 }

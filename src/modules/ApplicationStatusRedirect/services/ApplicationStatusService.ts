@@ -60,6 +60,11 @@ export class ApplicationStatusService {
   }
 
   @computed
+  get requestId() {
+    return this.activeApplication?.requestId;
+  }
+
+  @computed
   get redirectRoute() {
     const status = this.activeApplication?.status;
 
