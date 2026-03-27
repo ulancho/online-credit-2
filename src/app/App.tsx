@@ -1,5 +1,6 @@
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
+import CreditSuccess from '@/modules/CreditSuccess/CreditSuccess';
 import ErrorPage from 'Common/components/ErrorPage/ErrorPage.tsx';
 import ApplicationDecline from 'Modules/ApplicationDecline/ApplicationDecline.tsx';
 import ApplicationStatusRedirect from 'Modules/ApplicationStatusRedirect/ApplicationStatusRedirect.tsx';
@@ -31,6 +32,7 @@ const AppContent = () => {
       <Route path="/otp" element={<OtpVerification />} />
       <Route path="/loading" element={<Loader />} />
       <Route path="/application-success" element={<ApplicationSuccess />} />
+      <Route path="/credit-success" element={<CreditSuccess />} />
       <Route path="/service-unavailable" element={<ServiceUnavailable />} />
       <Route path="/passport" element={<PassportCamera />} />
       <Route path="/passport-confirmation" element={<PassportConfirmation />} />

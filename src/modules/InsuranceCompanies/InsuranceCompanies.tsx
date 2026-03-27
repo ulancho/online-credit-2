@@ -7,14 +7,16 @@ import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
 import styles from './InsuranceCompanies.module.scss';
 
+import type { InsuranceCompaniesItem } from './models/InsuranceCompanies';
+
 const InsuranceCompanies = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const fromState = (location.state as { from?: string }) ?? {};
 
-  const handleSelect = (name: string) => {
+  const handleSelect = (insurance: InsuranceCompaniesItem) => {
     navigate(fromState.from ?? '/loan-confirmation', {
-      state: { insurance: name },
+      state: { insurance: JSON.stringify(insurance) },
     });
   };
   const insuranceCompaniesStore = useInsuranceCompaniesStore();
@@ -29,7 +31,7 @@ const InsuranceCompanies = () => {
 
   return (
     <div id="page" className={styles.page}>
-      <NavBar />
+      <NavBar onBack={() => navigate(-1)} />
       {/* Content */}
       <div className={styles.content}>
         <div className={styles.headerSection}>
@@ -48,7 +50,7 @@ const InsuranceCompanies = () => {
             <button
               key={company.name}
               className={`${styles.companyRow} ${index < insuranceCompaniesStore.availableInsuranceCompaniesItems.length - 1 ? styles.companyRowDivider : ''}`}
-              onClick={() => handleSelect(company.name)}
+              onClick={() => handleSelect(company)}
             >
               <div className={styles.companyInfo}>
                 <span className={styles.companyName}>{company.name}</span>
