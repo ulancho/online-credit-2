@@ -7,7 +7,7 @@ import { InsuranceCompaniesService } from '@/modules/InsuranceCompanies/services
 import { LoanCondtionsService } from '@/modules/LoanConditions/services/LoanConditionsService';
 import { LoanConfirmationService } from '@/modules/LoanConfirmation/services/LoanConfirmationService';
 import { ApplicationService } from 'Common/services/ApplicationService.ts';
-import { QueryParamsService } from 'Common/services/queryParamsService.ts';
+import { QueryParamsService } from 'Common/services/QueryParamsService.ts';
 import { ApplicationStatusService } from 'Modules/ApplicationStatusRedirect/services/ApplicationStatusService.ts';
 import { CoolingService } from 'Modules/Cooling/services/CoolingService.ts';
 import { ActivityTypeService } from 'Modules/CreditCalculator/services/ActivityTypeService.ts';
