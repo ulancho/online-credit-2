@@ -15,6 +15,7 @@ import { ActivityTypeService } from 'Modules/CreditCalculator/services/ActivityT
 import { CreditApplicationService } from 'Modules/CreditCalculator/services/CreditApplicationService.ts';
 import { CreditRatesService } from 'Modules/CreditCalculator/services/CreditRatesService.ts';
 import { LoanOffersService } from 'Modules/CreditCalculator/services/LoanOffersService.ts';
+import { PassportValidationService } from 'Modules/CreditCalculator/services/PassportValidationService.ts';
 import { LoanProcessingService } from 'Modules/Loader/services/LoanProcessingService.ts';
 import { PassportService } from 'Modules/PassportCamera/services/passportService.ts';
 
@@ -35,6 +36,7 @@ class RootStore {
   readonly dataFillStep3Service = new DataFillStep3Service();
   readonly coolingService = new CoolingService();
   readonly applicationService = new ApplicationService();
+  readonly passportValidationService = new PassportValidationService();
 }
 
 const rootStore = new RootStore();
@@ -118,4 +120,8 @@ export function useCoolingStore() {
 
 export function useApplicationStore() {
   return useRootStore().applicationService;
+}
+
+export function usePassportValidationStore() {
+  return useRootStore().passportValidationService;
 }

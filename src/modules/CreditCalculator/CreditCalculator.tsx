@@ -9,6 +9,8 @@ import {
   useCreditApplicationStore,
   useCreditRatesStore,
   useLoanOffersStore,
+  usePassportValidationStore,
+  useQueryParamsStore,
 } from '@/common/stores/rootStore';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
@@ -76,6 +78,8 @@ const CreditCalculator = () => {
   const loanCalculatorService = useLoanCalculatorService();
   const loanOffersService = useLoanOffersStore();
   const creditApplicationService = useCreditApplicationStore();
+  const queryParamsService = useQueryParamsStore();
+  const passportValidationService = usePassportValidationStore();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -124,6 +128,17 @@ const CreditCalculator = () => {
     });
 
     try {
+      const passportValidationResponse = await passportValidationService.validatePassport(
+        queryParamsService.token,
+        queryParamsService.deviceId,
+      );
+
+      if (passportValidationResponse?.valid) {
+        setIsPassportModalOpen(true);
+
+        return;
+      }
+
       const initResponse = await creditApplicationService.initCreditApplication({
         amount,
         periodInterval,
