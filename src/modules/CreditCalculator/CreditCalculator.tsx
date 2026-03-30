@@ -83,17 +83,12 @@ const CreditCalculator = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const [term1Checked, setTerm1Checked] = useState(false);
-  const [term2Checked, setTerm2Checked] = useState(false);
+  const [term1Checked, setTerm1Checked] = useState(!loanOffersService.publicLoanOfferData);
+  const [term2Checked, setTerm2Checked] = useState(!loanOffersService.loanOfferData);
   const [term3Checked, setTerm3Checked] = useState(false);
   const [isPassportModalOpen, setIsPassportModalOpen] = useState(false);
 
-  const allTermsAccepted =
-    loanOffersService.publicLoanOfferData &&
-    term1Checked &&
-    term2Checked &&
-    loanOffersService.loanOfferData &&
-    term3Checked;
+  const allTermsAccepted = term1Checked && term2Checked && term3Checked;
   const isSubmitEnabled =
     allTermsAccepted && getValues('loanAmount') !== '' && getValues('monthlyIncome') !== '';
 
