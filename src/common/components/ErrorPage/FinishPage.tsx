@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import SadIcon from 'Assets/icons/sad-circle.svg?react';
 import SuccessIcon from 'Assets/icons/success.svg?react';
+import { exitApp } from 'Common/api/common.ts';
 
 import styles from './FinishPage.module.scss';
 
@@ -22,6 +23,10 @@ const FinishPage = () => {
   const Icon = ICONS[state?.icon ?? ''] ?? SadIcon;
   const btnTitle = state?.btnTitle ?? 'На главную';
 
+  const closeWebView = () => {
+    exitApp().then((res) => console.log(res.status));
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.content}>
@@ -34,7 +39,9 @@ const FinishPage = () => {
         </div>
       </div>
       <div className={styles.buttonSection}>
-        <button className={styles.continueButton}>{btnTitle}</button>
+        <button onClick={closeWebView} className={styles.continueButton}>
+          {btnTitle}
+        </button>
       </div>
     </div>
   );
