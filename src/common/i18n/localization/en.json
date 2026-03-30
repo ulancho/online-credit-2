@@ -1,6 +1,113 @@
 {
+  "btns": {
+    "cancel": "Cancel",
+    "continue": "Continue"
+  },
+
   "credit-calculator": {
-    "title": "Давайте рассчитаем ваши комфортные условия по кредиту",
-    "description": "Это предварительный расчет, без учета суммы рефинансирования. В случае наличия кредитов для рефинансирования, предлагаемые условия могут измениться"
+    "title": "Let’s calculate your comfortable loan conditions",
+    "description": "This is a preliminary calculation and does not take the refinancing amount into account. If there are loans for refinancing, the proposed terms may change.",
+    "sum": "Loan amount",
+    "term": "Loan term",
+    "to": "До 500 000 сом",
+    "income": "Your monthly income",
+    "activityType": "Type of activity",
+    "insuranceConnectTitle": "I want to add insurance",
+    "insuranceConnectDesc": "Reduces the interest rate and lowers the monthly payment",
+    "monthlyPayment": "Monthly payment",
+    "bid": "Rate",
+    "overpayment": "Overpayment",
+    "notice": "By confirming, you create a loan application. You will receive a one-time code to verify your phone number.",
+
+    "activityTypes": {
+      "title": "Select your type of activity",
+      "confirm": "Continue"
+    },
+
+    "passportCheck": {
+      "title": "Passport is not valid",
+      "description": "It is necessary to rescan the passport"
+    }
+  },
+  "passportCamera": {
+    "title": "Take a photo of your KR ID passport to verify your identity",
+    "description": "Make sure the information is clearly readable",
+    "frontSide": "Front side",
+    "backSide": "Back side"
+  },
+  "otp": {
+    "title": "Enter the confirmation code",
+    "desc": "A confirmation code has been sent to your mobile number {{phoneNumber}}"
+  },
+  "loader": {
+    "title": "Processing data",
+    "desc": "Please wait"
+  },
+  "loanConditions": {
+    "title": "Your application has been approved under the following conditions",
+    "online": "Online loan",
+    "itemTitle": "No visit to the bank required, we will send the money to your card",
+    "term": "Term",
+    "bid": "Interest rate",
+    "monthlyPayment": "Monthly payments"
+  },
+  "loanConfirmations": {
+    "title": "Your application has been approved",
+    "desc": "Terms may have changed. Please check the details",
+    "sum": "Loan amount",
+    "monthlyPayment": "Monthly payment amount",
+    "term": "Loan term",
+    "overpayment": "Overpayment on the loan",
+    "bid": "Interest rate",
+    "chooseDate": "Select the monthly payment date",
+    "insuranceCompany": "Insurance company"
+  },
+  "coolingPeriod": {
+    "title": "Attention!",
+    "desc": "For your convenience and safety, a “cooling-off period” is provided when applying for an online loan. During this time, the loan funds are not credited to your account immediately. This allows you to cancel the loan if necessary",
+    "periodTitle": "The “cooling-off period” depends on the loan amount:",
+    "periodFirstOption": "from 50,001 to 100,000 KGS — 4 hours",
+    "periodSecondOption": "above 100,001 KGS — 12 hours, and a verification call to 5353 is required"
+  },
+  "securityWarning": {
+    "title": "MBANK cares about your safety!",
+    "desc": "Fraudsters may pretend to be bank employees or law enforcement officers, call you, and use deception by claiming that you have allegedly approved an online loan and that some confirmation is required from you. They may ask you to start a video call and share your screen to gain access to your data",
+    "sectionTitle": "If fraudsters call you, what should you do?",
+    "sectionFirstOption": "Stay alert and do not panic",
+    "sectionSecondOption": "Pause and end the call",
+    "sectionThirdOption": "Call MBANK at 5353"
+  },
+  "securityRemember": {
+    "title": "Remember",
+    "sectionFirstOption": "Never take a loan under the influence of third parties",
+    "sectionSecondOption": "Never share your personal data",
+    "sectionThirdOption": "Do not transfer money to unknown accounts",
+    "sectionFourthOption": "Check all information before making a decision",
+    "sectionFifthOption": "We are always available to help you!",
+    "desc": "Follow these simple rules and protect your finances from fraud!"
+  },
+  "dataFillFirstStep": {
+    "area": "Region",
+    "region": "District",
+    "settlement": "Settlement",
+    "street": "Street",
+    "house": "House",
+    "apartment": "Apartment"
+  },
+  "onlineLoanIssued": {
+    "title": "Loan has been issued",
+    "desc": "Please wait for the funds to arrive after the cooling-off period"
+  },
+  "offlineLoanIssued": {
+    "title": "Loan has been issued",
+    "desc": "Please wait. A bank specialist will contact you and invite you to the branch to receive the loan"
+  },
+  "cooling": {
+    "title": "Cooling-off period",
+    "desc": "The loan funds will be credited to your main Mbank account after the cooling-off period. These measures are designed to protect you from fraudulent activities"
+  },
+  "declined": {
+    "title": "Confirm action",
+    "desc": "Are you sure you want to cancel the loan issuance?"
   }
 }

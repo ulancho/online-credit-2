@@ -2,6 +2,7 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n';
 import { useLoanConditionsStore } from '@/common/stores/rootStore';
 import { formatAmount } from '@/common/utils/formatAmount';
 import { getMonthLabel } from '@/common/utils/months';
@@ -21,6 +22,7 @@ type LoanGroup = 'online' | 'offline' | 'ref';
 
 const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
   const loanConditionsStore = useLoanConditionsStore();
+  const { t } = useTranslation();
 
   const { activeRequestsData } = loanConditionsStore;
 
@@ -39,12 +41,12 @@ const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
       <div className={styles.amountRow}>
         <span className={styles.amount}>{formatAmount(activeGroup?.amount)} сом</span>
         {group === 'online' ? (
-          <span className={styles.onlineBadge}>Онлайн</span>
+          <span className={styles.onlineBadge}>{t('loanConditions.online')}</span>
         ) : (
-          <span className={styles.offlineBadge}>В филиале</span>
+          <span className={styles.offlineBadge}>{t('loanConditions.offline')}</span>
         )}
       </div>
-      <p className={styles.amountSubtitle}>Прямо сейчас на свой счет МБанк!</p>
+      <p className={styles.amountSubtitle}>{t('loanConditions.itemTitle')}</p>
       {/* Info rows */}
       <div className={styles.infoList}>
         {/* Срок */}
@@ -53,7 +55,7 @@ const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
             <CalendarIcon />
           </div>
           <div className={styles.infoContent}>
-            <span className={styles.infoLabel}>Срок</span>
+            <span className={styles.infoLabel}>{t('loanConditions.term')}</span>
             <span className={styles.infoValue}>{getMonthLabel(Number(activeGroup?.period))}</span>
           </div>
         </div>
@@ -63,7 +65,7 @@ const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
             <PercentIcon />
           </div>
           <div className={styles.infoContent}>
-            <span className={styles.infoLabel}>Процент</span>
+            <span className={styles.infoLabel}>{t('loanConditions.bid')}</span>
             <span className={styles.infoValue}>{activeGroup?.percent} %</span>
           </div>
         </div>
@@ -73,7 +75,7 @@ const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
             <LoanInfoIcon />
           </div>
           <div className={styles.infoContent}>
-            <span className={styles.infoLabel}>Ежемесячный взнос</span>
+            <span className={styles.infoLabel}>{t('loanConditions.monthlyPayment')}</span>
             <span className={styles.infoValue}>
               {formatAmount(activeGroup?.monthlyPayment)} {'\u20C0'}
             </span>

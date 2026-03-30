@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { exitApp } from '@/common/api/common';
+import { useTranslation } from '@/common/i18n';
 import { useLoanConditionsStore } from '@/common/stores/rootStore';
 import WalletImage from 'Assets/icons/coin_percent.png';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
@@ -16,6 +17,7 @@ const LoanConditions = () => {
   const { activeRequests, extendedIsAvailable, onlineClaimAvailable, offlineClaimAvailable } =
     loanConditionsStore;
 
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [active, setActive] = useState<boolean | null>(null);
@@ -53,7 +55,7 @@ const LoanConditions = () => {
     <div id="page">
       <NavBar onBack={closeWebView} />
       <div className={styles.content}>
-        <h1 className={styles.pageTitle}>Ваша заявка одобрена на следующих условиях</h1>
+        <h1 className={styles.pageTitle}>{t('loanConditions.title')}</h1>
         {/* Blue promo banner */}
         {extendedIsAvailable && (
           <div className={styles.promoBanner}>
@@ -87,20 +89,20 @@ const LoanConditions = () => {
         <Modal
           isOpen={active}
           onClose={close}
-          title="Подтвердите действие"
+          title={t('declined.title')}
           size="sm"
           footer={
             <>
               <button className="btn btn-text-green" onClick={close}>
-                Нет
+                {t('btns.no')}
               </button>
               <button className="btn btn-text-green" onClick={proceedToDeclinedPage}>
-                Да
+                {t('btns.yes')}
               </button>
             </>
           }
         >
-          Вы уверены, что хотите отказаться от выдачи кредита?
+          {t('declined.desc')}
         </Modal>
       </div>
     </div>

@@ -319,7 +319,7 @@ const CreditCalculator = () => {
             overpayment={loanSummary.overpayment}
           />
           <div className={styles.notificationSection}>
-            <InfoNotification text="После вашего действия будет создана заявка на кредит. Мы отправим вам одноразовый код для проверки номера телефона." />
+            <InfoNotification text={t('credit-calculator.notice')} />
           </div>
           <div className={styles.termsSection}>
             <TermsCheckbox

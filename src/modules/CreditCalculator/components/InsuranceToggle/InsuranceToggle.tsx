@@ -1,3 +1,5 @@
+import { useTranslation } from 'Common/i18n';
+
 import styles from './InsuranceToggle.module.css';
 
 interface InsuranceToggleProps {
@@ -6,12 +8,14 @@ interface InsuranceToggleProps {
 }
 
 export default function InsuranceToggle({ checked, onChange }: InsuranceToggleProps) {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.card}>
       <div className={styles.content}>
         <div className={styles.textBlock}>
-          <p className={styles.title}>Хочу подключить страхование</p>
-          <p className={styles.subtitle}>Снижает ставку и уменьшает ежемесячный платёж</p>
+          <p className={styles.title}>{t('credit-calculator.insuranceConnectTitle')}</p>
+          <p className={styles.subtitle}>{t('credit-calculator.insuranceConnectDesc')}</p>
         </div>
         <button
           type="button"

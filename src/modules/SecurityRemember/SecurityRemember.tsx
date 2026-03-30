@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n';
 import SecurityShieldImage from 'Assets/images/security_shield.png';
 
 import styles from './SecurityRemember.module.scss';
 
 export default function SecurityRemember() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className={styles.page}>
@@ -21,16 +23,15 @@ export default function SecurityRemember() {
       </header>
       <main className={styles.content}>
         <section className={styles.section}>
-          <h1 className={styles.title}>Помните:</h1>
+          <h1 className={styles.title}>{t('securityRemember.title')}</h1>
           <ul className={styles.bulletList}>
-            <li>Никогда не делитесь своими личными данными и кодами подтверждения.</li>
-            <li>Не переводите деньги на неизвестные счета.</li>
-            <li>Проверяйте всю информацию перед тем, как принимать решение.</li>
-            <li>Мы всегда на связи, чтобы помочь вам!</li>
+            <li>{t('securityRemember.sectionFirstOption')}</li>
+            <li>{t('securityRemember.sectionSecondOption')}</li>
+            <li>{t('securityRemember.sectionThirdOption')}</li>
+            <li>{t('securityRemember.sectionFourthOption')}</li>
+            <li>{t('securityRemember.sectionFifthOption')}</li>
           </ul>
-          <p className={styles.accentText}>
-            Следуйте этим простым правилам и защитите свои финансы от мошенников!
-          </p>
+          <p className={styles.accentText}>{t('securityRemember.desc')}</p>
         </section>
         <div className={styles.shieldImageWrapper}>
           <img className={styles.shieldImage} src={SecurityShieldImage} alt="Security shield" />

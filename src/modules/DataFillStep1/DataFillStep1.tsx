@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n';
 import { useDataFillStep1Store, useLoanConfirmationStore } from '@/common/stores/rootStore';
 import Button from 'Common/components/Button/Button.tsx';
 import InputField from 'Common/components/InputField/InputField.tsx';
@@ -18,6 +19,7 @@ import type { Area } from '../DataFill/models/area';
 const DataFillStep1 = () => {
   const dataFillStep1Store = useDataFillStep1Store();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [area, setArea] = useState<Area | null>(null);
   const [region, setRegion] = useState<Area | null>(null);
   const [settlement, setSettlement] = useState<Area | null>(null);
@@ -105,48 +107,48 @@ const DataFillStep1 = () => {
     >
       <p className={layoutStyles.groupSubtitle}>Обновите данные о фактическом адресе проживания</p>
       <Select
-        label="Область"
+        label={t('dataFillFirstStep.area')}
         value={area ? area.name : ''}
-        subLabel="Область"
+        subLabel={t('dataFillFirstStep.area')}
         filled={area ? !!area.name : false}
         onClick={() => setOpenSheet('area')}
       />
       <Select
-        label="Регион"
+        label={t('dataFillFirstStep.region')}
         value={region ? region.name : ''}
-        subLabel="Регион"
+        subLabel={t('dataFillFirstStep.region')}
         filled={region ? !!region : false}
         onClick={() => setOpenSheet('region')}
         disabled={!area}
       />
       <Select
-        label="Населённый пункт"
+        label={t('dataFillFirstStep.settlement')}
         value={settlement ? settlement.name : ''}
-        subLabel="Населённый пункт"
+        subLabel={t('dataFillFirstStep.settlement')}
         filled={settlement ? !!settlement : false}
         onClick={() => setOpenSheet('settlement')}
         disabled={!region}
       />
       <div className={styles.inputWrapper}>
         <InputField
-          mainPlaceholder="Улица"
-          secondaryPlaceholder="Улица"
+          mainPlaceholder={t('dataFillFirstStep.street')}
+          secondaryPlaceholder={t('dataFillFirstStep.street')}
           value={factStreet}
           onChange={setFactStreet}
         />
       </div>
       <div className={styles.inputWrapper}>
         <InputField
-          mainPlaceholder="Дом"
-          secondaryPlaceholder="Дом"
+          mainPlaceholder={t('dataFillFirstStep.house')}
+          secondaryPlaceholder={t('dataFillFirstStep.house')}
           value={house}
           onChange={setHouse}
         />
       </div>
       <div className={styles.inputWrapper}>
         <InputField
-          mainPlaceholder="Квартира"
-          secondaryPlaceholder="Квартира"
+          mainPlaceholder={t('dataFillFirstStep.apartment')}
+          secondaryPlaceholder={t('dataFillFirstStep.apartment')}
           value={apartment}
           onChange={setApartment}
         />

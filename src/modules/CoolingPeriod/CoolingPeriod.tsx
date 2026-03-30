@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n';
 import CloseIcon from 'Assets/icons/close.svg?react';
 import ClockImage from 'Assets/images/clock.png';
 
@@ -7,6 +8,7 @@ import styles from './CoolingPeriod.module.scss';
 
 export default function CoolingPeriod() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className={styles.page}>
@@ -21,17 +23,13 @@ export default function CoolingPeriod() {
       </header>
       <main className={styles.content}>
         <section className={styles.section}>
-          <h1 className={styles.title}>Внимание!</h1>
-          <p className={styles.bodyText}>
-            Для вашего удобства и безопасности, при оформлении онлайн кредита предусмотрен период
-            охлаждения, в течение которого кредитные средства не будут сразу зачислены на ваш счет.
-            Это позволит вам при необходимости отказаться от кредита
-          </p>
+          <h1 className={styles.title}>{t('coolingPeriod.title')}</h1>
+          <p className={styles.bodyText}>{t('coolingPeriod.desc')}</p>
           <div className={styles.periodInfo}>
-            <p className={styles.periodTitle}>Период охлаждения зависит от суммы кредита:</p>
+            <p className={styles.periodTitle}>{t('coolingPeriod.periodTitle')}</p>
             <ul className={styles.bulletList}>
-              <li>для кредитов от 50 001 сома до 100 000 сомов – 4 часа</li>
-              <li>для кредитов от 100 001 сома – 12 часов</li>
+              <li>{t('coolingPeriod.periodFirstOption')}</li>
+              <li>{t('coolingPeriod.periodSecondOption')}</li>
             </ul>
           </div>
         </section>

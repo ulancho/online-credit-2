@@ -2,6 +2,7 @@
 import { observer } from 'mobx-react-lite';
 import { useRef, useState, useCallback, useEffect } from 'react';
 
+import { useTranslation } from '@/common/i18n';
 import { usePassportStore } from 'Common/stores/rootStore.tsx';
 
 import styles from './PassportCamera.module.scss';
@@ -14,6 +15,7 @@ interface PassportCameraProps {
 }
 
 function PassportCamera({ onBack, onSuccess }: PassportCameraProps) {
+  const { t } = useTranslation();
   const passportStore = usePassportStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -28,7 +30,7 @@ function PassportCamera({ onBack, onSuccess }: PassportCameraProps) {
   const isCameraStep = step === 'front-camera' || step === 'back-camera';
   const isPreviewStep = step === 'front-preview' || step === 'back-preview';
   const isFrontSide = step === 'front-camera' || step === 'front-preview';
-  const sideName = isFrontSide ? 'Лицевая сторона' : 'Обратная сторона';
+  const sideName = isFrontSide ? t('passportCamera.frontSide') : t('passportCamera.backSide');
   const previewPhoto =
     step === 'front-preview' ? frontPhoto : step === 'back-preview' ? backPhoto : null;
 
@@ -167,10 +169,8 @@ function PassportCamera({ onBack, onSuccess }: PassportCameraProps) {
       {/* Title + subtitle (camera mode only) */}
       {isCameraStep && (
         <div className={styles.titleSection}>
-          <h2 className={styles.pageTitle}>
-            Сделайте фото Вашего ID паспорта КР для прохождение идентификации
-          </h2>
-          <p className={styles.pageSubtitle}>Убедитесь, что данные хорошо читаются</p>
+          <h2 className={styles.pageTitle}>{t('passportCamera.title')}</h2>
+          <p className={styles.pageSubtitle}>{t('passportCamera.description')}</p>
         </div>
       )}
       {/* Side label badge */}
@@ -184,7 +184,7 @@ function PassportCamera({ onBack, onSuccess }: PassportCameraProps) {
         <div className={styles.captureBar}>
           {step === 'back-camera' && frontPhoto ? (
             <div className={styles.frontThumbnail}>
-              <img src={frontPhoto} alt="Лицевая сторона" />
+              <img src={frontPhoto} alt={t('passportCamera.title')} />
               <span className={styles.doneLabel}>Готово</span>
             </div>
           ) : (

@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 
+import { useTranslation } from '@/common/i18n';
 import { exitApp } from 'Common/api/common.ts';
 import Button from 'Common/components/Button/Button.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
@@ -21,6 +22,7 @@ function formatTime(seconds: number): string {
 }
 
 function Cooling() {
+  const { t } = useTranslation();
   const [confirmationModalActive, setConfirmationModalActive] = useState<boolean | null>(null);
 
   const applicationStatusService = useApplicationStatusStore();
@@ -90,11 +92,8 @@ function Cooling() {
       {/* Header */}
       <header className={styles.navbar}>
         <div className={styles.navbarContent}>
-          <h1 className={styles.pageTitle}>Период охлаждения</h1>
-          <p className={styles.pageDescription}>
-            Кредитные средства будут зачислены на ваш основной счет MBANK по истечению периода
-            охлаждения.{'\n'}Данные меры предусмотрены для Вашей защиты от мошеннических действий
-          </p>
+          <h1 className={styles.pageTitle}>{t('cooling.title')}</h1>
+          <p className={styles.pageDescription}>{t('cooling.desc')}</p>
         </div>
       </header>
 

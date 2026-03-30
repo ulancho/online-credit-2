@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n';
 import { useLoanConditionsStore, useLoanConfirmationStore } from '@/common/stores/rootStore';
 import { formatAmount } from '@/common/utils/formatAmount';
 import PercentIcon from 'Assets/icons/products.svg?react';
@@ -45,6 +46,7 @@ function Checkbox({ checked, onChange }: CheckboxProps) {
 
 const LoanConfirmation = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const location = useLocation();
   const { type } = useParams();
 
@@ -136,11 +138,8 @@ const LoanConfirmation = () => {
       <div className={styles.content}>
         <div className={styles.headerSection}>
           <div className={styles.titleBlock}>
-            <h1 className={styles.title}>Ваша заявка одобрена</h1>
-            <p className={styles.description}>
-              Условия могли измениться.
-              <br /> Пожалуйста, проверьте данные
-            </p>
+            <h1 className={styles.title}>{t('loanConfirmations.title')}</h1>
+            <p className={styles.description}>{t('loanConfirmations.desc')}</p>
           </div>
         </div>
         {/* Credit amount card */}
@@ -148,7 +147,7 @@ const LoanConfirmation = () => {
           <div className={styles.amountCard}>
             <PercentIcon />
             <div className={styles.amountInfo}>
-              <span className={styles.amountLabel}>Сумма кредита</span>
+              <span className={styles.amountLabel}>{t('loanConfirmations.sum')}</span>
               <span className={styles.amountValue}>{formatAmount(activeGroup?.amount)} c</span>
             </div>
           </div>
@@ -158,21 +157,21 @@ const LoanConfirmation = () => {
         <div className={styles.sectionPad}>
           <div className={styles.infoCard}>
             <div className={styles.infoRow}>
-              <span className={styles.infoLabel}>Сумма ежемесячного платежа</span>
+              <span className={styles.infoLabel}>{t('loanConfirmations.monthlyPayment')}</span>
               <span className={styles.infoValue}>
                 {formatAmount(activeGroup?.monthlyPayment)} c
               </span>
             </div>
             <div className={styles.infoRow}>
-              <span className={styles.infoLabel}>Срок кредита</span>
+              <span className={styles.infoLabel}>{t('loanConfirmations.term')}</span>
               <span className={styles.infoValue}>{activeGroup?.period}</span>
             </div>
             <div className={styles.infoRow}>
-              <span className={styles.infoLabel}>Переплата по кредиту</span>
+              <span className={styles.infoLabel}>{t('loanConfirmations.overpayment')}</span>
               <span className={styles.infoValue}>{formatAmount(overPayment)} c</span>
             </div>
             <div className={`${styles.infoRow} ${styles.infoRowLast}`}>
-              <span className={styles.infoLabel}>Проценты</span>
+              <span className={styles.infoLabel}>{t('loanConfirmations.bid')}</span>
               <span className={styles.infoValue}>{activeGroup?.percent}%</span>
             </div>
           </div>
@@ -180,7 +179,7 @@ const LoanConfirmation = () => {
 
         {/* Repayment day selection */}
         <div className={styles.sectionPad}>
-          <h3 className={styles.sectionTitle}>Выберите число месяца для погашений</h3>
+          <h3 className={styles.sectionTitle}>{t('loanConfirmations.chooseDate')}</h3>
           <div className={styles.dayChips}>
             {loanConfirmationStore.availablePayDateList?.map((day) => (
               <button
@@ -197,7 +196,7 @@ const LoanConfirmation = () => {
         {/* Insurance selector */}
         {loanConditionsStore.activeRequests?.insuranceConsent && (
           <div className={styles.sectionPad}>
-            <h3 className={styles.sectionTitle}>Выберите страхование</h3>
+            <h3 className={styles.sectionTitle}>{t('loanConfirmations.insuranceCompany')}</h3>
             <button
               className={styles.insuranceSelector}
               onClick={() => {
@@ -265,20 +264,20 @@ const LoanConfirmation = () => {
           <Modal
             isOpen={active}
             onClose={close}
-            title="Подтвердите действие"
+            title={t('declined.title')}
             size="sm"
             footer={
               <>
                 <button className="btn btn-text-green" onClick={close}>
-                  Нет
+                  {t('btns.no')}
                 </button>
                 <button className="btn btn-text-green" onClick={proceedToDeclinedPage}>
-                  Да
+                  {t('btns.yes')}
                 </button>
               </>
             }
           >
-            Вы уверены, что хотите отказаться от выдачи кредита?
+            {t('declined.desc')}
           </Modal>
         </div>
       </div>

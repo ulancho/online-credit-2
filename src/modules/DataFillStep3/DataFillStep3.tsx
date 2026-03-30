@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Spinner from '@/common/components/Spinner/Spinner';
+import { useTranslation } from '@/common/i18n';
 import {
   useDataFillStep2Store,
   useDataFillStep3Store,
@@ -24,6 +25,7 @@ import type { SubmitApplicationType } from '../DataFillStep2/services/DataFillSt
 const DataFillStep3 = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const [active, setActive] = useState<boolean | null>(null);
   const [factCityCftId, setFactCityCftId] = useState<CitiesItem | null>(null);
   const [serviceBranch, setServiceBranch] = useState<CitiesItem | null>(null);
@@ -73,8 +75,8 @@ const DataFillStep3 = () => {
     if (success) {
       navigate('/finish-page', {
         state: {
-          title: 'Кредит оформлен',
-          description: 'С Вами свяжется специалист банка и пригласит в филиал для выдачи кредита',
+          title: t('offlineLoanIssued.title'),
+          description: t('offlineLoanIssued.desc'),
           btnTitle: 'В кабинет кредитов',
           Icon: 'success',
         },
@@ -112,7 +114,7 @@ const DataFillStep3 = () => {
       progress={<DataFillProgress currentStep={3} />}
       footer={
         <Button onClick={handleContinue}>
-          {dataFillStep2Store.awaiting ? <Spinner width={30} height={30} /> : 'Продолжить'}
+          {dataFillStep2Store.awaiting ? <Spinner width={25} height={25} /> : 'Продолжить'}
         </Button>
       }
     >

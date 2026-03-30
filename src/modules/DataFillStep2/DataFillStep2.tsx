@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n';
 import {
   useDataFillStep2Store,
   useLoanConditionsStore,
@@ -18,14 +19,15 @@ import { Modal } from '../LoanConditions/components/Modal';
 import type { SubmitApplicationType } from './services/DataFillStep2Service';
 
 export default function DataFillStep2() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState<boolean | null>(null);
   const [additionalPhoneNumber, setAdditionalPhoneNumber] = useState('');
   const [relativeFullName, setRelativeFullName] = useState('');
-  const [relationToBorrow, setRelationToBorrow] = useState('');
+  const [relationToBorrower, setRelationToBorrower] = useState('');
   const [submitError, setSubmitError] = useState<string | undefined>(undefined);
-  const isFormValid = additionalPhoneNumber && relativeFullName && relationToBorrow;
+  const isFormValid = additionalPhoneNumber && relativeFullName && relationToBorrower;
 
   const dataFillStep2Store = useDataFillStep2Store();
   const loanConfirmationStore = useLoanConfirmationStore();
@@ -35,6 +37,8 @@ export default function DataFillStep2() {
   const close = () => setActive(null);
 
   const handleContinue = async () => {
+    console.log(typeof relationToBorrower, relativeFullName);
+
     const { factOblast, factRaion, factCity, factStreet, factAddress } = JSON.parse(
       location.state.dataFirstStep,
     );
@@ -46,7 +50,7 @@ export default function DataFillStep2() {
               ...JSON.parse(location.state.dataFirstStep),
               additionalPhoneNumber,
               relativeFullName,
-              relationToBorrow,
+              relationToBorrower,
             }),
           },
         });
@@ -63,7 +67,7 @@ export default function DataFillStep2() {
         factStreet,
         factAddress,
         additionalPhoneNumber,
-        relationToBorrow,
+        relationToBorrower,
         relativeFullName,
         insureCompanyId: loanConfirmationStore.dataSubmitCredit?.insureCompanyId,
         acceptAgreement: loanConfirmationStore.dataSubmitCredit?.acceptAgreement,
@@ -74,8 +78,8 @@ export default function DataFillStep2() {
       if (success) {
         navigate('/finish-page', {
           state: {
-            title: 'Кредит оформлен',
-            description: 'Ожидайте поступления денежных средств',
+            title: t('onlineLoanIssued.title'),
+            description: t('onlineLoanIssued.desc'),
             btnTitle: 'В кабинет кредитов',
             Icon: 'success',
           },
@@ -89,11 +93,11 @@ export default function DataFillStep2() {
 
   useEffect(() => {
     if (dataFillStep2Store.formData) {
-      const { additionalPhoneNumber, relativeFullName, relationToBorrow } =
+      const { additionalPhoneNumber, relativeFullName, relationToBorrower } =
         dataFillStep2Store.formData;
       setAdditionalPhoneNumber(additionalPhoneNumber);
       setRelativeFullName(relativeFullName);
-      setRelationToBorrow(relationToBorrow);
+      setRelationToBorrower(relationToBorrower);
     }
   }, []);
 
@@ -103,7 +107,7 @@ export default function DataFillStep2() {
         dataFillStep2Store.setFormData({
           additionalPhoneNumber,
           relativeFullName,
-          relationToBorrow,
+          relationToBorrower,
         });
         navigate(-1);
       }}
@@ -128,8 +132,8 @@ export default function DataFillStep2() {
       <InputField mainPlaceholder="ФИО" value={relativeFullName} onChange={setRelativeFullName} />
       <InputField
         mainPlaceholder="Кем приходится"
-        value={relationToBorrow}
-        onChange={setRelationToBorrow}
+        value={relationToBorrower}
+        onChange={setRelationToBorrower}
       />
 
       <Modal

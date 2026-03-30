@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n';
 import { confirmOtp } from 'Modules/OtpVerification/api/otpVerificationApi.ts';
 
 import styles from './OtpVerification.module.scss';
@@ -11,6 +12,7 @@ const PHONE = '+996 (555) XXX 123';
 
 export default function OtpVerification() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [code, setCode] = useState('');
   const [seconds, setSeconds] = useState(INITIAL_SECONDS);
   const [canResend, setCanResend] = useState(false);
@@ -81,9 +83,7 @@ export default function OtpVerification() {
     <div className={styles.page}>
       <div className={styles.content}>
         <span className={styles.timer}>{formatTime(seconds)}</span>
-        <p className={styles.description}>
-          На Ваш номер мобильного телефона {PHONE} был отправлен код подтверждения
-        </p>
+        <p className={styles.description}>{t('otp.desc', { phoneNumber: PHONE })}</p>
         <div className={styles.codeArea} onClick={focusInput}>
           <input
             ref={inputRef}

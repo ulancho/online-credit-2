@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n';
 import CloseIcon from 'Assets/icons/close.svg?react';
 
 import styles from './SecurityWarning.module.scss';
@@ -7,6 +8,7 @@ import styles from './SecurityWarning.module.scss';
 export default function SecurityWarning() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
 
   return (
     <div className={styles.page}>
@@ -32,19 +34,15 @@ export default function SecurityWarning() {
       </header>
       <main className={styles.content}>
         <section className={styles.section}>
-          <h1 className={styles.title}>MBANK заботится о вашей безопасности!</h1>
-          <p className={styles.bodyText}>
-            Мошенники могут притвориться сотрудниками банка, звонить вам и предлагать выгодные
-            кредиты. Будьте осторожны! Они могут попросить включить видеозвонок или демонстрацию
-            экрана, чтобы получить доступ к вашим данным
-          </p>
+          <h1 className={styles.title}>{t('securityWarning.title')}</h1>
+          <p className={styles.bodyText}>{t('securityWarning.desc')}</p>
         </section>
         <section className={styles.section}>
-          <h2 className={styles.subtitle}>Что делать, если вам позвонили мошенники:</h2>
+          <h2 className={styles.subtitle}>{t('securityWarning.sectionTitle')}</h2>
           <ol className={styles.numberedList}>
-            <li>Будьте бдительны и не паникуйте</li>
-            <li>Возьмите паузу и сбросьте звонок</li>
-            <li>Позвоните в контакт-центр MBANK по номеру 5353</li>
+            <li>{t('securityWarning.sectionFirstOption')}</li>
+            <li>{t('securityWarning.sectionSecondOption')}</li>
+            <li>{t('securityWarning.sectionThirdOption')}</li>
           </ol>
         </section>
       </main>
