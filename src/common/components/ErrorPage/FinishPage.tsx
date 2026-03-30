@@ -2,22 +2,25 @@ import { observer } from 'mobx-react-lite';
 import { useLocation } from 'react-router-dom';
 
 import SadIcon from 'Assets/icons/sad-circle.svg?react';
+import SuccessIcon from 'Assets/icons/success.svg?react';
 
-import styles from './ErrorPage.module.scss';
+import styles from './FinishPage.module.scss';
 
 import type { ElementType } from 'react';
 
 const ICONS: Record<string, ElementType> = {
   sad: SadIcon,
+  success: SuccessIcon,
 };
 
-const ErrorPage = () => {
+const FinishPage = () => {
   const location = useLocation();
   const state = location.state;
 
   const title = state?.title ?? 'Что-то пошло не так';
   const description = state?.description ?? 'Пожалуйста, попробуйте позже';
   const Icon = ICONS[state?.icon ?? ''] ?? SadIcon;
+  const btnTitle = state?.btnTitle ?? 'На главную';
 
   return (
     <div className={styles.page}>
@@ -31,10 +34,10 @@ const ErrorPage = () => {
         </div>
       </div>
       <div className={styles.buttonSection}>
-        <button className={styles.continueButton}>На главную</button>
+        <button className={styles.continueButton}>{btnTitle}</button>
       </div>
     </div>
   );
 };
 
-export default observer(ErrorPage);
+export default observer(FinishPage);

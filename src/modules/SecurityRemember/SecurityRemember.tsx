@@ -37,7 +37,7 @@ export default function SecurityRemember() {
         </div>
       </main>
       <div className={styles.bottomBar}>
-        <button className={styles.continueBtn} onClick={() => navigate('/cooling-period')}>
+        <button className={styles.continueBtn} onClick={() => navigate('/data-fill')}>
           Продолжить
         </button>
       </div>

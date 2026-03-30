@@ -88,7 +88,10 @@ const LoanConfirmation = () => {
   );
 
   const isButtonActive =
-    selectedInsurance !== null && isKeyDataChecked && isInsuranceTermsChecked && selectedDay;
+    (selectedInsurance !== null || !loanConditionsStore.activeRequests?.insuranceConsent) &&
+    isKeyDataChecked &&
+    isInsuranceTermsChecked &&
+    selectedDay;
 
   const loadData = useCallback(async () => {
     loanConditionsStore.getActiveRequests();
@@ -105,7 +108,7 @@ const LoanConfirmation = () => {
     const success = await loanConditionsStore.setDeclineApplication(activeRequests?.applicationId);
 
     if (success) {
-      navigate('/application-decline', {
+      navigate('/finish-page', {
         state: {
           title: 'Вы отказались от кредита',
           description: `Ваша заявка успешно отклонена`,
@@ -118,11 +121,13 @@ const LoanConfirmation = () => {
   const submitCredit = () => {
     loanConfirmationStore.setSubmitCredit({
       acceptAgreement: isInsuranceTermsChecked,
-      insureCompanyId: selectedInsurance?.insureCompanyId as string,
+      insureCompanyId: (selectedInsurance?.insureCompanyId as string) || '1',
       paymentDay: selectedDay as number,
       type,
     });
-    navigate('/data-fill');
+    if (type === 'online') {
+      navigate('/cooling-period');
+    } else navigate('/security-warning');
   };
 
   return (

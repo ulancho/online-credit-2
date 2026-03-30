@@ -100,6 +100,18 @@
 
 .body {
   flex: 1;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Для Firefox */
+  scrollbar-width: none;
+
+  /* Для Internet Explorer и старого Edge */
+  -ms-overflow-style: none;
+
+  /* Обязательно для работы скролла */
   overflow-y: auto;
 }
 

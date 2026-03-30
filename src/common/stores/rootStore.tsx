@@ -3,6 +3,7 @@ import { createContext, useContext, type ReactNode } from 'react';
 
 import { DataFillStep1Service } from '@/modules/DataFillStep1/services/DataFillStep1Service';
 import { DataFillStep2Service } from '@/modules/DataFillStep2/services/DataFillStep2Service';
+import { DataFillStep3Service } from '@/modules/DataFillStep3/services/DataFillStep3Service';
 import { InsuranceCompaniesService } from '@/modules/InsuranceCompanies/services/InsuranceCompaniesService';
 import { LoanCondtionsService } from '@/modules/LoanConditions/services/LoanConditionsService';
 import { LoanConfirmationService } from '@/modules/LoanConfirmation/services/LoanConfirmationService';
@@ -31,6 +32,7 @@ class RootStore {
   readonly loanConfirmationService = new LoanConfirmationService();
   readonly dataFillStep1Service = new DataFillStep1Service();
   readonly dataFillStep2Service = new DataFillStep2Service();
+  readonly dataFillStep3Service = new DataFillStep3Service();
   readonly coolingService = new CoolingService();
   readonly applicationService = new ApplicationService();
 }
@@ -104,6 +106,10 @@ export function useDataFillStep1Store() {
 
 export function useDataFillStep2Store() {
   return useRootStore().dataFillStep2Service;
+}
+
+export function useDataFillStep3Store() {
+  return useRootStore().dataFillStep3Service;
 }
 
 export function useCoolingStore() {

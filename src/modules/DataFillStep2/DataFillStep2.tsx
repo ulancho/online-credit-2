@@ -31,13 +31,25 @@ export default function DataFillStep2() {
   const loanConfirmationStore = useLoanConfirmationStore();
   const loanConditionsStore = useLoanConditionsStore();
 
+  const open = (val: boolean) => setActive(val);
+  const close = () => setActive(null);
+
   const handleContinue = async () => {
     const { factOblast, factRaion, factCity, factStreet, factAddress } = JSON.parse(
       location.state.dataFirstStep,
     );
     if (loanConfirmationStore.dataSubmitCredit?.type === 'offline') {
       if (isFormValid) {
-        navigate('/data-fill-3');
+        navigate('/data-fill-3', {
+          state: {
+            formedData: JSON.stringify({
+              ...JSON.parse(location.state.dataFirstStep),
+              additionalPhoneNumber,
+              relativeFullName,
+              relationToBorrow,
+            }),
+          },
+        });
       }
     } else {
       const dataToSend: SubmitApplicationType = {
@@ -60,16 +72,20 @@ export default function DataFillStep2() {
       const { success, error } = await dataFillStep2Store.submitApplication(dataToSend);
 
       if (success) {
-        navigate('/application-success');
+        navigate('/finish-page', {
+          state: {
+            title: 'Кредит оформлен',
+            description: 'Ожидайте поступления денежных средств',
+            btnTitle: 'В кабинет кредитов',
+            Icon: 'success',
+          },
+        });
       } else {
         setSubmitError(error);
         open(true);
       }
     }
   };
-
-  const open = (val: boolean) => setActive(val);
-  const close = () => setActive(null);
 
   useEffect(() => {
     if (dataFillStep2Store.formData) {

@@ -30,6 +30,11 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: true,
         },
+        '/svc-common-directory/v2': {
+          target: 'https://preprodib.mbank.kg',
+          changeOrigin: true,
+          secure: true,
+        },
       },
     },
   };

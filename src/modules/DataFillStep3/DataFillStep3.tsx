@@ -1,78 +1,180 @@
-// import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import Spinner from '@/common/components/Spinner/Spinner';
+import {
+  useDataFillStep2Store,
+  useDataFillStep3Store,
+  useLoanConditionsStore,
+  useLoanConfirmationStore,
+} from '@/common/stores/rootStore';
 import Button from 'Common/components/Button/Button.tsx';
-// import Select from 'Common/components/Select/Select.tsx';
+import Select from 'Common/components/Select/Select.tsx';
 import layoutStyles from 'Modules/DataFill/shared/components/DataFillLayout.module.scss';
 import DataFillLayout from 'Modules/DataFill/shared/components/DataFillLayout.tsx';
 import DataFillProgress from 'Modules/DataFill/shared/components/DataFillProgress.tsx';
-// import DataFillSelectSheet from 'Modules/DataFill/shared/components/DataFillSelectSheet.tsx';
-// import { BRANCHES_BY_REGION, REGIONS } from 'Modules/DataFill/shared/constants.ts';
+import DataFillSelectSheet from 'Modules/DataFill/shared/components/DataFillSelectSheet.tsx';
 
-export default function DataFillStep3() {
+import { Modal } from '../LoanConditions/components/Modal';
+
+import type { CitiesItem } from './api/DirectoriesApi';
+import type { SubmitApplicationType } from '../DataFillStep2/services/DataFillStep2Service';
+
+const DataFillStep3 = () => {
   const navigate = useNavigate();
-  // const [region, setRegion] = useState('');
-  // const [branch, setBranch] = useState('');
-  // const [openSheet, setOpenSheet] = useState<'region' | 'branch' | null>(null);
-  // const isFormValid = region && branch;
-  // const availableBranches = region ? (BRANCHES_BY_REGION[region] ?? []) : [];
+  const location = useLocation();
+  const [active, setActive] = useState<boolean | null>(null);
+  const [factCityCftId, setFactCityCftId] = useState<CitiesItem | null>(null);
+  const [serviceBranch, setServiceBranch] = useState<CitiesItem | null>(null);
+  const [submitError, setSubmitError] = useState<string | undefined>(undefined);
+  const [openSheet, setOpenSheet] = useState<'factCityCftId' | 'serviceBranch' | null>(null);
 
-  const handleContinue = () => {
-    // if (isFormValid) {
-    navigate('/data-fill-success');
-    // }
+  const dataFillStep3Store = useDataFillStep3Store();
+  const dataFillStep2Store = useDataFillStep2Store();
+  const loanConfirmationStore = useLoanConfirmationStore();
+  const loanConditionsStore = useLoanConditionsStore();
+
+  const open = (val: boolean) => setActive(val);
+  const close = () => setActive(null);
+
+  const handleContinue = async () => {
+    const {
+      factOblast,
+      factRaion,
+      factCity,
+      factStreet,
+      factAddress,
+      additionalPhoneNumber,
+      relationToBorrow,
+      relativeFullName,
+    } = JSON.parse(location.state.dataFirstStep);
+
+    const dataToSend: SubmitApplicationType = {
+      applicationId: loanConditionsStore.activeRequests?.applicationId,
+      responseCode: 'OFFLINE',
+      paymentDay: loanConfirmationStore.dataSubmitCredit?.paymentDay,
+      serviceBranch: serviceBranch?.code || '',
+      factOblast,
+      factRaion,
+      factCity,
+      factStreet,
+      factAddress,
+      factCityCftId: factCityCftId?.code,
+      additionalPhoneNumber,
+      relationToBorrow,
+      relativeFullName,
+      insureCompanyId: loanConfirmationStore.dataSubmitCredit?.insureCompanyId,
+      acceptAgreement: loanConfirmationStore.dataSubmitCredit?.acceptAgreement,
+    };
+
+    const { success, error } = await dataFillStep2Store.submitApplication(dataToSend);
+
+    if (success) {
+      navigate('/finish-page', {
+        state: {
+          title: 'Кредит оформлен',
+          description: 'С Вами свяжется специалист банка и пригласит в филиал для выдачи кредита',
+          btnTitle: 'В кабинет кредитов',
+          Icon: 'success',
+        },
+      });
+    } else {
+      setSubmitError(error);
+      open(true);
+    }
   };
+
+  useEffect(() => {
+    if (dataFillStep3Store.formData) {
+      const { factCityCftId, serviceBranch } = dataFillStep3Store.formData;
+      setFactCityCftId(factCityCftId);
+      setServiceBranch(serviceBranch);
+    }
+    dataFillStep3Store.getCitiesDirectory();
+  }, []);
+
+  useEffect(() => {
+    if (factCityCftId) dataFillStep3Store.getBranchesDirectory(factCityCftId.code);
+  }, [factCityCftId]);
 
   return (
     <DataFillLayout
-      onBack={() => navigate(-1)}
+      onBack={() => {
+        if (factCityCftId && serviceBranch) {
+          dataFillStep3Store.setFormData = {
+            factCityCftId,
+            serviceBranch,
+          };
+        }
+        navigate(-1);
+      }}
       progress={<DataFillProgress currentStep={3} />}
-      footer={<Button onClick={handleContinue}>Продолжить</Button>}
+      footer={
+        <Button onClick={handleContinue}>
+          {dataFillStep2Store.awaiting ? <Spinner width={30} height={30} /> : 'Продолжить'}
+        </Button>
+      }
     >
       <p className={layoutStyles.groupSubtitle}>Выберите филиал для прикрепления вашей заявки</p>
-      {/* <Select
+      <Select
         label="Регион"
-        value={region}
+        value={factCityCftId ? factCityCftId.name : ''}
         subLabel="Регион"
-        filled={!!region}
-        onClick={() => setOpenSheet('region')}
+        filled={factCityCftId ? !!factCityCftId.name : false}
+        onClick={() => setOpenSheet('factCityCftId')}
       />
       <Select
         label="Филиал"
-        value={branch}
+        value={serviceBranch ? serviceBranch.name : ''}
         subLabel="Филиал"
-        filled={!!branch}
+        filled={serviceBranch ? !!serviceBranch.name : false}
         onClick={() => {
-          if (region) {
-            setOpenSheet('branch');
+          if (factCityCftId) {
+            setOpenSheet('serviceBranch');
           }
         }}
-      /> */}
-      {/* {openSheet === 'region' ? (
+        disabled={!factCityCftId}
+      />
+      {openSheet === 'factCityCftId' ? (
         <DataFillSelectSheet
           title="Выберите регион"
-          items={REGIONS}
+          items={dataFillStep3Store.availableCitiesDirectoryItems}
           onSelect={(value) => {
-            setRegion(value);
-            setBranch('');
+            setFactCityCftId(value);
+            setServiceBranch(null);
             setOpenSheet(null);
           }}
           onClose={() => setOpenSheet(null)}
         />
       ) : null}
-      {openSheet === 'branch' ? (
+      {openSheet === 'serviceBranch' ? (
         <DataFillSelectSheet
           title="Выберите филиал"
           description="Это необходимо для прикрепления вашей заявки к конкретному филиалу"
-          items={availableBranches}
+          items={dataFillStep3Store.availableBranchesDirectoryItems}
           variant="fullscreen"
           onSelect={(value) => {
-            setBranch(value);
+            setServiceBranch(value);
             setOpenSheet(null);
           }}
           onClose={() => setOpenSheet(null)}
         />
-      ) : null} */}
+      ) : null}
+      <Modal
+        isOpen={active}
+        onClose={close}
+        size="sm"
+        footer={
+          <button className="btn btn-text-green" onClick={close}>
+            Закрыть
+          </button>
+        }
+      >
+        {submitError}
+      </Modal>
     </DataFillLayout>
   );
-}
+};
+
+export default observer(DataFillStep3);

@@ -21,10 +21,12 @@ export type SubmitApplicationType = FormDataSecondStep &
     factCity: string;
     factStreet: string;
     factAddress: string;
+    factCityCftId?: string;
   };
 
 export class DataFillStep2Service {
   @observable formData: FormDataSecondStep | null = null;
+  @observable awaiting: boolean = false;
 
   constructor() {
     makeObservable(this);
@@ -37,12 +39,15 @@ export class DataFillStep2Service {
 
   @action
   async submitApplication(data: SubmitApplicationType) {
+    this.awaiting = true;
     try {
       await httpClient.post('credit/application/confirm', data);
       return { success: true };
     } catch (error) {
       const err = errorHandler(error);
       return { success: false, error: err };
+    } finally {
+      this.awaiting = false;
     }
   }
 }
