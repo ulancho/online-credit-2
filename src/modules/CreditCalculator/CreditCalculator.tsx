@@ -127,15 +127,20 @@ const CreditCalculator = () => {
     });
 
     try {
-      const passportValidationResponse = await passportValidationService.validatePassport(
-        queryParamsService.token,
-        queryParamsService.deviceId,
-      );
+      alert('token: ' + queryParamsService.token);
+      alert('deviceID: ' + queryParamsService.deviceId);
 
-      if (!passportValidationResponse?.valid) {
-        setIsPassportModalOpen(true);
+      if (queryParamsService.token && queryParamsService.deviceId) {
+        const passportValidationResponse = await passportValidationService.validatePassport(
+          queryParamsService.token,
+          queryParamsService.deviceId,
+        );
 
-        return;
+        if (!passportValidationResponse?.valid) {
+          setIsPassportModalOpen(true);
+
+          return;
+        }
       }
 
       const initResponse = await creditApplicationService.initCreditApplication({

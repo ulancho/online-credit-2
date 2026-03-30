@@ -13,6 +13,8 @@ const ApplicationStatusRedirect = () => {
   const queryParams = useQueryParams();
   const queryParamsService = useQueryParamsStore();
 
+  alert(queryParams);
+
   useEffect(() => {
     if (!applicationStatusService.application && !applicationStatusService.isLoading) {
       void applicationStatusService.loadActiveApplicationExist();
