@@ -91,7 +91,6 @@ const CreditCalculator = () => {
   const allTermsAccepted = term1Checked && term2Checked && term3Checked;
   const isSubmitEnabled =
     allTermsAccepted && getValues('loanAmount') !== '' && getValues('monthlyIncome') !== '';
-  console.log(isSubmitEnabled);
 
   const terms = creditRatesService.availableLoanTerms;
   const loanAmount = watch('loanAmount');
@@ -133,7 +132,7 @@ const CreditCalculator = () => {
         queryParamsService.deviceId,
       );
 
-      if (passportValidationResponse?.valid) {
+      if (!passportValidationResponse?.valid) {
         setIsPassportModalOpen(true);
 
         return;

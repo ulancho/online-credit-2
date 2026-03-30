@@ -28,10 +28,6 @@ const ApplicationStatusRedirect = () => {
 
   useEffect(() => {
     queryParamsService.setQueryParams(queryParams);
-
-    return () => {
-      queryParamsService.reset();
-    };
   }, [queryParams, queryParamsService]);
 
   return (
