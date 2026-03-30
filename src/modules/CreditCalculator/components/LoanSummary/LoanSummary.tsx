@@ -37,9 +37,7 @@ export default function LoanSummary({
     <div className={styles.container}>
       <div className={styles.row}>
         <span className={styles.rowLabel}>Ежемесячный платёж</span>
-        <span className={styles.rowValueBold}>
-          {monthlyPayment} {'\u20C0'}
-        </span>
+        <span className={styles.rowValueBold}>{monthlyPayment} c</span>
       </div>
 
       <div className={styles.row}>
@@ -67,9 +65,7 @@ export default function LoanSummary({
 
       <div className={styles.row}>
         <span className={styles.rowLabelMuted}>Переплата</span>
-        <span className={styles.rowValue}>
-          {overpayment} {'\u20C0'}
-        </span>
+        <span className={styles.rowValue}>{overpayment} c</span>
       </div>
     </div>
   );
