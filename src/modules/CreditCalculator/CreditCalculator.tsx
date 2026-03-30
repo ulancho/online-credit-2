@@ -156,7 +156,7 @@ const CreditCalculator = () => {
       });
 
       if (initResponse?.status === 200) {
-        navigate('/otp');
+        navigate('/loading');
       }
     } catch (error) {
       if (error instanceof CreditApplicationValidationError) {
