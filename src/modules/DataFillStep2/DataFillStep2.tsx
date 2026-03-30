@@ -23,9 +23,9 @@ export default function DataFillStep2() {
   const [active, setActive] = useState<boolean | null>(null);
   const [additionalPhoneNumber, setAdditionalPhoneNumber] = useState('');
   const [relativeFullName, setRelativeFullName] = useState('');
-  const [relationToBorrow, setRelationToBorrow] = useState('');
+  const [relationToBorrower, setRelationToBorrower] = useState('');
   const [submitError, setSubmitError] = useState<string | undefined>(undefined);
-  const isFormValid = additionalPhoneNumber && relativeFullName && relationToBorrow;
+  const isFormValid = additionalPhoneNumber && relativeFullName && relationToBorrower;
 
   const dataFillStep2Store = useDataFillStep2Store();
   const loanConfirmationStore = useLoanConfirmationStore();
@@ -46,7 +46,7 @@ export default function DataFillStep2() {
               ...JSON.parse(location.state.dataFirstStep),
               additionalPhoneNumber,
               relativeFullName,
-              relationToBorrow,
+              relationToBorrower,
             }),
           },
         });
@@ -63,7 +63,7 @@ export default function DataFillStep2() {
         factStreet,
         factAddress,
         additionalPhoneNumber,
-        relationToBorrow,
+        relationToBorrower,
         relativeFullName,
         insureCompanyId: loanConfirmationStore.dataSubmitCredit?.insureCompanyId,
         acceptAgreement: loanConfirmationStore.dataSubmitCredit?.acceptAgreement,
@@ -89,11 +89,11 @@ export default function DataFillStep2() {
 
   useEffect(() => {
     if (dataFillStep2Store.formData) {
-      const { additionalPhoneNumber, relativeFullName, relationToBorrow } =
+      const { additionalPhoneNumber, relativeFullName, relationToBorrower } =
         dataFillStep2Store.formData;
       setAdditionalPhoneNumber(additionalPhoneNumber);
       setRelativeFullName(relativeFullName);
-      setRelationToBorrow(relationToBorrow);
+      setRelationToBorrower(relationToBorrower);
     }
   }, []);
 
@@ -103,7 +103,7 @@ export default function DataFillStep2() {
         dataFillStep2Store.setFormData({
           additionalPhoneNumber,
           relativeFullName,
-          relationToBorrow,
+          relationToBorrower,
         });
         navigate(-1);
       }}
@@ -128,8 +128,8 @@ export default function DataFillStep2() {
       <InputField mainPlaceholder="ФИО" value={relativeFullName} onChange={setRelativeFullName} />
       <InputField
         mainPlaceholder="Кем приходится"
-        value={relationToBorrow}
-        onChange={setRelationToBorrow}
+        value={relationToBorrower}
+        onChange={setRelationToBorrower}
       />
 
       <Modal

@@ -8,7 +8,7 @@ import type { submitCreditType } from '@/modules/LoanConfirmation/services/LoanC
 type FormDataSecondStep = {
   additionalPhoneNumber: string;
   relativeFullName: string;
-  relationToBorrow: string;
+  relationToBorrower: string;
 };
 
 export type SubmitApplicationType = FormDataSecondStep &
