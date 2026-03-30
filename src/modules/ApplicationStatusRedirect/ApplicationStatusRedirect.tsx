@@ -2,15 +2,16 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
-import { useApplicationStatusStore } from 'Common/stores/rootStore.tsx';
+import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
+import { useApplicationStatusStore, useQueryParamsStore } from 'Common/stores/rootStore.tsx';
 
 import styles from './ApplicationStatusRedirect.module.scss';
 
 const ApplicationStatusRedirect = () => {
   const applicationStatusService = useApplicationStatusStore();
   const navigate = useNavigate();
-  // const queryParamService = useQueryParams();
+  const queryParams = useQueryParams();
+  const queryParamsService = useQueryParamsStore();
 
   useEffect(() => {
     if (!applicationStatusService.application && !applicationStatusService.isLoading) {
@@ -23,7 +24,15 @@ const ApplicationStatusRedirect = () => {
       return;
     }
     navigate(applicationStatusService.redirectRoute, { replace: true });
-  }, [applicationStatusService.isLoading, navigate]);
+  }, [applicationStatusService.isLoading, applicationStatusService.application, navigate]);
+
+  useEffect(() => {
+    queryParamsService.setQueryParams(queryParams);
+
+    return () => {
+      queryParamsService.reset();
+    };
+  }, [queryParams, queryParamsService]);
 
   return (
     <div className={styles.uploadingScreen}>
