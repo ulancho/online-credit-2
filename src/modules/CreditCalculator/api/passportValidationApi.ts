@@ -8,7 +8,7 @@ export type PassportValidationResponse = {
 };
 
 const PASSPORT_VALIDATE_EXPIRY_BY_JWT_API =
-  'https://hub-dev.mbank.kg/gateway/api/customers/passport/validate-expiry/by-jwt';
+  '/gateway/api/customers/passport/validate-expiry/by-jwt';
 
 export async function validatePassportExpiryByJwt({
   jwt,

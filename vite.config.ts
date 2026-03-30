@@ -35,6 +35,11 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: true,
         },
+        '/gateway': {
+          target: 'https://hub-dev.mbank.kg',
+          changeOrigin: true,
+          secure: true,
+        },
       },
     },
   };
