@@ -13,7 +13,7 @@ const ApplicationStatusRedirect = () => {
   const queryParams = useQueryParams();
   const queryParamsService = useQueryParamsStore();
 
-  alert(queryParams);
+  alert(JSON.stringify(queryParams));
 
   useEffect(() => {
     if (!applicationStatusService.application && !applicationStatusService.isLoading) {
