@@ -12,6 +12,7 @@ import {
   usePassportValidationStore,
   useQueryParamsStore,
 } from '@/common/stores/rootStore';
+import { exitApp } from 'Common/api/common.ts';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 import Spinner from 'Common/components/Spinner/Spinner.tsx';
@@ -226,6 +227,11 @@ const CreditCalculator = () => {
     window.URL.revokeObjectURL(fileUrl);
   };
 
+  // закрытие модалки
+  const closeWebView = () => {
+    exitApp().then((res) => console.log(res.status));
+  };
+
   // подгрузка данных
   useEffect(() => {
     const loadFieldsData = async () => {
@@ -251,7 +257,7 @@ const CreditCalculator = () => {
 
   return (
     <div id="page">
-      <NavBar />
+      <NavBar onBack={closeWebView} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.content}>
           <div className={styles.headerSection}>
