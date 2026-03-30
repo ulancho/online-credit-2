@@ -48,7 +48,7 @@ const DataFillStep3 = () => {
       factStreet,
       factAddress,
       additionalPhoneNumber,
-      relationToBorrow,
+      relationToBorrower,
       relativeFullName,
     } = JSON.parse(location.state.dataFirstStep);
 
@@ -64,7 +64,7 @@ const DataFillStep3 = () => {
       factAddress,
       factCityCftId: factCityCftId?.code,
       additionalPhoneNumber,
-      relationToBorrow,
+      relationToBorrower,
       relativeFullName,
       insureCompanyId: loanConfirmationStore.dataSubmitCredit?.insureCompanyId,
       acceptAgreement: loanConfirmationStore.dataSubmitCredit?.acceptAgreement,
