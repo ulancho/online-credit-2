@@ -45,8 +45,10 @@ export class CreditApplicationValidationError extends Error {
 }
 
 export class CreditApplicationService {
-  @observable.ref
+  @observable
   private activeModal: CreditApplicationModalState | null = null;
+  @observable
+  awaiting: boolean = false;
 
   constructor() {
     makeObservable(this);
@@ -60,6 +62,7 @@ export class CreditApplicationService {
   @action
   async initCreditApplication(payload: CreditApplicationInitParams) {
     this.activeModal = null;
+    this.awaiting = true;
 
     try {
       return await initCreditApplication({
@@ -124,6 +127,10 @@ export class CreditApplicationService {
       }
 
       throw error;
+    } finally {
+      runInAction(() => {
+        this.awaiting = false;
+      });
     }
   }
 

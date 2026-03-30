@@ -14,6 +14,7 @@ import {
 } from '@/common/stores/rootStore';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
+import Spinner from 'Common/components/Spinner/Spinner.tsx';
 import { useTranslation } from 'Common/i18n';
 import ActivityTypeSelect from 'Modules/CreditCalculator/components/ActivityTypeSelect/ActivityTypeSelect.tsx';
 import InfoModal from 'Modules/CreditCalculator/components/InfoModal/InfoModal.tsx';
@@ -126,8 +127,11 @@ const CreditCalculator = () => {
       insuranceOption: selectedInsuranceOption,
     });
 
+    const cancelValidationPassport = false;
+
     try {
-      if (queryParamsService.token && queryParamsService.deviceId) {
+      // if (queryParamsService.token && queryParamsService.deviceId) {
+      if (cancelValidationPassport) {
         const passportValidationResponse = await passportValidationService.validatePassport(
           queryParamsService.token,
           queryParamsService.deviceId,
@@ -364,7 +368,11 @@ const CreditCalculator = () => {
             className={`${styles.submitButton} ${isSubmitEnabled ? styles.submitButtonActive : styles.submitButtonDisabled}`}
             disabled={!isSubmitEnabled}
           >
-            Отправить заявку
+            {creditApplicationService.awaiting ? (
+              <Spinner width={25} height={25} />
+            ) : (
+              'Отправить заявку'
+            )}
           </button>
         </div>
       </form>
