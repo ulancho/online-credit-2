@@ -1,6 +1,6 @@
 import { AxiosHeaders, type AxiosInstance } from 'axios';
 
-const TOKEN_HEADER = 'token';
+const TOKEN_HEADER = 'Authorization';
 const TOKEN_STORAGE_KEY = 'online-credit.auth.token';
 
 const parseTokenFromUrl = (): string | null => {
