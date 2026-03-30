@@ -1,6 +1,6 @@
 import { AxiosHeaders, type AxiosInstance } from 'axios';
 
-const TOKEN_HEADER = 'Authorization';
+const TOKEN_HEADER = 'token';
 const TOKEN_STORAGE_KEY = 'online-credit.auth.token';
 
 const parseTokenFromUrl = (): string | null => {
@@ -48,7 +48,7 @@ export const applyTokenInterceptor = (client: AxiosInstance) => {
         ? config.headers
         : AxiosHeaders.from(config.headers ?? {});
 
-    headers.set(TOKEN_HEADER, token);
+    headers.set('Authorization', token);
     config.headers = headers;
 
     return config;
