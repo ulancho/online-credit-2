@@ -1,7 +1,11 @@
 import { AxiosError } from 'axios';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
-import { type CreditApplicationInitPayload } from 'Modules/CreditCalculator/api/creditApplicationApi.ts';
+import {
+  type CreditApplicationInitPayload,
+  OTP_TYPE_CONSTANTS,
+  type OtpType,
+} from 'Modules/CreditCalculator/api/creditApplicationApi.ts';
 import { initCreditApplication } from 'Modules/CreditCalculator/api/creditApplicationApi.ts';
 
 type CreditApplicationInitParams = Omit<
@@ -49,6 +53,8 @@ export class CreditApplicationService {
   private activeModal: CreditApplicationModalState | null = null;
   @observable
   awaiting: boolean = false;
+  @observable
+  private otpType: OtpType = OTP_TYPE_CONSTANTS.SOCFOND_OTP;
 
   constructor() {
     makeObservable(this);
@@ -63,13 +69,22 @@ export class CreditApplicationService {
   async initCreditApplication(payload: CreditApplicationInitParams) {
     this.activeModal = null;
     this.awaiting = true;
+    this.otpType = OTP_TYPE_CONSTANTS.SOCFOND_OTP;
 
     try {
-      return await initCreditApplication({
+      const response = await initCreditApplication({
         ...payload,
         acceptAgreement: true,
         deviceReport: 'test',
       });
+
+      runInAction(() => {
+        if (response?.data?.type) {
+          this.otpType = response.data.type;
+        }
+      });
+
+      return response;
     } catch (error) {
       if (error instanceof AxiosError) {
         const responseData = error.response?.data as InitCreditApplicationErrorResponse | undefined;
@@ -137,5 +152,10 @@ export class CreditApplicationService {
   @computed
   get modal() {
     return this.activeModal;
+  }
+
+  @computed
+  get currentOtpType() {
+    return this.otpType;
   }
 }

@@ -1,24 +1,32 @@
-import { useEffect, useRef, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useCreditApplicationStore } from 'Common/stores/rootStore.tsx';
+import { OTP_TYPE_CONSTANTS } from 'Modules/CreditCalculator/api/creditApplicationApi.ts';
 import { confirmOtp } from 'Modules/OtpVerification/api/otpVerificationApi.ts';
 
 import styles from './OtpVerification.module.scss';
 
-const OTP_LENGTH = 6;
+const OTP_LENGTH_MAP = {
+  [OTP_TYPE_CONSTANTS.SOCFOND_OTP]: 6,
+  [OTP_TYPE_CONSTANTS.MBANK_OTP]: 4,
+} as const;
 const INITIAL_SECONDS = 60;
 const PHONE = '+996 (555) XXX 123';
 
-export default function OtpVerification() {
+function OtpVerification() {
   const navigate = useNavigate();
+  const creditApplicationService = useCreditApplicationStore();
   const [code, setCode] = useState('');
   const [seconds, setSeconds] = useState(INITIAL_SECONDS);
   const [canResend, setCanResend] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const otpLength = OTP_LENGTH_MAP[creditApplicationService.currentOtpType];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, '').slice(0, OTP_LENGTH);
+    const value = e.target.value.replace(/\D/g, '').slice(0, otpLength);
     setCode(value);
   };
 
@@ -32,7 +40,7 @@ export default function OtpVerification() {
     inputRef.current?.focus();
   };
 
-  const handleConfirmOtp = async () => {
+  const handleConfirmOtp = useCallback(async () => {
     if (isSubmitting) return;
 
     setIsSubmitting(true);
@@ -46,7 +54,7 @@ export default function OtpVerification() {
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [code, isSubmitting, navigate]);
 
   const focusInput = () => {
     inputRef.current?.focus();
@@ -58,7 +66,11 @@ export default function OtpVerification() {
     return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
   };
 
-  const digits = Array.from({ length: OTP_LENGTH }, (_, i) => code[i] ?? '');
+  const digits = Array.from({ length: otpLength }, (_, i) => code[i] ?? '');
+
+  useEffect(() => {
+    setCode((prevCode) => prevCode.slice(0, otpLength));
+  }, [otpLength]);
 
   useEffect(() => {
     if (seconds <= 0) {
@@ -70,12 +82,12 @@ export default function OtpVerification() {
   }, [seconds]);
 
   useEffect(() => {
-    if (code.length !== OTP_LENGTH) {
+    if (code.length !== otpLength) {
       return;
     }
 
     void handleConfirmOtp();
-  }, [code]);
+  }, [code, handleConfirmOtp, otpLength]);
 
   return (
     <div className={styles.page}>
@@ -92,7 +104,7 @@ export default function OtpVerification() {
             inputMode="numeric"
             pattern="[0-9]*"
             autoComplete="one-time-code"
-            maxLength={OTP_LENGTH}
+            maxLength={otpLength}
             value={code}
             onChange={handleChange}
             aria-label="Код подтверждения"
@@ -119,3 +131,5 @@ export default function OtpVerification() {
     </div>
   );
 }
+
+export default observer(OtpVerification);
