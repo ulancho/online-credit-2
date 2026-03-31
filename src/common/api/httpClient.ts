@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { applyLanguageInterceptor } from 'Common/api/languageInterceptor.ts';
 import { applyTokenInterceptor } from 'Common/api/tokenInterceptor.ts';
 
 // const baseURL = '/svc-biz-ib-cbk-private-credits/v1/api/webview';
@@ -15,3 +16,4 @@ export const httpClient = axios.create({
 });
 
 applyTokenInterceptor(httpClient);
+applyLanguageInterceptor(httpClient);
