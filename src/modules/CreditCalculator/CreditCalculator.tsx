@@ -217,6 +217,7 @@ const CreditCalculator = () => {
     }
 
     const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
+    alert('fileBlob: ' + fileBlob);
     const fileUrl = window.URL.createObjectURL(fileBlob);
     const link = document.createElement('a');
 
