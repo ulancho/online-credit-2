@@ -21,6 +21,7 @@ interface LanguageContextValue {
   languages: typeof SUPPORTED_LANGUAGES;
   t: (key: string, params?: TranslateParams) => string;
 }
+
 /**
  * Создаёт React контекст для языка и переводов
  * */
@@ -33,20 +34,30 @@ const isSupportedLanguage = (value: string | null | undefined): value is Languag
   return SUPPORTED_LANGUAGES.some((language) => language.code === value);
 };
 
+const resolveLanguageFromQuery = (): LanguageCode | null => {
+  const queryLanguage = new URLSearchParams(window.location.search).get('lang');
+
+  if (isSupportedLanguage(queryLanguage)) {
+    return queryLanguage;
+  }
+
+  return null;
+};
+
 /**
- * Берём язык из localStorage, иначе берём язык браузера.
+ * Берём язык из query параметра `lang`, иначе из localStorage.
  *
  * Если и это не подходит - подставляем язык по умолчанию.
  */
 const resolveInitialLanguage = (): LanguageCode => {
+  const fromQuery = resolveLanguageFromQuery();
+  if (fromQuery) {
+    return fromQuery;
+  }
+
   const fromStorage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
   if (isSupportedLanguage(fromStorage)) {
     return fromStorage;
-  }
-
-  const navigatorLanguage = window.navigator.language?.slice(0, 2).toLowerCase();
-  if (isSupportedLanguage(navigatorLanguage)) {
-    return navigatorLanguage;
   }
 
   return DEFAULT_LANGUAGE;
@@ -122,12 +133,8 @@ export const LanguageProvider = ({ children }: PropsWithChildren) => {
   const [language, setLanguageState] = useState<LanguageCode>(() => resolveInitialLanguage());
 
   useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.documentElement.setAttribute('lang', language);
-    }
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
-    }
+    document.documentElement.setAttribute('lang', language);
+    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
   }, [language]);
 
   const setLanguage = useCallback((nextLanguage: LanguageCode) => {
