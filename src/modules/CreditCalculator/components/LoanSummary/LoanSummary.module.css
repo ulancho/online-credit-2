@@ -74,13 +74,23 @@
   font-weight: 800;
   line-height: 22px;
   letter-spacing: -0.2px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+
+  /* fallback (если градиент не поддерживается) */
   color: var(--color-text-primary);
-  /* stylelint-disable-next-line property-no-vendor-prefix */
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+
+  /* важно для iOS */
+  -webkit-text-fill-color: currentcolor;
+}
+
+@supports (-webkit-background-clip: text) {
+  .discountedRate {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-clip: text;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
 }
 
 .originalRateStandalone {
@@ -88,22 +98,23 @@
   font-size: 17px;
   font-weight: 800;
   line-height: 22px;
-  text-decoration: none;
   background: none !important;
+  background-image: none !important;
   background-clip: border-box !important;
-  -webkit-text-fill-color: unset !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: currentcolor !important;
 }
 
 .discountedRateBronze {
-  background: linear-gradient(133deg, #c3733a 19.69%, #e3a578 46.34%, #ba5700 86.16%);
+  background-image: linear-gradient(133deg, #c3733a 19.69%, #e3a578 46.34%, #ba5700 86.16%);
 }
 
 .discountedRateSilver {
-  background: linear-gradient(133deg, #a8a8a6 19.69%, #bbb 46.34%, #7f7f7f 86.16%);
+  background-image: linear-gradient(133deg, #a8a8a6 19.69%, #bbb 46.34%, #7f7f7f 86.16%);
 }
 
 .discountedRateGold {
-  background: linear-gradient(
+  background-image: linear-gradient(
     133deg,
     #ce9e26 19.69%,
     #dec64d 46.34%,
@@ -113,5 +124,5 @@
 }
 
 .discountedRatePlatinum {
-  background: linear-gradient(133deg, #4a4d53 19.69%, #989898 46.34%, #53575e 86.16%);
+  background-image: linear-gradient(133deg, #4a4d53 19.69%, #989898 46.34%, #53575e 86.16%);
 }
