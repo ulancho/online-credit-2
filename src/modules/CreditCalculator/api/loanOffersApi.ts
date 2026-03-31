@@ -4,7 +4,7 @@ import { httpClient } from '@/common/api/httpClient';
 
 import type { LoanOfferResponse } from 'Modules/CreditCalculator/models/publicLoanOffer.ts';
 
-const PUBLIC_LOAN_OFFER_API = 'document/by-code/offer-public-loans';
+const PUBLIC_LOAN_OFFER_API = '/document/by-code/offer-public-loans';
 
 const LOAN_OFFER_API = '/document/by-code/offer-loans';
 
