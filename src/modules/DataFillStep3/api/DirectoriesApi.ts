@@ -24,6 +24,13 @@ export type CitiesItem = {
 
 const DIRECTORY_API = '/unauthorized-api/directory';
 
+const BASE_DIRECTORY_URL =
+  window.location.hostname === 'https://hub.mbank.kg'
+    ? 'https://mbank.cbk.kg.kg'
+    : window.location.hostname === 'https://hub-dev.mbank.kg'
+      ? 'https://preprodib.mbank.kg'
+      : '';
+
 const CITIES_REQUEST_BODY = {
   namespace: 'cbk',
   source: 'global',
@@ -60,7 +67,7 @@ const BRANCHES_REQUEST_BODY = (value: string) => ({
 
 export async function getCities(): Promise<CitiesItem[]> {
   const response = await axios.post<CitiesItemDto[]>(
-    `/svc-common-directory/v2${DIRECTORY_API}/items`,
+    `${BASE_DIRECTORY_URL}/svc-common-directory/v2${DIRECTORY_API}/items`,
     CITIES_REQUEST_BODY,
   );
 
@@ -85,7 +92,7 @@ const normalizeCitiesItem = (item: CitiesItemDto): CitiesItem | null => {
 
 export async function getBranches(cityCode: string): Promise<CitiesItem[]> {
   const response = await axios.post<BranchesItemDto[]>(
-    `/svc-common-directory/v2${DIRECTORY_API}/items`,
+    `${BASE_DIRECTORY_URL}/svc-common-directory/v2${DIRECTORY_API}/items`,
     BRANCHES_REQUEST_BODY(cityCode),
   );
 

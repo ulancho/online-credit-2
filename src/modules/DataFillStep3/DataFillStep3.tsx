@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Spinner from '@/common/components/Spinner/Spinner';
+import { useTranslation } from '@/common/i18n';
 import {
   useDataFillStep2Store,
   useDataFillStep3Store,
@@ -22,6 +23,7 @@ import type { CitiesItem } from './api/DirectoriesApi';
 import type { SubmitApplicationType } from '../DataFillStep2/services/DataFillStep2Service';
 
 const DataFillStep3 = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState<boolean | null>(null);
@@ -48,7 +50,7 @@ const DataFillStep3 = () => {
       additionalPhoneNumber,
       relationToBorrower,
       relativeFullName,
-    } = JSON.parse(location.state.dataFirstStep);
+    } = JSON.parse(location.state.formedData);
 
     const dataToSend: SubmitApplicationType = {
       applicationId: loanConditionsStore.activeRequests?.applicationId,
@@ -76,7 +78,7 @@ const DataFillStep3 = () => {
           title: 'Кредит оформлен',
           description: 'С Вами свяжется специалист банка и пригласит в филиал для выдачи кредита',
           btnTitle: 'В кабинет кредитов',
-          Icon: 'success',
+          icon: 'success',
         },
       });
     } else {
@@ -112,7 +114,7 @@ const DataFillStep3 = () => {
       progress={<DataFillProgress currentStep={3} />}
       footer={
         <Button onClick={handleContinue}>
-          {dataFillStep2Store.awaiting ? <Spinner width={30} height={30} /> : 'Продолжить'}
+          {dataFillStep2Store.awaiting ? <Spinner width={30} height={30} /> : t('btns.continue')}
         </Button>
       }
     >

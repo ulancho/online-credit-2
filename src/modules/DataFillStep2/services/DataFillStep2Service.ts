@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 
 import { httpClient } from '@/common/api/httpClient';
 import { errorHandler } from '@/common/utils/errorHandler';
@@ -47,7 +47,9 @@ export class DataFillStep2Service {
       const err = errorHandler(error);
       return { success: false, error: err };
     } finally {
-      this.awaiting = false;
+      runInAction(() => {
+        this.awaiting = false;
+      });
     }
   }
 }
