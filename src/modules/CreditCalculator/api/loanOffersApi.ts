@@ -8,8 +8,11 @@ const PUBLIC_LOAN_OFFER_API = '/document/by-code/offer-public-loans';
 
 const LOAN_OFFER_API = '/document/by-code/offer-loans';
 
+// const DOCUMENT_FILE_API =
+//   'https://preprodib.mbank.kg/svc-biz-ib-cbk-documents/v1/unauthorized-api/documents/by-code';
+
 const DOCUMENT_FILE_API =
-  'https://preprodib.mbank.kg/svc-biz-ib-cbk-documents/v1/unauthorized-api/documents/by-code';
+  'https://mbank.cbk.kg/svc-biz-ib-cbk-documents/v1/unauthorized-api/documents/by-code';
 
 export async function getPublicLoanOffer(): Promise<LoanOfferResponse> {
   const response = await httpClient.get<LoanOfferResponse>(PUBLIC_LOAN_OFFER_API);
