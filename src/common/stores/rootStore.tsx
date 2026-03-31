@@ -9,6 +9,7 @@ import { LoanCondtionsService } from '@/modules/LoanConditions/services/LoanCond
 import { LoanConfirmationService } from '@/modules/LoanConfirmation/services/LoanConfirmationService';
 import { ApplicationService } from 'Common/services/ApplicationService.ts';
 import { QueryParamsService } from 'Common/services/QueryParamsService.ts';
+import { UserProfileService } from 'Common/services/UserProfileService.ts';
 import { ApplicationStatusService } from 'Modules/ApplicationStatusRedirect/services/ApplicationStatusService.ts';
 import { CoolingService } from 'Modules/Cooling/services/CoolingService.ts';
 import { ActivityTypeService } from 'Modules/CreditCalculator/services/ActivityTypeService.ts';
@@ -37,6 +38,7 @@ class RootStore {
   readonly coolingService = new CoolingService();
   readonly applicationService = new ApplicationService();
   readonly passportValidationService = new PassportValidationService();
+  readonly userProfileService = new UserProfileService(this.queryParamsStore);
 }
 
 const rootStore = new RootStore();
@@ -124,4 +126,8 @@ export function useApplicationStore() {
 
 export function usePassportValidationStore() {
   return useRootStore().passportValidationService;
+}
+
+export function useUserProfileStore() {
+  return useRootStore().userProfileService;
 }

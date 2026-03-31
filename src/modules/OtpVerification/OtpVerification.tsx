@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useCreditApplicationStore } from 'Common/stores/rootStore.tsx';
+import { useCreditApplicationStore, useUserProfileStore } from 'Common/stores/rootStore.tsx';
 import { OTP_TYPE_CONSTANTS } from 'Modules/CreditCalculator/api/creditApplicationApi.ts';
 import { confirmOtp } from 'Modules/OtpVerification/api/otpVerificationApi.ts';
 
@@ -15,9 +15,25 @@ const OTP_LENGTH_MAP = {
 const INITIAL_SECONDS = 60;
 const PHONE = '+996 (555) XXX 123';
 
+const formatPhoneNumber = (phoneNumber: string | null) => {
+  if (!phoneNumber) {
+    return PHONE;
+  }
+
+  const normalized = phoneNumber.startsWith('+') ? phoneNumber : `+${phoneNumber}`;
+  const digits = normalized.replace(/\D/g, '');
+
+  if (digits.length !== 12 || !digits.startsWith('996')) {
+    return normalized;
+  }
+
+  return `+${digits.slice(0, 3)} (${digits.slice(3, 6)}) ${digits.slice(6, 9)} ${digits.slice(9, 12)}`;
+};
+
 function OtpVerification() {
   const navigate = useNavigate();
   const creditApplicationService = useCreditApplicationStore();
+  const userProfileService = useUserProfileStore();
   const [code, setCode] = useState('');
   const [seconds, setSeconds] = useState(INITIAL_SECONDS);
   const [canResend, setCanResend] = useState(false);
@@ -67,10 +83,15 @@ function OtpVerification() {
   };
 
   const digits = Array.from({ length: otpLength }, (_, i) => code[i] ?? '');
+  const phoneNumber = formatPhoneNumber(userProfileService.phoneNumber);
 
   useEffect(() => {
     setCode((prevCode) => prevCode.slice(0, otpLength));
   }, [otpLength]);
+
+  useEffect(() => {
+    void userProfileService.fetchUserProfile();
+  }, [userProfileService]);
 
   useEffect(() => {
     if (seconds <= 0) {
@@ -94,7 +115,7 @@ function OtpVerification() {
       <div className={styles.content}>
         <span className={styles.timer}>{formatTime(seconds)}</span>
         <p className={styles.description}>
-          На Ваш номер мобильного телефона {PHONE} был отправлен код подтверждения
+          На Ваш номер мобильного телефона {phoneNumber} был отправлен код подтверждения
         </p>
         <div className={styles.codeArea} onClick={focusInput}>
           <input
