@@ -90,7 +90,7 @@
   display: flex;
   flex-direction: column;
   padding: 8px var(--spacing-l);
-  border-bottom: 0.5px solid #dcdfe4;
+  border-bottom: 0.5px solid var(--color-bg-tertiary);
 }
 
 .infoRowLast {
@@ -222,8 +222,8 @@
   width: 24px;
   height: 24px;
   border-radius: 5px;
-  border: 1.5px solid #dcdfe4;
-  background: #fff;
+  border: 1.5px solid var(--color-text-tertiary);
+  background: var(--color-on-accent);
   display: flex;
   align-items: center;
   justify-content: center;

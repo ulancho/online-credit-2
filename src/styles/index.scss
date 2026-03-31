@@ -5,13 +5,16 @@
 :root {
   --color-bg-main: #eff0f1;
   --color-bg-primary: #fff;
-  --color-bg-tertiary: #e3e5e8;
+  --color-body-tertiary: #e3e5e8;
+  --color-bg-tertiary: #a0a7b1;
   --color-text-primary: #111622;
   --color-text-secondary: #626975;
   --color-text-tertiary: #a0a7b1;
   --color-accent: #129958;
   --color-on-accent: #fff;
   --color-text-warning: #e02d3c;
+  --color-promo: #017cc7;
+  --color-bg-btn-primary: #ffdd2d;
   --radius-block: 20px;
   --radius-small: 16px;
   --spacing-s: 8px;
@@ -24,13 +27,16 @@
 [data-theme='dark'] {
   --color-bg-main: #050506;
   --color-bg-primary: #1c1c1e;
-  --color-bg-tertiary: #2f2f32;
-  --color-text-secondary: #939498;
+  --color-body-tertiary: #2f2f32;
+  --color-bg-tertiary: #6b6c70;
   --color-text-primary: #fff;
+  --color-text-secondary: #939498;
   --color-text-tertiary: #a0a7b1;
   --color-accent: #129958;
   --color-on-accent: #fff;
-  --color-text-warning: #e02d3c;
+  --color-text-warning: #e84a4a;
+  --color-promo: #017cc7;
+  --color-bg-btn-primary: #ffdd2d;
   --radius-block: 20px;
   --radius-small: 16px;
   --spacing-s: 8px;

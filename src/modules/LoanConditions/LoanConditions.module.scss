@@ -38,7 +38,7 @@
 }
 
 .promoTitle {
-  color: #fff;
+  color: var(--color-on-accent);
   font-size: 17px;
   font-weight: 800;
   line-height: 22px;
@@ -47,7 +47,7 @@
 }
 
 .promoDescription {
-  color: #fff;
+  color: var(--color-on-accent);
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
@@ -59,8 +59,8 @@
   margin-top: 8px;
   padding: 6px 12px;
   border-radius: 8px;
-  background: #fff;
-  color: #017cc7;
+  background: var(--color-on-accent);
+  color: var(--color-promo);
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
@@ -117,7 +117,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 100px;
-  color: #fff;
+  color: var(--color-on-accent);
   font-size: 10px;
   font-weight: 600;
   line-height: 10px;
@@ -197,7 +197,7 @@
   width: 100%;
   padding: 13px 16px;
   border-radius: var(--radius-block);
-  background: #ffdd2d;
+  background: var(--color-bg-btn-primary);
   color: var(--color-text-primary);
   font-size: 17px;
   font-weight: 700;
@@ -228,7 +228,7 @@
   padding: 17px 16px;
   border-radius: var(--radius-block);
   background: none;
-  color: #e02d3c;
+  color: var(--color-text-warning);
   font-size: 17px;
   font-weight: 700;
   line-height: 22px;

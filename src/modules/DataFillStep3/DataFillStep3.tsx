@@ -37,6 +37,8 @@ const DataFillStep3 = () => {
   const loanConfirmationStore = useLoanConfirmationStore();
   const loanConditionsStore = useLoanConditionsStore();
 
+  const isFormValid = factCityCftId && serviceBranch;
+
   const open = (val: boolean) => setActive(val);
   const close = () => setActive(null);
 
@@ -113,7 +115,7 @@ const DataFillStep3 = () => {
       }}
       progress={<DataFillProgress currentStep={3} />}
       footer={
-        <Button onClick={handleContinue}>
+        <Button onClick={handleContinue} disabled={!isFormValid}>
           {dataFillStep2Store.awaiting ? <Spinner width={30} height={30} /> : t('btns.continue')}
         </Button>
       }

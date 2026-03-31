@@ -25,14 +25,14 @@
 
 .primary:disabled {
   background: var(--color-bg-tertiary);
-  color: var(--color-text-tertiary);
+  color: var(--color-text-primary);
   cursor: not-allowed;
   opacity: 1;
 }
 
 /* ──── */
 .yellow {
-  background: #ffdd2d;
+  background: var(--color-bg-btn-primary);
   color: var(--color-text-primary);
 }
 
@@ -41,7 +41,7 @@
 }
 
 .yellow:disabled {
-  background: #a0a7b1;
+  background: var(--color-bg-tertiary);
   color: rgb(255 255 255 / 70%);
   cursor: not-allowed;
   opacity: 1;
@@ -60,7 +60,7 @@
 }
 
 .textDanger {
-  color: #e02d3c;
+  color: var(--color-text-warning);
 }
 
 .textAccent:active,
