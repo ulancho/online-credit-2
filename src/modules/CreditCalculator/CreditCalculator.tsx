@@ -119,6 +119,13 @@ const CreditCalculator = () => {
     };
   }, [loanAmount, loanCalculatorService, loanTerm, selectedInsuranceOption, terms]);
 
+  const downloadBase64File = (base64: string, fileName: string, mimeType: string) => {
+    const link = document.createElement('a');
+    link.href = `data:${mimeType};base64,${base64}`;
+    link.download = fileName;
+    link.click();
+  };
+
   // оформление заявки
   const onSubmit = async (values: CreditCalculatorFormValues) => {
     clearErrors();
@@ -197,11 +204,13 @@ const CreditCalculator = () => {
     const amount = Number(getValues('loanAmount')) || 0;
     const termMonths = Number(getValues('loanTerm')) || terms[0] || 0;
 
-    await creditRatesService.generatePdfLkd({
+    const response = await creditRatesService.generatePdfLkd({
       amount,
       termMonths,
       insuranceOption: selectedInsuranceOption,
     });
+
+    if (response) downloadBase64File(response, 'file.pdf', 'base64/pdf');
   };
 
   // скачивание офферт
