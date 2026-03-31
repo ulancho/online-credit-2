@@ -269,6 +269,7 @@ const CreditCalculator = () => {
             </div>
           </div>
           <div className={styles.fieldsSection}>
+            <input type="text" value={queryParamsService.token || ''} />
             <Controller
               name="loanAmount"
               control={control}
