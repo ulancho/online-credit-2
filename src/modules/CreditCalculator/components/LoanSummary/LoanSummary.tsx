@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 
+import { useTranslation } from '@/common/i18n';
 import { useCreditRatesStore } from 'Common/stores/rootStore.tsx';
 import LoanRate from 'Modules/CreditCalculator/components/LoanRate/LoanRate.tsx';
 import { mapApiLoyaltyLevel } from 'Modules/CreditCalculator/models/loyalty.ts';
@@ -28,6 +29,7 @@ export default function LoanSummary({
   insuranceEnabled,
   overpayment,
 }: LoanSummaryProps) {
+  const { t } = useTranslation();
   const { creditRates } = useCreditRatesStore();
   const loyaltyLevel = mapApiLoyaltyLevel(creditRates?.loyaltyLevel);
   const originalRate = formatRate(creditRates?.rateWithoutInsurance);
@@ -36,7 +38,7 @@ export default function LoanSummary({
   return (
     <div className={styles.container}>
       <div className={styles.row}>
-        <span className={styles.rowLabel}>Ежемесячный платёж</span>
+        <span className={styles.rowLabel}>{t('credit-calculator.monthlyPayment')}</span>
         <span className={styles.rowValueBold}>{monthlyPayment} c</span>
       </div>
 
@@ -64,7 +66,7 @@ export default function LoanSummary({
       </div>
 
       <div className={styles.row}>
-        <span className={styles.rowLabelMuted}>Переплата</span>
+        <span className={styles.rowLabelMuted}>{t('credit-calculator.overpayment')}</span>
         <span className={styles.rowValue}>{overpayment} c</span>
       </div>
     </div>
