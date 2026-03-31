@@ -87,11 +87,11 @@ const LoanConfirmation = () => {
     [activeGroup?.monthlyPayment, activeGroup?.amount, activeGroup?.period],
   );
 
-  const isButtonActive =
-    (selectedInsurance !== null || !loanConditionsStore.activeRequests?.insuranceConsent) &&
-    isKeyDataChecked &&
-    isInsuranceTermsChecked &&
-    selectedDay;
+  const commonChecks = selectedDay && isKeyDataChecked;
+
+  const isButtonActive = loanConditionsStore.activeRequests?.insuranceConsent
+    ? commonChecks && isInsuranceTermsChecked && selectedInsurance
+    : commonChecks;
 
   const loadData = useCallback(async () => {
     loanConditionsStore.getActiveRequests();

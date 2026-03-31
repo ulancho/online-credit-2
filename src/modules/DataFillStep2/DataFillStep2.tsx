@@ -1,6 +1,9 @@
+import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import Spinner from '@/common/components/Spinner/Spinner';
+import { useTranslation } from '@/common/i18n';
 import {
   useDataFillStep2Store,
   useLoanConditionsStore,
@@ -17,8 +20,9 @@ import { Modal } from '../LoanConditions/components/Modal';
 
 import type { SubmitApplicationType } from './services/DataFillStep2Service';
 
-export default function DataFillStep2() {
+const DataFillStep2 = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const location = useLocation();
   const [active, setActive] = useState<boolean | null>(null);
   const [additionalPhoneNumber, setAdditionalPhoneNumber] = useState('');
@@ -40,6 +44,11 @@ export default function DataFillStep2() {
     );
     if (loanConfirmationStore.dataSubmitCredit?.type === 'offline') {
       if (isFormValid) {
+        dataFillStep2Store.setFormData({
+          additionalPhoneNumber,
+          relativeFullName,
+          relationToBorrower,
+        });
         navigate('/data-fill-3', {
           state: {
             formedData: JSON.stringify({
@@ -77,7 +86,7 @@ export default function DataFillStep2() {
             title: 'Кредит оформлен',
             description: 'Ожидайте поступления денежных средств',
             btnTitle: 'В кабинет кредитов',
-            Icon: 'success',
+            icon: 'success',
           },
         });
       } else {
@@ -116,7 +125,7 @@ export default function DataFillStep2() {
       contentClassName={[layoutStyles.content, layoutStyles.contentWithGap].join(' ')}
       footer={
         <Button disabled={!isFormValid} onClick={handleContinue}>
-          Продолжить
+          {dataFillStep2Store.awaiting ? <Spinner width={30} height={30} /> : t('btns.continue')}
         </Button>
       }
     >
@@ -146,4 +155,6 @@ export default function DataFillStep2() {
       </Modal>
     </DataFillLayout>
   );
-}
+};
+
+export default observer(DataFillStep2);
