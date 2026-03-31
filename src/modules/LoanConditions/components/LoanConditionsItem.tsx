@@ -74,9 +74,7 @@ const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
           </div>
           <div className={styles.infoContent}>
             <span className={styles.infoLabel}>Ежемесячный взнос</span>
-            <span className={styles.infoValue}>
-              {formatAmount(activeGroup?.monthlyPayment)} {'\u20C0'}
-            </span>
+            <span className={styles.infoValue}>{formatAmount(activeGroup?.monthlyPayment)} с</span>
           </div>
         </div>
       </div>
@@ -91,7 +89,12 @@ const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
         </button>
       )}
       {group === 'ref' && (
-        <button onClick={proceedToNext} className={styles.secondaryButton}>
+        <button
+          onClick={() => {
+            window.location.href = `https://app.mbank.kg/web/refinancing?token=${activeGroup.token}`;
+          }}
+          className={styles.secondaryButton}
+        >
           Рефинансировать
         </button>
       )}

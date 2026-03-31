@@ -69,6 +69,7 @@ export class LoanCondtionsService {
       refPeriod,
       refPercent,
       refMonthlyPayment,
+      token,
     } = this.activeRequests;
 
     const groupedData: Record<LoanGroup, ActiveRequests> = {
@@ -84,6 +85,7 @@ export class LoanCondtionsService {
         period: refPeriod,
         percent: refPercent,
         monthlyPayment: refMonthlyPayment,
+        token,
       },
     };
     return groupedData;
