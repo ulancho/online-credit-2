@@ -14,8 +14,6 @@ export function useQueryParams(): QueryParams {
   return useMemo(() => {
     const searchParams = new URLSearchParams(search);
 
-    alert(searchParams);
-
     return {
       token: searchParams.get('token'),
       deviceId: searchParams.get('device-id'),
