@@ -206,6 +206,7 @@ const CreditCalculator = () => {
 
   // скачивание офферт
   const handleOfferClick = async (offerType: OfferType) => {
+    alert('handleOfferClick');
     const offer =
       offerType === 'public'
         ? loanOffersService.publicLoanOfferData
