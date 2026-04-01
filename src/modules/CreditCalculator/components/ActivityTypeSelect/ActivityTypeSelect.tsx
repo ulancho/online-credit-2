@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import { useTranslation } from 'Common/i18n';
 import { useActivityTypeStore } from 'Common/stores/rootStore.tsx';
@@ -71,34 +72,36 @@ function ActivityTypeSelect({ value, onChange }: ActivityTypeSelectProps) {
         </svg>
       </div>
 
-      {isOpen && (
-        <div className={styles.overlay} onClick={closeSheet}>
-          <div ref={sheetRef} className={styles.sheet} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.sheetHandle} />
-            <h2 className={styles.sheetTitle}>{t('credit-calculator.activityTypes.title')}</h2>
-            <ul className={styles.optionList}>
-              {options.map((option) => (
-                <li
-                  key={option.itemCode}
-                  className={`${styles.optionItem} ${pendingValue === option.nameRu ? styles.optionItemSelected : ''}`}
-                  onClick={() => setPendingValue(option.nameRu)}
+      {isOpen &&
+        createPortal(
+          <div className={styles.overlay} onClick={closeSheet}>
+            <div ref={sheetRef} className={styles.sheet} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.sheetHandle} />
+              <h2 className={styles.sheetTitle}>{t('credit-calculator.activityTypes.title')}</h2>
+              <ul className={styles.optionList}>
+                {options.map((option) => (
+                  <li
+                    key={option.itemCode}
+                    className={`${styles.optionItem} ${pendingValue === option.nameRu ? styles.optionItemSelected : ''}`}
+                    onClick={() => setPendingValue(option.nameRu)}
+                  >
+                    <span className={styles.optionText}>{option.nameRu}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className={styles.sheetFooter}>
+                <button
+                  className={`${styles.confirmBtn} ${pendingValue ? styles.confirmBtnActive : styles.confirmBtnDisabled}`}
+                  onClick={handleConfirm}
+                  disabled={!pendingValue}
                 >
-                  <span className={styles.optionText}>{option.nameRu}</span>
-                </li>
-              ))}
-            </ul>
-            <div className={styles.sheetFooter}>
-              <button
-                className={`${styles.confirmBtn} ${pendingValue ? styles.confirmBtnActive : styles.confirmBtnDisabled}`}
-                onClick={handleConfirm}
-                disabled={!pendingValue}
-              >
-                {t('credit-calculator.activityTypes.confirm')}
-              </button>
+                  {t('credit-calculator.activityTypes.confirm')}
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
