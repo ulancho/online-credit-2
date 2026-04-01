@@ -25,10 +25,12 @@ import SecurityWarning from 'Modules/SecurityWarning/SecurityWarning.tsx';
 import ServiceUnavailable from 'Modules/ServiceUnavailable/ServiceUnavailable.tsx';
 
 const applyTheme = (theme: string | null) => {
-  const normalizedTheme = theme?.toLowerCase();
-  const resolvedTheme = normalizedTheme === 'dark' ? 'dark' : 'light';
+  if (!theme) {
+    return;
+  }
 
-  console.log(resolvedTheme);
+  const normalizedTheme = theme.toLowerCase();
+  const resolvedTheme = normalizedTheme === 'dark' ? 'dark' : 'light';
 
   document.documentElement.setAttribute('data-theme', resolvedTheme);
 };
