@@ -85,8 +85,8 @@ const CreditCalculator = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const [term1Checked, setTerm1Checked] = useState(!loanOffersService.publicLoanOfferData);
-  const [term2Checked, setTerm2Checked] = useState(!loanOffersService.loanOfferData);
+  const [term1Checked, setTerm1Checked] = useState(false);
+  const [term2Checked, setTerm2Checked] = useState(false);
   const [term3Checked, setTerm3Checked] = useState(false);
   const [isPassportModalOpen, setIsPassportModalOpen] = useState(false);
 
@@ -358,18 +358,22 @@ const CreditCalculator = () => {
             <InfoNotification text="После вашего действия будет создана заявка на кредит. Мы отправим вам одноразовый код для проверки номера телефона." />
           </div>
           <div className={styles.termsSection}>
-            <TermsCheckbox
-              checked={term1Checked}
-              text={loanOffersService.publicLoanOfferData?.agreementText || ''}
-              onChange={setTerm1Checked}
-              onTapLink={() => handleOfferClick('public')}
-            />
-            <TermsCheckbox
-              checked={term2Checked}
-              text={loanOffersService.loanOfferData?.agreementText || ''}
-              onChange={setTerm2Checked}
-              onTapLink={() => handleOfferClick('loan')}
-            />
+            {loanOffersService.publicLoanOfferData && (
+              <TermsCheckbox
+                checked={term1Checked}
+                text={loanOffersService.publicLoanOfferData.agreementText || ''}
+                onChange={setTerm1Checked}
+                onTapLink={() => handleOfferClick('public')}
+              />
+            )}
+            {loanOffersService.loanOfferData && (
+              <TermsCheckbox
+                checked={term2Checked}
+                text={loanOffersService.loanOfferData.agreementText || ''}
+                onChange={setTerm2Checked}
+                onTapLink={() => handleOfferClick('loan')}
+              />
+            )}
             {loanAmount && (
               <TermsCheckbox
                 checked={term3Checked}
