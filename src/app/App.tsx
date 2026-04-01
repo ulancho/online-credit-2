@@ -28,6 +28,8 @@ const applyTheme = (theme: string | null) => {
   const normalizedTheme = theme?.toLowerCase();
   const resolvedTheme = normalizedTheme === 'dark' ? 'dark' : 'light';
 
+  console.log(resolvedTheme);
+
   document.documentElement.setAttribute('data-theme', resolvedTheme);
 };
 
