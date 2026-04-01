@@ -89,7 +89,7 @@ const CreditCalculator = () => {
   const [term2Checked, setTerm2Checked] = useState(false);
   const [term3Checked, setTerm3Checked] = useState(false);
   const [isPassportModalOpen, setIsPassportModalOpen] = useState(false);
-
+  const [, forceUpdate] = useState(0);
   // const allTermsAccepted = term1Checked && term2Checked && term3Checked;
   // const isSubmitEnabled =
   //   allTermsAccepted && getValues('loanAmount') !== '' && getValues('monthlyIncome') !== '';
@@ -98,7 +98,9 @@ const CreditCalculator = () => {
   const loanTerm = watch('loanTerm');
   const monthlyIncome = watch('monthlyIncome');
   const insuranceEnabled = watch('insuranceEnabled');
-  const terms = creditRatesService.availableLoanTerms;
+  const terms = creditRatesService.availableLoanTerms
+    .map((term) => Number(term))
+    .filter((term) => Number.isFinite(term));
 
   const allTermsAccepted = term1Checked && term2Checked && term3Checked;
   const isSubmitEnabled = allTermsAccepted && loanAmount !== '' && monthlyIncome !== '';
@@ -256,6 +258,7 @@ const CreditCalculator = () => {
         loanOffersService.getPublicLoanOffer(),
         loanOffersService.getLoanOffer(),
       ]);
+      forceUpdate((value) => value + 1);
     };
 
     loadFieldsData();
@@ -305,18 +308,25 @@ const CreditCalculator = () => {
               name="loanTerm"
               control={control}
               render={({ field }) => {
-                const currentIndex = terms.findIndex((term) => term === Number(field.value));
+                const currentTerm = Number(field.value);
+                const currentIndex = terms.findIndex((term) => term === currentTerm);
                 const safeIndex = currentIndex >= 0 ? currentIndex : 0;
+                const defaultDisplayTerm = terms.includes(12) ? 12 : (terms[0] ?? 12);
+                const displayTerm = currentIndex >= 0 ? terms[safeIndex] : defaultDisplayTerm;
 
                 return (
                   <LoanTermSlider
-                    label={terms[safeIndex] ?? 0}
+                    label={displayTerm}
                     value={safeIndex}
                     min={0}
                     max={Math.max(terms.length - 1, 0)}
                     disabled={!terms.length}
                     onChange={(index: number) => {
-                      const nextTerm = terms[index];
+                      const normalizedIndex = Math.min(
+                        Math.max(Math.round(index), 0),
+                        Math.max(terms.length - 1, 0),
+                      );
+                      const nextTerm = terms[normalizedIndex];
 
                       if (nextTerm !== undefined) {
                         field.onChange(nextTerm);

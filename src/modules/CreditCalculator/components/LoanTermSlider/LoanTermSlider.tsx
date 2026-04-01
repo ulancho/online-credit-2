@@ -46,6 +46,7 @@ export default function LoanTermSlider({
           type="range"
           min={min}
           max={max}
+          step={1}
           value={value}
           disabled={disabled}
           onChange={(e) => onChange?.(Number(e.target.value))}
