@@ -8,7 +8,7 @@ import {
 } from 'Common/i18n/config.ts';
 
 const acceptLanguages = {
-  kg: 'ky-KG',
+  ky: 'ky-KG',
   en: 'en-US',
   ru: 'ru-RU',
 };
