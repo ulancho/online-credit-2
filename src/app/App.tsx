@@ -24,18 +24,18 @@ import SecurityRemember from 'Modules/SecurityRemember/SecurityRemember.tsx';
 import SecurityWarning from 'Modules/SecurityWarning/SecurityWarning.tsx';
 import ServiceUnavailable from 'Modules/ServiceUnavailable/ServiceUnavailable.tsx';
 
-// const applyTheme = (theme: string | null) => {
-//   const normalizedTheme = theme?.toLowerCase();
-//   const resolvedTheme = normalizedTheme === 'dark' ? 'dark' : 'light';
-//
-//   document.documentElement.setAttribute('data-theme', resolvedTheme);
-// };
+const applyTheme = (theme: string | null) => {
+  const normalizedTheme = theme?.toLowerCase();
+  const resolvedTheme = normalizedTheme === 'dark' ? 'dark' : 'light';
+
+  document.documentElement.setAttribute('data-theme', resolvedTheme);
+};
 
 const AppContent = () => {
   const { theme } = useQueryParams();
 
   useEffect(() => {
-    // applyTheme(theme);
+    applyTheme(theme);
   }, [theme]);
 
   return (

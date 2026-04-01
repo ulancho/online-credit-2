@@ -29,6 +29,7 @@ const DataFillStep2 = () => {
   const [relativeFullName, setRelativeFullName] = useState('');
   const [relationToBorrower, setRelationToBorrower] = useState('');
   const [submitError, setSubmitError] = useState<string | undefined>(undefined);
+
   const isFormValid = additionalPhoneNumber && relativeFullName && relationToBorrower;
 
   const dataFillStep2Store = useDataFillStep2Store();

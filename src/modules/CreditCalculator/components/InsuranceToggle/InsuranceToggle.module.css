@@ -60,7 +60,7 @@
   width: 27px;
   height: 27px;
   border-radius: 50%;
-  background: white;
+  background: var(--color-on-accent);
   box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
   transition: left 0.2s ease;
 }
