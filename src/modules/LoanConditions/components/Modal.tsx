@@ -23,7 +23,6 @@ export function Modal({
   title,
   children,
   footer,
-  size = 'md',
   closeOnOverlay = true,
   closeOnEsc = true,
   showCloseButton = false,
@@ -65,14 +64,6 @@ export function Modal({
     },
     [closeOnOverlay, onClose],
   );
-
-  const sizeMap: Record<ModalSize, string> = {
-    sm: '340px',
-    md: '460px',
-    lg: '620px',
-    xl: '780px',
-    full: '96vw',
-  };
 
   if (!isOpen) return null;
 
