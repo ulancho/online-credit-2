@@ -94,11 +94,11 @@ const CreditCalculator = () => {
   // const isSubmitEnabled =
   //   allTermsAccepted && getValues('loanAmount') !== '' && getValues('monthlyIncome') !== '';
 
-  const terms = creditRatesService.availableLoanTerms;
   const loanAmount = watch('loanAmount');
   const loanTerm = watch('loanTerm');
   const monthlyIncome = watch('monthlyIncome');
   const insuranceEnabled = watch('insuranceEnabled');
+  const terms = creditRatesService.availableLoanTerms;
 
   const allTermsAccepted = term1Checked && term2Checked && term3Checked;
   const isSubmitEnabled = allTermsAccepted && loanAmount !== '' && monthlyIncome !== '';
@@ -267,8 +267,12 @@ const CreditCalculator = () => {
       return;
     }
 
-    setValue('loanTerm', terms[0], { shouldDirty: false, shouldTouch: false });
-  }, [loanTerm, setValue, terms]);
+    const defaultLoanTerm = terms.includes(12) ? 12 : terms[0];
+
+    setValue('loanTerm', defaultLoanTerm, { shouldDirty: false, shouldTouch: false });
+  }, [terms, loanTerm, setValue]);
+
+  console.log('render');
 
   return (
     <div id="page">
