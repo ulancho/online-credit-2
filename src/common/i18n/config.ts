@@ -1,5 +1,5 @@
 export const SUPPORTED_LANGUAGES = [
-  { code: 'kg', label: 'KG' },
+  { code: 'ky', label: 'KG' },
   { code: 'ru', label: 'RU' },
   { code: 'en', label: 'EN' },
 ] as const;
