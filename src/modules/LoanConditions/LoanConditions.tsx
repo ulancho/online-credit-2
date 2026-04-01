@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { exitApp } from '@/common/api/common';
+import ExtendedQuestionaire from '@/common/components/ExtendedQuestionaire/ExtendedQuestionaire';
 import { useLoanConditionsStore } from '@/common/stores/rootStore';
-import WalletImage from 'Assets/icons/coin_percent.png';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
 import LoanConditionsItem from './components/LoanConditionsItem';
@@ -55,25 +55,7 @@ const LoanConditions = () => {
       <div className={styles.content}>
         <h1 className={styles.pageTitle}>Ваша заявка одобрена на следующих условиях</h1>
         {/* Blue promo banner */}
-        {extendedIsAvailable && (
-          <div className={styles.promoBanner}>
-            <div className={styles.promoText}>
-              <p className={styles.promoTitle}>Расширенная анкета</p>
-              <p className={styles.promoDescription}>
-                Предоставьте дополнительные данные для увеличения суммы займа
-              </p>
-              <button className={styles.promoButton}>Заполнить анкету</button>
-            </div>
-            <div className={styles.promoImageWrapper}>
-              <img
-                className={styles.promoImage}
-                src={WalletImage}
-                decoding="async"
-                alt="Wallet illustration"
-              />
-            </div>
-          </div>
-        )}
+        {extendedIsAvailable && <ExtendedQuestionaire />}
         {/* Loan details card */}
         {onlineClaimAvailable && <LoanConditionsItem group="online" />}
 

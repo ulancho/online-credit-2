@@ -37,7 +37,7 @@
 
 .main {
   flex: 1;
-  padding: 8px var(--spacing-l) 96px;
+  padding: 8px var(--spacing-l) 225px;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-l);
@@ -137,4 +137,19 @@
   background: var(--color-bg-main);
   padding: 8px var(--spacing-l);
   padding-bottom: max(8px, env(safe-area-inset-bottom));
+}
+
+.declineButton {
+  width: 100%;
+  padding: 29px 16px;
+  border-radius: var(--radius-block);
+  background: none;
+  color: var(--color-text-warning);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
 }

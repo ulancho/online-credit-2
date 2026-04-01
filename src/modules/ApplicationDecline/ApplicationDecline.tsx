@@ -1,6 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { exitApp } from '@/common/api/common';
+import ExtendedQuestionaire from '@/common/components/ExtendedQuestionaire/ExtendedQuestionaire';
+import { useApplicationStatusStore, useLoanConditionsStore } from '@/common/stores/rootStore';
 import Button from 'Common/components/Button/Button.tsx';
+
+import { Modal } from '../LoanConditions/components/Modal';
 
 import styles from './ApplicationDecline.module.scss';
 
@@ -58,10 +64,41 @@ const ChevronDown = () => (
 
 export default function ApplicationDecline() {
   const [openIds, setOpenIds] = useState<number[]>([1]);
+  const [activeModal, setActiveModal] = useState<boolean | null>(null);
+  const openDeclineModal = (val: boolean) => setActiveModal(val);
+  const closeDeclineModal = () => setActiveModal(null);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const isExtended = urlParams.has('extended');
+
+  const loanConditionsStore = useLoanConditionsStore();
+  const applicationStatusStore = useApplicationStatusStore();
+
+  const navigate = useNavigate();
+
   const toggle = (id: number) => {
     setOpenIds((prev) =>
       prev.includes(id) ? prev.filter((openId) => openId !== id) : [...prev, id],
     );
+  };
+
+  const closeWebView = () => {
+    exitApp().then((res) => console.log(res.status));
+  };
+
+  const proceedToDeclinedPage = async () => {
+    const success = await loanConditionsStore.setDeclineApplication(
+      applicationStatusStore.requestId as string,
+    );
+    if (success) {
+      navigate('/finish-page', {
+        state: {
+          title: 'Вы отказались от кредита',
+          description: `Ваша заявка успешно отклонена`,
+        },
+        replace: true,
+      });
+    }
   };
 
   return (
@@ -76,6 +113,7 @@ export default function ApplicationDecline() {
         </div>
       </header>
       <main className={styles.main}>
+        {isExtended && <ExtendedQuestionaire />}
         <h2 className={styles.sectionTitle}>Возможные причины отказа</h2>
         <div className={styles.accordionList}>
           {DECLINE_REASONS.map((reason) => {
@@ -103,9 +141,34 @@ export default function ApplicationDecline() {
         </div>
       </main>
       <div className={styles.footer}>
-        <Button type="button" className={styles.confirmButton}>
+        <Button onClick={closeWebView} type="button" className={styles.confirmButton}>
           Понятно
         </Button>
+        {isExtended && (
+          <>
+            <button onClick={() => openDeclineModal(true)} className={styles.declineButton}>
+              Отказаться
+            </button>
+            <Modal
+              isOpen={activeModal}
+              onClose={closeDeclineModal}
+              title="Подтвердите действие"
+              size="sm"
+              footer={
+                <>
+                  <button className="btn btn-text-green" onClick={closeDeclineModal}>
+                    Нет
+                  </button>
+                  <button className="btn btn-text-green" onClick={proceedToDeclinedPage}>
+                    Да
+                  </button>
+                </>
+              }
+            >
+              Вы уверены, что хотите отказаться от выдачи кредита?
+            </Modal>
+          </>
+        )}
       </div>
     </div>
   );
