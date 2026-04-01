@@ -103,7 +103,7 @@
   align-items: flex-start;
   flex: 1;
   padding: 8px 0;
-  border-bottom: 0.5px solid var(--color-bg-tertiary);
+  border-bottom: 0.5px solid var(--color-body-tertiary);
 }
 
 .infoRowLast .infoContent {
@@ -132,7 +132,7 @@
   padding: 13px 16px;
   border-radius: var(--radius-block);
   background: var(--color-bg-btn-primary);
-  color: var(--color-text-primary);
+  color: var(--color-text-btn-primary);
   font-size: 17px;
   font-weight: 700;
   line-height: 22px;
@@ -146,7 +146,7 @@
   width: 100%;
   padding: 13px 16px;
   border-radius: var(--radius-block);
-  background: #f4f5f6;
+  background: var(--color-body-secondary);
   color: var(--color-accent);
   font-size: 17px;
   font-weight: 700;
