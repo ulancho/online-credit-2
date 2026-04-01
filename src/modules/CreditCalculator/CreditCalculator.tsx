@@ -90,14 +90,18 @@ const CreditCalculator = () => {
   const [term3Checked, setTerm3Checked] = useState(false);
   const [isPassportModalOpen, setIsPassportModalOpen] = useState(false);
 
-  const allTermsAccepted = term1Checked && term2Checked && term3Checked;
-  const isSubmitEnabled =
-    allTermsAccepted && getValues('loanAmount') !== '' && getValues('monthlyIncome') !== '';
+  // const allTermsAccepted = term1Checked && term2Checked && term3Checked;
+  // const isSubmitEnabled =
+  //   allTermsAccepted && getValues('loanAmount') !== '' && getValues('monthlyIncome') !== '';
 
   const terms = creditRatesService.availableLoanTerms;
   const loanAmount = watch('loanAmount');
   const loanTerm = watch('loanTerm');
+  const monthlyIncome = watch('monthlyIncome');
   const insuranceEnabled = watch('insuranceEnabled');
+
+  const allTermsAccepted = term1Checked && term2Checked && term3Checked;
+  const isSubmitEnabled = allTermsAccepted && loanAmount !== '' && monthlyIncome !== '';
 
   const selectedInsuranceOption: RateInsuranceOption = insuranceEnabled
     ? 'withInsurance'
