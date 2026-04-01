@@ -1,7 +1,11 @@
 {
   "btns": {
     "cancel": "Cancel",
-    "continue": "Continue"
+    "continue": "Continue",
+    "yes": "Yes",
+    "no": "No",
+    "declinedTitle": "Confirm action",
+    "declinedDesc": "Are you sure you want to cancel the loan issuance?"
   },
 
   "credit-calculator": {

@@ -84,8 +84,8 @@ const DataFillStep2 = () => {
       if (success) {
         navigate('/finish-page', {
           state: {
-            title: 'Кредит оформлен',
-            description: 'Ожидайте поступления денежных средств',
+            title: t('onlineLoanIssued.title'),
+            description: t('onlineLoanIssued.desc'),
             btnTitle: 'В кабинет кредитов',
             icon: 'success',
           },

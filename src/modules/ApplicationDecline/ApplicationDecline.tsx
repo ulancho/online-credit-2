@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { exitApp } from '@/common/api/common';
 import ExtendedQuestionaire from '@/common/components/ExtendedQuestionaire/ExtendedQuestionaire';
+import { useTranslation } from '@/common/i18n';
 import { useApplicationStatusStore, useLoanConditionsStore } from '@/common/stores/rootStore';
 import Button from 'Common/components/Button/Button.tsx';
 
@@ -63,6 +64,8 @@ const ChevronDown = () => (
 );
 
 export default function ApplicationDecline() {
+  const { t } = useTranslation();
+
   const [openIds, setOpenIds] = useState<number[]>([1]);
   const [activeModal, setActiveModal] = useState<boolean | null>(null);
   const openDeclineModal = (val: boolean) => setActiveModal(val);
@@ -152,20 +155,20 @@ export default function ApplicationDecline() {
             <Modal
               isOpen={activeModal}
               onClose={closeDeclineModal}
-              title="Подтвердите действие"
+              title={t('btns.declinedTitle')}
               size="sm"
               footer={
                 <>
                   <button className="btn btn-text-green" onClick={closeDeclineModal}>
-                    Нет
+                    {t('btns.no')}
                   </button>
                   <button className="btn btn-text-green" onClick={proceedToDeclinedPage}>
-                    Да
+                    {t('btns.yes')}
                   </button>
                 </>
               }
             >
-              Вы уверены, что хотите отказаться от выдачи кредита?
+              {t('btns.declinedDesc')}
             </Modal>
           </>
         )}
