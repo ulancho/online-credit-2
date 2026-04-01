@@ -90,7 +90,7 @@
   display: flex;
   flex-direction: column;
   padding: 8px var(--spacing-l);
-  border-bottom: 0.5px solid var(--color-bg-tertiary);
+  border-bottom: 0.5px solid var(--color-body-tertiary);
 }
 
 .infoRowLast {
@@ -133,7 +133,7 @@
 .dayChip {
   padding: 8px 12px;
   border-radius: 12px;
-  background: var(--color-bg-tertiary);
+  background: var(--color-body-tertiary);
   color: var(--color-text-primary);
   font-size: 15px;
   font-weight: 500;
@@ -222,7 +222,7 @@
   width: 24px;
   height: 24px;
   border-radius: 5px;
-  border: 1.5px solid var(--color-text-tertiary);
+  border: 1.5px solid var(--color-body-tertiary);
   background: var(--color-on-accent);
   display: flex;
   align-items: center;

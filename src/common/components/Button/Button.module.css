@@ -25,7 +25,7 @@
 
 .primary:disabled {
   background: var(--color-bg-tertiary);
-  color: var(--color-text-primary);
+  color: var(--color-on-accent);
   cursor: not-allowed;
   opacity: 1;
 }
@@ -33,7 +33,7 @@
 /* ──── */
 .yellow {
   background: var(--color-bg-btn-primary);
-  color: var(--color-text-primary);
+  color: var(--color-text-btn-primary);
 }
 
 .yellow:active {
