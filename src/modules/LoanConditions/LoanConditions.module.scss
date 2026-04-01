@@ -16,72 +16,6 @@
   margin: 0;
 }
 
-/* ── Promo banner ── */
-.promoBanner {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  width: 100%;
-  padding: 12px 16px;
-  border-radius: var(--radius-block);
-  background: linear-gradient(180deg, #008fe5 0%, #0078c1 100%);
-  overflow: hidden;
-  position: relative;
-}
-
-.promoText {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  flex: 1;
-}
-
-.promoTitle {
-  color: #fff;
-  font-size: 17px;
-  font-weight: 800;
-  line-height: 22px;
-  letter-spacing: -0.2px;
-  margin: 0;
-}
-
-.promoDescription {
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  letter-spacing: -0.1px;
-  margin: 0;
-}
-
-.promoButton {
-  margin-top: 8px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: #fff;
-  color: #017cc7;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  letter-spacing: -0.1px;
-  border: none;
-  cursor: pointer;
-}
-
-.promoImageWrapper {
-  flex-shrink: 0;
-  align-self: flex-end;
-}
-
-.promoImage {
-  width: 110px;
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
-  display: block;
-}
-
 /* ── Details card ── */
 .detailsCard {
   display: flex;
@@ -228,7 +162,7 @@
   padding: 17px 16px;
   border-radius: var(--radius-block);
   background: none;
-  color: #e02d3c;
+  color: var(--color-text-warning);
   font-size: 17px;
   font-weight: 700;
   line-height: 22px;

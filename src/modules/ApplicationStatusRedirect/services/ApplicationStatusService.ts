@@ -8,6 +8,7 @@ import {
 const STATUS_ROUTE_MAP: Record<string, string> = {
   NO_REQUESTS: '/credit-calculator',
   DENIED: '/declined',
+  EXTENDED: '/declined?extended',
   WAITING: '/loan-conditions',
   WAITING2: '/loan-conditions',
   AWAITING_ISSUE: '/cooling',
