@@ -10,7 +10,7 @@ export interface TranslationDictionary {
 type TranslationsMap = Record<LanguageCode, TranslationDictionary>;
 
 export const translations: TranslationsMap = {
-  kg: kg as TranslationDictionary,
+  ky: kg as TranslationDictionary,
   ru: ru as TranslationDictionary,
   en: en as TranslationDictionary,
 };
