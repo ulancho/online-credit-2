@@ -80,7 +80,7 @@ export function Modal({
     <div className="m-overlay" ref={overlayRef} onClick={handleOverlayClick} role="presentation">
       <div
         className="m-dialog"
-        style={{ maxWidth: sizeMap[size] }}
+        style={{ maxWidth: '270px' }}
         role="dialog"
         aria-modal="true"
         aria-labelledby="m-title"
@@ -88,7 +88,7 @@ export function Modal({
         tabIndex={-1}
       >
         {title && (
-          <div className="m-header" style={{ padding: '1.5rem 1.5rem 0.75rem' }}>
+          <div className="m-header">
             <h2 className="m-title" id="m-title">
               {title}
             </h2>
@@ -101,12 +101,7 @@ export function Modal({
           </div>
         )}
 
-        <div
-          className="m-body"
-          style={{ padding: title ? '0.5rem 1.5rem 0.75rem' : '1.5rem 1.5rem 0.75rem' }}
-        >
-          {children}
-        </div>
+        <div className="m-body">{children}</div>
 
         {footer && <div className="m-footer">{footer}</div>}
       </div>

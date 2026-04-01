@@ -77,8 +77,8 @@ const DataFillStep3 = () => {
     if (success) {
       navigate('/finish-page', {
         state: {
-          title: 'Кредит оформлен',
-          description: 'С Вами свяжется специалист банка и пригласит в филиал для выдачи кредита',
+          title: t('offline.LoanIssued.title'),
+          description: t('offline.LoanIssued.title'),
           btnTitle: 'В кабинет кредитов',
           icon: 'success',
         },

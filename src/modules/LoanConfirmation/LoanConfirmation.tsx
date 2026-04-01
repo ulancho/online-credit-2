@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n';
 import { useLoanConditionsStore, useLoanConfirmationStore } from '@/common/stores/rootStore';
 import { formatAmount } from '@/common/utils/formatAmount';
 import PercentIcon from 'Assets/icons/products.svg?react';
@@ -45,6 +46,7 @@ function Checkbox({ checked, onChange }: CheckboxProps) {
 
 const LoanConfirmation = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const location = useLocation();
   const { type } = useParams();
 
@@ -265,20 +267,20 @@ const LoanConfirmation = () => {
           <Modal
             isOpen={active}
             onClose={close}
-            title="Подтвердите действие"
+            title={t('btns.declinedTitle')}
             size="sm"
             footer={
               <>
-                <button className="btn btn-text-green" onClick={close}>
-                  Нет
+                <button className="btn btn-text-muted" onClick={close}>
+                  {t('btns.no')}
                 </button>
                 <button className="btn btn-text-green" onClick={proceedToDeclinedPage}>
-                  Да
+                  {t('btns.yes')}
                 </button>
               </>
             }
           >
-            Вы уверены, что хотите отказаться от выдачи кредита?
+            {t('btns.declinedDesc')}
           </Modal>
         </div>
       </div>
