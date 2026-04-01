@@ -42,6 +42,7 @@ const AppContent = () => {
   );
 
   useEffect(() => {
+    alert(theme);
     applyTheme(theme);
   }, [theme]);
 
