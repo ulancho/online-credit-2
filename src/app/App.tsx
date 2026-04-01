@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Route, Routes, BrowserRouter, useLocation } from 'react-router-dom';
 
 import FinishPage from '@/common/components/ErrorPage/FinishPage';
 import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
@@ -35,36 +35,56 @@ const applyTheme = (theme: string | null) => {
 
 const AppContent = () => {
   const { theme } = useQueryParams();
+  const location = useLocation();
+  const [displayLocation, setDisplayLocation] = useState(location);
+  const [transitionStage, setTransitionStage] = useState<'route-enter' | 'route-exit'>(
+    'route-enter',
+  );
 
   useEffect(() => {
     applyTheme(theme);
   }, [theme]);
 
+  useEffect(() => {
+    if (location.pathname !== displayLocation.pathname) {
+      setTransitionStage('route-exit');
+    }
+  }, [location, displayLocation.pathname]);
+
+  const handleTransitionEnd = () => {
+    if (transitionStage === 'route-exit') {
+      setDisplayLocation(location);
+      setTransitionStage('route-enter');
+    }
+  };
+
   return (
-    <Routes>
-      {/*<Route path="/" element={<Test />} />*/}
-      <Route path="/" element={<ApplicationStatusRedirect />} />
-      <Route path="/credit-calculator" element={<CreditCalculator />} />
-      <Route path="/otp" element={<OtpVerification />} />
-      <Route path="/loading" element={<Loader />} />
-      <Route path="/application-success" element={<ApplicationSuccess />} />
-      <Route path="/service-unavailable" element={<ServiceUnavailable />} />
-      <Route path="/passport" element={<PassportCamera />} />
-      <Route path="/passport-confirmation" element={<PassportConfirmation />} />
-      <Route path="/loan-conditions" element={<LoanConditions />} />
-      <Route path="/insurance-companies" element={<InsuranceCompanies />} />
-      <Route path="/loan-confirmation/:type" element={<LoanConfirmation />} />
-      <Route path="/security-warning" element={<SecurityWarning />} />
-      <Route path="/security-remember" element={<SecurityRemember />} />
-      <Route path="/cooling-period" element={<CoolingPeriod />} />
-      <Route path="/data-fill" element={<DataFillStep1 />} />
-      <Route path="/data-fill-2" element={<DataFillStep2 />} />
-      <Route path="/data-fill-3" element={<DataFillStep3 />} />
-      <Route path="/data-fill-success" element={<DataFillSuccess />} />
-      <Route path="/finish-page" element={<FinishPage />} />
-      <Route path="/declined" element={<ApplicationDecline />} />
-      <Route path="/cooling" element={<Cooling />} />
-    </Routes>
+    <div className={`route-transition ${transitionStage}`} onAnimationEnd={handleTransitionEnd}>
+      <Routes location={displayLocation}>
+        {/*<Route path="/" element={<Test />} />*/}
+        <Route path="/" element={<ApplicationStatusRedirect />} />
+        <Route path="/credit-calculator" element={<CreditCalculator />} />
+        <Route path="/otp" element={<OtpVerification />} />
+        <Route path="/loading" element={<Loader />} />
+        <Route path="/application-success" element={<ApplicationSuccess />} />
+        <Route path="/service-unavailable" element={<ServiceUnavailable />} />
+        <Route path="/passport" element={<PassportCamera />} />
+        <Route path="/passport-confirmation" element={<PassportConfirmation />} />
+        <Route path="/loan-conditions" element={<LoanConditions />} />
+        <Route path="/insurance-companies" element={<InsuranceCompanies />} />
+        <Route path="/loan-confirmation/:type" element={<LoanConfirmation />} />
+        <Route path="/security-warning" element={<SecurityWarning />} />
+        <Route path="/security-remember" element={<SecurityRemember />} />
+        <Route path="/cooling-period" element={<CoolingPeriod />} />
+        <Route path="/data-fill" element={<DataFillStep1 />} />
+        <Route path="/data-fill-2" element={<DataFillStep2 />} />
+        <Route path="/data-fill-3" element={<DataFillStep3 />} />
+        <Route path="/data-fill-success" element={<DataFillSuccess />} />
+        <Route path="/finish-page" element={<FinishPage />} />
+        <Route path="/declined" element={<ApplicationDecline />} />
+        <Route path="/cooling" element={<Cooling />} />
+      </Routes>
+    </div>
   );
 };
 

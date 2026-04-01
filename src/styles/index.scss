@@ -74,12 +74,58 @@ body {
 #root {
   width: 100%;
   max-width: 430px;
+  background: var(--color-bg-main);
 }
 
 #page {
   min-height: 100vh;
   background: var(--color-bg-main);
   width: 100%;
+}
+
+.route-transition {
+  min-height: 100vh;
+  background: var(--color-bg-main);
+  will-change: opacity, transform;
+}
+
+.route-transition.route-enter {
+  animation: route-enter 180ms ease-out;
+}
+
+.route-transition.route-exit {
+  animation: route-exit 140ms ease-in forwards;
+}
+
+@keyframes route-enter {
+  from {
+    opacity: 0.96;
+    transform: translate3d(0, 10px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes route-exit {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    opacity: 0.96;
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-transition.route-enter,
+  .route-transition.route-exit {
+    animation: none;
+  }
 }
 
 * {
