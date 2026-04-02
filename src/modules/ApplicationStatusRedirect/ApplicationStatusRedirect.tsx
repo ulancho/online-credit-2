@@ -14,17 +14,32 @@ const ApplicationStatusRedirect = () => {
   const queryParamsService = useQueryParamsStore();
 
   useEffect(() => {
-    if (!applicationStatusService.application && !applicationStatusService.isLoading) {
+    if (
+      !applicationStatusService.application &&
+      !applicationStatusService.isLoading &&
+      !applicationStatusService.hasLoadingError
+    ) {
       void applicationStatusService.loadActiveApplicationExist();
     }
   }, [applicationStatusService]);
 
   useEffect(() => {
+    if (applicationStatusService.hasLoadingError) {
+      navigate('/finish-page', { replace: true });
+      return;
+    }
+
     if (applicationStatusService.isLoading || !applicationStatusService.application) {
       return;
     }
     navigate(applicationStatusService.redirectRoute, { replace: true });
-  }, [applicationStatusService.isLoading, applicationStatusService.application, navigate]);
+  }, [
+    applicationStatusService.hasLoadingError,
+    applicationStatusService.isLoading,
+    applicationStatusService.application,
+    applicationStatusService.redirectRoute,
+    navigate,
+  ]);
 
   useEffect(() => {
     queryParamsService.setQueryParams(queryParams);

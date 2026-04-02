@@ -19,6 +19,7 @@ const FALLBACK_ROUTE = '/credit-calculator';
 export class ApplicationStatusService {
   @observable private isStatusLoading = false;
   @observable private activeApplication: ActiveApplicationResponse | null = null;
+  @observable private hasStatusLoadingError = false;
 
   constructor() {
     makeObservable(this);
@@ -26,6 +27,7 @@ export class ApplicationStatusService {
 
   async loadActiveApplicationExist() {
     this.isStatusLoading = true;
+    this.hasStatusLoadingError = false;
 
     try {
       const response = await fetchActiveApplicationsExist();
@@ -33,13 +35,13 @@ export class ApplicationStatusService {
       runInAction(() => {
         this.activeApplication = response;
         this.isStatusLoading = false;
+        this.hasStatusLoadingError = false;
       });
     } catch (error) {
-      alert('Failed to load application status: ' + error);
-
       runInAction(() => {
         this.activeApplication = null;
         this.isStatusLoading = false;
+        this.hasStatusLoadingError = true;
       });
     }
   }
@@ -48,6 +50,7 @@ export class ApplicationStatusService {
   reset() {
     this.isStatusLoading = false;
     this.activeApplication = null;
+    this.hasStatusLoadingError = false;
   }
 
   @computed
@@ -58,6 +61,11 @@ export class ApplicationStatusService {
   @computed
   get application() {
     return this.activeApplication;
+  }
+
+  @computed
+  get hasLoadingError() {
+    return this.hasStatusLoadingError;
   }
 
   @computed
