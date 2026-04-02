@@ -90,9 +90,6 @@ const CreditCalculator = () => {
   const [term3Checked, setTerm3Checked] = useState(false);
   const [isPassportModalOpen, setIsPassportModalOpen] = useState(false);
   const [, forceUpdate] = useState(0);
-  // const allTermsAccepted = term1Checked && term2Checked && term3Checked;
-  // const isSubmitEnabled =
-  //   allTermsAccepted && getValues('loanAmount') !== '' && getValues('monthlyIncome') !== '';
 
   const loanAmount = watch('loanAmount');
   const loanTerm = watch('loanTerm');
@@ -227,7 +224,6 @@ const CreditCalculator = () => {
 
   // скачивание офферт
   const handleOfferClick = async (offerType: OfferType) => {
-    alert('handleOfferClick');
     const offer =
       offerType === 'public'
         ? loanOffersService.publicLoanOfferData
@@ -240,13 +236,7 @@ const CreditCalculator = () => {
     const DOCUMENT_FILE_API =
       'https://mbank.cbk.kg/svc-biz-ib-cbk-documents/v1/unauthorized-api/documents/by-code';
 
-    // const url =
-    //     'https://mbank.cbk.kg/svc-biz-ib-cbk-documents/v1/unauthorized-api/documents/by-code/offer-public-loans/file?type=OFFER&hash=88faa054019ea32a39b6b22fc9a8a71aa594ce09';
-
     const url = `${DOCUMENT_FILE_API}/${offer.code}/file?type=OFFER&hash=offer.hash`;
-
-    // const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
-    // const fileUrl = window.URL.createObjectURL(fileBlob);
     const link = document.createElement('a');
 
     link.href = url;
@@ -254,7 +244,6 @@ const CreditCalculator = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
   };
 
   // закрытие модалки
