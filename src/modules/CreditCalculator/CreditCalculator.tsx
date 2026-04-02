@@ -102,7 +102,13 @@ const CreditCalculator = () => {
     .map((term) => Number(term))
     .filter((term) => Number.isFinite(term));
 
-  const allTermsAccepted = term1Checked && term2Checked && term3Checked;
+  const isPublicOfferLoaded = Boolean(loanOffersService.publicLoanOfferData);
+  const isLoanOfferLoaded = Boolean(loanOffersService.loanOfferData);
+  const isLkdTermVisible = Boolean(loanAmount);
+  const allTermsAccepted =
+    (!isPublicOfferLoaded || term1Checked) &&
+    (!isLoanOfferLoaded || term2Checked) &&
+    (!isLkdTermVisible || term3Checked);
   const isSubmitEnabled = allTermsAccepted && loanAmount !== '' && monthlyIncome !== '';
 
   const selectedInsuranceOption: RateInsuranceOption = insuranceEnabled
@@ -274,8 +280,6 @@ const CreditCalculator = () => {
 
     setValue('loanTerm', defaultLoanTerm, { shouldDirty: false, shouldTouch: false });
   }, [terms, loanTerm, setValue]);
-
-  console.log('render');
 
   return (
     <div id="page">
