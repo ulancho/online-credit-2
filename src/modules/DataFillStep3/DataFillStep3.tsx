@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { Modal } from '@/common/components/Modal';
 import Spinner from '@/common/components/Spinner/Spinner';
 import { useTranslation } from '@/common/i18n';
 import {
@@ -17,7 +18,6 @@ import DataFillLayout from 'Modules/DataFill/shared/components/DataFillLayout.ts
 import DataFillProgress from 'Modules/DataFill/shared/components/DataFillProgress.tsx';
 import DataFillSelectSheet from 'Modules/DataFill/shared/components/DataFillSelectSheet.tsx';
 
-import { Modal } from '../LoanConditions/components/Modal';
 
 import type { CitiesItem } from './api/DirectoriesApi';
 import type { SubmitApplicationType } from '../DataFillStep2/services/DataFillStep2Service';
@@ -168,7 +168,6 @@ const DataFillStep3 = () => {
       <Modal
         isOpen={active}
         onClose={close}
-        size="sm"
         footer={
           <button className="btn btn-text-green" onClick={close}>
             Закрыть

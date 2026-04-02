@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { exitApp } from '@/common/api/common';
 import ExtendedQuestionaire from '@/common/components/ExtendedQuestionaire/ExtendedQuestionaire';
+import ConfirmationModal from '@/common/components/Modal/ConfirmationModal';
 import { useTranslation } from '@/common/i18n';
 import { useLoanConditionsStore } from '@/common/stores/rootStore';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
 import LoanConditionsItem from './components/LoanConditionsItem';
-import { Modal } from './components/Modal';
 import styles from './LoanConditions.module.scss';
 
 const LoanConditions = () => {
@@ -22,7 +22,6 @@ const LoanConditions = () => {
   const [active, setActive] = useState<boolean | null>(null);
 
   const open = (val: boolean) => setActive(val);
-  const close = () => setActive(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -67,24 +66,7 @@ const LoanConditions = () => {
           Отказаться
         </button>
 
-        <Modal
-          isOpen={active}
-          onClose={close}
-          title={t('btns.declinedTitle')}
-          size="sm"
-          footer={
-            <>
-              <button className="btn btn-text-muted" onClick={close}>
-                {t('btns.no')}
-              </button>
-              <button className="btn btn-text-green" onClick={proceedToDeclinedPage}>
-                {t('btns.yes')}
-              </button>
-            </>
-          }
-        >
-          {t('btns.declinedDesc')}
-        </Modal>
+        <ConfirmationModal submit={proceedToDeclinedPage} active={active} setActive={setActive} />
       </div>
     </div>
   );

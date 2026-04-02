@@ -2,47 +2,24 @@ import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
+import ConfirmationModal from '@/common/components/Modal/ConfirmationModal';
 import { useTranslation } from '@/common/i18n';
-import { useLoanConditionsStore, useLoanConfirmationStore } from '@/common/stores/rootStore';
+import {
+  useLoanConditionsStore,
+  useLoanConfirmationStore,
+  useLoanOffersStore,
+} from '@/common/stores/rootStore';
 import { formatAmount } from '@/common/utils/formatAmount';
 import PercentIcon from 'Assets/icons/products.svg?react';
 import Button from 'Common/components/Button/Button.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
-import { Modal } from '../LoanConditions/components/Modal';
+import TermsCheckbox from '../CreditCalculator/components/TermsCheckbox/TermsCheckbox';
 
 import styles from './LoanConfirmation.module.scss';
 
 import type { InsuranceCompaniesItem } from '../InsuranceCompanies/models/InsuranceCompanies';
 import type { ActiveRequests } from '../LoanConditions/models/ActiveRequests';
-
-interface CheckboxProps {
-  checked: boolean;
-  onChange: (val: boolean) => void;
-}
-
-function Checkbox({ checked, onChange }: CheckboxProps) {
-  return (
-    <button
-      className={`${styles.checkbox} ${checked ? styles.checkboxChecked : ''}`}
-      onClick={() => onChange(!checked)}
-      aria-checked={checked}
-      role="checkbox"
-    >
-      {checked && (
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M3.33325 7.99984L6.66659 11.3332L13.3333 4.6665"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )}
-    </button>
-  );
-}
 
 const LoanConfirmation = () => {
   const navigate = useNavigate();
@@ -52,6 +29,7 @@ const LoanConfirmation = () => {
 
   const loanConditionsStore = useLoanConditionsStore();
   const loanConfirmationStore = useLoanConfirmationStore();
+  const loanOffersService = useLoanOffersStore();
 
   const state = location.state as { insurance?: string } | null;
 
@@ -76,9 +54,7 @@ const LoanConfirmation = () => {
   const [isInsuranceTermsChecked, setIsInsuranceTermsChecked] = useState(
     selectedInsurance !== null,
   );
-
   const open = (val: boolean) => setActive(val);
-  const close = () => setActive(null);
 
   const { activeRequests, activeRequestsData } = loanConditionsStore;
 
@@ -106,6 +82,10 @@ const LoanConfirmation = () => {
     }
   }, [loanConfirmationStore, loadData, activeRequests]);
 
+  useEffect(() => {
+    loanConfirmationStore.getInsureOffer();
+  }, []);
+
   const proceedToDeclinedPage = async () => {
     const success = await loanConditionsStore.setDeclineApplication(activeRequests?.applicationId);
 
@@ -132,17 +112,57 @@ const LoanConfirmation = () => {
     } else navigate('/security-warning');
   };
 
+  // download offer
+  const handleOfferClick = async () => {
+    const offer = loanConfirmationStore.insureOffer;
+
+    if (!offer?.code || !offer?.hash) {
+      return;
+    }
+
+    const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
+    alert('fileBlob: ' + fileBlob);
+    const fileUrl = window.URL.createObjectURL(fileBlob);
+    const link = document.createElement('a');
+
+    link.href = fileUrl;
+    link.download = `${offer.code}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(fileUrl);
+  };
+
+  // Листок ключевых данных
+  const downloadBase64File = (base64: string, fileName: string, mimeType: string) => {
+    const link = document.createElement('a');
+    link.href = `data:${mimeType};base64,${base64}`;
+    link.download = fileName;
+    link.click();
+  };
+
+  const handlePdfLkdClick = async () => {
+    const amount = activeGroup?.amount || 0;
+    const termMonths = Number(activeGroup?.period) || 0;
+    const nominalRate = activeGroup?.percent || 0;
+
+    const response = await loanConfirmationStore.generatePdfLkd({
+      amount,
+      termMonths,
+      nominalRate,
+    });
+
+    if (response) downloadBase64File(response, 'file.pdf', 'base64/pdf');
+  };
+
   return (
     <div id="page" className={styles.page}>
       <NavBar onBack={() => navigate('/loan-conditions')} />
       <div className={styles.content}>
         <div className={styles.headerSection}>
           <div className={styles.titleBlock}>
-            <h1 className={styles.title}>Ваша заявка одобрена</h1>
-            <p className={styles.description}>
-              Условия могли измениться.
-              <br /> Пожалуйста, проверьте данные
-            </p>
+            <h1 className={styles.title}>{t('loanConfirmations.title')}</h1>
+            <p className={styles.description}>{t('loanConfirmations.desc')}</p>
           </div>
         </div>
         {/* Credit amount card */}
@@ -150,7 +170,7 @@ const LoanConfirmation = () => {
           <div className={styles.amountCard}>
             <PercentIcon />
             <div className={styles.amountInfo}>
-              <span className={styles.amountLabel}>Сумма кредита</span>
+              <span className={styles.amountLabel}>{t('loanConfirmations.sum')}</span>
               <span className={styles.amountValue}>{formatAmount(activeGroup?.amount)} c</span>
             </div>
           </div>
@@ -160,21 +180,21 @@ const LoanConfirmation = () => {
         <div className={styles.sectionPad}>
           <div className={styles.infoCard}>
             <div className={styles.infoRow}>
-              <span className={styles.infoLabel}>Сумма ежемесячного платежа</span>
+              <span className={styles.infoLabel}>{t('loanConfirmations.monthlyPayment')}</span>
               <span className={styles.infoValue}>
                 {formatAmount(activeGroup?.monthlyPayment)} c
               </span>
             </div>
             <div className={styles.infoRow}>
-              <span className={styles.infoLabel}>Срок кредита</span>
+              <span className={styles.infoLabel}>{t('loanConfirmations.term')}</span>
               <span className={styles.infoValue}>{activeGroup?.period}</span>
             </div>
             <div className={styles.infoRow}>
-              <span className={styles.infoLabel}>Переплата по кредиту</span>
+              <span className={styles.infoLabel}>{t('loanConfirmations.overpayment')}</span>
               <span className={styles.infoValue}>{formatAmount(overPayment)} c</span>
             </div>
             <div className={`${styles.infoRow} ${styles.infoRowLast}`}>
-              <span className={styles.infoLabel}>Проценты</span>
+              <span className={styles.infoLabel}>{t('loanConfirmations.bid')}</span>
               <span className={styles.infoValue}>{activeGroup?.percent}%</span>
             </div>
           </div>
@@ -182,7 +202,7 @@ const LoanConfirmation = () => {
 
         {/* Repayment day selection */}
         <div className={styles.sectionPad}>
-          <h3 className={styles.sectionTitle}>Выберите число месяца для погашений</h3>
+          <h3 className={styles.sectionTitle}>{t('loanConfirmations.chooseDate')}</h3>
           <div className={styles.dayChips}>
             {loanConfirmationStore.availablePayDateList?.map((day) => (
               <button
@@ -190,7 +210,7 @@ const LoanConfirmation = () => {
                 className={`${styles.dayChip} ${selectedDay === day ? styles.dayChipActive : ''}`}
                 onClick={() => setSelectedDay(day)}
               >
-                {day} день
+                {day} {t('common.day')}
               </button>
             ))}
           </div>
@@ -199,7 +219,7 @@ const LoanConfirmation = () => {
         {/* Insurance selector */}
         {loanConditionsStore.activeRequests?.insuranceConsent && (
           <div className={styles.sectionPad}>
-            <h3 className={styles.sectionTitle}>Выберите страхование</h3>
+            <h3 className={styles.sectionTitle}>{t('loanConfirmations.insuranceCompany')}</h3>
             <button
               className={styles.insuranceSelector}
               onClick={() => {
@@ -234,25 +254,20 @@ const LoanConfirmation = () => {
       {/* Footer: checkboxes + buttons */}
       <div className={styles.footer}>
         <div className={styles.termsList}>
-          <div className={styles.termRow}>
-            <Checkbox checked={isKeyDataChecked} onChange={setIsKeyDataChecked} />
-            <p className={styles.termText}>
-              <span className={styles.termTextGray}>Я ознакомлен(на) </span>
-              <span className={styles.termLink}>с листком ключевых данных</span>
-            </p>
-          </div>
+          <TermsCheckbox
+            checked={isKeyDataChecked}
+            text="Я ознакомлен(на) [с листком ключевых данных]()"
+            onChange={setIsKeyDataChecked}
+            onTapLink={handlePdfLkdClick}
+          />
 
           {selectedInsurance && (
-            <div className={styles.termRow}>
-              <Checkbox checked={isInsuranceTermsChecked} onChange={setIsInsuranceTermsChecked} />
-              <p className={styles.termText}>
-                <span className={styles.termTextGray}>
-                  Я ознакомлен(а) и согласен(на) с условиями договора публичной{' '}
-                </span>
-                <span className={styles.termLink}>оферты</span>
-                <span className={styles.termTextGray}> по страхованию</span>
-              </p>
-            </div>
+            <TermsCheckbox
+              checked={isInsuranceTermsChecked}
+              text={loanConfirmationStore.insureOffer?.agreementText || ''}
+              onChange={setIsInsuranceTermsChecked}
+              onTapLink={() => handleOfferClick()}
+            />
           )}
         </div>
 
@@ -264,24 +279,7 @@ const LoanConfirmation = () => {
             Отказаться
           </Button>
 
-          <Modal
-            isOpen={active}
-            onClose={close}
-            title={t('btns.declinedTitle')}
-            size="sm"
-            footer={
-              <>
-                <button className="btn btn-text-muted" onClick={close}>
-                  {t('btns.no')}
-                </button>
-                <button className="btn btn-text-green" onClick={proceedToDeclinedPage}>
-                  {t('btns.yes')}
-                </button>
-              </>
-            }
-          >
-            {t('btns.declinedDesc')}
-          </Modal>
+          <ConfirmationModal submit={proceedToDeclinedPage} active={active} setActive={setActive} />
         </div>
       </div>
     </div>
