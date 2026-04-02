@@ -39,6 +39,7 @@ function OtpVerification() {
   const [canResend, setCanResend] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const lastSubmittedCodeRef = useRef<string | null>(null);
   const otpLength = OTP_LENGTH_MAP[creditApplicationService.currentOtpType];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +59,8 @@ function OtpVerification() {
 
   const handleConfirmOtp = useCallback(async () => {
     if (isSubmitting) return;
+    if (lastSubmittedCodeRef.current === code) return;
+    lastSubmittedCodeRef.current = code;
 
     setIsSubmitting(true);
     try {
@@ -109,6 +112,12 @@ function OtpVerification() {
 
     void handleConfirmOtp();
   }, [code, handleConfirmOtp, otpLength]);
+
+  useEffect(() => {
+    if (code.length !== otpLength) {
+      lastSubmittedCodeRef.current = null;
+    }
+  }, [code, otpLength]);
 
   return (
     <div className={styles.page}>
