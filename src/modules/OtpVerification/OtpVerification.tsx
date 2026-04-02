@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useCreditApplicationStore, useUserProfileStore } from 'Common/stores/rootStore.tsx';
+import { errorHandler } from 'Common/utils/errorHandler.ts';
 import { OTP_TYPE_CONSTANTS } from 'Modules/CreditCalculator/api/creditApplicationApi.ts';
 import { confirmOtp } from 'Modules/OtpVerification/api/otpVerificationApi.ts';
 
@@ -69,7 +70,8 @@ function OtpVerification() {
         navigate('/loading');
       }
     } catch (error) {
-      alert('OTP confirmation failed: ' + error);
+      const errorMessage = errorHandler(error) ?? 'OTP confirmation failed';
+      alert(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
