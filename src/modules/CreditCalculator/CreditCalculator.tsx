@@ -237,17 +237,24 @@ const CreditCalculator = () => {
       return;
     }
 
-    const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
-    alert('fileBlob: ' + fileBlob);
-    const fileUrl = window.URL.createObjectURL(fileBlob);
+    const DOCUMENT_FILE_API =
+      'https://mbank.cbk.kg/svc-biz-ib-cbk-documents/v1/unauthorized-api/documents/by-code';
+
+    // const url =
+    //     'https://mbank.cbk.kg/svc-biz-ib-cbk-documents/v1/unauthorized-api/documents/by-code/offer-public-loans/file?type=OFFER&hash=88faa054019ea32a39b6b22fc9a8a71aa594ce09';
+
+    const url = `${DOCUMENT_FILE_API}/${offer.code}/file?type=OFFER&hash=offer.hash`;
+
+    // const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
+    // const fileUrl = window.URL.createObjectURL(fileBlob);
     const link = document.createElement('a');
 
-    link.href = fileUrl;
+    link.href = url;
     link.download = `${offer.code}.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    window.URL.revokeObjectURL(fileUrl);
+    window.URL.revokeObjectURL(url);
   };
 
   // закрытие модалки
