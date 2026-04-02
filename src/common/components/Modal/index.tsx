@@ -1,9 +1,8 @@
 import { useEffect, useCallback, useRef } from 'react';
 
 import type { ReactNode } from 'react';
-import '../styles/Modal.scss';
 
-type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+import './Modal.scss';
 
 interface ModalProps {
   isOpen: boolean | null;
@@ -11,7 +10,6 @@ interface ModalProps {
   title?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
-  size?: ModalSize;
   closeOnOverlay?: boolean;
   closeOnEsc?: boolean;
   showCloseButton?: boolean;

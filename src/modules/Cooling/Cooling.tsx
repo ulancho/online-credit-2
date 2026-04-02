@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 
+import ConfirmationModal from '@/common/components/Modal/ConfirmationModal';
 import { useTranslation } from '@/common/i18n';
 import { exitApp } from 'Common/api/common.ts';
 import Button from 'Common/components/Button/Button.tsx';
@@ -10,7 +11,6 @@ import {
   useApplicationStore,
   useCoolingStore,
 } from 'Common/stores/rootStore.tsx';
-import { Modal } from 'Modules/LoanConditions/components/Modal.tsx';
 
 import styles from './Cooling.module.scss';
 
@@ -33,7 +33,6 @@ function Cooling() {
   const awaitingIssueInfo = coolingStore.awaitingIssueInfo;
 
   const handleOpenConfirmationModalClick = () => setConfirmationModalActive(true);
-  const handleCloseConfirmationModalClick = () => setConfirmationModalActive(null);
 
   const handleDeclineApplicationClick = async () => {
     const applicationId = applicationStatusService.requestId;
@@ -146,24 +145,11 @@ function Cooling() {
         <div className={styles.homeIndicator} />
       </footer>
 
-      <Modal
-        isOpen={confirmationModalActive}
-        onClose={handleCloseConfirmationModalClick}
-        title={t('btns.declinedTitle')}
-        size="sm"
-        footer={
-          <>
-            <button className="btn btn-text-green" onClick={handleCloseConfirmationModalClick}>
-              {t('btns.no')}
-            </button>
-            <button className="btn btn-text-green" onClick={handleDeclineApplicationClick}>
-              {t('btns.yes')}
-            </button>
-          </>
-        }
-      >
-        {t('btns.declinedDesc')}
-      </Modal>
+      <ConfirmationModal
+        submit={handleDeclineApplicationClick}
+        active={confirmationModalActive}
+        setActive={setConfirmationModalActive}
+      />
     </div>
   );
 }

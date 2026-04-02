@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { exitApp } from '@/common/api/common';
 import ExtendedQuestionaire from '@/common/components/ExtendedQuestionaire/ExtendedQuestionaire';
-import { useTranslation } from '@/common/i18n';
+import ConfirmationModal from '@/common/components/Modal/ConfirmationModal';
 import { useApplicationStatusStore, useLoanConditionsStore } from '@/common/stores/rootStore';
 import Button from 'Common/components/Button/Button.tsx';
 
-import { Modal } from '../LoanConditions/components/Modal';
-
 import styles from './ApplicationDecline.module.scss';
+
 
 const DECLINE_REASONS = [
   {
@@ -64,12 +63,9 @@ const ChevronDown = () => (
 );
 
 export default function ApplicationDecline() {
-  const { t } = useTranslation();
-
   const [openIds, setOpenIds] = useState<number[]>([1]);
   const [activeModal, setActiveModal] = useState<boolean | null>(null);
   const openDeclineModal = (val: boolean) => setActiveModal(val);
-  const closeDeclineModal = () => setActiveModal(null);
 
   const urlParams = new URLSearchParams(window.location.search);
   const isExtended = urlParams.has('extended');
@@ -152,24 +148,11 @@ export default function ApplicationDecline() {
             <button onClick={() => openDeclineModal(true)} className={styles.declineButton}>
               Отказаться
             </button>
-            <Modal
-              isOpen={activeModal}
-              onClose={closeDeclineModal}
-              title={t('btns.declinedTitle')}
-              size="sm"
-              footer={
-                <>
-                  <button className="btn btn-text-green" onClick={closeDeclineModal}>
-                    {t('btns.no')}
-                  </button>
-                  <button className="btn btn-text-green" onClick={proceedToDeclinedPage}>
-                    {t('btns.yes')}
-                  </button>
-                </>
-              }
-            >
-              {t('btns.declinedDesc')}
-            </Modal>
+            <ConfirmationModal
+              submit={proceedToDeclinedPage}
+              active={activeModal}
+              setActive={setActiveModal}
+            />
           </>
         )}
       </div>

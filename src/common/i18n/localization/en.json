@@ -1,4 +1,7 @@
 {
+  "common": {
+    "day": "day"
+  },
   "btns": {
     "cancel": "Cancel",
     "continue": "Continue",
