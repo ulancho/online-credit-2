@@ -93,8 +93,7 @@
 }
 
 .m-footer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   border-top: 0.5px solid var(--color-body-tertiary);
 }
 
@@ -107,9 +106,10 @@
   border: none;
   background: none;
   outline: none;
+  width: 100%;
 
-  &:first-child {
-    border-right: 0.5px solid var(--color-body-tertiary);
+  &:nth-child(2) {
+    border-left: 0.5px solid var(--color-body-tertiary);
   }
 }
 

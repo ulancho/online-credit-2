@@ -37,8 +37,8 @@ function OtpVerification() {
   const userProfileService = useUserProfileStore();
   const [code, setCode] = useState('');
   const [seconds, setSeconds] = useState(INITIAL_SECONDS);
-  const [canResend, setCanResend] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const lastSubmittedCodeRef = useRef<string | null>(null);
   const otpLength = OTP_LENGTH_MAP[creditApplicationService.currentOtpType];
@@ -46,16 +46,6 @@ function OtpVerification() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '').slice(0, otpLength);
     setCode(value);
-  };
-
-  const handleResend = () => {
-    if (!canResend) return;
-    if (isSubmitting) return;
-
-    setCode('');
-    setSeconds(INITIAL_SECONDS);
-    setCanResend(false);
-    inputRef.current?.focus();
   };
 
   const handleConfirmOtp = useCallback(async () => {
@@ -100,7 +90,8 @@ function OtpVerification() {
 
   useEffect(() => {
     if (seconds <= 0) {
-      setCanResend(true);
+      alert('Время подтверждения истекло');
+      navigate(-1);
       return;
     }
     const timer = setTimeout(() => setSeconds((s) => s - 1), 1000);
@@ -152,13 +143,6 @@ function OtpVerification() {
             ))}
           </div>
         </div>
-        <button
-          className={`${styles.resendBtn} ${canResend ? styles.resendBtnActive : styles.resendBtnDisabled}`}
-          onClick={handleResend}
-          disabled={!canResend}
-        >
-          Получить новый код
-        </button>
       </div>
     </div>
   );
