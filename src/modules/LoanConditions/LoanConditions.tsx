@@ -8,6 +8,7 @@ import ConfirmationModal from '@/common/components/Modal/ConfirmationModal';
 import { useTranslation } from '@/common/i18n';
 import { useLoanConditionsStore } from '@/common/stores/rootStore';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
+import { errorHandler } from 'Common/utils/errorHandler.ts';
 
 import LoanConditionsItem from './components/LoanConditionsItem';
 import styles from './LoanConditions.module.scss';
@@ -22,14 +23,6 @@ const LoanConditions = () => {
   const [active, setActive] = useState<boolean | null>(null);
 
   const open = (val: boolean) => setActive(val);
-
-  useEffect(() => {
-    const loadData = async () => {
-      loanConditionsStore.getActiveRequests();
-    };
-
-    loadData();
-  }, [loanConditionsStore]);
 
   const proceedToDeclinedPage = async () => {
     const success = await loanConditionsStore.setDeclineApplication(activeRequests?.applicationId);
@@ -48,6 +41,18 @@ const LoanConditions = () => {
   const closeWebView = () => {
     exitApp().then((res) => console.log(res.status));
   };
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        await loanConditionsStore.getActiveRequests();
+      } catch (error) {
+        alert(errorHandler(error));
+      }
+    };
+
+    loadData();
+  }, [loanConditionsStore]);
 
   return (
     <div id="page">

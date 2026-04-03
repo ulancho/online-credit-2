@@ -31,7 +31,7 @@ export class LoanCondtionsService {
         this.activeRequests = response.data;
       });
     } catch (error) {
-      console.error(error);
+      return Promise.reject(error);
     }
   }
 
