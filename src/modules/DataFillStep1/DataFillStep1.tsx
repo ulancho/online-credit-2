@@ -67,7 +67,7 @@ const DataFillStep1 = () => {
     };
 
     loadData();
-  }, []);
+  }, [dataFillStep1Store]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -77,7 +77,7 @@ const DataFillStep1 = () => {
     };
 
     loadData();
-  }, [area]);
+  }, [area, dataFillStep1Store]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -87,7 +87,7 @@ const DataFillStep1 = () => {
     };
 
     loadData();
-  }, [region]);
+  }, [region, dataFillStep1Store]);
 
   return (
     <DataFillLayout
@@ -155,7 +155,7 @@ const DataFillStep1 = () => {
       </div>
       {openSheet === 'area' ? (
         <DataFillSelectSheet
-          title="Выберите область"
+          title={t('dataFillFirstStep.selectArea')}
           items={dataFillStep1Store.areasData}
           onSelect={(value: { name: string; code: string }) => {
             setArea(value);
@@ -166,7 +166,7 @@ const DataFillStep1 = () => {
       ) : null}
       {openSheet === 'region' ? (
         <DataFillSelectSheet
-          title="Выберите регион"
+          title={t('dataFillFirstStep.selectRegion')}
           items={dataFillStep1Store.districtsData}
           onSelect={(value) => {
             setRegion(value);
@@ -177,7 +177,7 @@ const DataFillStep1 = () => {
       ) : null}
       {openSheet === 'settlement' ? (
         <DataFillSelectSheet
-          title="Выберите населённый пункт"
+          title={t('dataFillFirstStep.selectSettlement')}
           items={dataFillStep1Store.citiesData}
           onSelect={(value) => {
             setSettlement(value);

@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n';
 import { useInsuranceCompaniesStore } from '@/common/stores/rootStore';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
@@ -11,6 +12,7 @@ import type { InsuranceCompaniesItem } from './models/InsuranceCompanies';
 
 const InsuranceCompanies = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const location = useLocation();
   const fromState = (location.state as { from?: string }) ?? {};
 
@@ -36,10 +38,8 @@ const InsuranceCompanies = () => {
       <div className={styles.content}>
         <div className={styles.headerSection}>
           <div className={styles.titleBlock}>
-            <h1 className={styles.pageTitle}>Страховые компании</h1>
-            <p className={styles.pageSubtitle}>
-              Выберите подходящую страховку или оформите кредит без неё
-            </p>
+            <h1 className={styles.pageTitle}>{t('insuranceCompany.title')}</h1>
+            <p className={styles.pageSubtitle}>{t('insuranceCompany.desc')}</p>
           </div>
         </div>
         {/* <a href="#" className={styles.insuranceInfoLink}>
