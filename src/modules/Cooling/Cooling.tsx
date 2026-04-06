@@ -87,7 +87,7 @@ function Cooling() {
 
   return (
     <div className={styles.page}>
-      <NavBar />
+      <NavBar onBack={exitApp} />
       {/* Header */}
       <header className={styles.navbar}>
         <div className={styles.navbarContent}>

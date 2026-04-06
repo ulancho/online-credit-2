@@ -273,7 +273,7 @@ const LoanConfirmation = () => {
 
         <div className={styles.buttonsWrap}>
           <Button onClick={submitCredit} variant="yellow" disabled={!isButtonActive}>
-            Оформить кредит
+            {t('loanConfirmations.applyForLoan')}
           </Button>
           <Button onClick={() => open(true)} variant="text-danger">
             {t('btns.decline')}

@@ -1,4 +1,5 @@
 import { type Dispatch, type SetStateAction } from 'react';
+import { createPortal } from 'react-dom';
 
 import { useTranslation } from '@/common/i18n';
 
@@ -14,7 +15,7 @@ const ConfirmationModal = ({ active, setActive, submit }: Props) => {
   const { t } = useTranslation();
   const closeDeclineModal = () => setActive(null);
 
-  return (
+  return createPortal(
     <Modal
       isOpen={active}
       onClose={closeDeclineModal}
@@ -31,7 +32,8 @@ const ConfirmationModal = ({ active, setActive, submit }: Props) => {
       }
     >
       {t('btns.declinedDesc')}
-    </Modal>
+    </Modal>,
+    document.body,
   );
 };
 

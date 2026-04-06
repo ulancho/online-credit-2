@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, BrowserRouter, useLocation } from 'react-router-dom';
 
-import FinishPage from '@/common/components/ErrorPage/FinishPage';
+import FinishPage from '@/common/components/FinishPage/FinishPage';
 import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
 import ApplicationDecline from 'Modules/ApplicationDecline/ApplicationDecline.tsx';
 import ApplicationStatusRedirect from 'Modules/ApplicationStatusRedirect/ApplicationStatusRedirect.tsx';
