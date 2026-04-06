@@ -48,6 +48,7 @@ export default function LoanSummary({
           <span
             className={classNames(styles.originalRate, {
               [styles.originalRateStandalone]: !insuranceEnabled,
+              [styles.lineThrough]: insuranceEnabled,
             })}
           >
             {originalRate}

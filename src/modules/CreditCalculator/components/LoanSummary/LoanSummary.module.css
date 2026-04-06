@@ -65,6 +65,9 @@
   font-weight: 500;
   line-height: 20px;
   letter-spacing: -0.2px;
+}
+
+.lineThrough {
   text-decoration: line-through;
 }
 
@@ -99,7 +102,6 @@
   line-height: 22px;
   background: none !important;
   background-image: none !important;
-  background-clip: border-box !important;
   background-clip: border-box !important;
   -webkit-text-fill-color: currentcolor !important;
 }
