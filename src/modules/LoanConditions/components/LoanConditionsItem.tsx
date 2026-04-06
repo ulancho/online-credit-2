@@ -39,7 +39,9 @@ const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
     <div className={styles.detailsCard}>
       {/* Amount & badge */}
       <div className={styles.amountRow}>
-        <span className={styles.amount}>{formatAmount(activeGroup?.amount)} сом</span>
+        <span className={styles.amount}>
+          {formatAmount(activeGroup?.amount)} {t('common.som')}
+        </span>
         {group === 'online' ? (
           <span className={styles.onlineBadge}>{t('loanConditions.online')}</span>
         ) : (
@@ -60,7 +62,9 @@ const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
           </div>
           <div className={styles.infoContent}>
             <span className={styles.infoLabel}>{t('loanConditions.term')}</span>
-            <span className={styles.infoValue}>{getMonthLabel(Number(activeGroup?.period))}</span>
+            <span className={styles.infoValue}>
+              {getMonthLabel(Number(activeGroup?.period), t)}
+            </span>
           </div>
         </div>
         {/* Процент */}

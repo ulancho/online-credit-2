@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import { useTranslation } from '@/common/i18n';
+import { getMonthLabel } from '@/common/utils/months';
 
 import styles from './LoanTermSlider.module.css';
 
@@ -11,12 +12,6 @@ interface LoanTermSliderProps {
   max?: number;
   onChange?: (value: number) => void;
   disabled?: boolean;
-}
-
-function getMonthLabel(months: number): string {
-  if (months === 1) return '1 месяц';
-  if (months >= 2 && months <= 4) return `${months} месяца`;
-  return `${months} месяцев`;
 }
 
 export default function LoanTermSlider({
@@ -39,7 +34,7 @@ export default function LoanTermSlider({
   return (
     <div className={styles.card}>
       <p className={styles.label}>{t('credit-calculator.term')}</p>
-      <p className={styles.valueText}>{getMonthLabel(label)}</p>
+      <p className={styles.valueText}>{getMonthLabel(label, t)}</p>
       <div className={styles.sliderWrapper}>
         <div className={styles.trackBackground}>
           <div className={styles.trackFilled} style={{ width: `${percent}%` }} />

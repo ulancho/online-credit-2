@@ -4,7 +4,11 @@
     "declinedTheLoan": "You declined the loan",
     "successfullyRejected": "Your application has been successfully rejected",
     "selectFromList": "Select from the list",
-    "creditCabinet": "Loan dashboard"
+    "creditCabinet": "Loan dashboard",
+    "month": "Month",
+    "monthBetween": "Months",
+    "months": "Months",
+    "som": "Som"
   },
   "errors": {
     "unknown": {
@@ -31,7 +35,7 @@
     "description": "This is a preliminary calculation and does not take the refinancing amount into account. If there are loans for refinancing, the proposed terms may change.",
     "sum": "Loan amount",
     "term": "Loan term",
-    "to": "До 500 000 сом",
+    "to": "up to 500 000 som",
     "income": "Your monthly income",
     "activityType": "Type of activity",
     "insuranceConnectTitle": "I want to add insurance",
@@ -105,6 +109,10 @@
       "lkd": "I have read the [Key Information Sheet]()"
     }
   },
+  "insuranceCompany": {
+    "title": "Insurance companies",
+    "desc": "Choose a suitable insurance option or apply for a loan without it"
+  },
   "coolingPeriod": {
     "title": "Attention!",
     "desc": "For your convenience and safety, a “cooling-off period” is provided when applying for an online loan. During this time, the loan funds are not credited to your account immediately. This allows you to cancel the loan if necessary",
@@ -137,7 +145,10 @@
     "settlement": "Settlement",
     "street": "Street",
     "house": "House",
-    "apartment": "Apartment"
+    "apartment": "Apartment",
+    "selectArea": "Select area",
+    "selectRegion": "Select a region",
+    "selectSettlement": "Select a settlement"
   },
   "dataFillSecondStep": {
     "desc": "Select an additional contact person.\n This will be used in case of emergency if we lose contact with you",
@@ -158,24 +169,24 @@
     "desc": "Unfortunately, we cannot open an online loan for you at the moment. You will be able to submit a new application again in a few days",
     "subTitle": "Possible reasons for rejection",
     "badCreditHistory": {
-      "title": "Плохая кредитная история",
-      "desc": "При восстановления учетной записи в срок до 14 дней, история ваших покупок, платежей и переводов сохранится в мобильном приложении MBANK. После повторной регистрации она будет удалена"
+      "title": "Bad credit history",
+      "desc": "If you restore your account within 14 days, your purchase, payment, and transfer history will be preserved in the MBANK mobile application. After re-registration, it will be deleted."
     },
     "lowIncomes": {
-      "title": "Низкие доходы",
-      "desc": "Уровень вашего дохода не соответствует требованиям для получения кредита."
+      "title": "Low income",
+      "desc": "Your income level does not meet the requirements for obtaining a loan."
     },
     "currentDebtLoad": {
-      "title": "Большая текущая долговая нагрузка",
-      "desc": "Текущий уровень долговой нагрузки превышает допустимый порог для одобрения кредита."
+      "title": "High current debt burden",
+      "desc": "Your current debt burden exceeds the acceptable threshold for loan approval."
     },
     "absenceOfficialJob": {
-      "title": "Отсутствие официальной работы",
-      "desc": "Для получения кредита необходимо наличие официального места работы."
+      "title": "No official employment",
+      "desc": "An official place of employment is required to obtain a loan."
     },
     "smallWorkingExperience": {
-      "title": "Маленький трудовой стаж (полгода и меньше)",
-      "desc": "Минимальный трудовой стаж для получения кредита составляет более 6 месяцев."
+      "title": "Short employment history (six months or less)",
+      "desc": "The minimum employment history required to obtain a loan is more than 6 months."
     }
   },
   "applicationSuccess": {
