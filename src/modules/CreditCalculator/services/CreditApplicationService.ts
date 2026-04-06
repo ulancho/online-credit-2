@@ -72,10 +72,12 @@ export class CreditApplicationService {
     this.otpType = OTP_TYPE_CONSTANTS.SOCFOND_OTP;
 
     try {
+      const deviceReport = await this.getDeviceReport();
+
       const response = await initCreditApplication({
         ...payload,
         acceptAgreement: true,
-        deviceReport: 'test',
+        deviceReport,
       });
 
       runInAction(() => {
@@ -157,5 +159,19 @@ export class CreditApplicationService {
   @computed
   get currentOtpType() {
     return this.otpType;
+  }
+
+  private async getDeviceReport() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    if (typeof window.deviceReport === 'function') {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      const response = await window.deviceReport();
+
+      return response ? String(response) : '';
+    }
+
+    return '';
   }
 }
