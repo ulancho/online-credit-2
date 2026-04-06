@@ -22,22 +22,17 @@ const isSupportedLanguage = (value: string | null | undefined): value is Languag
 };
 
 const resolveAcceptLanguage = (): string => {
-  const documentLanguage =
-    typeof document !== 'undefined' ? document.documentElement.getAttribute('lang') : null;
+  const documentLanguage = document.documentElement.getAttribute('lang');
   if (isSupportedLanguage(documentLanguage)) {
     return acceptLanguages[documentLanguage];
   }
 
-  const storedLanguage =
-    typeof window !== 'undefined' ? window.localStorage.getItem(LANGUAGE_STORAGE_KEY) : null;
+  const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
   if (isSupportedLanguage(storedLanguage)) {
     return acceptLanguages[storedLanguage];
   }
 
-  const navigatorLanguage =
-    typeof window !== 'undefined'
-      ? window.navigator.language?.slice(0, 2).toLowerCase()
-      : undefined;
+  const navigatorLanguage = window.navigator.language?.slice(0, 2).toLowerCase();
   if (isSupportedLanguage(navigatorLanguage)) {
     return acceptLanguages[navigatorLanguage];
   }
