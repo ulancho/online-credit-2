@@ -16,17 +16,10 @@ const ACTIVITY_TYPE_REQUEST_BODY = {
 const normalizeItem = (
   item: ActivityTypeDirectoryResponse[number],
 ): ActivityTypeDirectoryItem | null => {
-  const itemCode = item.itemCode?.trim();
-  const nameRu = item.paramList?.Name_RU?.trim();
-
-  if (!itemCode || !nameRu) {
-    return null;
-  }
-
   return {
-    itemCode,
+    itemCode: item.itemCode?.trim() ?? '',
     position: item.position ?? 0,
-    nameRu,
+    nameRu: item.paramList?.Name_RU?.trim() ?? '',
     nameEn: item.paramList?.Name_EN?.trim() ?? '',
     nameKg: item.paramList?.Name_KG?.trim() ?? '',
   };

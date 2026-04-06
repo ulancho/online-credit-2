@@ -13,13 +13,25 @@ interface ActivityTypeSelectProps {
 }
 
 function ActivityTypeSelect({ value, onChange }: ActivityTypeSelectProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const activityTypeService = useActivityTypeStore();
   const [isOpen, setIsOpen] = useState(false);
   const [pendingValue, setPendingValue] = useState(value);
   const sheetRef = useRef<HTMLDivElement>(null);
 
   const options = activityTypeService.availableActivityTypes;
+
+  const getOptionLabel = (option: (typeof options)[number]) => {
+    if (language === 'en') {
+      return option.nameEn || option.nameRu;
+    }
+
+    if (language === 'ky') {
+      return option.nameKg || option.nameRu;
+    }
+
+    return option.nameRu;
+  };
 
   const openSheet = () => {
     setPendingValue(value);
@@ -79,15 +91,19 @@ function ActivityTypeSelect({ value, onChange }: ActivityTypeSelectProps) {
               <div className={styles.sheetHandle} />
               <h2 className={styles.sheetTitle}>{t('credit-calculator.activityTypes.title')}</h2>
               <ul className={styles.optionList}>
-                {options.map((option) => (
-                  <li
-                    key={option.itemCode}
-                    className={`${styles.optionItem} ${pendingValue === option.nameRu ? styles.optionItemSelected : ''}`}
-                    onClick={() => setPendingValue(option.nameRu)}
-                  >
-                    <span className={styles.optionText}>{option.nameRu}</span>
-                  </li>
-                ))}
+                {options.map((option) => {
+                  const optionLabel = getOptionLabel(option);
+
+                  return (
+                    <li
+                      key={option.itemCode}
+                      className={`${styles.optionItem} ${pendingValue === optionLabel ? styles.optionItemSelected : ''}`}
+                      onClick={() => setPendingValue(optionLabel)}
+                    >
+                      <span className={styles.optionText}>{optionLabel}</span>
+                    </li>
+                  );
+                })}
               </ul>
               <div className={styles.sheetFooter}>
                 <button
