@@ -257,3 +257,7 @@ img {
 .currencySymbol {
   font-family: 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Arial Unicode MS', sans-serif;
 }
+
+.btn-loading {
+  pointer-events: none;
+}

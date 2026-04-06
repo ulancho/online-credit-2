@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useLocation } from 'react-router-dom';
 
 import { useQueryParams } from '@/common/hooks/useQueryParams';
+import { useTranslation } from '@/common/i18n';
 import SadIconDark from 'Assets/icons/sad-circle-dark.svg?react';
 import SadIcon from 'Assets/icons/sad-circle.svg?react';
 import SuccessIcon from 'Assets/icons/success.svg?react';
@@ -10,7 +11,6 @@ import { exitApp } from 'Common/api/common.ts';
 import styles from './FinishPage.module.scss';
 
 import type { ElementType } from 'react';
-
 
 const ICONS: Record<string, ElementType> = {
   sad: SadIcon,
@@ -21,12 +21,13 @@ const FinishPage = () => {
   const location = useLocation();
   const state = location.state;
   const { theme } = useQueryParams();
+  const { t } = useTranslation();
 
-  const title = state?.title ?? 'Что-то пошло не так';
-  const description = state?.description ?? 'Пожалуйста, попробуйте позже';
+  const title = state?.title ?? t('errors.unknown.title');
+  const description = state?.description ?? t('errors.unknown.desc');
   const defaultIcon = theme === 'dark' ? SadIconDark : SadIcon;
   const Icon = ICONS[state?.icon ?? ''] ?? defaultIcon;
-  const btnTitle = state?.btnTitle ?? 'На главную';
+  const btnTitle = state?.btnTitle ?? t('btns.goToHome');
 
   const closeWebView = () => {
     exitApp().then((res) => console.log(res.status));

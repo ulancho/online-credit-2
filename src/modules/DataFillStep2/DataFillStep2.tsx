@@ -17,7 +17,6 @@ import DataFillLayout from 'Modules/DataFill/shared/components/DataFillLayout.ts
 import DataFillProgress from 'Modules/DataFill/shared/components/DataFillProgress.tsx';
 import PhoneField from 'Modules/DataFillStep2/components/PhoneField/PhoneField.tsx';
 
-
 import type { SubmitApplicationType } from './services/DataFillStep2Service';
 
 const DataFillStep2 = () => {
@@ -86,7 +85,7 @@ const DataFillStep2 = () => {
           state: {
             title: t('onlineLoanIssued.title'),
             description: t('onlineLoanIssued.desc'),
-            btnTitle: 'В кабинет кредитов',
+            btnTitle: t('common.creditCabinet'),
             icon: 'success',
           },
         });
@@ -131,13 +130,16 @@ const DataFillStep2 = () => {
       }
     >
       <p className={[layoutStyles.groupSubtitle, layoutStyles.subtitlePreLine].join(' ')}>
-        Выберите дополнительный контакт.{`\n`}Он понадобится в крайних случаях, если потеряем связь
-        с Вами
+        {t('dataFillSecondStep.desc')}
       </p>
       <PhoneField value={additionalPhoneNumber} onChange={setAdditionalPhoneNumber} />
-      <InputField mainPlaceholder="ФИО" value={relativeFullName} onChange={setRelativeFullName} />
       <InputField
-        mainPlaceholder="Кем приходится"
+        mainPlaceholder={t('dataFillSecondStep.fullName')}
+        value={relativeFullName}
+        onChange={setRelativeFullName}
+      />
+      <InputField
+        mainPlaceholder={t('dataFillSecondStep.relationship')}
         value={relationToBorrower}
         onChange={setRelationToBorrower}
       />
@@ -147,7 +149,7 @@ const DataFillStep2 = () => {
         onClose={close}
         footer={
           <button className="btn btn-text-green" onClick={close}>
-            Закрыть
+            {t('btns.close')}
           </button>
         }
       >

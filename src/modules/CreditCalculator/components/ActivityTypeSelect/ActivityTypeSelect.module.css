@@ -190,6 +190,6 @@
 
 .confirmBtnDisabled {
   background: var(--color-bg-tertiary, #e3e5e8);
-  color: var(--color-text-tertiary, #a0a7b1);
+  color: var(--color-on-accent, #a0a7b1);
   cursor: not-allowed;
 }

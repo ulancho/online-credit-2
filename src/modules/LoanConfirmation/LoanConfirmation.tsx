@@ -92,8 +92,8 @@ const LoanConfirmation = () => {
     if (success) {
       navigate('/finish-page', {
         state: {
-          title: 'Вы отказались от кредита',
-          description: `Ваша заявка успешно отклонена`,
+          title: t('common.declinedTheLoan'),
+          description: t('common.successfullyRejected'),
         },
         replace: true,
       });
@@ -236,7 +236,7 @@ const LoanConfirmation = () => {
                   selectedInsurance ? styles.insuranceSelected : styles.insurancePlaceholder
                 }
               >
-                {selectedInsurance?.name ?? 'Выберите из списка'}
+                {selectedInsurance?.name ?? t('common.selectFromList')}
               </span>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
@@ -256,7 +256,7 @@ const LoanConfirmation = () => {
         <div className={styles.termsList}>
           <TermsCheckbox
             checked={isKeyDataChecked}
-            text="Я ознакомлен(на) [с листком ключевых данных]()"
+            text={t('loanConfirmations.agreements.lkd')}
             onChange={setIsKeyDataChecked}
             onTapLink={handlePdfLkdClick}
           />
@@ -276,7 +276,7 @@ const LoanConfirmation = () => {
             Оформить кредит
           </Button>
           <Button onClick={() => open(true)} variant="text-danger">
-            Отказаться
+            {t('btns.decline')}
           </Button>
 
           <ConfirmationModal submit={proceedToDeclinedPage} active={active} setActive={setActive} />

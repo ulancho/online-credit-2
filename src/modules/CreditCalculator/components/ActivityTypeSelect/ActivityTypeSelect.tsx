@@ -95,7 +95,7 @@ function ActivityTypeSelect({ value, onChange }: ActivityTypeSelectProps) {
                   onClick={handleConfirm}
                   disabled={!pendingValue}
                 >
-                  {t('credit-calculator.activityTypes.confirm')}
+                  {t('btns.continue')}
                 </button>
               </div>
             </div>

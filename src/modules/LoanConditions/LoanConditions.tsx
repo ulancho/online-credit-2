@@ -37,8 +37,8 @@ const LoanConditions = () => {
     if (success) {
       navigate('/finish-page', {
         state: {
-          title: 'Вы отказались от кредита',
-          description: `Ваша заявка успешно отклонена`,
+          title: t('common.declinedTheLoan'),
+          description: t('common.successfullyRejected'),
         },
         replace: true,
       });
@@ -63,7 +63,7 @@ const LoanConditions = () => {
 
         {activeRequests?.refAmount > 0 && <LoanConditionsItem group="ref" />}
         <button onClick={() => open(true)} className={styles.declineButton}>
-          Отказаться
+          {t('btns.decline')}
         </button>
 
         <ConfirmationModal submit={proceedToDeclinedPage} active={active} setActive={setActive} />

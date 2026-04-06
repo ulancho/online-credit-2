@@ -1,3 +1,4 @@
+import { useTranslation } from '@/common/i18n';
 import WalletImage from 'Assets/icons/coin_percent.png';
 
 import styles from './ExtendedQuestionaire.module.scss';
@@ -9,15 +10,14 @@ const getExtendedQuestionnaireUrl = () => {
 };
 
 const ExtendedQuestionaire = () => {
+  const { t } = useTranslation();
   return (
     <div className={styles.promoBanner}>
       <div className={styles.promoText}>
-        <p className={styles.promoTitle}>Расширенная анкета</p>
-        <p className={styles.promoDescription}>
-          Предоставьте дополнительные данные для увеличения суммы займа
-        </p>
+        <p className={styles.promoTitle}>{t('loanConditions.extendedApplication.title')}</p>
+        <p className={styles.promoDescription}>{t('loanConditions.extendedApplication.desc')}</p>
         <button onClick={getExtendedQuestionnaireUrl} className={styles.promoButton}>
-          Заполнить анкету
+          {t('loanConditions.extendedApplication.fill')}
         </button>
       </div>
       <div className={styles.promoImageWrapper}>

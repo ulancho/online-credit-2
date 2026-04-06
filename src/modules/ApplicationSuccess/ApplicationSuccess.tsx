@@ -1,3 +1,4 @@
+import { useTranslation } from '@/common/i18n';
 import SuccessIcon from 'Assets/icons/success.svg?react';
 import { exitApp } from 'Common/api/common.ts';
 import Button from 'Common/components/Button/Button.tsx';
@@ -5,6 +6,7 @@ import Button from 'Common/components/Button/Button.tsx';
 import styles from './ApplicationSuccess.module.scss';
 
 export default function ApplicationSuccess() {
+  const { t } = useTranslation();
   const closeWebView = () => {
     exitApp().then((res) => console.log(res.status));
   };
@@ -16,13 +18,13 @@ export default function ApplicationSuccess() {
           <SuccessIcon />
         </div>
         <div className={styles.textContainer}>
-          <h1 className={styles.title}>Заявка принята</h1>
-          <p className={styles.description}>Следите обновления с решением вашей заявке</p>
+          <h1 className={styles.title}>{t('applicationSuccess.title')}</h1>
+          <p className={styles.description}>{t('applicationSuccess.desc')}</p>
         </div>
       </div>
       <div className={styles.buttonSection}>
         <Button className={styles.continueButton} onClick={closeWebView}>
-          В кабинет кредитов
+          {t('common.creditCabinet')}
         </Button>
       </div>
     </div>

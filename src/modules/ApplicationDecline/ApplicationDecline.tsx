@@ -4,39 +4,37 @@ import { useNavigate } from 'react-router-dom';
 import { exitApp } from '@/common/api/common';
 import ExtendedQuestionaire from '@/common/components/ExtendedQuestionaire/ExtendedQuestionaire';
 import ConfirmationModal from '@/common/components/Modal/ConfirmationModal';
+import { useTranslation } from '@/common/i18n';
 import { useApplicationStatusStore, useLoanConditionsStore } from '@/common/stores/rootStore';
 import Button from 'Common/components/Button/Button.tsx';
 
 import styles from './ApplicationDecline.module.scss';
 
-
 const DECLINE_REASONS = [
   {
     id: 1,
-    title: 'Плохая кредитная история',
-    description:
-      'При восстановления учетной записи в срок до 14 дней, история ваших покупок, платежей и переводов сохранится в мобильном приложении MBANK. После повторной регистрации она будет удалена',
+    title: 'applicationDecline.badCreditHistory.title',
+    description: 'applicationDecline.badCreditHistory.desc',
   },
   {
     id: 2,
-    title: 'Низкие доходы',
-    description: 'Уровень вашего дохода не соответствует требованиям для получения кредита.',
+    title: 'applicationDecline.lowIncomes.title',
+    description: 'applicationDecline.lowIncomes.desc',
   },
   {
     id: 3,
-    title: 'Большая текущая долговая нагрузка',
-    description:
-      'Текущий уровень долговой нагрузки превышает допустимый порог для одобрения кредита.',
+    title: 'applicationDecline.currentDebtLoad.title',
+    description: 'applicationDecline.currentDebtLoad.desc',
   },
   {
     id: 4,
-    title: 'Отсутствие официальной работы',
-    description: 'Для получения кредита необходимо наличие официального места работы.',
+    title: 'applicationDecline.absenceOfficialJob.title',
+    description: 'applicationDecline.absenceOfficialJob.desc',
   },
   {
     id: 5,
-    title: 'Маленький трудовой стаж (полгода и меньше)',
-    description: 'Минимальный трудовой стаж для получения кредита составляет более 6 месяцев.',
+    title: 'applicationDecline.smallWorkingExperience.title',
+    description: 'applicationDecline.smallWorkingExperience.desc',
   },
 ];
 
@@ -74,6 +72,7 @@ export default function ApplicationDecline() {
   const applicationStatusStore = useApplicationStatusStore();
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const toggle = (id: number) => {
     setOpenIds((prev) =>
@@ -92,8 +91,8 @@ export default function ApplicationDecline() {
     if (success) {
       navigate('/finish-page', {
         state: {
-          title: 'Вы отказались от кредита',
-          description: `Ваша заявка успешно отклонена`,
+          title: t('common.declinedTheLoan'),
+          description: t('common.successfullyRejected'),
         },
         replace: true,
       });
@@ -104,16 +103,13 @@ export default function ApplicationDecline() {
     <div className={styles.page}>
       <header className={styles.navbar}>
         <div className={styles.navbarContent}>
-          <h1 className={styles.navbarTitle}>Ваша заявка отклонена</h1>
-          <p className={styles.navbarDescription}>
-            К сожалению, сейчас мы не можем открыть Вам онлайн кредит. Повторная заявка будет
-            доступна через несколько дней
-          </p>
+          <h1 className={styles.navbarTitle}>{t('applicationDecline.title')}</h1>
+          <p className={styles.navbarDescription}>{t('applicationDecline.desc')}</p>
         </div>
       </header>
       <main className={styles.main}>
         {isExtended && <ExtendedQuestionaire />}
-        <h2 className={styles.sectionTitle}>Возможные причины отказа</h2>
+        <h2 className={styles.sectionTitle}>{t('applicationDecline.subTitle')}</h2>
         <div className={styles.accordionList}>
           {DECLINE_REASONS.map((reason) => {
             const isOpen = openIds.includes(reason.id);
@@ -124,14 +120,14 @@ export default function ApplicationDecline() {
                   onClick={() => toggle(reason.id)}
                   aria-expanded={isOpen}
                 >
-                  <span className={styles.accordionTitle}>{reason.title}</span>
+                  <span className={styles.accordionTitle}>{t(reason.title)}</span>
                   <span className={styles.accordionChevron}>
                     {isOpen ? <ChevronUp /> : <ChevronDown />}
                   </span>
                 </button>
                 <div className={styles.accordionBody} data-open={isOpen}>
                   <div className={styles.accordionBodyInner}>
-                    <p className={styles.accordionDescription}>{reason.description}</p>
+                    <p className={styles.accordionDescription}>{t(reason.description)}</p>
                   </div>
                 </div>
               </div>
@@ -141,12 +137,12 @@ export default function ApplicationDecline() {
       </main>
       <div className={styles.footer}>
         <Button onClick={closeWebView} type="button" className={styles.confirmButton}>
-          Понятно
+          {t('btns.gotIt')}
         </Button>
         {isExtended && (
           <>
             <button onClick={() => openDeclineModal(true)} className={styles.declineButton}>
-              Отказаться
+              {t('btns.decline')}
             </button>
             <ConfirmationModal
               submit={proceedToDeclinedPage}

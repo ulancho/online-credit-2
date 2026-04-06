@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n';
 import { useCreditApplicationStore, useUserProfileStore } from 'Common/stores/rootStore.tsx';
 import { errorHandler } from 'Common/utils/errorHandler.ts';
 import { OTP_TYPE_CONSTANTS } from 'Modules/CreditCalculator/api/creditApplicationApi.ts';
@@ -13,7 +14,7 @@ const OTP_LENGTH_MAP = {
   [OTP_TYPE_CONSTANTS.SOCFOND_OTP]: 6,
   [OTP_TYPE_CONSTANTS.MBANK_OTP]: 4,
 } as const;
-const INITIAL_SECONDS = 60;
+const INITIAL_SECONDS = 90;
 const PHONE = '+996 (555) XXX 123';
 
 const formatPhoneNumber = (phoneNumber: string | null) => {
@@ -32,6 +33,7 @@ const formatPhoneNumber = (phoneNumber: string | null) => {
 };
 
 function OtpVerification() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const creditApplicationService = useCreditApplicationStore();
   const userProfileService = useUserProfileStore();
@@ -60,7 +62,7 @@ function OtpVerification() {
         navigate('/loading');
       }
     } catch (error) {
-      const errorMessage = errorHandler(error) ?? 'OTP confirmation failed';
+      const errorMessage = errorHandler(error) ?? t('otp.confirmationFailed');
       alert(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -90,7 +92,7 @@ function OtpVerification() {
 
   useEffect(() => {
     if (seconds <= 0) {
-      alert('Время подтверждения истекло');
+      alert(t('otp.timeIsUp'));
       navigate(-1);
       return;
     }
@@ -116,9 +118,7 @@ function OtpVerification() {
     <div className={styles.page}>
       <div className={styles.content}>
         <span className={styles.timer}>{formatTime(seconds)}</span>
-        <p className={styles.description}>
-          На Ваш номер мобильного телефона {phoneNumber} был отправлен код подтверждения
-        </p>
+        <p className={styles.description}>{t('otp.desc', { phoneNumber })}</p>
         <div className={styles.codeArea} onClick={focusInput}>
           <input
             ref={inputRef}
@@ -130,7 +130,7 @@ function OtpVerification() {
             maxLength={otpLength}
             value={code}
             onChange={handleChange}
-            aria-label="Код подтверждения"
+            aria-label={t('otp.title')}
           />
           <div className={styles.digits}>
             {digits.map((digit, i) => (

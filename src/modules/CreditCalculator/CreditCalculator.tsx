@@ -86,8 +86,6 @@ const CreditCalculator = () => {
   const { t } = useTranslation();
 
   const [term1Checked, setTerm1Checked] = useState(false);
-  const [term2Checked, setTerm2Checked] = useState(false);
-  const [term3Checked, setTerm3Checked] = useState(false);
   const [isPassportModalOpen, setIsPassportModalOpen] = useState(false);
   const [, forceUpdate] = useState(0);
 
@@ -103,9 +101,7 @@ const CreditCalculator = () => {
   const isLoanOfferLoaded = Boolean(loanOffersService.loanOfferData);
   const isLkdTermVisible = Boolean(loanAmount);
   const allTermsAccepted =
-    (!isPublicOfferLoaded || term1Checked) &&
-    (!isLoanOfferLoaded || term2Checked) &&
-    (!isLkdTermVisible || term3Checked);
+    (!isPublicOfferLoaded && !isLoanOfferLoaded && !isLkdTermVisible) || term1Checked;
   const isSubmitEnabled = allTermsAccepted && loanAmount !== '' && monthlyIncome !== '';
 
   const selectedInsuranceOption: RateInsuranceOption = insuranceEnabled
@@ -373,7 +369,7 @@ const CreditCalculator = () => {
             overpayment={loanSummary.overpayment}
           />
           <div className={styles.notificationSection}>
-            <InfoNotification text="После вашего действия будет создана заявка на кредит. Мы отправим вам одноразовый код для проверки номера телефона." />
+            <InfoNotification text={t('credit-calculator.notice')} />
           </div>
           <div className={styles.termsSection}>
             {loanOffersService.publicLoanOfferData && (
@@ -386,17 +382,17 @@ const CreditCalculator = () => {
             )}
             {loanOffersService.loanOfferData && (
               <TermsCheckbox
-                checked={term2Checked}
+                checked={term1Checked}
                 text={loanOffersService.loanOfferData.agreementText || ''}
-                onChange={setTerm2Checked}
+                onChange={setTerm1Checked}
                 onTapLink={() => handleOfferClick('loan')}
               />
             )}
             {loanAmount && (
               <TermsCheckbox
-                checked={term3Checked}
-                text="Я ознакомлен(на) [с листком ключевых данных]()"
-                onChange={setTerm3Checked}
+                checked={term1Checked}
+                text={t('credit-calculator.agreements.lkd')}
+                onChange={setTerm1Checked}
                 onTapLink={handlePdfLkdClick}
               />
             )}
@@ -404,13 +400,13 @@ const CreditCalculator = () => {
         </div>
         <div className={styles.submitSection}>
           <button
-            className={`${styles.submitButton} ${isSubmitEnabled ? styles.submitButtonActive : styles.submitButtonDisabled}`}
+            className={`${styles.submitButton} ${isSubmitEnabled ? styles.submitButtonActive : styles.submitButtonDisabled} ${creditApplicationService.awaiting && 'btn-loading'}`}
             disabled={!isSubmitEnabled}
           >
             {creditApplicationService.awaiting ? (
               <Spinner width={25} height={25} />
             ) : (
-              'Отправить заявку'
+              t('credit-calculator.submitAnApplication')
             )}
           </button>
         </div>

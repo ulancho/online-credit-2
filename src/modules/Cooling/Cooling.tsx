@@ -38,7 +38,7 @@ function Cooling() {
     const applicationId = applicationStatusService.requestId;
 
     if (!applicationId) {
-      alert('Не удалось получить идентификатор заявки');
+      alert(t('cooling.failedToGetApplicationId'));
       return;
     }
 
@@ -49,7 +49,7 @@ function Cooling() {
         exitApp().then(() => console.log('закрытие модалки'));
       }
     } catch (error) {
-      alert('Попробуйте позже');
+      alert(t('cooling.tryAgain'));
     }
   };
 
@@ -102,9 +102,7 @@ function Cooling() {
         <div className={styles.timerBlock}>
           <span className={styles.timerDisplay}>{formatTime(Math.max(0, secondsLeft))}</span>
           <span className={styles.timerLabel}>
-            {isFinished
-              ? 'Денежные средства будут зачислены в ближайшее время'
-              : 'До получения кредита'}
+            {isFinished ? t('cooling.creditingOfFunds') : t('cooling.beforeGettingCredit')}
           </span>
         </div>
       </main>
@@ -123,23 +121,23 @@ function Cooling() {
               />
             </svg>
             <p className={styles.infoText}>
-              <span className={styles.infoTextGray}>
-                В течение действия периода охлаждения на ваш номер MBANK поступит контрольный звонок
-                с короткого номера{' '}
-              </span>
+              <span className={styles.infoTextGray}>{t('cooling.controlCall')} </span>
               <span className={styles.infoTextAccent}>3366</span>
-              <span className={styles.infoTextGray}>{'\n'}Подробная информация по номеру </span>
+              <span className={styles.infoTextGray}>
+                {'\n'}
+                {t('cooling.detailedInformationOnTheNumber')}{' '}
+              </span>
               <span className={styles.infoTextAccent}>3366</span>
             </p>
           </div>
         )}
 
         <div className={styles.primaryBtnWrap}>
-          <Button onClick={() => exitApp()}>Понятно</Button>
+          <Button onClick={() => exitApp()}>{t('btns.gotIt')}</Button>
         </div>
         <div className={styles.dangerBtnWrap}>
           <Button variant="text-danger" onClick={handleOpenConfirmationModalClick}>
-            Отказаться от кредита
+            {t('btns.declineFromCredit')}
           </Button>
         </div>
         <div className={styles.homeIndicator} />

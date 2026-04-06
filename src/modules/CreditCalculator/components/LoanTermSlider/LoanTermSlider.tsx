@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 
+import { useTranslation } from '@/common/i18n';
+
 import styles from './LoanTermSlider.module.css';
 
 interface LoanTermSliderProps {
@@ -25,6 +27,7 @@ export default function LoanTermSlider({
   onChange,
   disabled = false,
 }: LoanTermSliderProps) {
+  const { t } = useTranslation();
   const percent = useMemo(() => {
     if (max <= min) {
       return 0;
@@ -35,7 +38,7 @@ export default function LoanTermSlider({
 
   return (
     <div className={styles.card}>
-      <p className={styles.label}>Срок кредита</p>
+      <p className={styles.label}>{t('credit-calculator.term')}</p>
       <p className={styles.valueText}>{getMonthLabel(label)}</p>
       <div className={styles.sliderWrapper}>
         <div className={styles.trackBackground}>

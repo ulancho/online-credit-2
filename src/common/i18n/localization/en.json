@@ -1,14 +1,29 @@
 {
   "common": {
-    "day": "day"
+    "day": "day",
+    "declinedTheLoan": "You declined the loan",
+    "successfullyRejected": "Your application has been successfully rejected",
+    "selectFromList": "Select from the list",
+    "creditCabinet": "Loan dashboard"
+  },
+  "errors": {
+    "unknown": {
+      "title": "Something went wrong",
+      "desc": "Please try again later"
+    }
   },
   "btns": {
     "cancel": "Cancel",
     "continue": "Continue",
+    "close": "Close",
     "yes": "Yes",
     "no": "No",
     "declinedTitle": "Confirm action",
-    "declinedDesc": "Are you sure you want to cancel the loan issuance?"
+    "declinedDesc": "Are you sure you want to cancel the loan issuance?",
+    "decline": "Decline",
+    "declineFromCredit": "Loan refusal",
+    "goToHome": "Go to Home",
+    "gotIt": "Got it"
   },
 
   "credit-calculator": {
@@ -25,10 +40,14 @@
     "bid": "Rate",
     "overpayment": "Overpayment",
     "notice": "By confirming, you create a loan application. You will receive a one-time code to verify your phone number.",
+    "submitAnApplication": "Submit an application",
+
+    "agreements": {
+      "lkd": "I have read the [Key Information Sheet]()"
+    },
 
     "activityTypes": {
-      "title": "Select your type of activity",
-      "confirm": "Continue"
+      "title": "Select your type of activity"
     },
 
     "passportCheck": {
@@ -44,7 +63,9 @@
   },
   "otp": {
     "title": "Enter the confirmation code",
-    "desc": "A confirmation code has been sent to your mobile number {{phoneNumber}}"
+    "desc": "A confirmation code has been sent to your mobile number {{phoneNumber}}",
+    "timeIsUp": "Время подтверждения истекло",
+    "confirmationFailed": "Ошибка подтверждения кода"
   },
   "loader": {
     "title": "Processing data",
@@ -53,10 +74,21 @@
   "loanConditions": {
     "title": "Your application has been approved under the following conditions",
     "online": "Online loan",
-    "itemTitle": "No visit to the bank required, we will send the money to your card",
+    "offline": "At branch",
+    "itemOnlineTitle": "No visit to the bank required, we will send the money to your card",
+    "itemOfflineTitle": "Please contact the selected branch to receive the loan \n For amounts over 300,000 som, spouse consent is required (if married). The document can be оформed at the selected branch (branch office).",
     "term": "Term",
     "bid": "Interest rate",
-    "monthlyPayment": "Monthly payments"
+    "monthlyPayment": "Monthly payments",
+    "getNow": "Get now",
+    "getAtBranch": "Get at branch",
+    "refinance": "Refinance",
+
+    "extendedApplication": {
+      "title": "Extended application form",
+      "desc": "Please provide additional information to increase your loan amount",
+      "fill": "Fill out the form"
+    }
   },
   "loanConfirmations": {
     "title": "Your application has been approved",
@@ -67,7 +99,11 @@
     "overpayment": "Overpayment on the loan",
     "bid": "Interest rate",
     "chooseDate": "Select the monthly payment date",
-    "insuranceCompany": "Insurance company"
+    "insuranceCompany": "Insurance company",
+
+    "agreements": {
+      "lkd": "I have read the [Key Information Sheet]()"
+    }
   },
   "coolingPeriod": {
     "title": "Attention!",
@@ -94,12 +130,57 @@
     "desc": "Follow these simple rules and protect your finances from fraud!"
   },
   "dataFillFirstStep": {
+    "title": "You still need to fill in the information to complete the application",
+    "desc": "Update your actual residential address",
     "area": "Region",
     "region": "District",
     "settlement": "Settlement",
     "street": "Street",
     "house": "House",
     "apartment": "Apartment"
+  },
+  "dataFillSecondStep": {
+    "desc": "Select an additional contact person.\n This will be used in case of emergency if we lose contact with you",
+    "fullName": "Full name",
+    "relationship": "Relationship to you",
+    "phoneNumber": "Phone number"
+  },
+  "dataFillThirdStep": {
+    "desc": "Select a branch for servicing your loan",
+    "branch": "Branch",
+    "chooseBranch": "Select a branch",
+    "branchDesc": "This is required to service your loan at a specific branch",
+    "region": "Region",
+    "chooseRegion": "Select a region"
+  },
+  "applicationDecline": {
+    "title": "Your application has been declined",
+    "desc": "Unfortunately, we cannot open an online loan for you at the moment. You will be able to submit a new application again in a few days",
+    "subTitle": "Possible reasons for rejection",
+    "badCreditHistory": {
+      "title": "Плохая кредитная история",
+      "desc": "При восстановления учетной записи в срок до 14 дней, история ваших покупок, платежей и переводов сохранится в мобильном приложении MBANK. После повторной регистрации она будет удалена"
+    },
+    "lowIncomes": {
+      "title": "Низкие доходы",
+      "desc": "Уровень вашего дохода не соответствует требованиям для получения кредита."
+    },
+    "currentDebtLoad": {
+      "title": "Большая текущая долговая нагрузка",
+      "desc": "Текущий уровень долговой нагрузки превышает допустимый порог для одобрения кредита."
+    },
+    "absenceOfficialJob": {
+      "title": "Отсутствие официальной работы",
+      "desc": "Для получения кредита необходимо наличие официального места работы."
+    },
+    "smallWorkingExperience": {
+      "title": "Маленький трудовой стаж (полгода и меньше)",
+      "desc": "Минимальный трудовой стаж для получения кредита составляет более 6 месяцев."
+    }
+  },
+  "applicationSuccess": {
+    "title": "Application accepted",
+    "desc": "Please wait for a notification with the decision on your application"
   },
   "onlineLoanIssued": {
     "title": "Loan has been issued",
@@ -111,10 +192,20 @@
   },
   "cooling": {
     "title": "Cooling-off period",
-    "desc": "The loan funds will be credited to your main Mbank account after the cooling-off period. These measures are designed to protect you from fraudulent activities"
+    "desc": "The loan funds will be credited to your main Mbank account after the cooling-off period. These measures are designed to protect you from fraudulent activities",
+    "creditingOfFunds": "Funds will be credited soon",
+    "beforeGettingCredit": "Until the loan is received",
+    "failedToGetApplicationId": "Failed to obtain the application ID",
+    "tryAgain": "Please try again later",
+    "controlCall": "During the cooling-off period, you will receive a verification call to your MBANK number from a short number",
+    "detailedInformationOnTheNumber": "Detailed information is available via the number"
   },
   "declined": {
     "title": "Confirm action",
     "desc": "Are you sure you want to cancel the loan issuance?"
+  },
+  "serviceUnavailable": {
+    "title": "Service is unavailable",
+    "desc": "Please try again later"
   }
 }
