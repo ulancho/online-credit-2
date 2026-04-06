@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 
 import { useQueryParams } from '@/common/hooks/useQueryParams';
+import { useTranslation } from '@/common/i18n';
 import PhoneNumberIconDark from 'Assets/icons/phone-number-dark.svg?react';
 import PhoneNumberIcon from 'Assets/icons/phone-number.svg?react';
 
@@ -80,6 +81,7 @@ function extractDigits(val: string): string {
 }
 
 export default function PhoneField({ value = '', onChange }: InputFieldProps) {
+  const { t } = useTranslation();
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { theme } = useQueryParams();
@@ -174,7 +176,7 @@ export default function PhoneField({ value = '', onChange }: InputFieldProps) {
               isFloating ? styles.phoneFloatingLabelActive : ''
             }`}
           >
-            Номер телефона
+            {t('dataFillSecondStep.phoneNumber')}
           </span>
           <input
             ref={inputRef}

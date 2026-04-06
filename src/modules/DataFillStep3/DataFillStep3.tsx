@@ -18,7 +18,6 @@ import DataFillLayout from 'Modules/DataFill/shared/components/DataFillLayout.ts
 import DataFillProgress from 'Modules/DataFill/shared/components/DataFillProgress.tsx';
 import DataFillSelectSheet from 'Modules/DataFill/shared/components/DataFillSelectSheet.tsx';
 
-
 import type { CitiesItem } from './api/DirectoriesApi';
 import type { SubmitApplicationType } from '../DataFillStep2/services/DataFillStep2Service';
 
@@ -77,9 +76,9 @@ const DataFillStep3 = () => {
     if (success) {
       navigate('/finish-page', {
         state: {
-          title: t('offline.LoanIssued.title'),
-          description: t('offline.LoanIssued.title'),
-          btnTitle: 'В кабинет кредитов',
+          title: t('offlineLoanIssued.title'),
+          description: t('offlineLoanIssued.title'),
+          btnTitle: t('common.creditCabinet'),
           icon: 'success',
         },
       });
@@ -120,18 +119,18 @@ const DataFillStep3 = () => {
         </Button>
       }
     >
-      <p className={layoutStyles.groupSubtitle}>Выберите филиал для прикрепления вашей заявки</p>
+      <p className={layoutStyles.groupSubtitle}>{t('dataFillThirdStep.desc')}</p>
       <Select
-        label="Регион"
+        label={t('dataFillThirdStep.region')}
         value={factCityCftId ? factCityCftId.name : ''}
-        subLabel="Регион"
+        subLabel={t('dataFillThirdStep.region')}
         filled={factCityCftId ? !!factCityCftId.name : false}
         onClick={() => setOpenSheet('factCityCftId')}
       />
       <Select
-        label="Филиал"
+        label={t('dataFillThirdStep.branch')}
         value={serviceBranch ? serviceBranch.name : ''}
-        subLabel="Филиал"
+        subLabel={t('dataFillThirdStep.branch')}
         filled={serviceBranch ? !!serviceBranch.name : false}
         onClick={() => {
           if (factCityCftId) {
@@ -142,7 +141,7 @@ const DataFillStep3 = () => {
       />
       {openSheet === 'factCityCftId' ? (
         <DataFillSelectSheet
-          title="Выберите регион"
+          title={t('dataFillThirdStep.chooseRegion')}
           items={dataFillStep3Store.availableCitiesDirectoryItems}
           onSelect={(value) => {
             setFactCityCftId(value);
@@ -154,8 +153,8 @@ const DataFillStep3 = () => {
       ) : null}
       {openSheet === 'serviceBranch' ? (
         <DataFillSelectSheet
-          title="Выберите филиал"
-          description="Это необходимо для прикрепления вашей заявки к конкретному филиалу"
+          title={t('dataFillThirdStep.chooseBranch')}
+          description={t('dataFillThirdStep.branchDesc')}
           items={dataFillStep3Store.availableBranchesDirectoryItems}
           variant="fullscreen"
           onSelect={(value) => {
@@ -170,7 +169,7 @@ const DataFillStep3 = () => {
         onClose={close}
         footer={
           <button className="btn btn-text-green" onClick={close}>
-            Закрыть
+            {t('btns.close')}
           </button>
         }
       >

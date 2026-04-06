@@ -2,6 +2,7 @@ import Lottie from 'lottie-react';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useTranslation } from '@/common/i18n/LanguageProvider.tsx';
 import loaderAnimation from 'Assets/lottie/loader.json';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
 
@@ -15,6 +16,7 @@ const HOME_ROUTE = '/credit-calculator';
 
 export default function Loader() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // переход на страницу отказа, без рассширенной анкеты если статус: DENIED
   const navigateDenied = useCallback(() => {
@@ -60,8 +62,8 @@ export default function Loader() {
           <div className={styles.loaderCounter}>{progress}%</div>
         </div>
         <div className={styles.textSection}>
-          <h1>Пожалуйста, подождите</h1>
-          <p>Мы очень стараемся обработать вашу заявку как можно быстрее</p>
+          <h1>{t('loader.title')}</h1>
+          <p>{t('loader.desc')}</p>
         </div>
       </div>
     </div>
