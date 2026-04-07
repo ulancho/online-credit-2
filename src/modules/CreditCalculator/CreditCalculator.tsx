@@ -131,6 +131,20 @@ const CreditCalculator = () => {
     link.click();
   };
 
+  const blobToBase64 = (blob: Blob): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        const base64 = result.split(',')[1] ?? ''; // 👈 важно
+        resolve(base64);
+      };
+
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+
   // оформление заявки
   const onSubmit = async (values: CreditCalculatorFormValues) => {
     clearErrors();
@@ -229,16 +243,15 @@ const CreditCalculator = () => {
       return;
     }
 
-    const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
-    const url = URL.createObjectURL(fileBlob);
-    const link = document.createElement('a');
+    try {
+      const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
 
-    link.href = url;
-    link.download = `${offer.code}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+      const base64 = await blobToBase64(fileBlob);
+
+      downloadBase64File(base64, `${offer.code}.pdf`, 'application/pdf');
+    } catch (error) {
+      console.error('Ошибка при скачивании офферты', error);
+    }
   };
 
   // закрытие модалки
