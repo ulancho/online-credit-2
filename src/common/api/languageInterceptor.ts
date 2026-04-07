@@ -21,7 +21,7 @@ const isSupportedLanguage = (value: string | null | undefined): value is Languag
   return SUPPORTED_LANGUAGES.some((language) => language.code === value);
 };
 
-const resolveAcceptLanguage = (): string => {
+export const getAcceptLanguage = (): string => {
   const documentLanguage = document.documentElement.getAttribute('lang');
   if (isSupportedLanguage(documentLanguage)) {
     return acceptLanguages[documentLanguage];
@@ -42,7 +42,7 @@ const resolveAcceptLanguage = (): string => {
 
 export const applyLanguageInterceptor = (client: AxiosInstance) => {
   client.interceptors.request.use((config) => {
-    const acceptLanguage = resolveAcceptLanguage();
+    const acceptLanguage = getAcceptLanguage();
     const headers =
       config.headers instanceof AxiosHeaders
         ? config.headers

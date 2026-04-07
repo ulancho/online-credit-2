@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { httpClient } from '@/common/api/httpClient';
+import { getAcceptLanguage } from 'Common/api/languageInterceptor.ts';
 
 import type { LoanOfferResponse } from 'Modules/CreditCalculator/models/publicLoanOffer.ts';
 
@@ -31,6 +32,9 @@ export async function downloadOfferFile(code: string, hash: string): Promise<Blo
     params: {
       type: 'OFFER',
       hash,
+    },
+    headers: {
+      'Accept-Language': getAcceptLanguage(),
     },
     responseType: 'blob',
   });

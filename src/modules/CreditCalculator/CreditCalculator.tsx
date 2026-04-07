@@ -229,10 +229,8 @@ const CreditCalculator = () => {
       return;
     }
 
-    const DOCUMENT_FILE_API =
-      'https://mbank.cbk.kg/svc-biz-ib-cbk-documents/v1/unauthorized-api/documents/by-code';
-
-    const url = `${DOCUMENT_FILE_API}/${offer.code}/file?type=OFFER&hash=offer.hash`;
+    const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
+    const url = URL.createObjectURL(fileBlob);
     const link = document.createElement('a');
 
     link.href = url;
@@ -240,6 +238,7 @@ const CreditCalculator = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   // закрытие модалки
