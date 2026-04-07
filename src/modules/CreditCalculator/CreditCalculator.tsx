@@ -248,7 +248,7 @@ const CreditCalculator = () => {
 
       const base64 = await blobToBase64(fileBlob);
 
-      downloadBase64File(base64, `${offer.code}.pdf`, 'application/pdf');
+      downloadBase64File(base64, `${offer.code}.pdf`, 'base64/pdf');
     } catch (error) {
       console.error('Ошибка при скачивании офферты', error);
     }
