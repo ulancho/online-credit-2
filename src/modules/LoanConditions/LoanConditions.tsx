@@ -54,6 +54,23 @@ const LoanConditions = () => {
     loadData();
   }, [loanConditionsStore]);
 
+  useEffect(() => {
+    // Перехватываем свайп назад — добавляем запись в историю
+    window.history.pushState(null, '', window.location.href);
+
+    const handlePopState = () => {
+      // Снова пушим, чтобы свайп не мог уйти назад
+      window.history.pushState(null, '', window.location.href);
+      closeWebView();
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
   return (
     <div id="page">
       <NavBar onBack={closeWebView} />
