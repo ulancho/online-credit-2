@@ -4,14 +4,14 @@
 
 - `.env.production` — прод окружение.
 - `.env.development` — dev/preprod окружение.
-- `.env.local.example` — шаблон для локальной разработки.
+- `.env.development.local.example` — шаблон для локальной разработки.
 
 Для локальной разработки:
 
 1. Скопировать шаблон:
 
 ```bash
-cp .env.local.example .env.local
+cp .env.development.local.example .env.development.local
 ```
 
 2. Запустить проект:
@@ -20,7 +20,7 @@ cp .env.local.example .env.local
 npm run dev
 ```
 
-По умолчанию `.env.local` использует относительные URL и Vite proxy.
+По умолчанию `.env.development.local` использует относительные URL и Vite proxy.
 
 ## Основные переменные
 
