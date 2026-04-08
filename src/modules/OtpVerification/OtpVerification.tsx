@@ -59,7 +59,7 @@ function OtpVerification() {
     try {
       const response = await confirmOtp({ code });
       if (response.status === 200) {
-        navigate('/loading');
+        navigate('/loading', { replace: true });
       }
     } catch (error) {
       const errorMessage = errorHandler(error) ?? t('otp.confirmationFailed');
