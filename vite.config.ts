@@ -26,17 +26,22 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/svc-biz-ib-cbk-private-credits/v1/api/webview': {
-          target: 'https://preprodib.mbank.kg',
+          target: env.VITE_PROXY_PRIVATE_CREDITS_TARGET || 'https://preprodib.mbank.kg',
           changeOrigin: true,
           secure: true,
         },
         '/svc-common-directory/v2': {
-          target: 'https://preprodib.mbank.kg',
+          target: env.VITE_PROXY_DIRECTORY_TARGET || 'https://preprodib.mbank.kg',
+          changeOrigin: true,
+          secure: true,
+        },
+        '/svc-biz-ib-cbk-documents/v1/unauthorized-api/documents/by-code': {
+          target: env.VITE_PROXY_DOCUMENTS_TARGET || 'https://preprodib.mbank.kg',
           changeOrigin: true,
           secure: true,
         },
         '/gateway': {
-          target: 'https://hub-dev.mbank.kg',
+          target: env.VITE_PROXY_GATEWAY_TARGET || 'https://hub-dev.mbank.kg',
           changeOrigin: true,
           secure: true,
         },

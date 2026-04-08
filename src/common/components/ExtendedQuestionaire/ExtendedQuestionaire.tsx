@@ -1,12 +1,11 @@
 import { useTranslation } from '@/common/i18n';
 import WalletImage from 'Assets/icons/coin_percent.png';
+import { appEnv } from 'Common/config/env.ts';
 
 import styles from './ExtendedQuestionaire.module.scss';
 
 const getExtendedQuestionnaireUrl = () => {
-  const suffix = window.location.hostname === 'https://hub.mbank.kg' ? '' : '-dev';
-
-  window.location.href = `https://api.mbank.kg/auth-partner${suffix}/credit-conveyer${suffix}/auth`;
+  window.location.href = appEnv.extendedQuestionnaireUrl;
 };
 
 const ExtendedQuestionaire = () => {
