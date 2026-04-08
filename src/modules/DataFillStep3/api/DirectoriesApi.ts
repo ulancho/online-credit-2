@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { appEnv } from 'Common/config/env.ts';
+
 export type CitiesItemDto = {
   itemCode?: string;
   position: number;
@@ -24,12 +26,7 @@ export type CitiesItem = {
 
 const DIRECTORY_API = '/unauthorized-api/directory';
 
-const BASE_DIRECTORY_URL =
-  window.location.hostname === 'https://hub.mbank.kg'
-    ? 'https://mbank.cbk.kg.kg'
-    : window.location.hostname === 'https://hub-dev.mbank.kg'
-      ? 'https://preprodib.mbank.kg'
-      : '';
+const BASE_DIRECTORY_URL = appEnv.directoryBaseUrl;
 
 const CITIES_REQUEST_BODY = {
   namespace: 'cbk',

@@ -1,69 +1,40 @@
-# React + TypeScript + Vite
+## Разделение окружений
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+В проекте добавлена конфигурация для **prod / dev / local** через Vite env-файлы:
 
-Currently, two official plugins are available:
+- `.env.production` — прод окружение.
+- `.env.development` — dev/preprod окружение.
+- `.env.development.local.example` — шаблон для локальной разработки.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Для локальной разработки:
 
-## Expanding the ESLint configuration
+1. Скопировать шаблон:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cp .env.development.local.example .env.development.local
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Запустить проект:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+По умолчанию `.env.development.local` использует относительные URL и Vite proxy.
+
+## Основные переменные
+
+- `VITE_API_BASE_URL` — базовый URL основного API.
+- `VITE_DIRECTORY_BASE_URL` — базовый URL directory API.
+- `VITE_DOCUMENTS_BASE_URL` — URL сервиса документов.
+- `VITE_CLOSE_APP_URL` — URL закрытия webview.
+- `VITE_EXTENDED_QUESTIONNAIRE_URL` — ссылка на расширенную анкету.
+- `VITE_REFINANCING_APP_URL` — ссылка на рефинансирование.
+
+Прокси для локалки:
+
+- `VITE_PROXY_PRIVATE_CREDITS_TARGET`
+- `VITE_PROXY_DIRECTORY_TARGET`
+- `VITE_PROXY_DOCUMENTS_TARGET`
+- `VITE_PROXY_CLOSE_TARGET`
+- `VITE_PROXY_GATEWAY_TARGET`
