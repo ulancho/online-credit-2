@@ -55,7 +55,17 @@ const LoanConditions = () => {
   }, [loanConditionsStore]);
 
   useEffect(() => {
-    window.history.replaceState(null, '', window.location.href);
+    window.history.replaceState(null, '', window.location.pathname);
+
+    window.history.pushState(null, '', window.location.pathname);
+
+    const handleBack = () => {
+      closeWebView();
+    };
+
+    window.addEventListener('popstate', handleBack);
+
+    return () => window.removeEventListener('popstate', handleBack);
   }, []);
 
   return (
