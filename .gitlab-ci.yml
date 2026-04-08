@@ -23,7 +23,14 @@ build-and-push:
     policy: pull
   script:
     - npm install
-    - VITE_BASE_PATH=/${CI_PROJECT_NAME}/ CI=false npm run build
+    - |
+      if [ "$CI_COMMIT_BRANCH" = "dev" ]; then
+        echo "Building preprod bundle with .env.development"
+        VITE_BASE_PATH=/${CI_PROJECT_NAME}/ CI=false npm run build:preprod
+      else
+        echo "Building prod bundle with .env.production"
+        VITE_BASE_PATH=/${CI_PROJECT_NAME}/ CI=false npm run build:prod
+      fi
     - docker pull $CI_REGISTRY_IMAGE:latest || true
     - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
