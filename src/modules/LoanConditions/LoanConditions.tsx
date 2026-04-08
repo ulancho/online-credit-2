@@ -59,8 +59,6 @@ const LoanConditions = () => {
   }, [loanConditionsStore]);
 
   useEffect(() => {
-    window.history.replaceState(null, '', window.location.pathname);
-
     window.history.pushState(null, '', window.location.pathname);
 
     const handleBack = () => {
@@ -77,7 +75,6 @@ const LoanConditions = () => {
       <NavBar onBack={closeWebView} />
       <div className={styles.content}>
         <h1 className={styles.pageTitle}>{t('loanConditions.title')}</h1>
-        ...
         {/* Blue promo banner */}
         {extendedIsAvailable && <ExtendedQuestionaire />}
         {/* Loan details card */}
