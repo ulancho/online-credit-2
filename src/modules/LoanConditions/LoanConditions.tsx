@@ -39,10 +39,6 @@ const LoanConditions = () => {
   };
 
   const closeWebView = () => {
-    if (window.history.length > 1) {
-      window.history.back();
-    }
-
     exitApp().then((res) => console.log(res.status));
   };
 
@@ -59,15 +55,9 @@ const LoanConditions = () => {
   }, [loanConditionsStore]);
 
   useEffect(() => {
-    window.history.pushState(null, '', window.location.pathname);
+    window.addEventListener('popstate', closeWebView);
 
-    const handleBack = () => {
-      exitApp().then((res) => console.log(res.status));
-    };
-
-    window.addEventListener('popstate', handleBack);
-
-    return () => window.removeEventListener('popstate', handleBack);
+    return () => window.removeEventListener('popstate', closeWebView);
   }, []);
 
   return (
