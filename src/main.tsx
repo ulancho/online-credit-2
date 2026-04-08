@@ -8,6 +8,9 @@ import AppWrapper from './app/AppWrapper.tsx';
 
 import './styles/index.scss';
 
+console.log(import.meta.env.MODE);
+console.log(import.meta.env.VITE_API_BASE_URL);
+
 configure({
   enforceActions: 'observed',
 });
