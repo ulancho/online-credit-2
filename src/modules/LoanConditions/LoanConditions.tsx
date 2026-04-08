@@ -39,6 +39,10 @@ const LoanConditions = () => {
   };
 
   const closeWebView = () => {
+    if (window.history.length > 1) {
+      window.history.back();
+    }
+
     exitApp().then((res) => console.log(res.status));
   };
 
@@ -55,12 +59,10 @@ const LoanConditions = () => {
   }, [loanConditionsStore]);
 
   useEffect(() => {
-    window.history.replaceState(null, '', window.location.pathname);
-
     window.history.pushState(null, '', window.location.pathname);
 
     const handleBack = () => {
-      closeWebView();
+      exitApp().then((res) => console.log(res.status));
     };
 
     window.addEventListener('popstate', handleBack);
@@ -77,14 +79,11 @@ const LoanConditions = () => {
         {extendedIsAvailable && <ExtendedQuestionaire />}
         {/* Loan details card */}
         {onlineClaimAvailable && <LoanConditionsItem group="online" />}
-
         {offlineClaimAvailable && <LoanConditionsItem group="offline" />}
-
         {activeRequests?.refAmount > 0 && <LoanConditionsItem group="ref" />}
         <button onClick={() => open(true)} className={styles.declineButton}>
           {t('btns.decline')}
         </button>
-
         <ConfirmationModal submit={proceedToDeclinedPage} active={active} setActive={setActive} />
       </div>
     </div>
