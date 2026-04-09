@@ -25,9 +25,7 @@ const persistToken = (token: string) => {
 };
 
 const resolveToken = (): string | null => {
-  // const tokenFromUrl = parseTokenFromUrl();
-  const tokenFromUrl =
-    'ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKcFpDSTZJakF6T1RjME5EQTVMV0ZrTldFdE5EWXdNUzFpTXpSa0xUWTVaREUxTWpjNU9XWmxNQ0lzSW1saGRDSTZNVGMzTlRjeE9ETXlPQ3dpWlhod0lqb3hOemMxTnpFNE5qSTRmUS5QUHYzWU1vY3h5MC1KRHhOc3dMcTVEa0U2M3ZNUkJzcm1fREgwNHRTYm1V';
+  const tokenFromUrl = parseTokenFromUrl();
 
   if (tokenFromUrl) {
     persistToken(tokenFromUrl);
