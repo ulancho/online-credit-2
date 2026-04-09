@@ -10,6 +10,7 @@ import {
   useLoanOffersStore,
 } from '@/common/stores/rootStore';
 import { formatAmount } from '@/common/utils/formatAmount';
+import { blobToBase64, downloadBase64File } from '@/common/utils/offers';
 import PercentIcon from 'Assets/icons/products.svg?react';
 import Button from 'Common/components/Button/Button.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
@@ -120,26 +121,18 @@ const LoanConfirmation = () => {
       return;
     }
 
-    const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
-    alert('fileBlob: ' + fileBlob);
-    const fileUrl = window.URL.createObjectURL(fileBlob);
-    const link = document.createElement('a');
+    try {
+      const fileBlob = await loanOffersService.downloadOfferFile(offer.code, offer.hash);
 
-    link.href = fileUrl;
-    link.download = `${offer.code}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(fileUrl);
+      const base64 = await blobToBase64(fileBlob);
+
+      downloadBase64File(base64, `${offer.code}.pdf`, 'base64/pdf');
+    } catch (error) {
+      console.error('Ошибка при скачивании офферты', error);
+    }
   };
 
   // Листок ключевых данных
-  const downloadBase64File = (base64: string, fileName: string, mimeType: string) => {
-    const link = document.createElement('a');
-    link.href = `data:${mimeType};base64,${base64}`;
-    link.download = fileName;
-    link.click();
-  };
 
   const handlePdfLkdClick = async () => {
     const amount = activeGroup?.amount || 0;

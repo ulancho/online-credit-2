@@ -12,6 +12,7 @@ import {
   usePassportValidationStore,
   useQueryParamsStore,
 } from '@/common/stores/rootStore';
+import { blobToBase64, downloadBase64File } from '@/common/utils/offers';
 import { exitApp } from 'Common/api/common.ts';
 import InputField from 'Common/components/InputField/InputField.tsx';
 import NavBar from 'Common/components/NavBar/NavBar.tsx';
@@ -123,27 +124,6 @@ const CreditCalculator = () => {
       overpayment: calculatedLoan ? formatCurrency(calculatedLoan.overpayment) : '0',
     };
   }, [loanAmount, loanCalculatorService, loanTerm, selectedInsuranceOption, terms]);
-
-  const downloadBase64File = (base64: string, fileName: string, mimeType: string) => {
-    const link = document.createElement('a');
-    link.href = `data:${mimeType};base64,${base64}`;
-    link.download = fileName;
-    link.click();
-  };
-
-  const blobToBase64 = (blob: Blob): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        const base64 = result.split(',')[1] ?? ''; // 👈 важно
-        resolve(base64);
-      };
-
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
 
   // оформление заявки
   const onSubmit = async (values: CreditCalculatorFormValues) => {
