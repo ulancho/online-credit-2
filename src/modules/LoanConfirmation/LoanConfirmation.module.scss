@@ -186,7 +186,7 @@
   flex-direction: column;
   gap: 0;
   background: var(--color-bg-main);
-  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  padding-bottom: max(18px, env(safe-area-inset-bottom));
 }
 
 .termsList {

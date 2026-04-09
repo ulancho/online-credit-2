@@ -98,7 +98,7 @@
 
 .bottomBar {
   padding: var(--spacing-s) var(--spacing-l);
-  padding-bottom: max(var(--spacing-s), env(safe-area-inset-bottom));
+  padding-bottom: max(18px, env(safe-area-inset-bottom));
   flex-shrink: 0;
 }
 
