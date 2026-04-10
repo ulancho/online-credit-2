@@ -66,7 +66,7 @@ const LoanConditions = () => {
       <div className={styles.content}>
         <h1 className={styles.pageTitle}>{t('loanConditions.title')}</h1>
         {/* Blue promo banner */}
-        {extendedIsAvailable && <ExtendedQuestionaire />}
+        {extendedIsAvailable && <ExtendedQuestionaire appToken={activeRequests?.token} />}
         {/* Loan details card */}
         {onlineClaimAvailable && <LoanConditionsItem group="online" />}
         {offlineClaimAvailable && <LoanConditionsItem group="offline" />}

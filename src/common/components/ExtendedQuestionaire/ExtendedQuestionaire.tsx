@@ -4,18 +4,21 @@ import { appEnv } from 'Common/config/env.ts';
 
 import styles from './ExtendedQuestionaire.module.scss';
 
-const getExtendedQuestionnaireUrl = () => {
-  window.location.href = appEnv.extendedQuestionnaireUrl;
+const getExtendedQuestionnaireUrl = (appToken: string) => {
+  window.location.href = appEnv.extendedQuestionnaireUrl(appToken);
 };
 
-const ExtendedQuestionaire = () => {
+const ExtendedQuestionaire = ({ appToken }: { appToken: string }) => {
   const { t } = useTranslation();
   return (
     <div className={styles.promoBanner}>
       <div className={styles.promoText}>
         <p className={styles.promoTitle}>{t('loanConditions.extendedApplication.title')}</p>
         <p className={styles.promoDescription}>{t('loanConditions.extendedApplication.desc')}</p>
-        <button onClick={getExtendedQuestionnaireUrl} className={styles.promoButton}>
+        <button
+          onClick={() => getExtendedQuestionnaireUrl(appToken)}
+          className={styles.promoButton}
+        >
           {t('loanConditions.extendedApplication.fill')}
         </button>
       </div>
