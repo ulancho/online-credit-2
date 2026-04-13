@@ -107,7 +107,7 @@ export default function ApplicationDecline() {
           <p className={styles.navbarDescription}>{t('applicationDecline.desc')}</p>
         </div>
       </header>
-      <main className={styles.main}>
+      <main className={`${styles.main} ${isExtended ? styles.mainExtended : ''}`}>
         {/*{isExtended && <ExtendedQuestionaire />}*/}
         <h2 className={styles.sectionTitle}>{t('applicationDecline.subTitle')}</h2>
         <div className={styles.accordionList}>
