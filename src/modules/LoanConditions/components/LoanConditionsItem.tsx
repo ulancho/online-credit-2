@@ -109,7 +109,7 @@ const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
       {group === 'ref' && (
         <button
           onClick={() => {
-            window.location.href = `https://app.mbank.kg/web/refinancing?token=${activeGroup.token}`;
+            window.location.href = `https://credit.mbank.kg/mbank/refinance?token=${activeGroup.token}`;
           }}
           className={styles.secondaryButton}
         >
