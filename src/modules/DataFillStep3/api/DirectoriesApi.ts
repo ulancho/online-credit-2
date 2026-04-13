@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { httpClient } from 'Common/api/httpClient.ts';
 import { appEnv } from 'Common/config/env.ts';
 
 export type CitiesItemDto = {
@@ -68,7 +69,7 @@ export async function getCities(): Promise<CitiesItem[]> {
   //   CITIES_REQUEST_BODY,
   // );
 
-  const response = await axios.post<CitiesItemDto[]>(
+  const response = await httpClient.post<CitiesItemDto[]>(
     `${BASE_DIRECTORY_URL}/svc-biz-ib-cbk-private-credits/v1/api/webview/directory${DIRECTORY_API}/items`,
     CITIES_REQUEST_BODY,
   );
