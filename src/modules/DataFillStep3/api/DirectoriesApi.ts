@@ -63,8 +63,13 @@ const BRANCHES_REQUEST_BODY = (value: string) => ({
 });
 
 export async function getCities(): Promise<CitiesItem[]> {
+  // const response = await axios.post<CitiesItemDto[]>(
+  //   `${BASE_DIRECTORY_URL}/svc-common-directory/v2${DIRECTORY_API}/items`,
+  //   CITIES_REQUEST_BODY,
+  // );
+
   const response = await axios.post<CitiesItemDto[]>(
-    `${BASE_DIRECTORY_URL}/svc-common-directory/v2${DIRECTORY_API}/items`,
+    `${BASE_DIRECTORY_URL}/svc-biz-ib-cbk-private-credits/v1/api/webview/directory${DIRECTORY_API}/items`,
     CITIES_REQUEST_BODY,
   );
 
