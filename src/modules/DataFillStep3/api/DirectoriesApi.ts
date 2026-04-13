@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import { httpClient } from 'Common/api/httpClient.ts';
 import { appEnv } from 'Common/config/env.ts';
 
@@ -64,11 +62,6 @@ const BRANCHES_REQUEST_BODY = (value: string) => ({
 });
 
 export async function getCities(): Promise<CitiesItem[]> {
-  // const response = await axios.post<CitiesItemDto[]>(
-  //   `${BASE_DIRECTORY_URL}/svc-common-directory/v2${DIRECTORY_API}/items`,
-  //   CITIES_REQUEST_BODY,
-  // );
-
   const response = await httpClient.post<CitiesItemDto[]>(
     `${BASE_DIRECTORY_URL}/svc-biz-ib-cbk-private-credits/v1/api/webview/directory${DIRECTORY_API}/items`,
     CITIES_REQUEST_BODY,
@@ -94,8 +87,8 @@ const normalizeCitiesItem = (item: CitiesItemDto): CitiesItem | null => {
 };
 
 export async function getBranches(cityCode: string): Promise<CitiesItem[]> {
-  const response = await axios.post<BranchesItemDto[]>(
-    `${BASE_DIRECTORY_URL}/svc-common-directory/v2${DIRECTORY_API}/items`,
+  const response = await httpClient.post<BranchesItemDto[]>(
+    `${BASE_DIRECTORY_URL}/svc-biz-ib-cbk-private-credits/v1/api/webview/directory${DIRECTORY_API}/items`,
     BRANCHES_REQUEST_BODY(cityCode),
   );
 
