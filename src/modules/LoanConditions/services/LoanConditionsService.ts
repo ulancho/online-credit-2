@@ -60,7 +60,7 @@ export class LoanCondtionsService {
     const {
       onlineAmount,
       offlineAmount,
-      refAmount,
+      totalRefSum,
       percent,
       period,
       offlinePeriod,
@@ -69,6 +69,7 @@ export class LoanCondtionsService {
       refPeriod,
       refPercent,
       refMonthlyPayment,
+      refType,
       token,
     } = this.activeRequests;
 
@@ -81,10 +82,11 @@ export class LoanCondtionsService {
         monthlyPayment: offlineMonthlyPayment,
       },
       ref: {
-        amount: refAmount,
+        amount: totalRefSum,
         period: refPeriod,
-        percent: refPercent,
+        percent: refPercent || percent,
         monthlyPayment: refMonthlyPayment,
+        refType: refType,
         token,
       },
     };

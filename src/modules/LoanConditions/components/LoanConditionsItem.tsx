@@ -20,6 +20,12 @@ interface LoanConditionsItemProps {
 
 type LoanGroup = 'online' | 'offline' | 'ref';
 
+const titles: Record<LoanGroup, string> = {
+  online: 'loanConditions.itemOnlineTitle',
+  offline: 'loanConditions.itemOfflineTitle',
+  ref: 'loanConditions.itemRefTitle',
+} as const;
+
 const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
   const loanConditionsStore = useLoanConditionsStore();
   const { t } = useTranslation();
@@ -35,6 +41,16 @@ const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
   const proceedToNext = () =>
     navigate(`/loan-confirmation/${group}`, { state: { loanConditionsData: toJS(activeGroup) } });
 
+  const subTitle = t(titles[group]);
+
+  const status = group === 'ref' ? activeGroup?.refType : group;
+
+  const statusBadge = (
+    <span className={status === 'online' ? styles.onlineBadge : styles.offlineBadge}>
+      {t(`loanConditions.${status}`)}
+    </span>
+  );
+
   return (
     <div className={styles.detailsCard}>
       {/* Amount & badge */}
@@ -42,17 +58,9 @@ const LoanConditionsItem = ({ group }: LoanConditionsItemProps) => {
         <span className={styles.amount}>
           {formatAmount(activeGroup?.amount)} {t('common.som')}
         </span>
-        {group === 'online' ? (
-          <span className={styles.onlineBadge}>{t('loanConditions.online')}</span>
-        ) : (
-          <span className={styles.offlineBadge}>{t('loanConditions.offline')}</span>
-        )}
+        {statusBadge}
       </div>
-      <p className={styles.amountSubtitle}>
-        {group === 'online'
-          ? t('loanConditions.itemOnlineTitle')
-          : t('loanConditions.itemOfflineTitle')}
-      </p>
+      <p className={styles.amountSubtitle}>{subTitle}</p>
       {/* Info rows */}
       <div className={styles.infoList}>
         {/* Срок */}

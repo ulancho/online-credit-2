@@ -70,7 +70,7 @@ const LoanConditions = () => {
         {/* Loan details card */}
         {onlineClaimAvailable && <LoanConditionsItem group="online" />}
         {offlineClaimAvailable && <LoanConditionsItem group="offline" />}
-        {activeRequests?.refAmount > 0 && <LoanConditionsItem group="ref" />}
+        {activeRequests?.refSum > 0 && <LoanConditionsItem group="ref" />}
         <button onClick={() => open(true)} className={styles.declineButton}>
           {t('btns.decline')}
         </button>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { exitApp } from '@/common/api/common';
 // import ExtendedQuestionaire from '@/common/components/ExtendedQuestionaire/ExtendedQuestionaire';
+import ExtendedQuestionaire from '@/common/components/ExtendedQuestionaire/ExtendedQuestionaire';
 import ConfirmationModal from '@/common/components/Modal/ConfirmationModal';
 import { useTranslation } from '@/common/i18n';
 import { useApplicationStatusStore, useLoanConditionsStore } from '@/common/stores/rootStore';
@@ -108,7 +109,9 @@ export default function ApplicationDecline() {
         </div>
       </header>
       <main className={styles.main}>
-        {/*{isExtended && <ExtendedQuestionaire />}*/}
+        {isExtended && (
+          <ExtendedQuestionaire appToken={loanConditionsStore.activeRequests?.token} />
+        )}
         <h2 className={styles.sectionTitle}>{t('applicationDecline.subTitle')}</h2>
         <div className={styles.accordionList}>
           {DECLINE_REASONS.map((reason) => {

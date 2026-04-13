@@ -81,6 +81,7 @@
     "offline": "At branch",
     "itemOnlineTitle": "No visit to the bank required, we will send the money to your card",
     "itemOfflineTitle": "Please contact the selected branch to receive the loan \n For amounts over 300,000 som, spouse consent is required (if married). The document can be оформed at the selected branch (branch office).",
+    "itemRefTitle": "Refinancing of existing loans",
     "term": "Term",
     "bid": "Interest rate",
     "monthlyPayment": "Monthly payments",
