@@ -171,8 +171,8 @@
     "desc": "Unfortunately, we cannot open an online loan for you at the moment. You will be able to submit a new application again in a few days",
     "subTitle": "Possible reasons for rejection",
     "badCreditHistory": {
-      "title": "Bad credit history",
-      "desc": "If you restore your account within 14 days, your purchase, payment, and transfer history will be preserved in the MBANK mobile application. After re-registration, it will be deleted."
+      "title": "Poor credit history",
+      "desc": "You have a negative credit history and/or active overdue loans."
     },
     "lowIncomes": {
       "title": "Low income",
@@ -187,8 +187,8 @@
       "desc": "An official place of employment is required to obtain a loan."
     },
     "smallWorkingExperience": {
-      "title": "Short employment history (six months or less)",
-      "desc": "The minimum employment history required to obtain a loan is more than 6 months."
+      "title": "Short work experience (less than 3 months)",
+      "desc": "We were unable to verify your income."
     }
   },
   "applicationSuccess": {
