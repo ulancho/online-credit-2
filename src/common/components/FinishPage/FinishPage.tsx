@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import { useLocation } from 'react-router-dom';
 
-import { useQueryParams } from '@/common/hooks/useQueryParams';
 import { useTranslation } from '@/common/i18n';
 import SadIconDark from 'Assets/icons/sad-circle-dark.svg?react';
 import SadIcon from 'Assets/icons/sad-circle.svg?react';
 import SuccessIcon from 'Assets/icons/success.svg?react';
 import { exitApp } from 'Common/api/common.ts';
+import { useQueryParamsStore } from 'Common/stores/rootStore.tsx';
 
 import styles from './FinishPage.module.scss';
 
@@ -20,7 +20,7 @@ const ICONS: Record<string, ElementType> = {
 const FinishPage = () => {
   const location = useLocation();
   const state = location.state;
-  const { theme } = useQueryParams();
+  const { theme } = useQueryParamsStore();
   const { t } = useTranslation();
 
   const title = state?.title ?? t('errors.unknown.title');
