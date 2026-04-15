@@ -29,9 +29,10 @@ const ApplicationStatusRedirect = () => {
       return;
     }
 
-    if (applicationStatusService.isLoading || !applicationStatusService.application) {
+    if (applicationStatusService.isLoading) {
       return;
     }
+
     navigate(applicationStatusService.redirectRoute, { replace: true });
   }, [
     applicationStatusService.hasLoadingError,

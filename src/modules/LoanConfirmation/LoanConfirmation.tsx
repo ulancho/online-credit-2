@@ -133,7 +133,6 @@ const LoanConfirmation = () => {
   };
 
   // Листок ключевых данных
-
   const handlePdfLkdClick = async () => {
     const amount = activeGroup?.amount || 0;
     const termMonths = Number(activeGroup?.period) || 0;
