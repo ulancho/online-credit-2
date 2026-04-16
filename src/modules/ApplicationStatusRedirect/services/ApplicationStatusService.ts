@@ -34,14 +34,16 @@ export class ApplicationStatusService {
 
       runInAction(() => {
         this.activeApplication = response;
-        this.isStatusLoading = false;
         this.hasStatusLoadingError = false;
       });
     } catch (error) {
       runInAction(() => {
         this.activeApplication = null;
-        this.isStatusLoading = false;
         this.hasStatusLoadingError = true;
+      });
+    } finally {
+      runInAction(() => {
+        this.isStatusLoading = false;
       });
     }
   }
