@@ -30,7 +30,8 @@ export async function getInsuranceCompaniesItems(): Promise<InsuranceCompaniesIt
 const normalizeItem = (item: InsuranceCompaniesResponse[number]): InsuranceCompaniesItem | null => {
   const itemCode = item.itemCode?.trim();
 
-  if (!itemCode) {
+  // скрываем отображение itemCode=1, согласно задаче = MB-4785, опция "Отказаться от страховки"
+  if (!itemCode || itemCode === '1') {
     return null;
   }
 
