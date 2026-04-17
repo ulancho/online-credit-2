@@ -123,6 +123,7 @@
   flex-shrink: 0;
   background: var(--color-bg-main);
   padding: 0 var(--spacing-l);
+  padding-bottom: calc(var(--spacing-l) + env(safe-area-inset-bottom, 0px));
   width: 100%;
 }
 
