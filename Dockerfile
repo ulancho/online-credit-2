@@ -1,5 +1,6 @@
-# nginx state for serving content
-FROM nginx:1.23.3-alpine
+# nginx stage for serving content
+ARG NGINX_IMAGE=harbor.mbank.kg/dockerhub-proxy/library/nginx:1.23.3-alpine
+FROM ${NGINX_IMAGE}
 
 # Copy static assets from builder stage
 COPY ./dist  /usr/share/nginx/html
