@@ -122,12 +122,12 @@ function Cooling() {
             </svg>
             <p className={styles.infoText}>
               <span className={styles.infoTextGray}>{t('cooling.controlCall')} </span>
-              <span className={styles.infoTextAccent}>3366</span>
+              <span className={styles.infoTextAccent}>5353</span>
               <span className={styles.infoTextGray}>
                 {'\n'}
                 {t('cooling.detailedInformationOnTheNumber')}{' '}
               </span>
-              <span className={styles.infoTextAccent}>3366</span>
+              <span className={styles.infoTextAccent}>5353</span>
             </p>
           </div>
         )}
