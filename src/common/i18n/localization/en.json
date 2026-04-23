@@ -25,11 +25,10 @@
     "declinedTitle": "Confirm action",
     "declinedDesc": "Are you sure you want to cancel the loan issuance?",
     "decline": "Decline",
-    "declineFromCredit": "Loan refusal",
+    "declineFromCredit": "Refuse the loan",
     "goToHome": "Go to Home",
     "gotIt": "Got it"
   },
-
   "credit-calculator": {
     "title": "Let’s calculate your comfortable loan conditions",
     "description": "This is a preliminary calculation and does not take the refinancing amount into account. If there are loans for refinancing, the proposed terms may change.",
@@ -80,7 +79,7 @@
     "online": "Online loan",
     "offline": "At branch",
     "itemOnlineTitle": "No visit to the bank required, we will send the money to your card",
-    "itemOfflineTitle": "Please contact the selected branch to receive the loan \n For amounts over 300,000 som, spouse consent is required (if married). The document can be оформed at the selected branch (branch office).",
+    "itemOfflineTitle": "You can receive the money at any bank branch",
     "itemRefTitle": "Refinancing of existing loans",
     "term": "Term",
     "bid": "Interest rate",
@@ -196,8 +195,8 @@
     "desc": "Please wait for a notification with the decision on your application"
   },
   "onlineLoanIssued": {
-    "title": "Loan has been issued",
-    "desc": "Please wait for the funds to arrive after the cooling-off period"
+    "title": "The loan has been issued.",
+    "desc": "Please wait for the funds to be credited after the cooling-off period ends"
   },
   "offlineLoanIssued": {
     "title": "Loan has been issued",
