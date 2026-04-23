@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Route, Routes, BrowserRouter, useLocation } from 'react-router-dom';
 
 import FinishPage from '@/common/components/FinishPage/FinishPage';
-// import { useQueryParams } from 'Common/hooks/useQueryParams.ts';
 import ApplicationDecline from 'Modules/ApplicationDecline/ApplicationDecline.tsx';
 import ApplicationStatusRedirect from 'Modules/ApplicationStatusRedirect/ApplicationStatusRedirect.tsx';
 import ApplicationSuccess from 'Modules/ApplicationSuccess/ApplicationSuccess.tsx';
@@ -24,28 +23,12 @@ import SecurityRemember from 'Modules/SecurityRemember/SecurityRemember.tsx';
 import SecurityWarning from 'Modules/SecurityWarning/SecurityWarning.tsx';
 import ServiceUnavailable from 'Modules/ServiceUnavailable/ServiceUnavailable.tsx';
 
-// const applyTheme = (theme: string | null) => {
-//   if (!theme) {
-//     return;
-//   }
-//
-//   const normalizedTheme = theme.toLowerCase();
-//   const resolvedTheme = normalizedTheme === 'dark' ? 'dark' : 'light';
-//
-//   document.documentElement.setAttribute('data-theme', resolvedTheme);
-// };
-
 const AppContent = () => {
-  // const { theme } = useQueryParams();
   const location = useLocation();
   const [displayLocation, setDisplayLocation] = useState(location);
   const [transitionStage, setTransitionStage] = useState<'route-enter' | 'route-exit'>(
     'route-enter',
   );
-
-  // useEffect(() => {
-  //   applyTheme(theme);
-  // }, [theme]);
 
   useEffect(() => {
     if (location.pathname !== displayLocation.pathname) {
