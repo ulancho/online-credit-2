@@ -23,6 +23,10 @@ import SecurityRemember from 'Modules/SecurityRemember/SecurityRemember.tsx';
 import SecurityWarning from 'Modules/SecurityWarning/SecurityWarning.tsx';
 import ServiceUnavailable from 'Modules/ServiceUnavailable/ServiceUnavailable.tsx';
 
+const userPrefersReducedMotion = () =>
+  typeof window.matchMedia === 'function' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 const AppContent = () => {
   const location = useLocation();
   const [displayLocation, setDisplayLocation] = useState(location);
@@ -32,9 +36,30 @@ const AppContent = () => {
 
   useEffect(() => {
     if (location.pathname !== displayLocation.pathname) {
+      if (userPrefersReducedMotion()) {
+        setDisplayLocation(location);
+        setTransitionStage('route-enter');
+        return;
+      }
+
       setTransitionStage('route-exit');
     }
   }, [location, displayLocation.pathname]);
+
+  useEffect(() => {
+    if (transitionStage !== 'route-exit') {
+      return;
+    }
+
+    const fallbackTimeout = window.setTimeout(() => {
+      setDisplayLocation(location);
+      setTransitionStage('route-enter');
+    }, 220);
+
+    return () => {
+      window.clearTimeout(fallbackTimeout);
+    };
+  }, [location, transitionStage]);
 
   const handleTransitionEnd = () => {
     if (transitionStage === 'route-exit') {
